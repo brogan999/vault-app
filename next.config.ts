@@ -17,10 +17,6 @@ const nextConfig: NextConfig = {
     // Enable if needed for better performance
     optimizePackageImports: ["lucide-react", "recharts"],
   },
-  // Avoid "An unexpected response was received from the server" for Server Actions
-  serverActions: {
-    bodySizeLimit: "2mb",
-  },
 };
 
 export default withNextIntl(nextConfig);
