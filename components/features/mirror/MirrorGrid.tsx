@@ -5,13 +5,15 @@ import { ConstellationWidget } from "./ConstellationWidget";
 import { PulseWidget } from "./PulseWidget";
 import { DailyBriefWidget } from "./DailyBriefWidget";
 import { VoiceJournalWidget } from "./VoiceJournalWidget";
+import { TrendsWidget } from "./TrendsWidget";
 import { GripVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const DEFAULT_ORDER = ["constellation", "voiceJournal", "pulse", "dailyBrief"] as const;
+const DEFAULT_ORDER = ["constellation", "trends", "voiceJournal", "pulse", "dailyBrief"] as const;
 const STORAGE_KEY = "mirror-widget-order";
 const WIDGET_SPAN: Record<string, string> = {
   constellation: "lg:col-span-2",
+  trends: "lg:col-span-2",
   voiceJournal: "",
   pulse: "lg:col-span-2",
   dailyBrief: "",
@@ -134,6 +136,7 @@ export function MirrorGrid({ profile, journals }: MirrorGridProps) {
             journals={journals as Array<{ createdAt: string }>}
           />
         )}
+        {id === "trends" && <TrendsWidget />}
         {id === "dailyBrief" && <DailyBriefWidget />}
       </>
     );

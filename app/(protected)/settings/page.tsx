@@ -11,8 +11,10 @@ import { usePrivacyStore } from "@/store/privacy-store";
 import { useThemeStore } from "@/store/theme-store";
 import { getCurrentUserPreferences, togglePrivacyShield, updateThemePreference, updatePersonaPreference } from "@/app/actions/settings";
 import { getPsychProfile, upsertPsychProfile, type Big5Scores, type AstrologyMeta } from "@/app/actions/profile";
+import { getCheckinPreferences, updateCheckinPreferences } from "@/app/actions/checkins";
 import { toast } from "sonner";
 import { UserButton } from "@clerk/nextjs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const colorPalettes = [
   { value: "neutral", label: "Neutral" },
@@ -40,6 +42,24 @@ export default function SettingsPage() {
   const [iqScore, setIqScore] = useState<string>("");
   const [profileSaving, setProfileSaving] = useState(false);
   const [personaPreference, setPersonaPreference] = useState<string>("balanced");
+  const [checkinEnabled, setCheckinEnabled] = useState(false);
+  const [checkinCadence, setCheckinCadence] = useState("weekly");
+  const [checkinTime, setCheckinTime] = useState("09:00");
+  const [checkinTimezone, setCheckinTimezone] = useState(
+    Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York"
+  );
+  const [checkinSaving, setCheckinSaving] = useState(false);
+
+  useEffect(() => {
+    getCheckinPreferences().then((p) => {
+      if (p) {
+        setCheckinEnabled(p.enabled);
+        setCheckinCadence(p.cadence);
+        setCheckinTime(p.preferredTime);
+        setCheckinTimezone(p.timezone);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     getPsychProfile().then((p) => {
@@ -79,7 +99,7 @@ export default function SettingsPage() {
   const handleThemeChange = async (newTheme: "light" | "dark") => {
     setTheme(newTheme);
     try {
-      await updateThemePreference(newTheme);
+      await updateThemePreference(`${newTheme}-${palette}`);
     } catch (error) {
       console.error("Error updating theme:", error);
     }
@@ -311,6 +331,74 @@ export default function SettingsPage() {
               ))}
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Proactive Check-ins */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Proactive Check-ins</CardTitle>
+          <CardDescription>
+            Let the AI initiate conversations on a schedule to track your growth
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="checkin-enabled">Enable check-ins</Label>
+            <Switch
+              id="checkin-enabled"
+              checked={checkinEnabled}
+              onCheckedChange={setCheckinEnabled}
+            />
+          </div>
+          {checkinEnabled && (
+            <>
+              <div className="space-y-2">
+                <Label>Frequency</Label>
+                <Select value={checkinCadence} onValueChange={setCheckinCadence}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="daily">Daily</SelectItem>
+                    <SelectItem value="weekly">Weekly</SelectItem>
+                    <SelectItem value="biweekly">Every 2 weeks</SelectItem>
+                    <SelectItem value="monthly">Monthly</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="checkin-time">Preferred time</Label>
+                <Input
+                  id="checkin-time"
+                  type="time"
+                  value={checkinTime}
+                  onChange={(e) => setCheckinTime(e.target.value)}
+                />
+              </div>
+            </>
+          )}
+          <Button
+            onClick={async () => {
+              setCheckinSaving(true);
+              try {
+                await updateCheckinPreferences({
+                  enabled: checkinEnabled,
+                  cadence: checkinCadence,
+                  preferredTime: checkinTime,
+                  timezone: checkinTimezone,
+                });
+                toast.success("Check-in preferences saved");
+              } catch {
+                toast.error("Failed to save preferences");
+              } finally {
+                setCheckinSaving(false);
+              }
+            }}
+            disabled={checkinSaving}
+          >
+            {checkinSaving ? "Saving..." : "Save check-in preferences"}
+          </Button>
         </CardContent>
       </Card>
 

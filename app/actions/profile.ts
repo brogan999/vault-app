@@ -87,10 +87,35 @@ export async function upsertPsychProfile(data: {
     }
   }
 
+  // Save a longitudinal snapshot
+  const admin = createAdminClient();
+  await admin.from("psychProfileSnapshots").insert({
+    userId: user.id,
+    big5Scores: data.big5Scores ?? null,
+    astrologyMeta: data.astrologyMeta ?? null,
+    iqScore: data.iqScore ?? null,
+    source: "manual",
+  });
+
   revalidatePath("/mirror");
   revalidatePath("/chat");
   revalidatePath("/settings");
   return { success: true };
+}
+
+export async function getProfileHistory(limit = 20) {
+  const user = await getSupabaseUser();
+  if (!user) return [];
+
+  const supabase = createAdminClient();
+  const { data } = await supabase
+    .from("psychProfileSnapshots")
+    .select("*")
+    .eq("userId", user.id)
+    .order("createdAt", { ascending: true })
+    .limit(limit);
+
+  return data || [];
 }
 
 /**
@@ -136,4 +161,13 @@ export async function upsertPsychProfileForUserId(
       updatedAt: now,
     });
   }
+
+  // Longitudinal snapshot
+  await supabase.from("psychProfileSnapshots").insert({
+    userId,
+    big5Scores: data.big5Scores ?? null,
+    astrologyMeta: data.astrologyMeta ?? null,
+    iqScore: data.iqScore ?? null,
+    source: "ai_inferred",
+  });
 }

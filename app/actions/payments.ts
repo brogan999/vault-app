@@ -57,10 +57,9 @@ export async function createCheckoutSession(tier: "free" | "pro") {
   return { sessionId: session.id, url: session.url };
 }
 
-export async function createOneOffPurchase(productId: string) {
+export async function createOneOffPurchase(priceId: string) {
   const stripe = getStripe();
   if (!stripe) {
-    // Integration: add STRIPE_SECRET_KEY. See INTEGRATIONS.md → "When you want payments".
     throw new Error("Payments are not configured yet. Add STRIPE_SECRET_KEY to enable purchases. See INTEGRATIONS.md.");
   }
 
@@ -74,7 +73,7 @@ export async function createOneOffPurchase(productId: string) {
     payment_method_types: ["card"],
     line_items: [
       {
-        price: productId,
+        price: priceId,
         quantity: 1,
       },
     ],
@@ -83,12 +82,29 @@ export async function createOneOffPurchase(productId: string) {
       userId: user.id,
       clerkId: user.clerkId,
       type: "one_off",
+      priceId,
     },
     success_url: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/store?success=true`,
     cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/store?canceled=true`,
   });
 
   return { sessionId: session.id, url: session.url };
+}
+
+export async function getUserPurchases() {
+  const user = await getSupabaseUser();
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const supabase = (await import("@/lib/supabase/server")).createAdminClient();
+  const { data } = await supabase
+    .from("purchases")
+    .select("*")
+    .eq("userId", user.id)
+    .order("createdAt", { ascending: false });
+
+  return data || [];
 }
 
 export async function getSubscriptionStatus() {

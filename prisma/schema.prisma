@@ -43,8 +43,42 @@ model User {
   documents       Document[]
   embeddings      Embedding[]
   chatSessions    ChatSession[]
+  purchases       Purchase[]
 
   @@map("users")
+}
+
+model Purchase {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  stripeSessionId String   @unique
+  priceId         String
+  productName     String
+  amountPaid      Int      // cents
+  currency        String   @default("usd")
+  status          String   @default("completed") // completed, refunded
+  fulfilledAt     DateTime?
+  
+  createdAt       DateTime @default(now())
+
+  @@index([userId])
+  @@map("purchases")
+}
+
+model PsychProfileSnapshot {
+  id            String   @id @default(uuid())
+  userId        String
+  big5Scores    Json?
+  astrologyMeta Json?
+  iqScore       Int?
+  source        String   @default("manual") // manual, ai_inferred
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("psychProfileSnapshots")
 }
 
 model PsychProfile {

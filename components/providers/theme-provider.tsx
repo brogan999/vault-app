@@ -2,18 +2,13 @@
 
 import { useEffect } from "react";
 import { useThemeStore } from "@/store/theme-store";
+import { applyTheme } from "@/lib/theme";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const { theme, palette } = useThemeStore();
 
   useEffect(() => {
-    // Apply theme on mount and when it changes
-    const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
+    applyTheme(theme, palette);
   }, [theme, palette]);
 
   return <>{children}</>;

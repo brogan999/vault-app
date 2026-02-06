@@ -2,11 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { createAdminClient } from "@/lib/supabase/server";
 
+// Map Stripe price IDs to human-readable product names
+function getProductName(priceId: string): string {
+  const map: Record<string, string> = {
+    [process.env.NEXT_PUBLIC_STRIPE_DEEP_VEDIC_PRICE_ID || ""]: "Deep Dive Vedic Astrology Analysis",
+    [process.env.NEXT_PUBLIC_STRIPE_SCHEMA_PRICE_ID || ""]: "Schema Activation Analysis",
+  };
+  return map[priceId] || "One-off Purchase";
+}
+
 export async function POST(req: NextRequest) {
   const secret = process.env.STRIPE_WEBHOOK_SECRET;
   const key = process.env.STRIPE_SECRET_KEY;
   if (!secret || !key) {
-    // Integration: add STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET. See INTEGRATIONS.md → "When you want payments".
     return NextResponse.json(
       { error: "Webhook not configured. Add STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET. See INTEGRATIONS.md." },
       { status: 503 }
@@ -18,10 +26,7 @@ export async function POST(req: NextRequest) {
   const signature = req.headers.get("stripe-signature");
 
   if (!signature) {
-    return NextResponse.json(
-      { error: "No signature" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "No signature" }, { status: 400 });
   }
 
   let event: Stripe.Event;
@@ -30,28 +35,36 @@ export async function POST(req: NextRequest) {
     event = stripe.webhooks.constructEvent(body, signature, secret);
   } catch (err) {
     console.error("Webhook signature verification failed:", err);
-    return NextResponse.json(
-      { error: "Invalid signature" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
   const supabase = createAdminClient();
 
-  // Handle the event
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
       const userId = session.metadata?.userId;
+      const isOneOff = session.metadata?.type === "one_off";
 
-      if (userId) {
-        // Determine subscription tier from the session
-        const lineItems = await stripe.checkout.sessions.listLineItems(
-          session.id
-        );
+      if (userId && isOneOff) {
+        // --- One-off product purchase ---
+        const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+        const item = lineItems.data[0];
+        const priceId = item?.price?.id || session.metadata?.priceId || "";
+
+        await supabase.from("purchases").insert({
+          userId,
+          stripeSessionId: session.id,
+          priceId,
+          productName: getProductName(priceId),
+          amountPaid: session.amount_total || 0,
+          currency: session.currency || "usd",
+          status: "completed",
+        });
+      } else if (userId && !isOneOff) {
+        // --- Subscription checkout ---
+        const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
         const priceId = lineItems.data[0]?.price?.id;
-        
-        // This would need to be configured based on your Stripe price IDs
         const tier = priceId === process.env.STRIPE_PRO_PRICE_ID ? "pro" : "free";
 
         await supabase

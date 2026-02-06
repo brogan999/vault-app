@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { usePrivacyStore } from "@/store/privacy-store";
 import { UserButton } from "@clerk/nextjs";
+import { NotificationBell } from "@/components/features/notifications/NotificationBell";
 import { useState } from "react";
 
 const navItems = [
@@ -102,8 +103,11 @@ export function NavRail() {
           </div>
         </div>
 
-        {/* User Profile */}
-        <div className="border-t p-4">
+        {/* Notifications & User Profile */}
+        <div className="border-t p-4 space-y-3">
+          <div className={cn("flex items-center", collapsed ? "justify-center" : "justify-start")}>
+            <NotificationBell />
+          </div>
           <div className={cn("flex items-center gap-3", collapsed && "justify-center")}>
             <UserButton afterSignOutUrl="/" />
             {!collapsed && (
