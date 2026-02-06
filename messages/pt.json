@@ -26,7 +26,9 @@
     "store": "Loja",
     "settings": "Configurações",
     "account": "Conta",
-    "manageSettings": "Gerenciar configurações"
+    "manageSettings": "Gerenciar configurações",
+    "manageAccount": "Gerenciar conta",
+    "signOut": "Sair"
   },
   "landing": {
     "navbar": {
@@ -446,9 +448,10 @@
     },
     "account": {
       "title": "Conta",
-      "description": "Gerencie as configurações da sua conta",
-      "management": "Gerenciamento de Conta",
-      "clickToManage": "Clique acima para gerenciar sua conta"
+      "description": "Saia da conta ou abra o menu da conta Clerk pelo avatar. Você também pode usar o avatar na barra lateral esquerda.",
+      "management": "Conta",
+      "avatarHint": "Clique no avatar para abrir o menu (sair, perfil, etc.).",
+      "signOut": "Sair"
     }
   },
   "notifications": {

@@ -25,9 +25,23 @@ import {
   updateCheckinPreferences,
 } from "@/app/actions/checkins";
 import { toast } from "sonner";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, useClerk } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 import { Bot, Compass, Heart, Sun, Moon } from "lucide-react";
+
+function AccountSignOutButton() {
+  const { signOut } = useClerk();
+  const t = useTranslations("settings.account");
+  return (
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={() => signOut({ redirectUrl: "/" })}
+    >
+      {t("signOut")}
+    </Button>
+  );
+}
 
 export default function SettingsPage() {
   const t = useTranslations("settings");
@@ -359,7 +373,7 @@ export default function SettingsPage() {
               {t("account.description")}
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex flex-col gap-4">
             <div className="flex items-center gap-4">
               <UserButton />
               <div>
@@ -367,10 +381,11 @@ export default function SettingsPage() {
                   {t("account.management")}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {t("account.clickToManage")}
+                  {t("account.avatarHint")}
                 </p>
               </div>
             </div>
+            <AccountSignOutButton />
           </CardContent>
         </Card>
       </div>

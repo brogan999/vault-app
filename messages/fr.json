@@ -26,7 +26,9 @@
     "store": "Boutique",
     "settings": "Paramètres",
     "account": "Compte",
-    "manageSettings": "Gérer les paramètres"
+    "manageSettings": "Gérer les paramètres",
+    "manageAccount": "Gérer le compte",
+    "signOut": "Déconnexion"
   },
   "landing": {
     "navbar": {
@@ -446,9 +448,10 @@
     },
     "account": {
       "title": "Compte",
-      "description": "Gérez les paramètres de votre compte",
-      "management": "Gestion du compte",
-      "clickToManage": "Cliquez ci-dessus pour gérer votre compte"
+      "description": "Déconnectez-vous ou ouvrez le menu compte Clerk avec l’avatar. Vous pouvez aussi utiliser l’avatar dans la barre latérale.",
+      "management": "Compte",
+      "avatarHint": "Cliquez sur l’avatar pour ouvrir le menu (déconnexion, profil, etc.).",
+      "signOut": "Déconnexion"
     }
   },
   "notifications": {

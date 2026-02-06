@@ -41,10 +41,14 @@ export default function ChatPage() {
   // Pending message to send after lazy session creation
   const pendingMessageRef = useRef<string | null>(null);
 
-  const transport = useMemo(
-    () =>
-      new DefaultChatTransport({
-        api: `/api/chat/${sessionId ?? "pending"}`,
+  const transport = useMemo(() => {
+    const base =
+      typeof window !== "undefined"
+        ? window.location.origin
+        : (process.env.NEXT_PUBLIC_APP_URL || "");
+    const apiUrl = `${base}/api/chat/${sessionId ?? "pending"}`;
+    return new DefaultChatTransport({
+        api: apiUrl,
         fetch: async (url, options) => {
           const res = await fetch(url, options);
           const raw = res.headers.get("X-Chat-Sources");
@@ -76,9 +80,8 @@ export default function ChatPage() {
           }
           return res;
         },
-      }),
-    [sessionId]
-  );
+      });
+  }, [sessionId]);
 
   const { messages, sendMessage, status, error, clearError } = useChat({
     key: chatKey,

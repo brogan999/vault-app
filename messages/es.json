@@ -26,7 +26,9 @@
     "store": "Tienda",
     "settings": "Ajustes",
     "account": "Cuenta",
-    "manageSettings": "Administrar ajustes"
+    "manageSettings": "Administrar ajustes",
+    "manageAccount": "Gestionar cuenta",
+    "signOut": "Cerrar sesión"
   },
   "landing": {
     "navbar": {
@@ -446,9 +448,10 @@
     },
     "account": {
       "title": "Cuenta",
-      "description": "Administra los ajustes de tu cuenta",
-      "management": "Gestión de cuenta",
-      "clickToManage": "Haz clic arriba para administrar tu cuenta"
+      "description": "Cierra sesión o abre el menú de cuenta de Clerk con el avatar. También puedes usar el avatar en la barra lateral izquierda.",
+      "management": "Cuenta",
+      "avatarHint": "Haz clic en el avatar para abrir el menú (cerrar sesión, perfil, etc.).",
+      "signOut": "Cerrar sesión"
     }
   },
   "notifications": {

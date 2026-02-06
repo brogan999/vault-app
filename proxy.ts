@@ -1,4 +1,4 @@
-import type { NextFetchEvent, NextRequest } from "next/server";
+import { NextResponse, type NextFetchEvent, type NextRequest } from "next/server";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
@@ -19,7 +19,13 @@ const clerkHandler = clerkMiddleware(async (auth, req) => {
     await auth.protect();
   }
 
-  // Run i18n middleware after Clerk to rewrite locale-prefixed paths
+  // Don't run i18n rewrite on API/trpc routes — they live at /api/* and would 404 if rewritten to /locale/api/*
+  const pathname = req.nextUrl.pathname;
+  if (pathname.startsWith("/api") || pathname.startsWith("/trpc")) {
+    return NextResponse.next();
+  }
+
+  // Run i18n middleware for page routes (locale-prefixed paths)
   return intlMiddleware(req);
 });
 

@@ -26,7 +26,9 @@
     "store": "Store",
     "settings": "Settings",
     "account": "Account",
-    "manageSettings": "Manage settings"
+    "manageSettings": "Manage settings",
+    "manageAccount": "Manage account",
+    "signOut": "Sign out"
   },
   "landing": {
     "navbar": {
@@ -476,9 +478,10 @@
     },
     "account": {
       "title": "Account",
-      "description": "Manage your account settings",
-      "management": "Account Management",
-      "clickToManage": "Click above to manage your account"
+      "description": "Sign out or open Clerk’s account menu using the avatar. You can also use the avatar in the left sidebar to open the same menu.",
+      "management": "Account",
+      "avatarHint": "Click the avatar to open the menu (sign out, profile, etc.).",
+      "signOut": "Sign out"
     }
   },
   "notifications": {

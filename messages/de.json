@@ -26,7 +26,9 @@
     "store": "Shop",
     "settings": "Einstellungen",
     "account": "Konto",
-    "manageSettings": "Einstellungen verwalten"
+    "manageSettings": "Einstellungen verwalten",
+    "manageAccount": "Konto verwalten",
+    "signOut": "Abmelden"
   },
   "landing": {
     "navbar": {
@@ -446,9 +448,10 @@
     },
     "account": {
       "title": "Konto",
-      "description": "Verwalte deine Kontoeinstellungen",
-      "management": "Kontoverwaltung",
-      "clickToManage": "Klicke oben, um dein Konto zu verwalten"
+      "description": "Abmelden oder Clerk-Kontomenü über den Avatar öffnen. Du kannst auch den Avatar in der linken Seitenleiste nutzen.",
+      "management": "Konto",
+      "avatarHint": "Klicke auf den Avatar, um das Menü zu öffnen (Abmelden, Profil usw.).",
+      "signOut": "Abmelden"
     }
   },
   "notifications": {

@@ -10,18 +10,78 @@ import {
   MessageSquare,
   ShoppingBag,
   Settings,
+  LogOut,
+  UserCircle,
 } from "lucide-react";
-import { UserButton } from "@clerk/nextjs";
+import { useClerk, useUser } from "@clerk/nextjs";
 import { NotificationBell } from "@/components/features/notifications/NotificationBell";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+function AccountMenu() {
+  const t = useTranslations("nav");
+  const { user } = useUser();
+  const { signOut } = useClerk();
+  const initials = user?.firstName && user?.lastName
+    ? `${user.firstName[0]}${user.lastName[0]}`
+    : user?.email?.[0]?.toUpperCase() ?? "?";
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          className="flex items-center gap-3 rounded-xl px-2 py-2 w-full min-w-0 hover:bg-sidebar-accent/50 transition-colors lg:px-3 text-left focus-visible:outline focus-visible:ring-2 focus-visible:ring-ring"
+          aria-label={t("account")}
+        >
+          <Avatar className="h-8 w-8 shrink-0">
+            <AvatarImage src={user?.imageUrl} alt="" />
+            <AvatarFallback className="bg-muted text-muted-foreground text-xs">
+              {initials}
+            </AvatarFallback>
+          </Avatar>
+          <div className="hidden lg:flex flex-col min-w-0">
+            <span className="text-sm font-semibold text-foreground truncate">
+              {t("account")}
+            </span>
+            <span className="text-xs text-muted-foreground truncate">
+              {t("manageSettings")}
+            </span>
+          </div>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" side="right" className="min-w-[11rem]">
+        <DropdownMenuItem asChild>
+          <Link href="/settings" className="flex items-center gap-2 cursor-pointer">
+            <UserCircle className="h-4 w-4" />
+            {t("manageAccount")}
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          variant="destructive"
+          onClick={() => signOut({ redirectUrl: "/" })}
+          className="flex items-center gap-2 cursor-pointer"
+        >
+          <LogOut className="h-4 w-4" />
+          {t("signOut")}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 export function NavRail() {
   const pathname = usePathname();
   const t = useTranslations("nav");
   const tc = useTranslations("common");
 
-  // Defer Clerk UserButton to avoid hydration mismatch (server renders
-  // placeholder HTML that differs from Clerk's client-side widget).
+  // Defer Clerk to avoid hydration mismatch (server renders placeholder that differs from client).
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -88,19 +148,9 @@ export function NavRail() {
         </div>
         <div className="flex items-center gap-3 rounded-xl px-2 py-2 lg:w-full">
           {mounted ? (
-            <>
-              <UserButton afterSignOutUrl="/" />
-              <div className="hidden lg:block">
-                <p className="text-sm font-semibold text-foreground">
-                  {t("account")}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  {t("manageSettings")}
-                </p>
-              </div>
-            </>
+            <AccountMenu />
           ) : (
-            /* Placeholder matching the UserButton's size to avoid layout shift */
+            /* Placeholder matching the avatar size to avoid layout shift */
             <div className="h-8 w-8 rounded-full bg-muted animate-pulse" />
           )}
         </div>

@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
+import { useAuth } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -21,6 +22,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { ConsentDialog } from "@/components/features/consent/ConsentDialog";
 
 /* ── Navbar ──────────────────────────────────────────────────────── */
 
@@ -128,6 +130,22 @@ function Navbar() {
 
 function Hero() {
   const t = useTranslations("landing.hero");
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
+  const [showConsentDialog, setShowConsentDialog] = useState(false);
+
+  const handlePrimaryCta = () => {
+    if (isSignedIn) {
+      router.push("/sign-up");
+    } else {
+      setShowConsentDialog(true);
+    }
+  };
+
+  const handlePreSignupConsent = () => {
+    setShowConsentDialog(false);
+    router.push("/sign-up");
+  };
 
   return (
     <section className="relative overflow-hidden py-20 lg:py-32">
@@ -156,16 +174,27 @@ function Hero() {
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button
-              size="lg"
-              className="h-12 rounded-xl px-8 text-base font-semibold gap-2"
-              asChild
-            >
-              <Link href="/sign-up">
+            {isSignedIn ? (
+              <Button
+                size="lg"
+                className="h-12 rounded-xl px-8 text-base font-semibold gap-2"
+                asChild
+              >
+                <Link href="/sign-up">
+                  {t("cta")}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            ) : (
+              <Button
+                size="lg"
+                className="h-12 rounded-xl px-8 text-base font-semibold gap-2"
+                onClick={handlePrimaryCta}
+              >
                 {t("cta")}
                 <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
+              </Button>
+            )}
             <Button
               size="lg"
               variant="outline"
@@ -181,6 +210,12 @@ function Hero() {
           </p>
         </div>
       </div>
+
+      <ConsentDialog
+        open={showConsentDialog}
+        mode="preSignup"
+        onPreSignupConsent={handlePreSignupConsent}
+      />
     </section>
   );
 }
@@ -752,8 +787,8 @@ function Footer() {
       links: [
         { label: t("contactUs"), href: "#" },
         { label: t("faq"), href: "#" },
-        { label: t("privacyPolicy"), href: "#" },
-        { label: t("termsAndConditions"), href: "#" },
+        { label: t("privacyPolicy"), href: "/privacy" },
+        { label: t("termsAndConditions"), href: "/terms" },
       ],
     },
   ];
@@ -800,13 +835,13 @@ function Footer() {
           <p className="text-xs text-muted-foreground">{t("copyright")}</p>
           <div className="flex items-center gap-6">
             <Link
-              href="#"
+              href="/terms"
               className="text-xs text-muted-foreground transition-colors hover:text-foreground"
             >
               {t("termsAndConditions")}
             </Link>
             <Link
-              href="#"
+              href="/privacy"
               className="text-xs text-muted-foreground transition-colors hover:text-foreground"
             >
               {t("privacyPolicy")}

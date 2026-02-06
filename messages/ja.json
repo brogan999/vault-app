@@ -26,7 +26,9 @@
     "store": "ストア",
     "settings": "設定",
     "account": "アカウント",
-    "manageSettings": "設定を管理"
+    "manageSettings": "設定を管理",
+    "manageAccount": "アカウントを管理",
+    "signOut": "サインアウト"
   },
   "landing": {
     "navbar": {
@@ -446,9 +448,10 @@
     },
     "account": {
       "title": "アカウント",
-      "description": "アカウント設定を管理",
-      "management": "アカウント管理",
-      "clickToManage": "上をクリックしてアカウントを管理"
+      "description": "アバターでサインアウトまたはClerkのアカウントメニューを開きます。左サイドバーのアバターからも同じメニューを開けます。",
+      "management": "アカウント",
+      "avatarHint": "アバターをクリックしてメニュー（サインアウト、プロフィールなど）を開きます。",
+      "signOut": "サインアウト"
     }
   },
   "notifications": {

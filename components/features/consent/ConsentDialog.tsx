@@ -15,8 +15,29 @@ import { cn } from "@/lib/utils";
 import { saveConsent } from "@/app/actions/consent";
 import { toast } from "sonner";
 
+const PRE_SIGNUP_CONSENT_COOKIE = "preSignupConsent";
+
+export function clearPreSignupConsentCookie() {
+  if (typeof document === "undefined") return;
+  document.cookie = `${PRE_SIGNUP_CONSENT_COOKIE}=; path=/; max-age=0`;
+}
+
+export function setPreSignupConsentCookie() {
+  if (typeof document === "undefined") return;
+  document.cookie = `${PRE_SIGNUP_CONSENT_COOKIE}=1; path=/; max-age=86400`; // 24h
+}
+
+export function hasPreSignupConsentCookie(): boolean {
+  if (typeof document === "undefined") return false;
+  return document.cookie.includes(`${PRE_SIGNUP_CONSENT_COOKIE}=`);
+}
+
 interface ConsentDialogProps {
   open: boolean;
+  /** When "preSignup", consent is stored in a cookie and onConsented is called instead of saveConsent. */
+  mode?: "authenticated" | "preSignup";
+  /** Called after user consents in preSignup mode (e.g. redirect to sign-up). */
+  onPreSignupConsent?: () => void;
 }
 
 function Checkbox({
@@ -47,7 +68,11 @@ function Checkbox({
   );
 }
 
-export function ConsentDialog({ open }: ConsentDialogProps) {
+export function ConsentDialog({
+  open,
+  mode = "authenticated",
+  onPreSignupConsent,
+}: ConsentDialogProps) {
   const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [screeningUnderstood, setScreeningUnderstood] = useState(false);
   const [assessmentConsented, setAssessmentConsented] = useState(false);
@@ -59,8 +84,12 @@ export function ConsentDialog({ open }: ConsentDialogProps) {
     if (!allChecked) return;
     setSaving(true);
     try {
+      if (mode === "preSignup") {
+        setPreSignupConsentCookie();
+        onPreSignupConsent?.();
+        return;
+      }
       await saveConsent();
-      // Force a full page reload to reflect the new consent state
       window.location.reload();
     } catch {
       toast.error("Failed to save consent. Please try again.");
@@ -152,7 +181,11 @@ export function ConsentDialog({ open }: ConsentDialogProps) {
             disabled={!allChecked || saving}
             onClick={handleContinue}
           >
-            {saving ? "Saving..." : "Continue to Assessment"}
+            {saving
+              ? "Saving..."
+              : mode === "preSignup"
+                ? "Continue to Sign Up"
+                : "Continue to Assessment"}
           </Button>
 
           <p className="text-center text-xs text-muted-foreground">
