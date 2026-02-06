@@ -4,6 +4,7 @@ import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { PDFParse } from "pdf-parse";
 import { parseBig5FromText } from "./parse-big5";
 import { upsertPsychProfileForUserId } from "@/app/actions/profile";
+import OpenAI from "openai";
 
 /**
  * Process a document in the background (extract text, embed, update profile).
@@ -55,8 +56,93 @@ export async function processDocument(
       }
 
       text = await fileData.text();
+    } else if (type === "audio") {
+      // Download audio from storage and transcribe with Whisper
+      const { data: fileData, error: downloadError } = await supabase.storage
+        .from("documents")
+        .download(filePath);
+
+      if (downloadError || !fileData) {
+        throw new Error("Failed to download audio file");
+      }
+
+      if (!process.env.OPENAI_API_KEY) {
+        throw new Error("OPENAI_API_KEY required for audio transcription");
+      }
+
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+      // Determine file extension for proper MIME type
+      const ext = filePath.split(".").pop()?.toLowerCase() || "webm";
+      const mimeMap: Record<string, string> = {
+        mp3: "audio/mpeg",
+        wav: "audio/wav",
+        m4a: "audio/mp4",
+        ogg: "audio/ogg",
+        webm: "audio/webm",
+      };
+      const mimeType = mimeMap[ext] || "audio/webm";
+      const audioFile = new File([fileData], `audio.${ext}`, { type: mimeType });
+
+      const transcription = await openai.audio.transcriptions.create({
+        file: audioFile,
+        model: "whisper-1",
+      });
+
+      text = transcription.text;
+    } else if (type === "image") {
+      // Download image from storage and extract text with GPT-4o Vision
+      const { data: fileData, error: downloadError } = await supabase.storage
+        .from("documents")
+        .download(filePath);
+
+      if (downloadError || !fileData) {
+        throw new Error("Failed to download image file");
+      }
+
+      if (!process.env.OPENAI_API_KEY) {
+        throw new Error("OPENAI_API_KEY required for image text extraction");
+      }
+
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+      // Convert to base64 for the Vision API
+      const buffer = await fileData.arrayBuffer();
+      const base64 = Buffer.from(buffer).toString("base64");
+      const ext = filePath.split(".").pop()?.toLowerCase() || "png";
+      const mimeMap: Record<string, string> = {
+        jpg: "image/jpeg",
+        jpeg: "image/jpeg",
+        png: "image/png",
+        gif: "image/gif",
+        webp: "image/webp",
+      };
+      const mimeType = mimeMap[ext] || "image/png";
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        max_tokens: 2000,
+        messages: [
+          {
+            role: "user",
+            content: [
+              {
+                type: "text",
+                text: "Extract ALL text visible in this image. If it contains a personality test result, assessment, chart, or any psychological data, include all scores, labels, and descriptions. If no text is visible, describe the key visual content. Return only the extracted content, no commentary.",
+              },
+              {
+                type: "image_url",
+                image_url: {
+                  url: `data:${mimeType};base64,${base64}`,
+                },
+              },
+            ],
+          },
+        ],
+      });
+
+      text = response.choices[0]?.message?.content?.trim() || "";
     }
-    // Audio and image processing would go here (OCR, transcription, etc.)
 
     if (!text) {
       throw new Error("No text extracted");
