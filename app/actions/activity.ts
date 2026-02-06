@@ -97,7 +97,8 @@ export async function getActivitySummary(): Promise<ActivitySummary> {
   // Build a map of date -> activity counts
   const dayMap = new Map<string, DayActivity>();
 
-  const toDateKey = (iso: string) => iso.slice(0, 10); // yyyy-MM-dd
+  const toDateKey = (val: string | Date): string =>
+    typeof val === "string" ? val.slice(0, 10) : new Date(val).toISOString().slice(0, 10);
 
   const ensureDay = (dateKey: string): DayActivity => {
     if (!dayMap.has(dateKey)) {
@@ -115,7 +116,7 @@ export async function getActivitySummary(): Promise<ActivitySummary> {
 
   // Tally documents
   for (const doc of docs) {
-    const key = toDateKey(doc.createdAt);
+    const key = toDateKey((doc as { createdAt: string | Date }).createdAt);
     const day = ensureDay(key);
     if (doc.category === "journal") {
       day.journals++;
@@ -128,7 +129,7 @@ export async function getActivitySummary(): Promise<ActivitySummary> {
   // Tally chat sessions (only those with messages)
   for (const session of sessions) {
     if (!sessionsWithMessages.has(session.id)) continue;
-    const key = toDateKey(session.createdAt);
+    const key = toDateKey((session as { createdAt: string | Date }).createdAt);
     const day = ensureDay(key);
     day.chats++;
     day.total++;
@@ -136,7 +137,7 @@ export async function getActivitySummary(): Promise<ActivitySummary> {
 
   // Tally profile snapshots as "tests"
   for (const snap of snapshots) {
-    const key = toDateKey(snap.createdAt);
+    const key = toDateKey((snap as { createdAt: string | Date }).createdAt);
     const day = ensureDay(key);
     day.tests++;
     day.total++;
@@ -200,7 +201,7 @@ export async function getActivitySummary(): Promise<ActivitySummary> {
     const meta = doc.metadata as Record<string, unknown> | null;
     if (meta && typeof meta.mood === "string") {
       moods.push({
-        date: toDateKey(doc.createdAt),
+        date: toDateKey((doc as { createdAt: string | Date }).createdAt),
         mood: meta.mood,
         label: (meta.mood as string).charAt(0).toUpperCase() + (meta.mood as string).slice(1),
       });

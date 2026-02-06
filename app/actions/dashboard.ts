@@ -86,13 +86,28 @@ export async function getDashboardData() {
     ? { ...profile, big5Scores: big5FromTest }
     : profile;
 
+  // Ensure serializable payload for RSC (no Date objects; Next.js can choke on non-plain data)
+  const safeProfile = profileWithBig5
+    ? {
+        big5Scores: profileWithBig5.big5Scores ?? undefined,
+        astrologyMeta: profileWithBig5.astrologyMeta ?? undefined,
+      }
+    : null;
+  const rawJournals = journalsResult.data || [];
+  const safeJournals = rawJournals.map((j: Record<string, unknown>) => {
+    const createdAt = j.createdAt;
+    const createdAtStr =
+      typeof createdAt === "string" ? createdAt : createdAt instanceof Date ? createdAt.toISOString() : String(createdAt ?? "");
+    return { ...j, createdAt: createdAtStr };
+  });
+
   return {
-    profile: profileWithBig5,
-    journals: journalsResult.data || [],
+    profile: safeProfile,
+    journals: safeJournals,
     stats: {
-      totalDocuments: docCountResult.count || 0,
-      totalJournalEntries: journalCountResult.count || 0,
-      totalChatSessions: sessionCountResult.count || 0,
+      totalDocuments: docCountResult.count ?? 0,
+      totalJournalEntries: journalCountResult.count ?? 0,
+      totalChatSessions: sessionCountResult.count ?? 0,
       testsCompleted: testResultsCountResult.count ?? 0,
       hasProfile: !!profileResult.data || !!big5FromTest,
     },
