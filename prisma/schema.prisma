@@ -1,0 +1,135 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum SubscriptionTier {
+  free
+  pro
+}
+
+enum DocumentType {
+  pdf
+  audio
+  text
+  image
+}
+
+enum DocumentCategory {
+  cognitive
+  esoteric
+  journal
+  psyche
+}
+
+model User {
+  id              String          @id @default(uuid())
+  clerkId         String          @unique
+  email           String
+  subscriptionTier SubscriptionTier @default(free)
+  themePreference String?         @default("neutral")
+  privacyShieldEnabled Boolean     @default(false)
+  personaPreference String?       @default("balanced")
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  psychProfile    PsychProfile?
+  documents       Document[]
+  embeddings      Embedding[]
+  chatSessions    ChatSession[]
+
+  @@map("users")
+}
+
+model PsychProfile {
+  id            String   @id @default(uuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  big5Scores    Json?    // { openness: 80, conscientiousness: 75, ... }
+  astrologyMeta Json?    // { sun: "scorpio", moon: "aries", ... }
+  iqScore       Int?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("psychProfile")
+}
+
+model Document {
+  id          String          @id @default(uuid())
+  userId      String
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  fileUrl     String
+  fileName    String
+  type        DocumentType
+  category    DocumentCategory
+  contentText String?
+  metadata    Json?
+  
+  status      String          @default("pending") // pending, processing, completed, error
+  
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  
+  embeddings  Embedding[]
+  
+  @@index([userId])
+  @@index([category])
+  @@map("documents")
+}
+
+model Embedding {
+  id          String   @id @default(uuid())
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  contentChunk String
+  embedding    Unsupported("vector(1536)")? // pgvector type
+  
+  createdAt    DateTime @default(now())
+  
+  @@index([userId])
+  @@index([documentId])
+  @@map("Embedding")
+}
+
+model ChatSession {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  title     String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  messages  Message[]
+  
+  @@index([userId])
+  @@map("chatSessions")
+}
+
+model Message {
+  id          String       @id @default(uuid())
+  sessionId   String
+  session     ChatSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  
+  role        String       // user | assistant
+  content     String
+  metadata    Json?        // citations, sources, etc.
+  
+  createdAt   DateTime     @default(now())
+  
+  @@index([sessionId])
+  @@map("messages")
+}

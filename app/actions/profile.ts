@@ -1,0 +1,139 @@
+"use server";
+
+import { createClient, createAdminClient } from "@/lib/supabase/server";
+import { getSupabaseUser } from "@/lib/clerk/utils";
+import { revalidatePath } from "next/cache";
+
+export type Big5Scores = {
+  openness?: number;
+  conscientiousness?: number;
+  extraversion?: number;
+  agreeableness?: number;
+  neuroticism?: number;
+};
+
+export type AstrologyMeta = {
+  sun?: string;
+  moon?: string;
+  rising?: string;
+  [key: string]: string | undefined;
+};
+
+export async function getPsychProfile() {
+  const user = await getSupabaseUser();
+  if (!user) return null;
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("psychProfile")
+    .select("*")
+    .eq("userId", user.id)
+    .single();
+  return data;
+}
+
+export async function upsertPsychProfile(data: {
+  big5Scores?: Big5Scores | null;
+  astrologyMeta?: AstrologyMeta | null;
+  iqScore?: number | null;
+}) {
+  const user = await getSupabaseUser();
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const supabase = await createClient();
+
+  const { data: existing } = await supabase
+    .from("psychProfile")
+    .select("id")
+    .eq("userId", user.id)
+    .single();
+
+  const payload = {
+    userId: user.id,
+    big5Scores: data.big5Scores ?? undefined,
+    astrologyMeta: data.astrologyMeta ?? undefined,
+    iqScore: data.iqScore ?? undefined,
+    updatedAt: new Date().toISOString(),
+  };
+
+  if (existing) {
+    const { error } = await supabase
+      .from("psychProfile")
+      .update({
+        ...(data.big5Scores !== undefined && { big5Scores: data.big5Scores }),
+        ...(data.astrologyMeta !== undefined && { astrologyMeta: data.astrologyMeta }),
+        ...(data.iqScore !== undefined && { iqScore: data.iqScore }),
+        updatedAt: new Date().toISOString(),
+      })
+      .eq("id", existing.id);
+
+    if (error) {
+      throw new Error(`Failed to update profile: ${error.message}`);
+    }
+  } else {
+    const { error } = await supabase.from("psychProfile").insert({
+      id: crypto.randomUUID(),
+      userId: user.id,
+      big5Scores: payload.big5Scores,
+      astrologyMeta: payload.astrologyMeta,
+      iqScore: payload.iqScore,
+      createdAt: new Date().toISOString(),
+      updatedAt: payload.updatedAt,
+    });
+
+    if (error) {
+      throw new Error(`Failed to create profile: ${error.message}`);
+    }
+  }
+
+  revalidatePath("/mirror");
+  revalidatePath("/chat");
+  revalidatePath("/settings");
+  return { success: true };
+}
+
+/**
+ * Upsert PsychProfile by userId (for use from background jobs, e.g. document processing).
+ * Uses admin client; no request context required.
+ */
+export async function upsertPsychProfileForUserId(
+  userId: string,
+  data: {
+    big5Scores?: Big5Scores | null;
+    astrologyMeta?: AstrologyMeta | null;
+    iqScore?: number | null;
+  }
+) {
+  const supabase = createAdminClient();
+
+  const { data: existing } = await supabase
+    .from("psychProfile")
+    .select("id")
+    .eq("userId", userId)
+    .single();
+
+  const now = new Date().toISOString();
+
+  if (existing) {
+    await supabase
+      .from("psychProfile")
+      .update({
+        ...(data.big5Scores != null && { big5Scores: data.big5Scores }),
+        ...(data.astrologyMeta != null && { astrologyMeta: data.astrologyMeta }),
+        ...(data.iqScore != null && { iqScore: data.iqScore }),
+        updatedAt: now,
+      })
+      .eq("id", existing.id);
+  } else {
+    await supabase.from("psychProfile").insert({
+      id: crypto.randomUUID(),
+      userId,
+      big5Scores: data.big5Scores ?? undefined,
+      astrologyMeta: data.astrologyMeta ?? undefined,
+      iqScore: data.iqScore ?? undefined,
+      createdAt: now,
+      updatedAt: now,
+    });
+  }
+}
