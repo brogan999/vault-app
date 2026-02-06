@@ -18,7 +18,7 @@ export async function POST(
   { params }: { params: Promise<{ sessionId: string }> }
 ) {
   const body = await req.json();
-  const { messages, contextDocumentIds } = body;
+  const { messages } = body;
   const lastMessage = messages?.[messages.length - 1];
   const { sessionId } = await params;
 
@@ -28,13 +28,7 @@ export async function POST(
   }
 
   try {
-    const result = await sendMessage(sessionId, text, {
-      contextDocumentIds:
-        Array.isArray(contextDocumentIds) &&
-        contextDocumentIds.every((id: unknown) => typeof id === "string")
-          ? contextDocumentIds
-          : undefined,
-    });
+    const result = await sendMessage(sessionId, text);
     const streamResponse = result.streamResponse;
     const headers = new Headers(streamResponse.headers);
     headers.set(

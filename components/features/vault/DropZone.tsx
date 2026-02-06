@@ -1,101 +1,202 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { Upload, File, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { useCallback, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
+import { Upload, FileText, X, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { uploadDocument } from "@/app/actions/upload";
 import { toast } from "sonner";
 
-export function DropZone() {
-  const [uploading, setUploading] = useState(false);
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+interface UploadedFile {
+  name: string;
+  size: number;
+  status: "uploading" | "completed" | "error";
+}
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    for (const file of acceptedFiles) {
-      setUploading(true);
+export function DropZone() {
+  const t = useTranslations("vault.dropZone");
+  const tc = useTranslations("common");
+  const [isDragging, setIsDragging] = useState(false);
+  const [files, setFiles] = useState<UploadedFile[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const processFiles = useCallback(async (fileList: FileList) => {
+    const incoming = Array.from(fileList);
+
+    // Add files in "uploading" state
+    const newEntries: UploadedFile[] = incoming.map((f) => ({
+      name: f.name,
+      size: f.size,
+      status: "uploading" as const,
+    }));
+    setFiles((prev) => [...prev, ...newEntries]);
+
+    // Upload each file
+    for (const file of incoming) {
       try {
         const formData = new FormData();
         formData.append("file", file);
-
         await uploadDocument(formData);
-        setUploadedFiles((prev) => [...prev, file]);
-        toast.success(`${file.name} uploaded successfully`);
+
+        setFiles((prev) =>
+          prev.map((f) =>
+            f.name === file.name && f.status === "uploading"
+              ? { ...f, status: "completed" }
+              : f
+          )
+        );
+        toast.success(t("uploadSuccess", { name: file.name }));
       } catch (error) {
         console.error("Upload error:", error);
-        toast.error(`Failed to upload ${file.name}`);
-      } finally {
-        setUploading(false);
+        setFiles((prev) =>
+          prev.map((f) =>
+            f.name === file.name && f.status === "uploading"
+              ? { ...f, status: "error" }
+              : f
+          )
+        );
+        toast.error(t("uploadFailed", { name: file.name }));
       }
     }
+  }, [t]);
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "application/pdf": [".pdf"],
-      "text/plain": [".txt"],
-      "audio/*": [".mp3", ".wav", ".m4a", ".ogg"],
-      "image/*": [".jpg", ".jpeg", ".png", ".gif", ".webp"],
-    },
-    maxSize: 10 * 1024 * 1024, // 10MB
-  });
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  }, []);
 
-  const removeFile = (index: number) => {
-    setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragging(false);
+      if (e.dataTransfer.files?.length) {
+        processFiles(e.dataTransfer.files);
+      }
+    },
+    [processFiles]
+  );
+
+  const handleClick = () => {
+    inputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length) {
+      processFiles(e.target.files);
+    }
+  };
+
+  const removeFile = (name: string) => {
+    setFiles((prev) => prev.filter((f) => f.name !== name));
+  };
+
+  const formatSize = (bytes: number) => {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
 
   return (
-    <div className="space-y-4">
-      <Card
-        {...getRootProps()}
-        className={`border-2 border-dashed p-12 text-center cursor-pointer transition-colors ${
-          isDragActive
+    <div>
+      {/* Drop zone */}
+      <button
+        type="button"
+        className={cn(
+          "w-full rounded-2xl border-2 border-dashed transition-colors cursor-pointer flex flex-col items-center justify-center py-12 px-6 text-center",
+          isDragging
             ? "border-primary bg-primary/5"
-            : "border-muted hover:border-primary/50"
-        }`}
+            : "border-border bg-card hover:border-primary/40 hover:bg-primary/[0.02]"
+        )}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        onClick={handleClick}
+        aria-label="Upload files by drag and drop or click to browse"
       >
-        <input {...getInputProps()} />
-        <Upload className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-        <p className="text-lg font-medium mb-2">
-          {isDragActive ? "Drop files here" : "Drag & drop files here"}
+        <div
+          className={cn(
+            "flex h-12 w-12 items-center justify-center rounded-xl mb-4 transition-colors",
+            isDragging ? "bg-primary/10" : "bg-muted"
+          )}
+        >
+          <Upload
+            className={cn(
+              "h-6 w-6 transition-colors",
+              isDragging ? "text-primary" : "text-muted-foreground"
+            )}
+          />
+        </div>
+        <p className="text-base font-semibold text-foreground">
+          {t("dragAndDrop")}
         </p>
-        <p className="text-sm text-muted-foreground mb-4">
-          or click to browse (PDF, Text, Audio, Images)
+        <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">
+          {t("orClickToBrowse")}
         </p>
-        <p className="text-xs text-muted-foreground">
-          Maximum file size: 10MB
+        <p className="text-xs text-muted-foreground/70 mt-3">
+          {t("maxFileSize")}
         </p>
-      </Card>
+      </button>
 
-      {uploadedFiles.length > 0 && (
-        <div className="space-y-2">
-          <h3 className="text-sm font-medium">Uploaded Files</h3>
-          {uploadedFiles.map((file, index) => (
+      <input
+        ref={inputRef}
+        type="file"
+        multiple
+        accept=".pdf,.txt,.md,.csv,.json,.mp3,.wav,.webm,.m4a,.ogg,.png,.jpg,.jpeg,.gif,.webp"
+        className="hidden"
+        onChange={handleFileChange}
+      />
+
+      {/* Uploading / recently uploaded files */}
+      {files.length > 0 && (
+        <div className="mt-4 flex flex-col gap-2">
+          {files.map((file) => (
             <div
-              key={index}
-              className="flex items-center justify-between p-3 border rounded-lg"
+              key={file.name}
+              className="flex items-center gap-3 rounded-xl bg-card px-4 py-3 shadow-sm"
             >
-              <div className="flex items-center gap-2">
-                <File className="h-4 w-4" />
-                <span className="text-sm">{file.name}</span>
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted">
+                <FileText className="h-4 w-4 text-muted-foreground" />
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => removeFile(index)}
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-foreground truncate">
+                  {file.name}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {formatSize(file.size)}
+                </p>
+              </div>
+              {file.status === "uploading" ? (
+                <Loader2 className="h-4 w-4 animate-spin text-primary shrink-0" />
+              ) : file.status === "completed" ? (
+                <span
+                  className="text-xs font-semibold px-2 py-0.5 rounded-md text-primary"
+                  style={{ backgroundColor: "rgba(5, 150, 105, 0.08)" }}
+                >
+                  {tc("completed")}
+                </span>
+              ) : (
+                <span
+                  className="text-xs font-semibold px-2 py-0.5 rounded-md text-destructive"
+                  style={{ backgroundColor: "rgba(225, 29, 72, 0.08)" }}
+                >
+                  {tc("error")}
+                </span>
+              )}
+              <button
+                type="button"
+                onClick={() => removeFile(file.name)}
+                className="shrink-0 p-1 rounded-md hover:bg-muted transition-colors"
+                aria-label={`Remove ${file.name}`}
               >
-                <X className="h-4 w-4" />
-              </Button>
+                <X className="h-3.5 w-3.5 text-muted-foreground" />
+              </button>
             </div>
           ))}
-        </div>
-      )}
-
-      {uploading && (
-        <div className="text-center text-sm text-muted-foreground">
-          Uploading...
         </div>
       )}
     </div>

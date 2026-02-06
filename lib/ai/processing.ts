@@ -46,16 +46,34 @@ export async function processDocument(
         await parser.destroy();
       }
     } else if (type === "text") {
-      // Download text file
-      const { data: fileData, error: downloadError } = await supabase.storage
-        .from("documents")
-        .download(filePath);
+      // Text can be inline (e.g. journal entry) or from storage
+      if (filePath) {
+        const { data: fileData, error: downloadError } = await supabase.storage
+          .from("documents")
+          .download(filePath);
 
-      if (downloadError || !fileData) {
-        throw new Error("Failed to download text file");
+        if (downloadError || !fileData) {
+          throw new Error("Failed to download text file");
+        }
+
+        text = await fileData.text();
+      } else {
+        // Inline text (e.g. mood check-in, written journal) — already in contentText
+        const { data: row, error: docErr } = await supabase
+          .from("documents")
+          .select("contentText")
+          .eq("id", documentId)
+          .single();
+
+        if (docErr || !row) {
+          throw new Error("Document not found");
+        }
+
+        text = (row.contentText as string) || "";
+        if (!text.trim()) {
+          throw new Error("No text in document");
+        }
       }
-
-      text = await fileData.text();
     } else if (type === "audio") {
       // Download audio from storage and transcribe with Whisper
       const { data: fileData, error: downloadError } = await supabase.storage

@@ -14,32 +14,35 @@ import {
   type IntegrationRecord,
 } from "@/app/actions/integrations";
 import { toast } from "sonner";
-
-const PROVIDERS = [
-  {
-    id: "google_drive",
-    label: "Google Drive",
-    description: "Sync documents from your Google Drive for RAG context",
-    icon: Cloud,
-    authUrl: "/api/integrations/google/auth?provider=google_drive",
-  },
-  {
-    id: "google_calendar",
-    label: "Google Calendar",
-    description: "Import calendar events for context-aware insights",
-    icon: Calendar,
-    authUrl: "/api/integrations/google/auth?provider=google_calendar",
-  },
-  {
-    id: "notes",
-    label: "Notes App",
-    description: "Import from Apple Notes or other note apps",
-    icon: FileText,
-    authUrl: null, // not yet available
-  },
-];
+import { useTranslations } from "next-intl";
 
 export function IntegrationsPanel() {
+  const t = useTranslations("integrations");
+  const tCommon = useTranslations("common");
+
+  const PROVIDERS = [
+    {
+      id: "google_drive",
+      label: t("googleDrive"),
+      description: t("googleDriveDesc"),
+      icon: Cloud,
+      authUrl: "/api/integrations/google/auth?provider=google_drive",
+    },
+    {
+      id: "google_calendar",
+      label: t("googleCalendar"),
+      description: t("googleCalendarDesc"),
+      icon: Calendar,
+      authUrl: "/api/integrations/google/auth?provider=google_calendar",
+    },
+    {
+      id: "notes",
+      label: t("notesApp"),
+      description: t("notesAppDesc"),
+      icon: FileText,
+      authUrl: null as string | null, // not yet available
+    },
+  ];
   const [integrations, setIntegrations] = useState<IntegrationRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [toggling, setToggling] = useState<string | null>(null);
@@ -79,7 +82,7 @@ export function IntegrationsPanel() {
         prev.map((i) => (i.provider === provider ? { ...i, enabled } : i))
       );
     } catch {
-      toast.error("Failed to update integration");
+      toast.error(t("updateFailed"));
     } finally {
       setToggling(null);
     }
@@ -112,7 +115,7 @@ export function IntegrationsPanel() {
                     <Label htmlFor={provider.id}>{provider.label}</Label>
                     {isConnected && (
                       <Badge variant="outline" className="text-[10px]">
-                        Connected
+                        {t("connected")}
                       </Badge>
                     )}
                   </div>
@@ -146,7 +149,7 @@ export function IntegrationsPanel() {
                       {isToggling ? (
                         <Loader2 className="h-3 w-3 animate-spin" />
                       ) : (
-                        "Disconnect"
+                        t("disconnect")
                       )}
                     </Button>
                   </>
@@ -159,11 +162,11 @@ export function IntegrationsPanel() {
                     className="gap-1"
                   >
                     <ExternalLink className="h-3 w-3" />
-                    Connect
+                    {t("connect")}
                   </Button>
                 ) : (
                   <Badge variant="secondary" className="text-xs">
-                    Coming Soon
+                    {tCommon("comingSoon")}
                   </Badge>
                 )}
               </div>

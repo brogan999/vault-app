@@ -1,94 +1,109 @@
 "use client";
 
-import { useState, KeyboardEvent } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Send, Mic } from "lucide-react";
+import { useState, useRef, KeyboardEvent, useEffect } from "react";
+import { useTranslations } from "next-intl";
+import { ArrowUp, Mic } from "lucide-react";
+import { cn } from "@/lib/utils";
 import type { ChatStatus } from "ai";
 
 interface ChatInputProps {
   sendMessage: (message: { text: string }) => Promise<void>;
   status: ChatStatus;
-  /** Called when user submits /journal – e.g. open voice recorder */
   onSlashJournal?: () => void;
-  /** Called when user submits /reference – e.g. open document picker */
-  onSlashReference?: () => void;
-  /** Called after a message is sent (e.g. clear pinned references) */
-  onAfterSend?: () => void;
-  /** When true, show mic as active for voice journal */
-  showVoiceHint?: boolean;
 }
 
 export function ChatInput({
   sendMessage,
   status,
   onSlashJournal,
-  onSlashReference,
-  onAfterSend,
-  showVoiceHint,
 }: ChatInputProps) {
+  const t = useTranslations("chat.input");
   const [input, setInput] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const isLoading = status === "submitted" || status === "streaming";
 
   const trimmed = input.trim();
-  const isSlashJournal =
-    trimmed === "/journal" || trimmed.startsWith("/journal ");
-  const isSlashReference =
-    trimmed === "/reference" || trimmed.startsWith("/reference ");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (isLoading) return;
+  // Auto-resize textarea
+  useEffect(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, 200)}px`;
+  }, [input]);
 
-    if (isSlashJournal && onSlashJournal) {
-      onSlashJournal();
+  const handleSubmit = async () => {
+    if (isLoading || !trimmed) return;
+
+    if (trimmed === "/journal" || trimmed.startsWith("/journal ")) {
+      onSlashJournal?.();
       setInput("");
       return;
     }
-    if (isSlashReference && onSlashReference) {
-      onSlashReference();
-      setInput("");
-      return;
-    }
-
-    if (!trimmed) return;
 
     const message = trimmed;
     setInput("");
     await sendMessage({ text: message });
-    onAfterSend?.();
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      handleSubmit(e as unknown as React.FormEvent);
+      handleSubmit();
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 p-4 border-t">
-      <Input
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder="Type a message... /journal for voice, /reference to cite a doc"
-        disabled={isLoading}
-        className="flex-1"
-      />
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon"
-        onClick={onSlashJournal}
-        title="Record voice journal"
-        className={showVoiceHint ? "text-primary" : undefined}
-      >
-        <Mic className="h-4 w-4" />
-      </Button>
-      <Button type="submit" disabled={isLoading || !trimmed}>
-        <Send className="h-4 w-4" />
-      </Button>
-    </form>
+    <div className="shrink-0 px-4 pb-3 pt-2">
+      <div className="mx-auto max-w-2xl">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+          className="flex items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-ring transition-shadow"
+        >
+          {/* Voice button */}
+          <button
+            type="button"
+            onClick={onSlashJournal}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+            aria-label={t("voiceInput")}
+          >
+            <Mic className="h-4 w-4" />
+          </button>
+
+          {/* Textarea */}
+          <textarea
+            ref={textareaRef}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder={t("placeholder")}
+            disabled={isLoading}
+            rows={1}
+            className="flex-1 bg-transparent resize-none text-sm text-foreground placeholder:text-muted-foreground focus:outline-none disabled:opacity-50 max-h-[200px] leading-relaxed"
+          />
+
+          {/* Send button */}
+          <button
+            type="submit"
+            disabled={isLoading || !trimmed}
+            className={cn(
+              "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-colors",
+              trimmed
+                ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                : "bg-muted text-muted-foreground"
+            )}
+            aria-label={t("sendMessage")}
+          >
+            <ArrowUp className="h-4 w-4" />
+          </button>
+        </form>
+        <p className="mt-2 text-center text-[11px] text-muted-foreground/70">
+          {t("contextHint")}
+        </p>
+      </div>
+    </div>
   );
 }

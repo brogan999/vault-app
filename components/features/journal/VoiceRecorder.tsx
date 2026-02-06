@@ -6,13 +6,19 @@ import { Mic, Square, Waves } from "lucide-react";
 import { submitVoiceJournal } from "@/app/actions/journal";
 import { toast } from "sonner";
 
-export function VoiceRecorder() {
+interface VoiceRecorderProps {
+  /** When true, recording starts automatically on mount. */
+  autoStart?: boolean;
+}
+
+export function VoiceRecorder({ autoStart = false }: VoiceRecorderProps) {
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const hasAutoStarted = useRef(false);
 
   const startRecording = async () => {
     try {
@@ -81,6 +87,14 @@ export function VoiceRecorder() {
       }
     };
   }, [audioUrl]);
+
+  // Auto-start recording on mount if requested
+  useEffect(() => {
+    if (autoStart && !hasAutoStarted.current) {
+      hasAutoStarted.current = true;
+      startRecording();
+    }
+  }, [autoStart]);
 
   return (
     <div className="space-y-4">

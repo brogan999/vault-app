@@ -10,6 +10,53 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+/** Submit a written journal entry with an optional mood tag. */
+export async function submitTextJournal(text: string, mood?: string) {
+  const user = await getSupabaseUser();
+  if (!user) throw new Error("Unauthorized");
+
+  const supabase = await createClient();
+
+  const metadata: Record<string, unknown> = {};
+  if (mood) metadata.mood = mood;
+
+  const { data: doc, error } = await supabase
+    .from("documents")
+    .insert({
+      userId: user.id,
+      fileUrl: "",
+      fileName: `journal-${Date.now()}.txt`,
+      type: "text",
+      category: "journal",
+      contentText: text,
+      metadata,
+      status: "completed",
+    })
+    .select()
+    .single();
+
+  if (error || !doc) {
+    throw new Error(`Failed to save journal entry: ${error?.message}`);
+  }
+
+  // Generate embeddings for RAG
+  try {
+    await processDocument(doc.id, "", "text", user.id);
+  } catch {
+    // Non-fatal — embeddings can be retried later
+    console.error("Failed to process journal embeddings");
+  }
+
+  revalidatePath("/mirror");
+  revalidatePath("/vault");
+  return { success: true, documentId: doc.id };
+}
+
+/** Log only a mood (quick one-tap entry). */
+export async function submitMoodOnly(mood: string) {
+  return submitTextJournal(`Mood check-in: feeling ${mood}.`, mood);
+}
+
 export async function submitVoiceJournal(audioBlob: Blob) {
   const userId = await getClerkUserId();
   if (!userId) {

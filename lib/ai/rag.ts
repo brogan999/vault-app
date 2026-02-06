@@ -11,13 +11,13 @@ export interface RetrievedContext {
 export async function retrieveContext(
   query: string,
   userId: string,
-  limit: number = 5
+  limit: number = 15
 ): Promise<RetrievedContext[]> {
   // Generate embedding for the query
   const queryEmbedding = await generateEmbeddings(query);
 
-  // Search for similar embeddings
-  const results = await matchEmbeddings(queryEmbedding, userId, 0.7, limit);
+  // Search for similar embeddings — use a low threshold to catch broad queries
+  const results = await matchEmbeddings(queryEmbedding, userId, 0.3, limit);
 
   return results.map((result: { contentChunk: string; documentId: string; similarity: number }) => ({
     contentChunk: result.contentChunk,

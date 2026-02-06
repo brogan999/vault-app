@@ -1,8 +1,10 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { getSupabaseUser } from "@/lib/clerk/utils";
 import { revalidatePath } from "next/cache";
+import { products, getProductById } from "@/lib/products";
+import { getUserTestResults } from "@/app/actions/tests";
 
 export type DocumentCategory = "cognitive" | "esoteric" | "journal" | "psyche";
 
@@ -12,6 +14,7 @@ export interface VaultDocument {
   type: string;
   category: DocumentCategory;
   status: string;
+  fileUrl: string | null;
   createdAt: string;
 }
 
@@ -22,7 +25,7 @@ export async function getDocumentsForVault(): Promise<VaultDocument[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("documents")
-    .select("id, fileName, type, category, status, createdAt")
+    .select("id, fileName, type, category, status, fileUrl, createdAt")
     .eq("userId", user.id)
     .order("createdAt", { ascending: false });
 
@@ -37,8 +40,46 @@ export async function getDocumentsForVault(): Promise<VaultDocument[]> {
     type: d.type,
     category: d.category as DocumentCategory,
     status: d.status,
+    fileUrl: (d.fileUrl as string) || null,
     createdAt: d.createdAt,
   }));
+}
+
+export interface VaultDocumentDetail {
+  id: string;
+  fileName: string;
+  type: string;
+  category: DocumentCategory;
+  status: string;
+  contentText: string | null;
+  fileUrl: string | null;
+  createdAt: string;
+}
+
+export async function getDocumentDetail(documentId: string): Promise<VaultDocumentDetail | null> {
+  const user = await getSupabaseUser();
+  if (!user) return null;
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("documents")
+    .select("id, fileName, type, category, status, contentText, fileUrl, createdAt")
+    .eq("id", documentId)
+    .eq("userId", user.id)
+    .single();
+
+  if (error || !data) return null;
+
+  return {
+    id: data.id,
+    fileName: data.fileName,
+    type: data.type,
+    category: data.category as DocumentCategory,
+    status: data.status,
+    contentText: (data.contentText as string) || null,
+    fileUrl: (data.fileUrl as string) || null,
+    createdAt: data.createdAt,
+  };
 }
 
 export async function deleteDocumentFromVault(documentId: string): Promise<{ ok: boolean; error?: string }> {
@@ -73,4 +114,83 @@ export async function deleteDocumentFromVault(documentId: string): Promise<{ ok:
 
   revalidatePath("/vault");
   return { ok: true };
+}
+
+/** Format a past date as "Xd ago" or "Xw ago" for vault stats */
+function formatRelative(iso: string): string {
+  const d = new Date(iso);
+  const now = new Date();
+  const diffMs = now.getTime() - d.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+  const diffWeeks = Math.floor(diffDays / 7);
+  if (diffMins < 1) return "Just now";
+  if (diffMins < 60) return `${diffMins}m ago`;
+  if (diffHours < 24) return `${diffHours}h ago`;
+  if (diffDays < 7) return `${diffDays}d ago`;
+  if (diffWeeks < 4) return `${diffWeeks}w ago`;
+  return `${Math.floor(diffDays / 30)}mo ago`;
+}
+
+export interface VaultStatsData {
+  testsCompleted: number;
+  testsAvailable: number;
+  savedProfilesCount: number;
+  lastTakenLabel: string | null;
+}
+
+export async function getVaultStats(): Promise<VaultStatsData> {
+  const user = await getSupabaseUser();
+  if (!user) {
+    return {
+      testsCompleted: 0,
+      testsAvailable: products.length,
+      savedProfilesCount: 0,
+      lastTakenLabel: null,
+    };
+  }
+
+  const admin = createAdminClient();
+  const { data: results, error } = await admin
+    .from("testResults")
+    .select("completedAt")
+    .eq("userId", user.id)
+    .order("completedAt", { ascending: false })
+    .limit(1);
+
+  const countResult = await admin
+    .from("testResults")
+    .select("id", { count: "exact", head: true })
+    .eq("userId", user.id);
+
+  const testsCompleted = countResult.count ?? 0;
+  const latest = !error && results?.[0] ? results[0].completedAt : null;
+
+  return {
+    testsCompleted,
+    testsAvailable: products.length,
+    savedProfilesCount: 0,
+    lastTakenLabel: latest ? formatRelative(latest) : null,
+  };
+}
+
+export interface VaultActivityItem {
+  action: string;
+  item: string;
+  completedAt: string;
+  dotColor: string;
+}
+
+export async function getVaultRecentActivity(): Promise<VaultActivityItem[]> {
+  const rows = await getUserTestResults();
+  return rows.slice(0, 10).map((row) => {
+    const product = getProductById(row.testId);
+    return {
+      action: "Completed",
+      item: product?.title ?? row.testId,
+      completedAt: row.completedAt,
+      dotColor: product?.color ?? "#059669",
+    };
+  });
 }

@@ -9,7 +9,8 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import {
   LayoutDashboard,
   FolderOpen,
@@ -21,30 +22,17 @@ import {
 } from "lucide-react";
 import { useThemeStore } from "@/store/theme-store";
 
-const commands = [
-  {
-    group: "Navigation",
-    items: [
-      { label: "Go to Mirror", icon: LayoutDashboard, href: "/mirror" },
-      { label: "Go to Vault", icon: FolderOpen, href: "/vault" },
-      { label: "Go to Chat", icon: MessageSquare, href: "/chat" },
-      { label: "Go to Store", icon: Store, href: "/store" },
-      { label: "Go to Settings", icon: Settings, href: "/settings" },
-    ],
-  },
-  {
-    group: "Actions",
-    items: [
-      { label: "Upload File", icon: Upload, action: "upload" },
-      { label: "Toggle Dark Mode", icon: Sun, action: "toggle-theme" },
-    ],
-  },
-];
-
 export function CommandPalette() {
+  const t = useTranslations("commands");
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const { theme, setTheme } = useThemeStore();
+
+  // Defer rendering until client-side to avoid hydration mismatch from Radix IDs
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -58,6 +46,26 @@ export function CommandPalette() {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
+  const commands = [
+    {
+      group: t("navigation"),
+      items: [
+        { label: t("goToMirror"), icon: LayoutDashboard, href: "/mirror" },
+        { label: t("goToVault"), icon: FolderOpen, href: "/vault" },
+        { label: t("goToChat"), icon: MessageSquare, href: "/chat" },
+        { label: t("goToStore"), icon: Store, href: "/store" },
+        { label: t("goToSettings"), icon: Settings, href: "/settings" },
+      ],
+    },
+    {
+      group: t("actions"),
+      items: [
+        { label: t("uploadFile"), icon: Upload, action: "upload" },
+        { label: t("toggleDarkMode"), icon: Sun, action: "toggle-theme" },
+      ],
+    },
+  ];
+
   const handleSelect = (item: any) => {
     if (item.action === "toggle-theme") {
       setTheme(theme === "light" ? "dark" : "light");
@@ -70,11 +78,13 @@ export function CommandPalette() {
     setOpen(false);
   };
 
+  if (!mounted) return null;
+
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder="Type a command or search..." />
+      <CommandInput placeholder={t("searchPlaceholder")} />
       <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandEmpty>{t("noResults")}</CommandEmpty>
         {commands.map((group) => (
           <CommandGroup key={group.group} heading={group.group}>
             {group.items.map((item) => {

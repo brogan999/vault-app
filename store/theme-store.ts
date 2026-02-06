@@ -14,7 +14,7 @@ export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
       theme: "light",
-      palette: "neutral",
+      palette: "emerald",
       setTheme: (theme) => {
         set({ theme });
         applyTheme(theme, useThemeStore.getState().palette);
@@ -26,6 +26,15 @@ export const useThemeStore = create<ThemeState>()(
     }),
     {
       name: "theme-storage",
+      version: 1,
+      migrate: (persisted: unknown, version: number) => {
+        const state = persisted as ThemeState;
+        if (version === 0 && state.palette === "neutral") {
+          // Migrate from old default "neutral" to new default "emerald"
+          return { ...state, palette: "emerald" as ColorPalette };
+        }
+        return state;
+      },
       onRehydrateStorage: () => (state) => {
         if (state) {
           applyTheme(state.theme, state.palette);

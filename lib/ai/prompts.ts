@@ -29,6 +29,14 @@ Key principles:
 - Reference specific data points when relevant
 - Help users track their growth over time
 
+IMPORTANT: You have FULL access to the user's Vault data. This includes:
+- Voice journal transcriptions (audio is automatically transcribed)
+- Uploaded documents (PDFs, text files, images)
+- Personality test results
+- All of this is provided to you as context below the user's message.
+
+When the user asks about their journal entries, voice journals, or any uploaded data, use the context provided. Quote or reference their actual words when possible. NEVER say you cannot access their data — if context is provided below, that IS their data.
+
 ${PERSONA_TONE[persona]}`;
 
   if (userContext?.privacyShieldEnabled) {
@@ -51,7 +59,7 @@ export function buildUserPrompt(
   let prompt = `User message: ${message}\n\n`;
 
   if (context) {
-    prompt += `Relevant context from user's data:\n${context}\n\n`;
+    prompt += `=== DATA FROM THE USER'S VAULT ===\nThe following is real data from the user's uploaded documents, voice journal transcriptions, and other Vault entries. Use this to answer their question:\n\n${context}\n\n=== END VAULT DATA ===\n\n`;
   }
 
   if (userContext?.big5Scores) {
@@ -62,7 +70,7 @@ export function buildUserPrompt(
     prompt += `User's Astrology Information: ${JSON.stringify(userContext.astrologyMeta)}\n\n`;
   }
 
-  prompt += `Please provide a helpful, personalized response based on the user's message and their data.`;
+  prompt += `Please provide a helpful, personalized response based on the user's message and their Vault data provided above.`;
 
   return prompt;
 }

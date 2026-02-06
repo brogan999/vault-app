@@ -10,7 +10,7 @@ export async function matchEmbeddings(
   
   const { data, error } = await supabase.rpc("match_embeddings", {
     query_embedding: queryEmbedding,
-    match_threshold: matchThreshold,
+    match_threshold: Math.min(matchThreshold, 0.5),
     match_count: matchCount,
     user_id_param: userId,
   });

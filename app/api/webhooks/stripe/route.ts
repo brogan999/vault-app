@@ -46,7 +46,30 @@ export async function POST(req: NextRequest) {
       const userId = session.metadata?.userId;
       const isOneOff = session.metadata?.type === "one_off";
 
-      if (userId && isOneOff) {
+      if (userId && session.metadata?.type === "premium_report") {
+        // --- Premium report purchase ---
+        const attemptId = session.metadata?.attemptId;
+        if (attemptId) {
+          await supabase
+            .from("testResults")
+            .update({ isPremium: true })
+            .eq("id", attemptId)
+            .eq("userId", userId);
+        }
+        // Also record in purchases
+        const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+        const item = lineItems.data[0];
+        const priceId = item?.price?.id || "";
+        await supabase.from("purchases").insert({
+          userId,
+          stripeSessionId: session.id,
+          priceId,
+          productName: `Premium Report: ${session.metadata?.testId || "Assessment"}`,
+          amountPaid: session.amount_total || 0,
+          currency: session.currency || "usd",
+          status: "completed",
+        });
+      } else if (userId && isOneOff) {
         // --- One-off product purchase ---
         const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
         const item = lineItems.data[0];

@@ -13,12 +13,14 @@ export function MainStage({ children, className }: MainStageProps) {
     <main
       className={cn(
         "flex-1 overflow-y-auto bg-background",
-        "ml-60", // NavRail width when expanded (240px = 60 * 4)
-        "max-lg:ml-16", // Collapsed nav width (64px = 16 * 4)
+        "ml-[220px]",
+        "max-lg:ml-[72px]",
         className
       )}
     >
-      <div className="container mx-auto p-6">{children}</div>
+      <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-[1200px] mx-auto">
+        {children}
+      </div>
     </main>
   );
 }

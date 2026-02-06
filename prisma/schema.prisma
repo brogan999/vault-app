@@ -36,6 +36,7 @@ model User {
   themePreference String?         @default("neutral")
   privacyShieldEnabled Boolean     @default(false)
   personaPreference String?       @default("balanced")
+  consentedAt     DateTime?
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 

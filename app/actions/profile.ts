@@ -103,6 +103,48 @@ export async function upsertPsychProfile(data: {
   return { success: true };
 }
 
+/**
+ * Save Big 5 scores from a completed test to psychProfile and a snapshot (for Mirror + Growth Trends).
+ */
+export async function saveBig5FromTestResult(
+  userId: string,
+  big5Scores: Big5Scores,
+) {
+  const supabase = createAdminClient();
+
+  const { data: existing } = await supabase
+    .from("psychProfile")
+    .select("id")
+    .eq("userId", userId)
+    .single();
+
+  const now = new Date().toISOString();
+
+  if (existing) {
+    await supabase
+      .from("psychProfile")
+      .update({
+        big5Scores: big5Scores as Record<string, unknown>,
+        updatedAt: now,
+      })
+      .eq("id", existing.id);
+  } else {
+    await supabase.from("psychProfile").insert({
+      id: crypto.randomUUID(),
+      userId,
+      big5Scores: big5Scores as Record<string, unknown>,
+      createdAt: now,
+      updatedAt: now,
+    });
+  }
+
+  await supabase.from("psychProfileSnapshots").insert({
+    userId,
+    big5Scores: big5Scores as Record<string, unknown>,
+    source: "test",
+  });
+}
+
 export async function getProfileHistory(limit = 20) {
   const user = await getSupabaseUser();
   if (!user) return [];

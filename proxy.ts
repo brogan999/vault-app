@@ -1,9 +1,15 @@
 import type { NextFetchEvent, NextRequest } from "next/server";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import createMiddleware from "next-intl/middleware";
+import { routing } from "./i18n/routing";
+
+const intlMiddleware = createMiddleware(routing);
 
 const isPublicRoute = createRouteMatcher([
   "/",
   "/pricing",
+  "/terms",
+  "/privacy",
   "/sign-in(.*)",
   "/sign-up(.*)",
 ]);
@@ -12,12 +18,20 @@ const clerkHandler = clerkMiddleware(async (auth, req) => {
   if (!isPublicRoute(req)) {
     await auth.protect();
   }
+
+  // Run i18n middleware after Clerk to rewrite locale-prefixed paths
+  return intlMiddleware(req);
 });
 
 // Next.js 16 proxy is only called with (request); Clerk's middleware expects (request, event).
-const noopEvent = { waitUntil: (_p: Promise<unknown>) => {} } as NextFetchEvent;
+const noopEvent = {
+  waitUntil: (_p: Promise<unknown>) => {},
+} as NextFetchEvent;
 
-export default async function proxy(request: NextRequest, event?: NextFetchEvent) {
+export default async function proxy(
+  request: NextRequest,
+  event?: NextFetchEvent
+) {
   return clerkHandler(request, event ?? noopEvent);
 }
 

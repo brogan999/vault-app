@@ -1,5 +1,5 @@
 export type Theme = "light" | "dark";
-export type ColorPalette = "neutral" | "muddy" | "neon" | "jewel" | "pastel";
+export type ColorPalette = "emerald" | "neutral" | "muddy" | "neon" | "jewel" | "pastel";
 
 interface PaletteColors {
   primary: string;
@@ -25,6 +25,48 @@ interface PaletteColors {
 type PaletteDef = { light: PaletteColors; dark: PaletteColors };
 
 export const colorPalettes: Record<ColorPalette, PaletteDef> = {
+  emerald: {
+    light: {
+      primary: "oklch(0.52 0.14 165)",
+      primaryForeground: "oklch(1 0 0)",
+      secondary: "oklch(0.95 0.005 85)",
+      secondaryForeground: "oklch(0.22 0.02 255)",
+      accent: "oklch(0.95 0.005 85)",
+      accentForeground: "oklch(0.22 0.02 255)",
+      muted: "oklch(0.935 0.005 85)",
+      mutedForeground: "oklch(0.55 0.02 255)",
+      card: "oklch(1 0 0)",
+      cardForeground: "oklch(0.22 0.02 255)",
+      border: "oklch(0.915 0.005 85)",
+      ring: "oklch(0.52 0.14 165)",
+      sidebarPrimary: "oklch(0.52 0.14 165)",
+      sidebarPrimaryForeground: "oklch(1 0 0)",
+      sidebarAccent: "oklch(0.96 0.02 165)",
+      sidebarAccentForeground: "oklch(0.45 0.10 165)",
+      chart1: "oklch(0.58 0.21 295)",
+      chart2: "oklch(0.60 0.12 185)",
+    },
+    dark: {
+      primary: "oklch(0.60 0.14 165)",
+      primaryForeground: "oklch(1 0 0)",
+      secondary: "oklch(0.26 0.01 260)",
+      secondaryForeground: "oklch(0.96 0 0)",
+      accent: "oklch(0.26 0.01 260)",
+      accentForeground: "oklch(0.96 0 0)",
+      muted: "oklch(0.26 0.01 260)",
+      mutedForeground: "oklch(0.65 0 0)",
+      card: "oklch(0.22 0.01 260)",
+      cardForeground: "oklch(0.96 0 0)",
+      border: "oklch(1 0 0 / 10%)",
+      ring: "oklch(0.60 0.14 165)",
+      sidebarPrimary: "oklch(0.60 0.14 165)",
+      sidebarPrimaryForeground: "oklch(1 0 0)",
+      sidebarAccent: "oklch(0.26 0.01 260)",
+      sidebarAccentForeground: "oklch(0.96 0 0)",
+      chart1: "oklch(0.58 0.21 295)",
+      chart2: "oklch(0.60 0.12 185)",
+    },
+  },
   neutral: {
     light: {
       primary: "oklch(0.205 0 0)",

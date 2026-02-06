@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { File, Folder, FolderOpen, Trash2, MoreVertical } from "lucide-react";
+import {
+  FileText,
+  Folder,
+  ChevronDown,
+  ChevronRight,
+  Trash2,
+  MoreVertical,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,16 +16,55 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { getDocumentsForVault, deleteDocumentFromVault, type VaultDocument, type DocumentCategory } from "@/app/actions/vault";
+import { cn } from "@/lib/utils";
+import {
+  getDocumentsForVault,
+  deleteDocumentFromVault,
+  type VaultDocument,
+  type DocumentCategory,
+} from "@/app/actions/vault";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
-export function FileTree() {
+interface FileTreeProps {
+  onDocumentOpen?: (
+    documentId: string,
+    type: string,
+    fileUrl: string | null
+  ) => void;
+}
+
+const statusStyles: Record<
+  string,
+  { text: string; bg: string; label: string }
+> = {
+  completed: {
+    text: "text-primary",
+    bg: "rgba(5, 150, 105, 0.08)",
+    label: "completed",
+  },
+  processing: {
+    text: "text-amber-600",
+    bg: "rgba(217, 119, 6, 0.08)",
+    label: "processing",
+  },
+  error: {
+    text: "text-destructive",
+    bg: "rgba(225, 29, 72, 0.08)",
+    label: "error",
+  },
+};
+
+export function FileTree({ onDocumentOpen }: FileTreeProps) {
+  const t = useTranslations("vault.fileTree");
+  const tCommon = useTranslations("common");
   const [documents, setDocuments] = useState<VaultDocument[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<DocumentCategory | "all">("all");
-  const [expandedFolders, setExpandedFolders] = useState<Set<DocumentCategory>>(
-    new Set(["psyche", "cognitive", "esoteric", "journal"])
-  );
+  const [selectedCategory, setSelectedCategory] = useState<
+    DocumentCategory | "all"
+  >("all");
+  const [expandedFolders, setExpandedFolders] = useState<
+    Set<DocumentCategory>
+  >(new Set(["psyche", "cognitive", "esoteric", "journal"]));
 
   useEffect(() => {
     loadDocuments();
@@ -44,19 +90,28 @@ export function FileTree() {
   const deleteDocument = async (id: string) => {
     const result = await deleteDocumentFromVault(id);
     if (!result.ok) {
-      toast.error(result.error ?? "Failed to delete document");
+      toast.error(result.error ?? t("deleteFailed"));
       return;
     }
-    toast.success("Document deleted");
+    toast.success(t("documentDeleted"));
     loadDocuments();
   };
 
   const categories: { key: DocumentCategory; label: string }[] = [
-    { key: "psyche", label: "Psyche" },
-    { key: "cognitive", label: "Cognitive" },
-    { key: "esoteric", label: "Esoteric" },
-    { key: "journal", label: "Journal" },
+    { key: "psyche", label: t("psyche") },
+    { key: "cognitive", label: t("cognitive") },
+    { key: "esoteric", label: t("esoteric") },
+    { key: "journal", label: t("journal") },
   ];
+
+  const filterOptions = ["all", ...categories.map((c) => c.key)];
+  const filterLabels: Record<string, string> = {
+    all: t("all"),
+    psyche: t("psyche"),
+    cognitive: t("cognitive"),
+    esoteric: t("esoteric"),
+    journal: t("journal"),
+  };
 
   const filteredDocuments =
     selectedCategory === "all"
@@ -73,110 +128,134 @@ export function FileTree() {
     {} as Record<DocumentCategory, VaultDocument[]>
   );
 
+  // When a specific category is selected, show only that folder (not all four with empty counts)
+  const categoriesToShow =
+    selectedCategory === "all"
+      ? categories
+      : categories.filter((c) => c.key === selectedCategory);
+
   return (
-    <div className="space-y-4">
-      {/* Category Filter */}
-      <div className="flex gap-2 flex-wrap">
-        <Button
-          variant={selectedCategory === "all" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setSelectedCategory("all")}
-        >
-          All
-        </Button>
-        {categories.map((category) => (
-          <Button
-            key={category.key}
-            variant={selectedCategory === category.key ? "default" : "outline"}
-            size="sm"
-            onClick={() => setSelectedCategory(category.key)}
+    <div>
+      {/* Filter pills */}
+      <div className="flex flex-wrap items-center gap-2 mb-5">
+        {filterOptions.map((filter) => (
+          <button
+            key={filter}
+            type="button"
+            onClick={() => setSelectedCategory(filter as DocumentCategory | "all")}
+            className={cn(
+              "rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors",
+              selectedCategory === filter
+                ? "bg-primary text-primary-foreground"
+                : "bg-card text-muted-foreground hover:bg-muted hover:text-foreground shadow-sm"
+            )}
           >
-            {category.label}
-          </Button>
+            {filterLabels[filter]}
+          </button>
         ))}
       </div>
 
-      {/* File Tree */}
-      <ScrollArea className="h-[600px]">
-        <div className="space-y-1">
-          {categories.map((category) => {
-            const categoryDocs = documentsByCategory[category.key];
-            const isExpanded = expandedFolders.has(category.key);
+      {/* File categories — only the selected folder when a filter is active */}
+      <div className="flex flex-col gap-1">
+        {categoriesToShow.map((category) => {
+          const categoryDocs = documentsByCategory[category.key];
+          const isExpanded = expandedFolders.has(category.key);
 
-            return (
-              <div key={category.key}>
-                <button
-                  onClick={() => toggleFolder(category.key)}
-                  className="w-full flex items-center gap-2 px-2 py-1.5 hover:bg-muted rounded text-sm font-medium"
-                >
-                  {isExpanded ? (
-                    <FolderOpen className="h-4 w-4" />
+          return (
+            <div key={category.key}>
+              {/* Category header */}
+              <button
+                type="button"
+                onClick={() => toggleFolder(category.key)}
+                className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 hover:bg-muted/50 transition-colors"
+              >
+                {isExpanded ? (
+                  <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0" />
+                ) : (
+                  <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
+                )}
+                <Folder className="h-4 w-4 text-muted-foreground shrink-0" />
+                <span className="text-sm font-semibold text-foreground">
+                  {category.label}
+                </span>
+                <span className="ml-auto text-xs text-muted-foreground">
+                  ({categoryDocs.length})
+                </span>
+              </button>
+
+              {/* Files list */}
+              {isExpanded && (
+                <div className="ml-9 flex flex-col gap-0.5">
+                  {categoryDocs.length === 0 ? (
+                    <p className="py-2 px-3 text-sm text-muted-foreground">
+                      No files
+                    </p>
                   ) : (
-                    <Folder className="h-4 w-4" />
-                  )}
-                  <span>{category.label}</span>
-                  <span className="text-xs text-muted-foreground ml-auto">
-                    ({categoryDocs.length})
-                  </span>
-                </button>
-
-                {isExpanded && (
-                  <div className="ml-6 space-y-1">
-                    {categoryDocs.length === 0 ? (
-                      <p className="text-xs text-muted-foreground px-2 py-1">
-                        No files
-                      </p>
-                    ) : (
-                      categoryDocs.map((doc) => (
+                    categoryDocs.map((doc) => {
+                      const style = statusStyles[doc.status] ?? statusStyles.error;
+                      return (
                         <div
                           key={doc.id}
-                          className="flex items-center gap-2 px-2 py-1 hover:bg-muted rounded group"
+                          className="flex items-center gap-2.5 rounded-lg px-3 py-2 hover:bg-muted/30 transition-colors group cursor-pointer"
+                          onClick={() =>
+                            onDocumentOpen?.(doc.id, doc.type, doc.fileUrl)
+                          }
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              onDocumentOpen?.(doc.id, doc.type, doc.fileUrl);
+                            }
+                          }}
                         >
-                          <File className="h-3 w-3 text-muted-foreground" />
-                          <span className="text-xs flex-1 truncate">
+                          <FileText className="h-4 w-4 text-muted-foreground/60 shrink-0" />
+                          <span className="flex-1 text-sm text-foreground truncate min-w-0">
                             {doc.fileName}
                           </span>
                           <span
-                            className={`text-xs px-1.5 py-0.5 rounded ${
-                              doc.status === "completed"
-                                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                                : doc.status === "processing"
-                                ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                                : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
-                            }`}
+                            className={cn(
+                              "text-xs font-semibold px-2 py-0.5 rounded-md shrink-0",
+                              style.text
+                            )}
+                            style={{ backgroundColor: style.bg }}
                           >
-                            {doc.status}
+                            {style.label}
                           </span>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button
                                 variant="ghost"
                                 size="icon"
-                                className="h-6 w-6 opacity-0 group-hover:opacity-100"
+                                className="h-6 w-6 opacity-0 group-hover:opacity-100 shrink-0"
+                                onClick={(e) => e.stopPropagation()}
                               >
-                                <MoreVertical className="h-3 w-3" />
+                                <MoreVertical className="h-3.5 w-3.5" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuItem
-                                onClick={() => deleteDocument(doc.id)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  deleteDocument(doc.id);
+                                }}
                                 className="text-destructive"
                               >
                                 <Trash2 className="h-4 w-4 mr-2" />
-                                Delete
+                                {tCommon("delete")}
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </div>
-                      ))
-                    )}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </ScrollArea>
+                      );
+                    })
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

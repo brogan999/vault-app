@@ -14,12 +14,14 @@ import {
   markAllNotificationsRead,
   type Notification,
 } from "@/app/actions/checkins";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 export function NotificationBell() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const t = useTranslations("notifications");
 
   const refresh = useCallback(() => {
     getNotifications(10)
@@ -68,7 +70,7 @@ export function NotificationBell() {
       </PopoverTrigger>
       <PopoverContent align="end" className="w-80 p-0">
         <div className="flex items-center justify-between px-4 py-2 border-b">
-          <p className="text-sm font-medium">Notifications</p>
+          <p className="text-sm font-medium">{t("title")}</p>
           {unreadCount > 0 && (
             <Button
               variant="ghost"
@@ -83,7 +85,7 @@ export function NotificationBell() {
         <div className="max-h-64 overflow-y-auto">
           {notifications.length === 0 ? (
             <p className="text-sm text-muted-foreground p-4 text-center">
-              No notifications yet
+              {t("noNotifications")}
             </p>
           ) : (
             notifications.map((n) => (

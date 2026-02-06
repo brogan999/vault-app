@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { getSupabaseUser } from "@/lib/clerk/utils";
 import { revalidatePath } from "next/cache";
 
@@ -25,7 +25,7 @@ export async function togglePrivacyShield(enabled: boolean) {
     throw new Error("User not found");
   }
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { error } = await supabase
     .from("users")
     .update({ privacyShieldEnabled: enabled })
@@ -45,7 +45,7 @@ export async function updatePersonaPreference(persona: string) {
     throw new Error("User not found");
   }
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { error } = await supabase
     .from("users")
     .update({ personaPreference: persona })
@@ -65,7 +65,7 @@ export async function updateThemePreference(theme: string) {
     throw new Error("User not found");
   }
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { error } = await supabase
     .from("users")
     .update({ themePreference: theme })
