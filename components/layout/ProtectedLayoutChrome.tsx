@@ -36,6 +36,19 @@ export function ProtectedLayoutChrome({
     );
   }
 
+  const isChatRoute = pathname.includes("/chat");
+
+  if (hasUser && isChatRoute) {
+    return (
+      <div className="flex h-screen">
+        <NavRail />
+        <main className="flex-1 flex flex-col min-w-0 ml-[220px] max-lg:ml-[72px] bg-background overflow-hidden">
+          {children}
+        </main>
+      </div>
+    );
+  }
+
   if (hasUser) {
     return (
       <div className="flex h-screen">

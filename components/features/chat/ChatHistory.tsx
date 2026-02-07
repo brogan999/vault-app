@@ -106,33 +106,33 @@ export function ChatHistory({
   };
 
   const handleDelete = async (sessionId: string) => {
-    try {
-      await deleteChatSession(sessionId);
+    const result = await deleteChatSession(sessionId);
+    if (result.success) {
       setSessions((prev) => prev.filter((s) => s.id !== sessionId));
       if (sessionId === currentSessionId) {
         onNewChat();
       }
       toast.success(t("chatDeleted"));
-    } catch {
+    } else {
       toast.error(t("deleteFailed"));
     }
   };
 
   const handlePin = async (sessionId: string, pinned: boolean) => {
-    try {
-      await pinChatSession(sessionId, pinned);
+    const result = await pinChatSession(sessionId, pinned);
+    if (result.success) {
       setSessions((prev) =>
         prev.map((s) => (s.id === sessionId ? { ...s, pinned } : s))
       );
       toast.success(pinned ? t("chatPinned") : t("chatUnpinned"));
-    } catch {
+    } else {
       toast.error(t("updateFailed"));
     }
   };
 
   const handleArchive = async (sessionId: string, archived: boolean) => {
-    try {
-      await archiveChatSession(sessionId, archived);
+    const result = await archiveChatSession(sessionId, archived);
+    if (result.success) {
       setSessions((prev) =>
         prev.map((s) => (s.id === sessionId ? { ...s, archived } : s))
       );
@@ -140,7 +140,7 @@ export function ChatHistory({
         onNewChat();
       }
       toast.success(archived ? t("chatArchived") : t("chatUnarchived"));
-    } catch {
+    } else {
       toast.error(t("updateFailed"));
     }
   };
@@ -176,7 +176,7 @@ export function ChatHistory({
   return (
     <div
       className={cn(
-        "flex flex-col border-r border-border bg-card transition-all duration-200 ease-in-out overflow-hidden shrink-0",
+        "flex flex-col h-full border-r border-border bg-card transition-all duration-200 ease-in-out overflow-hidden shrink-0",
         isOpen ? "w-[260px]" : "w-0"
       )}
     >

@@ -19,34 +19,34 @@ function categoryLabel(category: string, type: string): string {
   return "Document";
 }
 
-export async function createChatSession(title?: string) {
+export async function createChatSession(title?: string): Promise<{ id: string; title: string; createdAt: string }> {
   const userId = await getClerkUserId();
   if (!userId) {
     throw new Error("Unauthorized");
   }
 
-  const supabase = await createClient();
   const user = await getSupabaseUser();
-
   if (!user) {
     throw new Error("User not found");
   }
 
+  const supabase = await createClient();
   const { data: session, error } = await supabase
     .from("chatSessions")
     .insert({
       userId: user.id,
       title: title || "New Chat",
     })
-    .select()
+    .select("id, title, createdAt")
     .single();
 
-  if (error) {
-    throw new Error(`Failed to create session: ${error.message}`);
+  if (error || !session) {
+    console.error("createChatSession error:", error);
+    throw new Error("Failed to create chat session");
   }
 
   revalidatePath("/chat");
-  return session;
+  return { id: session.id, title: session.title, createdAt: session.createdAt };
 }
 
 export async function getDocumentsForReference(): Promise<
@@ -69,63 +69,76 @@ export async function getDocumentsForReference(): Promise<
 export async function getChatSessions(): Promise<
   { id: string; title: string; createdAt: string; lastMessagePreview: string; pinned: boolean; archived: boolean }[]
 > {
-  const user = await getSupabaseUser();
-  if (!user) return [];
+  try {
+    const user = await getSupabaseUser();
+    if (!user) return [];
 
-  const supabase = await createClient();
-  const { data: sessions } = await supabase
-    .from("chatSessions")
-    .select("id, title, createdAt, pinned, archived")
-    .eq("userId", user.id)
-    .order("pinned", { ascending: false })
-    .order("createdAt", { ascending: false })
-    .limit(50);
+    const supabase = await createClient();
+    const { data: sessions, error: sessionsError } = await supabase
+      .from("chatSessions")
+      .select("id, title, createdAt, pinned, archived")
+      .eq("userId", user.id)
+      .order("pinned", { ascending: false })
+      .order("createdAt", { ascending: false })
+      .limit(50);
 
-  if (!sessions || sessions.length === 0) return [];
-
-  // Fetch the last user message for each session to use as a preview
-  const sessionIds = sessions.map((s) => s.id);
-  const { data: messages } = await supabase
-    .from("messages")
-    .select("sessionId, content, role")
-    .in("sessionId", sessionIds)
-    .eq("role", "user")
-    .order("createdAt", { ascending: false });
-
-  // Build a map of sessionId -> first (most recent) user message
-  const previewMap = new Map<string, string>();
-  for (const msg of messages || []) {
-    if (!previewMap.has(msg.sessionId)) {
-      const content = (msg.content as string) || "";
-      previewMap.set(msg.sessionId, content.slice(0, 80));
+    if (sessionsError) {
+      console.error("getChatSessions error:", sessionsError);
+      return [];
     }
-  }
+    if (!sessions || sessions.length === 0) return [];
 
-  // Only include sessions that have at least one message
-  return sessions
-    .filter((s) => previewMap.has(s.id))
-    .map((s) => ({
-      id: s.id,
-      title: s.title || "New Chat",
-      createdAt: s.createdAt,
-      lastMessagePreview: previewMap.get(s.id) || "",
-      pinned: !!(s as Record<string, unknown>).pinned,
-      archived: !!(s as Record<string, unknown>).archived,
-    }));
+    // Fetch the last user message for each session to use as a preview
+    const sessionIds = sessions.map((s) => s.id);
+    const { data: messages } = await supabase
+      .from("messages")
+      .select("sessionId, content, role")
+      .in("sessionId", sessionIds)
+      .eq("role", "user")
+      .order("createdAt", { ascending: false });
+
+    // Build a map of sessionId -> first (most recent) user message
+    const previewMap = new Map<string, string>();
+    for (const msg of messages || []) {
+      if (!previewMap.has(msg.sessionId)) {
+        const content = (msg.content as string) || "";
+        previewMap.set(msg.sessionId, content.slice(0, 80));
+      }
+    }
+
+    // Only include sessions that have at least one message
+    return sessions
+      .filter((s) => previewMap.has(s.id))
+      .map((s) => ({
+        id: s.id,
+        title: s.title || "New Chat",
+        createdAt: typeof s.createdAt === "string" ? s.createdAt : String(s.createdAt ?? ""),
+        lastMessagePreview: previewMap.get(s.id) || "",
+        pinned: !!(s as Record<string, unknown>).pinned,
+        archived: !!(s as Record<string, unknown>).archived,
+      }));
+  } catch (e) {
+    console.error("getChatSessions unexpected error:", e);
+    return [];
+  }
 }
 
 /** Update the title of a chat session (e.g. auto-title from first message). */
 export async function updateChatSessionTitle(sessionId: string, title: string) {
-  const user = await getSupabaseUser();
-  if (!user) throw new Error("Unauthorized");
+  try {
+    const user = await getSupabaseUser();
+    if (!user) return;
 
-  const supabase = await createClient();
-  await assertSessionOwnership(supabase, sessionId, user.id);
+    const supabase = await createClient();
+    await assertSessionOwnership(supabase, sessionId, user.id);
 
-  await supabase
-    .from("chatSessions")
-    .update({ title })
-    .eq("id", sessionId);
+    await supabase
+      .from("chatSessions")
+      .update({ title })
+      .eq("id", sessionId);
+  } catch (e) {
+    console.error("updateChatSessionTitle error:", e);
+  }
 }
 
 /** Rename a chat session. */
@@ -134,43 +147,62 @@ export async function renameChatSession(sessionId: string, title: string) {
 }
 
 /** Delete a chat session and all its messages (cascade). */
-export async function deleteChatSession(sessionId: string) {
-  const user = await getSupabaseUser();
-  if (!user) throw new Error("Unauthorized");
+export async function deleteChatSession(sessionId: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    const user = await getSupabaseUser();
+    if (!user) return { success: false, error: "Unauthorized" };
 
-  const supabase = await createClient();
-  await assertSessionOwnership(supabase, sessionId, user.id);
+    const supabase = await createClient();
+    await assertSessionOwnership(supabase, sessionId, user.id);
 
-  await supabase.from("chatSessions").delete().eq("id", sessionId);
-  revalidatePath("/chat");
+    const { error } = await supabase.from("chatSessions").delete().eq("id", sessionId);
+    if (error) return { success: false, error: error.message };
+
+    revalidatePath("/chat");
+    return { success: true };
+  } catch (e) {
+    return { success: false, error: e instanceof Error ? e.message : "Failed to delete" };
+  }
 }
 
 /** Pin / unpin a chat session. */
-export async function pinChatSession(sessionId: string, pinned: boolean) {
-  const user = await getSupabaseUser();
-  if (!user) throw new Error("Unauthorized");
+export async function pinChatSession(sessionId: string, pinned: boolean): Promise<{ success: boolean; error?: string }> {
+  try {
+    const user = await getSupabaseUser();
+    if (!user) return { success: false, error: "Unauthorized" };
 
-  const supabase = await createClient();
-  await assertSessionOwnership(supabase, sessionId, user.id);
+    const supabase = await createClient();
+    await assertSessionOwnership(supabase, sessionId, user.id);
 
-  await supabase
-    .from("chatSessions")
-    .update({ pinned })
-    .eq("id", sessionId);
+    const { error } = await supabase
+      .from("chatSessions")
+      .update({ pinned })
+      .eq("id", sessionId);
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (e) {
+    return { success: false, error: e instanceof Error ? e.message : "Failed to update" };
+  }
 }
 
 /** Archive / unarchive a chat session. */
-export async function archiveChatSession(sessionId: string, archived: boolean) {
-  const user = await getSupabaseUser();
-  if (!user) throw new Error("Unauthorized");
+export async function archiveChatSession(sessionId: string, archived: boolean): Promise<{ success: boolean; error?: string }> {
+  try {
+    const user = await getSupabaseUser();
+    if (!user) return { success: false, error: "Unauthorized" };
 
-  const supabase = await createClient();
-  await assertSessionOwnership(supabase, sessionId, user.id);
+    const supabase = await createClient();
+    await assertSessionOwnership(supabase, sessionId, user.id);
 
-  await supabase
-    .from("chatSessions")
-    .update({ archived })
-    .eq("id", sessionId);
+    const { error } = await supabase
+      .from("chatSessions")
+      .update({ archived })
+      .eq("id", sessionId);
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (e) {
+    return { success: false, error: e instanceof Error ? e.message : "Failed to update" };
+  }
 }
 
 /** Load chat session only if it belongs to the current user; otherwise throw. */
@@ -190,32 +222,37 @@ async function assertSessionOwnership(
   }
 }
 
-export async function getChatHistory(sessionId: string) {
-  const userId = await getClerkUserId();
-  if (!userId) {
-    throw new Error("Unauthorized");
+export async function getChatHistory(sessionId: string): Promise<{ id: string; role: string; content: string }[]> {
+  try {
+    const userId = await getClerkUserId();
+    if (!userId) return [];
+
+    const supabase = await createClient();
+    const user = await getSupabaseUser();
+    if (!user) return [];
+
+    await assertSessionOwnership(supabase, sessionId, user.id);
+
+    const { data: messages, error } = await supabase
+      .from("messages")
+      .select("id, role, content, createdAt")
+      .eq("sessionId", sessionId)
+      .order("createdAt", { ascending: true });
+
+    if (error) {
+      console.error("getChatHistory error:", error);
+      return [];
+    }
+
+    return (messages || []).map((m) => ({
+      id: m.id as string,
+      role: m.role as string,
+      content: (m.content as string) || "",
+    }));
+  } catch (e) {
+    console.error("getChatHistory unexpected error:", e);
+    return [];
   }
-
-  const supabase = await createClient();
-  const user = await getSupabaseUser();
-
-  if (!user) {
-    throw new Error("User not found");
-  }
-
-  await assertSessionOwnership(supabase, sessionId, user.id);
-
-  const { data: messages, error } = await supabase
-    .from("messages")
-    .select("*")
-    .eq("sessionId", sessionId)
-    .order("createdAt", { ascending: true });
-
-  if (error) {
-    throw new Error(`Failed to load messages: ${error.message}`);
-  }
-
-  return messages || [];
 }
 
 export async function sendMessage(

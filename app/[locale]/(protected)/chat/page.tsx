@@ -204,9 +204,9 @@ export default function ChatPage() {
   );
 
   return (
-    <div className="flex h-full w-full">
-      {/* History sidebar + credits */}
-      <div className="flex flex-col shrink-0">
+    <div className="flex h-full w-full overflow-hidden">
+      {/* History sidebar + credits — full height column */}
+      <div className="flex flex-col h-full shrink-0">
         <ChatHistory
           currentSessionId={sessionId}
           onSelectSession={handleSelectSession}
@@ -215,7 +215,7 @@ export default function ChatPage() {
           onToggle={() => setChatSidebarOpen((prev) => !prev)}
         />
         {chatSidebarOpen && (
-          <div className="border-t border-border bg-card px-3 py-3 shrink-0">
+          <div className="border-t border-border bg-card px-3 py-3 shrink-0 w-[260px]">
             <MirrorCreditsWidget
               refreshTrigger={messages.filter((m) => m.role === "user").length}
             />
