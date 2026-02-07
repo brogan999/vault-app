@@ -1,7 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/server";
 import { generateEmbeddings } from "./embeddings";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
-import { PDFParse } from "pdf-parse";
 import { parseBig5FromText } from "./parse-big5";
 import { upsertPsychProfileForUserId } from "@/app/actions/profile";
 import OpenAI from "openai";
@@ -37,6 +36,9 @@ export async function processDocument(
         throw new Error("Failed to download PDF");
       }
 
+      // Dynamic import to avoid loading pdf-parse at module evaluation time
+      // (pdf-parse v2 uses pdfjs-dist which requires DOMMatrix, a browser-only API)
+      const { PDFParse } = await import("pdf-parse");
       const buffer = new Uint8Array(await fileData.arrayBuffer());
       const parser = new PDFParse({ data: buffer });
       try {
