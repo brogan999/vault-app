@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/server";
 import { getClerkUserId, getSupabaseUser } from "@/lib/clerk/utils";
 import { retrieveContext } from "@/lib/ai/rag";
 import { getSystemPrompt, buildUserPrompt } from "@/lib/ai/prompts";
@@ -30,7 +30,7 @@ export async function createChatSession(title?: string): Promise<{ id: string; t
     throw new Error("User not found");
   }
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: session, error } = await supabase
     .from("chatSessions")
     .insert({
@@ -55,7 +55,7 @@ export async function getDocumentsForReference(): Promise<
   const user = await getSupabaseUser();
   if (!user) return [];
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("documents")
     .select("id, fileName")
@@ -73,7 +73,7 @@ export async function getChatSessions(): Promise<
     const user = await getSupabaseUser();
     if (!user) return [];
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data: sessions, error: sessionsError } = await supabase
       .from("chatSessions")
       .select("id, title, createdAt, pinned, archived")
@@ -129,7 +129,7 @@ export async function updateChatSessionTitle(sessionId: string, title: string) {
     const user = await getSupabaseUser();
     if (!user) return;
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     await assertSessionOwnership(supabase, sessionId, user.id);
 
     await supabase
@@ -152,7 +152,7 @@ export async function deleteChatSession(sessionId: string): Promise<{ success: b
     const user = await getSupabaseUser();
     if (!user) return { success: false, error: "Unauthorized" };
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     await assertSessionOwnership(supabase, sessionId, user.id);
 
     const { error } = await supabase.from("chatSessions").delete().eq("id", sessionId);
@@ -171,7 +171,7 @@ export async function pinChatSession(sessionId: string, pinned: boolean): Promis
     const user = await getSupabaseUser();
     if (!user) return { success: false, error: "Unauthorized" };
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     await assertSessionOwnership(supabase, sessionId, user.id);
 
     const { error } = await supabase
@@ -191,7 +191,7 @@ export async function archiveChatSession(sessionId: string, archived: boolean): 
     const user = await getSupabaseUser();
     if (!user) return { success: false, error: "Unauthorized" };
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     await assertSessionOwnership(supabase, sessionId, user.id);
 
     const { error } = await supabase
@@ -207,7 +207,7 @@ export async function archiveChatSession(sessionId: string, archived: boolean): 
 
 /** Load chat session only if it belongs to the current user; otherwise throw. */
 async function assertSessionOwnership(
-  supabase: Awaited<ReturnType<typeof createClient>>,
+  supabase: ReturnType<typeof createAdminClient>,
   sessionId: string,
   currentUserId: string
 ) {
@@ -227,7 +227,7 @@ export async function getChatHistory(sessionId: string): Promise<{ id: string; r
     const userId = await getClerkUserId();
     if (!userId) return [];
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const user = await getSupabaseUser();
     if (!user) return [];
 
@@ -269,7 +269,7 @@ export async function sendMessage(
     throw new Error("Unauthorized");
   }
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const user = await getSupabaseUser();
 
   if (!user) {

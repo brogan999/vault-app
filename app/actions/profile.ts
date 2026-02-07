@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient, createAdminClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/server";
 import { getSupabaseUser } from "@/lib/clerk/utils";
 import { revalidatePath } from "next/cache";
 
@@ -22,7 +22,7 @@ export type AstrologyMeta = {
 export async function getPsychProfile() {
   const user = await getSupabaseUser();
   if (!user) return null;
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("psychProfile")
     .select("*")
@@ -41,7 +41,7 @@ export async function upsertPsychProfile(data: {
     throw new Error("User not found");
   }
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data: existing } = await supabase
     .from("psychProfile")

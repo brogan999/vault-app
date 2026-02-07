@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/server";
 import { getClerkUserId, getSupabaseUser } from "@/lib/clerk/utils";
 import { processDocument } from "@/lib/ai/processing";
 import OpenAI from "openai";
@@ -19,7 +19,7 @@ export async function submitTextJournal(text: string, mood?: string): Promise<Jo
   const user = await getSupabaseUser();
   if (!user) return { success: false, error: "Unauthorized" };
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const metadata: Record<string, unknown> = {};
   if (mood) metadata.mood = mood;
@@ -67,7 +67,7 @@ export async function submitVoiceJournal(
   const userId = await getClerkUserId();
   if (!userId) return { success: false, error: "Unauthorized" };
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const user = await getSupabaseUser();
   if (!user) return { success: false, error: "User not found" };
 

@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/server";
 import { getSupabaseUser } from "@/lib/clerk/utils";
 
 /** Record the user's consent timestamp. */
@@ -8,7 +8,7 @@ export async function saveConsent() {
   const user = await getSupabaseUser();
   if (!user) throw new Error("Unauthorized");
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { error } = await supabase
     .from("users")
     .update({ consentedAt: new Date().toISOString() })

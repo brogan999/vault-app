@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/server";
 import { getSupabaseUser } from "@/lib/clerk/utils";
 import OpenAI from "openai";
 
@@ -16,7 +16,7 @@ export async function generateDailyBrief(): Promise<string | null> {
   const user = await getSupabaseUser();
   if (!user) return null;
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   // Check for cached brief from today
   const today = new Date().toISOString().slice(0, 10);
