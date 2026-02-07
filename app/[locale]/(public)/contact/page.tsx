@@ -1,7 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { Mail, Bug, Handshake, Newspaper, FlaskConical } from "lucide-react";
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
