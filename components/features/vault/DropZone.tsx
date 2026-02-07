@@ -36,16 +36,27 @@ export function DropZone() {
       try {
         const formData = new FormData();
         formData.append("file", file);
-        await uploadDocument(formData);
+        const result = await uploadDocument(formData);
 
-        setFiles((prev) =>
-          prev.map((f) =>
-            f.name === file.name && f.status === "uploading"
-              ? { ...f, status: "completed" }
-              : f
-          )
-        );
-        toast.success(t("uploadSuccess", { name: file.name }));
+        if (result.success) {
+          setFiles((prev) =>
+            prev.map((f) =>
+              f.name === file.name && f.status === "uploading"
+                ? { ...f, status: "completed" }
+                : f
+            )
+          );
+          toast.success(t("uploadSuccess", { name: file.name }));
+        } else {
+          setFiles((prev) =>
+            prev.map((f) =>
+              f.name === file.name && f.status === "uploading"
+                ? { ...f, status: "error" }
+                : f
+            )
+          );
+          toast.error(result.error || t("uploadFailed", { name: file.name }));
+        }
       } catch (error) {
         console.error("Upload error:", error);
         setFiles((prev) =>

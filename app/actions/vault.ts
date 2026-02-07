@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient, createAdminClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/server";
 import { getSupabaseUser } from "@/lib/clerk/utils";
 import { revalidatePath } from "next/cache";
 import { AVAILABLE_TEST_COUNT, getProductById } from "@/lib/products";
@@ -23,8 +23,8 @@ export async function getDocumentsForVault(): Promise<VaultDocument[]> {
     const user = await getSupabaseUser();
     if (!user) return [];
 
-    const supabase = await createClient();
-    const { data, error } = await supabase
+    const admin = createAdminClient();
+    const { data, error } = await admin
     .from("documents")
     .select("id, fileName, type, category, status, fileUrl, createdAt")
     .eq("userId", user.id)
@@ -64,8 +64,8 @@ export async function getDocumentDetail(documentId: string): Promise<VaultDocume
   const user = await getSupabaseUser();
   if (!user) return null;
 
-  const supabase = await createClient();
-  const { data, error } = await supabase
+  const admin = createAdminClient();
+  const { data, error } = await admin
     .from("documents")
     .select("id, fileName, type, category, status, contentText, fileUrl, createdAt")
     .eq("id", documentId)
@@ -92,10 +92,10 @@ export async function deleteDocumentFromVault(documentId: string): Promise<{ ok:
     return { ok: false, error: "Unauthorized" };
   }
 
-  const supabase = await createClient();
+  const admin = createAdminClient();
 
   // Ensure the document belongs to the current user before deleting
-  const { data: doc, error: fetchError } = await supabase
+  const { data: doc, error: fetchError } = await admin
     .from("documents")
     .select("id, userId")
     .eq("id", documentId)
@@ -105,7 +105,7 @@ export async function deleteDocumentFromVault(documentId: string): Promise<{ ok:
     return { ok: false, error: "Document not found or unauthorized" };
   }
 
-  const { error: deleteError } = await supabase
+  const { error: deleteError } = await admin
     .from("documents")
     .delete()
     .eq("id", documentId)
@@ -145,8 +145,41 @@ export interface VaultStatsData {
 }
 
 export async function getVaultStats(): Promise<VaultStatsData> {
-  const user = await getSupabaseUser();
-  if (!user) {
+  try {
+    const user = await getSupabaseUser();
+    if (!user) {
+      return {
+        testsCompleted: 0,
+        testsAvailable: AVAILABLE_TEST_COUNT,
+        savedProfilesCount: 0,
+        lastTakenLabel: null,
+      };
+    }
+
+    const admin = createAdminClient();
+    const { data: results, error } = await admin
+      .from("testResults")
+      .select("completedAt")
+      .eq("userId", user.id)
+      .order("completedAt", { ascending: false })
+      .limit(1);
+
+    const countResult = await admin
+      .from("testResults")
+      .select("id", { count: "exact", head: true })
+      .eq("userId", user.id);
+
+    const testsCompleted = countResult.count ?? 0;
+    const latest = !error && results?.[0] ? results[0].completedAt : null;
+
+    return {
+      testsCompleted,
+      testsAvailable: AVAILABLE_TEST_COUNT,
+      savedProfilesCount: 0,
+      lastTakenLabel: latest ? formatRelative(String(latest)) : null,
+    };
+  } catch (e) {
+    console.error("getVaultStats error:", e);
     return {
       testsCompleted: 0,
       testsAvailable: AVAILABLE_TEST_COUNT,
@@ -154,29 +187,6 @@ export async function getVaultStats(): Promise<VaultStatsData> {
       lastTakenLabel: null,
     };
   }
-
-  const admin = createAdminClient();
-  const { data: results, error } = await admin
-    .from("testResults")
-    .select("completedAt")
-    .eq("userId", user.id)
-    .order("completedAt", { ascending: false })
-    .limit(1);
-
-  const countResult = await admin
-    .from("testResults")
-    .select("id", { count: "exact", head: true })
-    .eq("userId", user.id);
-
-  const testsCompleted = countResult.count ?? 0;
-  const latest = !error && results?.[0] ? results[0].completedAt : null;
-
-  return {
-    testsCompleted,
-    testsAvailable: AVAILABLE_TEST_COUNT,
-    savedProfilesCount: 0,
-    lastTakenLabel: latest ? formatRelative(latest) : null,
-  };
 }
 
 export interface VaultActivityItem {
@@ -187,14 +197,19 @@ export interface VaultActivityItem {
 }
 
 export async function getVaultRecentActivity(): Promise<VaultActivityItem[]> {
-  const rows = await getUserTestResults();
-  return rows.slice(0, 10).map((row) => {
-    const product = getProductById(row.testId);
-    return {
-      action: "Completed",
-      item: product?.title ?? row.testId,
-      completedAt: row.completedAt,
-      dotColor: product?.color ?? "#059669",
-    };
-  });
+  try {
+    const rows = await getUserTestResults();
+    return rows.slice(0, 10).map((row) => {
+      const product = getProductById(row.testId);
+      return {
+        action: "Completed",
+        item: product?.title ?? row.testId,
+        completedAt: row.completedAt ?? "",
+        dotColor: product?.color ?? "#059669",
+      };
+    });
+  } catch (e) {
+    console.error("getVaultRecentActivity error:", e);
+    return [];
+  }
 }

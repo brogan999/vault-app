@@ -1,7 +1,7 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
-import { getClerkUserId } from "@/lib/clerk/utils";
+import { createAdminClient } from "@/lib/supabase/server";
+import { getSupabaseUser } from "@/lib/clerk/utils";
 import { processDocument } from "@/lib/ai/processing";
 import { revalidatePath } from "next/cache";
 
@@ -11,92 +11,86 @@ const ALLOWED_EXTENSIONS = new Set([
   "jpg", "jpeg", "png", "gif", "webp",
 ]);
 
-export async function uploadDocument(formData: FormData) {
-  const userId = await getClerkUserId();
-  if (!userId) {
-    throw new Error("Unauthorized");
-  }
+export async function uploadDocument(formData: FormData): Promise<{ success: true; documentId: string } | { success: false; error: string }> {
+  try {
+    const user = await getSupabaseUser();
+    if (!user) {
+      return { success: false, error: "Unauthorized" };
+    }
 
-  const supabase = await createClient();
-  
-  // Get user from database
-  const { data: user, error: userError } = await supabase
-    .from("users")
-    .select("id")
-    .eq("clerkId", userId)
-    .single();
+    const file = formData.get("file") as File;
+    if (!file) {
+      return { success: false, error: "No file provided" };
+    }
 
-  if (userError || !user) {
-    throw new Error("User not found");
-  }
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      return { success: false, error: `File too large. Maximum size is ${MAX_FILE_SIZE_BYTES / 1024 / 1024}MB.` };
+    }
 
-  const file = formData.get("file") as File;
-  if (!file) {
-    throw new Error("No file provided");
-  }
+    const fileName = file.name;
+    const fileExtension = fileName.split(".").pop()?.toLowerCase() ?? "";
+    if (!ALLOWED_EXTENSIONS.has(fileExtension)) {
+      return { success: false, error: `File type not allowed. Allowed: ${[...ALLOWED_EXTENSIONS].join(", ")}` };
+    }
 
-  if (file.size > MAX_FILE_SIZE_BYTES) {
-    throw new Error(`File too large. Maximum size is ${MAX_FILE_SIZE_BYTES / 1024 / 1024}MB.`);
-  }
+    // Determine file type and category
+    let type: "pdf" | "audio" | "text" | "image" = "text";
+    if (fileExtension === "pdf") type = "pdf";
+    else if (["mp3", "wav", "m4a", "ogg"].includes(fileExtension)) type = "audio";
+    else if (["jpg", "jpeg", "png", "gif", "webp"].includes(fileExtension)) type = "image";
 
-  const fileName = file.name;
-  const fileExtension = fileName.split(".").pop()?.toLowerCase() ?? "";
-  if (!ALLOWED_EXTENSIONS.has(fileExtension)) {
-    throw new Error(
-      `File type not allowed. Allowed: ${[...ALLOWED_EXTENSIONS].join(", ")}`
-    );
-  }
+    const category = "psyche";
 
-  // Determine file type and category
-  let type: "pdf" | "audio" | "text" | "image" = "text";
-  if (fileExtension === "pdf") type = "pdf";
-  else if (["mp3", "wav", "m4a", "ogg"].includes(fileExtension)) type = "audio";
-  else if (["jpg", "jpeg", "png", "gif", "webp"].includes(fileExtension)) type = "image";
+    // Use admin client to bypass RLS for storage and document operations
+    const admin = createAdminClient();
 
-  // Default category - can be enhanced with AI detection
-  const category = "psyche"; // Default, can be overridden
+    // Upload to Supabase Storage
+    const filePath = `${user.id}/${Date.now()}-${fileName}`;
+    const { error: uploadError } = await admin.storage
+      .from("documents")
+      .upload(filePath, file, {
+        contentType: file.type,
+        upsert: false,
+      });
 
-  // Upload to Supabase Storage
-  const filePath = `${user.id}/${Date.now()}-${fileName}`;
-  const { error: uploadError } = await supabase.storage
-    .from("documents")
-    .upload(filePath, file, {
-      contentType: file.type,
-      upsert: false,
+    if (uploadError) {
+      console.error("Upload storage error:", uploadError);
+      return { success: false, error: `Upload failed: ${uploadError.message}` };
+    }
+
+    // Get public URL
+    const { data: urlData } = admin.storage
+      .from("documents")
+      .getPublicUrl(filePath);
+
+    // Create document record
+    const { data: document, error: docError } = await admin
+      .from("documents")
+      .insert({
+        userId: user.id,
+        fileUrl: urlData.publicUrl,
+        fileName: fileName,
+        type: type,
+        category: category,
+        status: "pending",
+      })
+      .select("id")
+      .single();
+
+    if (docError || !document) {
+      console.error("Document insert error:", docError);
+      return { success: false, error: `Failed to create document record: ${docError?.message}` };
+    }
+
+    // Process document asynchronously
+    processDocument(document.id, filePath, type, user.id).catch((error) => {
+      console.error("Error processing document:", error);
     });
 
-  if (uploadError) {
-    throw new Error(`Upload failed: ${uploadError.message}`);
+    revalidatePath("/vault");
+    return { success: true, documentId: document.id };
+  } catch (e) {
+    console.error("uploadDocument unexpected error:", e);
+    return { success: false, error: e instanceof Error ? e.message : "Upload failed" };
   }
-
-  // Get public URL
-  const { data: urlData } = supabase.storage
-    .from("documents")
-    .getPublicUrl(filePath);
-
-  // Create document record
-  const { data: document, error: docError } = await supabase
-    .from("documents")
-    .insert({
-      userId: user.id,
-      fileUrl: urlData.publicUrl,
-      fileName: fileName,
-      type: type,
-      category: category,
-      status: "pending",
-    })
-    .select()
-    .single();
-
-  if (docError || !document) {
-    throw new Error(`Failed to create document record: ${docError?.message}`);
-  }
-
-  // Process document asynchronously with admin client (no request context). In production, use a queue.
-  processDocument(document.id, filePath, type, user.id).catch((error) => {
-    console.error("Error processing document:", error);
-  });
-
-  revalidatePath("/vault");
-  return { success: true, documentId: document.id };
 }

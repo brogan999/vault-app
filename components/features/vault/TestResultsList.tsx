@@ -33,32 +33,38 @@ export function TestResultsList() {
           const displayColors = product
             ? getProductDisplayColors(product)
             : { color: "var(--category-personality)", bgColor: "var(--category-personality-bg)", cardBg: "var(--category-personality-card)" };
+          const scores = row.scores ?? ({} as Record<string, unknown>);
           return {
             id: row.id,
             testId: row.testId,
             title: product?.title ?? row.testId,
             shortTitle: product ? (CARD_SHORT_TITLES[row.testId] ?? product.title) : row.testId,
-            subtitle: row.scores.typeLabel ?? "Assessment",
-            date: new Date(row.completedAt).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            }),
+            subtitle: scores.typeLabel ?? "Assessment",
+            date: row.completedAt
+              ? new Date(row.completedAt).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })
+              : "",
             icon: product?.icon,
             color: displayColors.color,
             bgColor: displayColors.bgColor,
             cardBg: displayColors.cardBg,
-            resultLabel: row.scores.typeLabel ?? "",
-            resultValue: row.scores.overall !== undefined
-              ? `${row.scores.overall}%`
-              : row.scores.typeCode ?? "",
+            resultLabel: scores.typeLabel ?? "",
+            resultValue: scores.overall !== undefined
+              ? `${scores.overall}%`
+              : scores.typeCode ?? "",
             tags: product ? [product.category] : [],
             isPremium: row.isPremium,
           };
         });
         setResults(mapped);
       })
-      .catch(() => setResults([]))
+      .catch((e) => {
+        console.error("TestResultsList fetch error:", e);
+        setResults([]);
+      })
       .finally(() => setLoading(false));
   }, []);
 
