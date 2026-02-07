@@ -239,6 +239,7 @@
     "description": "Sube y administra tus datos psicológicos",
     "testResults": "Resultados de tests",
     "collectionsTab": "Colecciones",
+    "reportsTab": "Mis Informes",
     "profiles": "Perfiles",
     "discoverMore": "Descubrir más",
     "assessmentProgress": "Has completado {count} de {total} evaluaciones disponibles. Haz otro test para desbloquear un autoconocimiento más profundo.",

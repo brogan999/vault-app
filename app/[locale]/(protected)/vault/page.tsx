@@ -10,7 +10,9 @@ import { DocumentDetail } from "@/components/features/vault/DocumentDetail";
 import { VaultStats } from "@/components/features/vault/VaultStats";
 import { TestResultsList } from "@/components/features/vault/TestResultsList";
 import { Collections } from "@/components/features/vault/Collections";
+import { ReportsGrid } from "@/components/features/vault/ReportsGrid";
 import { RecentActivity } from "@/components/features/vault/RecentActivity";
+import { ExportDataButton } from "@/components/features/vault/ExportDataButton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getDocumentDetail, getVaultStats, getVaultRecentActivity } from "@/app/actions/vault";
 import type { VaultStatsData } from "@/app/actions/vault";
@@ -108,13 +110,16 @@ function VaultContent() {
   return (
     <>
       {/* Header */}
-      <header className="mb-8">
-        <h1 className="text-2xl font-bold text-foreground font-serif lg:text-3xl text-balance">
-          {t("title")}
-        </h1>
-        <p className="text-muted-foreground mt-1 leading-relaxed">
-          {t("description")}
-        </p>
+      <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground font-serif lg:text-3xl text-balance">
+            {t("title")}
+          </h1>
+          <p className="text-muted-foreground mt-1 leading-relaxed">
+            {t("description")}
+          </p>
+        </div>
+        <ExportDataButton />
       </header>
 
       {/* File Upload Zone */}
@@ -150,6 +155,12 @@ function VaultContent() {
           >
             {t("collectionsTab")}
           </TabsTrigger>
+          <TabsTrigger
+            value="reports"
+            className="rounded-lg px-4 py-2 text-sm font-semibold data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+          >
+            {t("reportsTab")}
+          </TabsTrigger>
         </TabsList>
 
         {/* Test Results tab */}
@@ -160,6 +171,11 @@ function VaultContent() {
         {/* Collections tab */}
         <TabsContent value="collections" className="mt-4">
           <Collections />
+        </TabsContent>
+
+        {/* My Reports tab */}
+        <TabsContent value="reports" className="mt-4">
+          <ReportsGrid />
         </TabsContent>
       </Tabs>
 

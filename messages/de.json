@@ -239,6 +239,7 @@
     "description": "Lade deine psychologischen Daten hoch und verwalte sie",
     "testResults": "Testergebnisse",
     "collectionsTab": "Sammlungen",
+    "reportsTab": "Meine Berichte",
     "profiles": "Profile",
     "discoverMore": "Mehr entdecken",
     "assessmentProgress": "Du hast {count} von {total} verfügbaren Assessments abgeschlossen. Mache einen weiteren Test für tiefere Selbsterkenntnis.",

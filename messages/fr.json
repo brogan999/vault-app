@@ -239,6 +239,7 @@
     "description": "Importez et gérez vos données psychologiques",
     "testResults": "Résultats de tests",
     "collectionsTab": "Collections",
+    "reportsTab": "Mes Rapports",
     "profiles": "Profils",
     "discoverMore": "En découvrir plus",
     "assessmentProgress": "Vous avez terminé {count} des {total} évaluations disponibles. Passez un autre test pour approfondir votre connaissance de soi.",

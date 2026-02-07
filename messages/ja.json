@@ -239,6 +239,7 @@
     "description": "心理データをアップロードして管理する",
     "testResults": "テスト結果",
     "collectionsTab": "コレクション",
+    "reportsTab": "レポート",
     "profiles": "プロフィール",
     "discoverMore": "もっと探す",
     "assessmentProgress": "利用可能な{total}件の診断のうち{count}件を完了しました。別のテストを受けて、より深い自己理解を手に入れましょう。",
