@@ -191,7 +191,7 @@ export async function processDocument(
     // If document looks like personality/cognitive data, try to extract Big 5 and upsert PsychProfile
     const category = (document as { category?: string }).category;
     if (
-      (category === "psyche" || category === "cognitive") &&
+      (category === "personality" || category === "intelligence" || category === "psyche" || category === "cognitive") &&
       text.trim().length > 0
     ) {
       const big5 = parseBig5FromText(text);

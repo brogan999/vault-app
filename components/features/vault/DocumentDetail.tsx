@@ -40,9 +40,12 @@ export function DocumentDetail({ documentId, onClose }: DocumentDetailProps) {
 
   const categoryLabel = (category: string): string => {
     if (category === "journal") return t("voiceJournal");
-    if (category === "psyche") return t("personalityPsychData");
-    if (category === "cognitive") return t("cognitiveAssessment");
-    if (category === "esoteric") return t("esotericAstrology");
+    if (category === "personality" || category === "psyche") return t("personality");
+    if (category === "intelligence" || category === "cognitive") return t("intelligence");
+    if (category === "strengths") return t("strengths");
+    if (category === "wellness") return t("wellness");
+    if (category === "astrology" || category === "esoteric") return t("astrology");
+    if (category === "career") return t("career");
     return t("document");
   };
 

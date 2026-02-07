@@ -64,7 +64,7 @@ export function FileTree({ onDocumentOpen }: FileTreeProps) {
   >("all");
   const [expandedFolders, setExpandedFolders] = useState<
     Set<DocumentCategory>
-  >(new Set(["psyche", "cognitive", "esoteric", "journal"]));
+  >(new Set(["personality", "intelligence", "strengths", "wellness", "astrology", "career", "journal"]));
 
   useEffect(() => {
     loadDocuments();
@@ -98,19 +98,19 @@ export function FileTree({ onDocumentOpen }: FileTreeProps) {
   };
 
   const categories: { key: DocumentCategory; label: string }[] = [
-    { key: "psyche", label: t("psyche") },
-    { key: "cognitive", label: t("cognitive") },
-    { key: "esoteric", label: t("esoteric") },
+    { key: "personality", label: t("personality") },
+    { key: "intelligence", label: t("intelligence") },
+    { key: "strengths", label: t("strengths") },
+    { key: "wellness", label: t("wellness") },
+    { key: "astrology", label: t("astrology") },
+    { key: "career", label: t("career") },
     { key: "journal", label: t("journal") },
   ];
 
   const filterOptions = ["all", ...categories.map((c) => c.key)];
   const filterLabels: Record<string, string> = {
     all: t("all"),
-    psyche: t("psyche"),
-    cognitive: t("cognitive"),
-    esoteric: t("esoteric"),
-    journal: t("journal"),
+    ...Object.fromEntries(categories.map((c) => [c.key, c.label])),
   };
 
   const filteredDocuments =

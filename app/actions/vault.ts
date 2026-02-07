@@ -3,10 +3,11 @@
 import { createAdminClient } from "@/lib/supabase/server";
 import { getSupabaseUser } from "@/lib/clerk/utils";
 import { revalidatePath } from "next/cache";
-import { AVAILABLE_TEST_COUNT, getProductById } from "@/lib/products";
+import { AVAILABLE_TEST_COUNT, getProductById, getProductDisplayColors } from "@/lib/products";
 import { getUserTestResults } from "@/app/actions/tests";
+import { TEST_ID_TO_FRAMEWORK, type ReportFramework } from "@/lib/reports";
 
-export type DocumentCategory = "cognitive" | "esoteric" | "journal" | "psyche";
+export type DocumentCategory = "personality" | "intelligence" | "strengths" | "wellness" | "astrology" | "career" | "journal";
 
 export interface VaultDocument {
   id: string;
@@ -190,6 +191,159 @@ export async function getVaultStats(): Promise<VaultStatsData> {
     };
   }
 }
+
+/* ------------------------------------------------------------------ */
+/*  Premium Reports                                                    */
+/* ------------------------------------------------------------------ */
+
+/** Reverse lookup: framework → testId (first match). */
+const FRAMEWORK_TO_TEST_ID: Record<string, string> = Object.fromEntries(
+  Object.entries(TEST_ID_TO_FRAMEWORK).map(([tid, fw]) => [fw, tid]),
+);
+
+export interface PremiumReportItem {
+  id: string;
+  framework: ReportFramework;
+  displayName: string;
+  unlockedAt: string;
+  unlockedVia: string;
+  /** The test attempt ID we can use to generate the PDF. */
+  attemptId: string | null;
+  /** Test ID (product ID) for linking to results page. */
+  testId: string | null;
+  /** Icon color from product catalog. */
+  color: string;
+  bgColor: string;
+  cardBg: string;
+  /** Type label or overall score from test result, if available. */
+  resultLabel: string | null;
+}
+
+/** Display labels for report frameworks. */
+const FRAMEWORK_DISPLAY_NAMES: Record<string, string> = {
+  big_five: "Big Five Personality",
+  personality_type: "Personality Type",
+  enneagram: "Enneagram",
+  work_style: "Work Style (DISC)",
+  western_astrology: "Western Astrology",
+  vedic_astrology: "Vedic Astrology",
+  human_design: "Human Design",
+  numerology: "Numerology",
+  chinese_zodiac: "Chinese Zodiac",
+  mayan_astrology: "Mayan Astrology",
+  career_compass: "Career Compass",
+  relationship_blueprint: "Relationship Blueprint",
+  annual_portrait: "Annual Portrait",
+};
+
+export async function getUserPremiumReports(): Promise<PremiumReportItem[]> {
+  try {
+    const user = await getSupabaseUser();
+    if (!user) return [];
+
+    const admin = createAdminClient();
+
+    // 1. Get all unlocked reports for this user
+    const { data: reports, error } = await admin
+      .from("user_reports")
+      .select("id, framework, unlocked_via, unlocked_at")
+      .eq("user_id", user.id)
+      .order("unlocked_at", { ascending: false });
+
+    if (error || !reports || reports.length === 0) {
+      // Fallback: check testResults with isPremium flag
+      const { data: premiumResults } = await admin
+        .from("testResults")
+        .select("id, testId, completedAt, scores, isPremium")
+        .eq("userId", user.id)
+        .eq("isPremium", true)
+        .order("completedAt", { ascending: false });
+
+      if (!premiumResults || premiumResults.length === 0) return [];
+
+      return premiumResults.map((r) => {
+        const product = getProductById(r.testId);
+        const displayColors = product
+          ? getProductDisplayColors(product)
+          : { color: "var(--category-personality)", bgColor: "var(--category-personality-bg)", cardBg: "var(--category-personality-card)" };
+        const fw = TEST_ID_TO_FRAMEWORK[r.testId] ?? r.testId;
+        const scores = r.scores as Record<string, unknown> | null;
+        return {
+          id: r.id,
+          framework: fw as ReportFramework,
+          displayName: product?.title ?? FRAMEWORK_DISPLAY_NAMES[fw] ?? fw,
+          unlockedAt: r.completedAt ?? "",
+          unlockedVia: "purchase",
+          attemptId: r.id,
+          testId: r.testId,
+          color: displayColors.color,
+          bgColor: displayColors.bgColor,
+          cardBg: displayColors.cardBg,
+          resultLabel: (scores?.typeLabel as string) ?? (scores?.overall != null ? `${scores.overall}%` : null),
+        };
+      });
+    }
+
+    // 2. For each report, find the latest premium test result (for PDF download link)
+    const items: PremiumReportItem[] = [];
+    for (const report of reports) {
+      const fw = report.framework as ReportFramework;
+      const testId = FRAMEWORK_TO_TEST_ID[fw] ?? null;
+      const product = testId ? getProductById(testId) : null;
+
+      let displayColors = {
+        color: "var(--category-personality)",
+        bgColor: "var(--category-personality-bg)",
+        cardBg: "var(--category-personality-card)",
+      };
+      if (product) {
+        displayColors = getProductDisplayColors(product);
+      }
+
+      // Find the best attempt for this framework
+      let attemptId: string | null = null;
+      let resultLabel: string | null = null;
+      if (testId) {
+        const { data: attempt } = await admin
+          .from("testResults")
+          .select("id, scores")
+          .eq("userId", user.id)
+          .eq("testId", testId)
+          .order("completedAt", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        if (attempt) {
+          attemptId = attempt.id;
+          const scores = attempt.scores as Record<string, unknown> | null;
+          resultLabel = (scores?.typeLabel as string) ?? (scores?.overall != null ? `${scores.overall}%` : null);
+        }
+      }
+
+      items.push({
+        id: report.id,
+        framework: fw,
+        displayName: product?.title ?? FRAMEWORK_DISPLAY_NAMES[fw] ?? fw,
+        unlockedAt: report.unlocked_at ?? "",
+        unlockedVia: report.unlocked_via ?? "purchase",
+        attemptId,
+        testId,
+        color: displayColors.color,
+        bgColor: displayColors.bgColor,
+        cardBg: displayColors.cardBg,
+        resultLabel,
+      });
+    }
+
+    return items;
+  } catch (e) {
+    console.error("getUserPremiumReports error:", e);
+    return [];
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Recent Activity                                                    */
+/* ------------------------------------------------------------------ */
 
 export interface VaultActivityItem {
   action: string;

@@ -11,9 +11,16 @@ import { revalidatePath } from "next/cache";
 
 function categoryLabel(category: string, type: string): string {
   if (category === "journal") return "Voice Journal";
-  if (category === "psyche") return "Personality/Psych Data";
-  if (category === "cognitive") return "Cognitive Assessment";
-  if (category === "esoteric") return "Esoteric/Astrology";
+  if (category === "personality") return "Personality";
+  if (category === "intelligence") return "Intelligence";
+  if (category === "strengths") return "Strengths";
+  if (category === "wellness") return "Wellness";
+  if (category === "astrology") return "Astrology";
+  if (category === "career") return "Career";
+  // Legacy category names (pre-migration)
+  if (category === "psyche") return "Personality";
+  if (category === "cognitive") return "Intelligence";
+  if (category === "esoteric") return "Astrology";
   if (type === "image") return "Image Upload";
   if (type === "pdf") return "PDF Document";
   return "Document";
