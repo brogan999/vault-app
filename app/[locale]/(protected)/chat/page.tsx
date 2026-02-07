@@ -91,11 +91,9 @@ export default function ChatPage() {
     messages: seedMessages,
     onError: (err) => {
       const msg = err?.message ?? "";
-      if (msg === "daily_limit") {
-        toast.error("You've used your 10 messages for today. Resets at midnight UTC.");
-      } else if (msg === "monthly_limit") {
-        toast.error("You've reached your monthly message limit. Top up in Settings or wait until renewal.");
-      } else {
+      // daily_limit and monthly_limit are handled by the inline upgrade prompt
+      // in MessageThread, so we only toast for other errors
+      if (msg !== "daily_limit" && msg !== "monthly_limit") {
         toast.error(msg || "Failed to get a response. Please try again.");
       }
     },

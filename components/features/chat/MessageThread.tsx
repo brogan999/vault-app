@@ -13,6 +13,8 @@ import {
   Sparkles,
   Loader2,
   FileText,
+  Zap,
+  Clock,
 } from "lucide-react";
 import { toast } from "sonner";
 import { submitFeedback, createSharedMessage } from "@/app/actions/feedback";
@@ -183,30 +185,87 @@ export function MessageThread({
         )}
 
         {error && (
-          <div className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm">
-            <p className="text-destructive font-medium">{t("responseError")}</p>
-            <p className="mt-1 text-muted-foreground">{error.message}</p>
-            <div className="mt-3 flex gap-2">
-              {onRetry && (
-                <button
-                  type="button"
-                  onClick={onRetry}
-                  className="rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground hover:bg-primary/90"
-                >
-                  {t("tryAgain")}
-                </button>
-              )}
-              {onClearError && (
-                <button
-                  type="button"
-                  onClick={onClearError}
-                  className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-                >
-                  {t("dismiss")}
-                </button>
-              )}
-            </div>
-          </div>
+          (() => {
+            const msg = error.message ?? "";
+            const isLimit = msg === "daily_limit" || msg === "monthly_limit";
+
+            if (isLimit) {
+              const isDaily = msg === "daily_limit";
+              return (
+                <div className="rounded-2xl border border-border bg-card px-5 py-5 text-sm shadow-sm">
+                  <div className="flex items-start gap-3">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500/10">
+                      {isDaily ? (
+                        <Clock className="h-5 w-5 text-amber-500" />
+                      ) : (
+                        <Zap className="h-5 w-5 text-amber-500" />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-foreground">
+                        {isDaily ? "Daily message limit reached" : "Monthly message limit reached"}
+                      </p>
+                      <p className="mt-1 text-muted-foreground leading-relaxed">
+                        {isDaily
+                          ? "You\u2019ve used all 10 free messages for today. Your limit resets at midnight UTC."
+                          : "You\u2019ve used all your messages for this billing period."}
+                      </p>
+                      <div className="mt-4 flex flex-wrap items-center gap-2">
+                        <Link
+                          href="/settings"
+                          className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+                        >
+                          <Zap className="h-3.5 w-3.5" />
+                          Upgrade to Pro
+                        </Link>
+                        {onClearError && (
+                          <button
+                            type="button"
+                            onClick={onClearError}
+                            className="rounded-xl border border-border px-4 py-2 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                          >
+                            {t("dismiss")}
+                          </button>
+                        )}
+                      </div>
+                      {isDaily && (
+                        <p className="mt-3 text-xs text-muted-foreground/70">
+                          Pro members get 300 messages per month with rollover credits.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <div className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm">
+                <p className="text-destructive font-medium">{t("responseError")}</p>
+                <p className="mt-1 text-muted-foreground">{error.message}</p>
+                <div className="mt-3 flex gap-2">
+                  {onRetry && (
+                    <button
+                      type="button"
+                      onClick={onRetry}
+                      className="rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground hover:bg-primary/90"
+                    >
+                      {t("tryAgain")}
+                    </button>
+                  )}
+                  {onClearError && (
+                    <button
+                      type="button"
+                      onClick={onClearError}
+                      className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                    >
+                      {t("dismiss")}
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })()
         )}
 
         <div ref={messagesEndRef} />
