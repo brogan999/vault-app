@@ -2,9 +2,9 @@ import { Link } from "@/i18n/navigation";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — Deep Personality",
+  title: "Terms of Service — The Vault",
   description:
-    "Read the Terms of Service for Deep Personality, the AI-powered personality assessment platform.",
+    "Read the Terms of Service for The Vault, the AI-powered personality assessment platform.",
 };
 
 export default function TermsPage() {
@@ -14,7 +14,7 @@ export default function TermsPage() {
           Terms of Service
         </h1>
         <p className="text-sm text-muted-foreground mb-10">
-          Last updated: February 5, 2026
+          Last updated: February 7, 2026
         </p>
 
         <div className="prose-legal space-y-8 text-foreground text-sm leading-relaxed">
@@ -24,178 +24,200 @@ export default function TermsPage() {
               1. Acceptance of Terms
             </h2>
             <p className="text-muted-foreground">
-              By accessing and using Deep Personality (&ldquo;the App&rdquo;), you agree to
-              be bound by these Terms of Service. If you do not agree with any
-              part of these terms, please do not use the App.
+              By accessing and using The Vault (&ldquo;the App&rdquo;), operated
+              by The Vault, Inc., a Delaware C Corporation (&ldquo;Company&rdquo;,
+              &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;), you
+              agree to be bound by these Terms of Service (&ldquo;Terms&rdquo;).
+              If you do not agree with any part of these Terms, please do not use
+              the App.
             </p>
           </section>
 
           {/* 2 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              2. Educational and Informational Purpose
+              2. Description of the Service
             </h2>
+            <p className="text-muted-foreground mb-3">
+              The Vault is a consumer personality and self-discovery platform. The
+              App provides personality assessments (such as Big Five, MBTI,
+              Enneagram, DISC), intelligence evaluations (IQ, Emotional
+              Intelligence), strengths assessments, astrology-based reports (natal
+              chart, Vedic, Chinese Zodiac, Mayan), numerology (Life Path), Human
+              Design, career aptitude tools, an AI chat companion (&ldquo;Mirror&rdquo;),
+              voice and text journaling, and a personal data vault to store and
+              review your results.
+            </p>
             <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-2">
               Consumer Information Product
             </p>
-            <p className="text-muted-foreground mb-3">
-              This service provides educational and informational content about
-              personality psychology. It is not a psychological service,
-              psychological assessment, or psychological treatment as defined by
-              any regulatory body.
-            </p>
-            <p className="text-muted-foreground mb-3">
-              Deep Personality is a consumer information product, similar to:
-            </p>
-            <ul className="list-disc pl-6 space-y-1 text-muted-foreground mb-3">
-              <li>Genetic ancestry services (23andMe, Ancestry)</li>
-              <li>Personality type indicators (16Personalities, Enneagram tests)</li>
-              <li>Health tracking applications (fitness trackers, sleep monitors)</li>
-            </ul>
             <p className="text-muted-foreground">
-              Like these services, we provide data and interpretations for
-              personal use. We do not provide clinical diagnosis, treatment
-              recommendations, or professional psychological services.
+              The Vault is a consumer information product for personal
+              entertainment, self-reflection, and education. It is comparable to
+              services like 16Personalities, genetic ancestry platforms, or
+              fitness tracking applications. We provide data and interpretations
+              for personal use only.
             </p>
           </section>
 
           {/* 3 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              3. No Professional Relationship
+              3. Not Professional Advice
             </h2>
-            <p className="text-muted-foreground mb-3">
-              Use of this service does not create a psychologist-patient,
-              therapist-client, or any professional healthcare relationship. Deep
-              Personality Inc. does not employ, contract with, or represent any
-              licensed psychologists, psychiatrists, or mental health
-              professionals in providing this service.
+            <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-2">
+              Important Disclaimer
             </p>
+            <p className="text-muted-foreground mb-3">
+              The App is <strong>not</strong> a medical, psychological,
+              psychiatric, or therapeutic service. Use of the App does not create
+              any professional-client relationship. The Company does not employ or
+              contract with licensed psychologists, psychiatrists, or mental
+              health professionals to provide this service.
+            </p>
+            <p className="text-muted-foreground mb-2 font-semibold">
+              The App is NOT:
+            </p>
+            <ul className="list-disc pl-6 space-y-1 text-muted-foreground mb-3">
+              <li>Medical or psychological advice</li>
+              <li>A clinical diagnostic tool for any condition</li>
+              <li>A substitute for professional mental health care</li>
+              <li>A replacement for consultation with qualified healthcare providers</li>
+            </ul>
             <p className="text-muted-foreground">
-              The interpretations provided are generated by artificial
-              intelligence algorithms and have not been reviewed, approved, or
-              endorsed by any licensed mental health professional or regulatory
-              body.
+              All scores, analyses, and AI-generated interpretations are based on
+              self-reported responses and established frameworks. They are
+              intended for personal reflection only. If you are experiencing
+              mental health concerns, please consult a licensed professional.
             </p>
           </section>
 
           {/* 4 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              4. Nature of the Service
+              4. Eligibility
             </h2>
-            <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-2">
-              Important Disclaimer
-            </p>
-            <p className="text-muted-foreground mb-3">
-              Deep Personality provides personality insights and self-reflection
-              tools based on established psychological frameworks. The
-              assessments include personality traits, Dark Triad indicators, and
-              mental health screening questions (GAD-7, PHQ-9, ACE, PCL-5).
-            </p>
-            <p className="text-muted-foreground mb-2 font-semibold">
-              This App is NOT:
-            </p>
-            <ul className="list-disc pl-6 space-y-1 text-muted-foreground mb-3">
-              <li>Medical or psychological advice</li>
-              <li>A diagnostic tool for mental health conditions</li>
-              <li>A substitute for professional mental health care</li>
-              <li>A replacement for consultation with qualified healthcare providers</li>
-            </ul>
             <p className="text-muted-foreground">
-              All scores and analyses are based on self-reported responses and
-              should be used for personal reflection purposes only. If you are
-              experiencing mental health concerns, please consult a licensed
-              mental health professional.
+              You must be at least 18 years of age to create an account and use
+              the App. By using the App, you represent and warrant that you meet
+              this age requirement and have the legal capacity to enter into these
+              Terms.
             </p>
           </section>
 
           {/* 5 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              5. Dark Triad Assessment
+              5. Account Registration
             </h2>
             <p className="text-muted-foreground mb-3">
-              The Dark Triad assessment measures three personality traits:
-              Narcissism, Machiavellianism, and Psychopathy. These are
-              personality dimensions that exist on a spectrum in the general
-              population.
+              You may need to create an account to access certain features. You
+              are responsible for maintaining the confidentiality of your account
+              credentials and for all activity that occurs under your account. You
+              agree to notify us immediately of any unauthorized use.
             </p>
             <p className="text-muted-foreground">
-              High scores do not indicate a personality disorder or mental
-              illness. These traits are not clinical diagnoses and should not be
-              interpreted as such. The results are intended for self-awareness
-              and personal development only.
+              We may suspend or terminate your account at our discretion if we
+              believe you have violated these Terms or are engaging in fraudulent
+              or harmful activity.
             </p>
           </section>
 
           {/* 6 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              6. Mental Health Screening Tools
+              6. AI-Generated Content
             </h2>
-            <p className="text-muted-foreground mb-3">
-              The App includes validated screening instruments (GAD-7, PHQ-9,
-              ACE, PCL-5) that are commonly used in clinical settings. However,
-              their use in this App is for informational purposes only.
+            <p className="text-muted-foreground mb-2">
+              The App uses artificial intelligence (including large language
+              models) to generate personality analyses, chat responses, journal
+              reflections, and other insights. You acknowledge that:
             </p>
-            <p className="text-muted-foreground mb-3">
-              If your results suggest elevated anxiety, depression, trauma, or
-              other concerns, please seek support from a qualified mental health
-              professional.
-            </p>
-            <p className="text-muted-foreground font-semibold">
-              Crisis Resources: If you are in crisis or having thoughts of
-              self-harm, please contact your local emergency services or a crisis
-              helpline immediately.
+            <ul className="list-disc pl-6 space-y-1 text-muted-foreground mb-3">
+              <li>AI-generated content is produced by language models and has not been reviewed by a licensed professional</li>
+              <li>Outputs may be inaccurate, incomplete, or inconsistent</li>
+              <li>Different users with identical inputs may receive different results</li>
+              <li>AI-generated content is provided &ldquo;as-is&rdquo; without guarantee of accuracy or fitness for any purpose</li>
+            </ul>
+            <p className="text-muted-foreground">
+              You should not rely on AI-generated content for important life
+              decisions, medical choices, or professional guidance.
             </p>
           </section>
 
           {/* 7 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              7. User Responsibility
+              7. Payments, Subscriptions, and Refunds
             </h2>
-            <p className="text-muted-foreground mb-2">
-              You acknowledge and agree that:
+            <p className="text-muted-foreground mb-3">
+              Certain features of the App require payment, including premium
+              reports, assessment bundles, message credit packs, and the Pro
+              subscription plan. All payments are processed securely through
+              Stripe.
             </p>
-            <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
-              <li>You are using this App voluntarily and at your own discretion</li>
-              <li>You are solely responsible for how you interpret and act upon your results</li>
-              <li>You will not use the results to diagnose yourself or others</li>
-              <li>You will seek professional help for any mental health concerns</li>
-              <li>Sharing your profile with others is your choice and responsibility</li>
-            </ul>
+            <p className="text-muted-foreground mb-3">
+              <strong>Subscriptions:</strong> Pro subscriptions renew
+              automatically at the end of each billing period (monthly or annual).
+              You may cancel at any time from your account settings; cancellation
+              takes effect at the end of the current billing period.
+            </p>
+            <p className="text-muted-foreground">
+              <strong>Refunds:</strong> Due to the digital nature of our products,
+              all sales are final once the content has been delivered or accessed.
+              If you experience a technical issue preventing delivery, please
+              contact us at{" "}
+              <a
+                href="mailto:support@thevault.com"
+                className="text-primary underline underline-offset-2 hover:opacity-80"
+              >
+                support@thevault.com
+              </a>
+              .
+            </p>
           </section>
 
           {/* 8 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              8. AI-Generated Content Limitations
+              8. User Conduct
             </h2>
             <p className="text-muted-foreground mb-2">
-              The App uses artificial intelligence to generate personality
-              analyses and relationship insights. Our AI interpretations are:
+              You agree not to:
             </p>
-            <ul className="list-disc pl-6 space-y-1 text-muted-foreground mb-3">
-              <li>Generated by language models trained on general psychological literature</li>
-              <li>Not validated against clinical diagnostic standards</li>
-              <li>Not equivalent to assessment by a licensed professional</li>
-              <li>Provided &ldquo;as-is&rdquo; without guarantee of accuracy or applicability</li>
+            <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
+              <li>Use the App for any unlawful purpose</li>
+              <li>Attempt to gain unauthorized access to the App or its systems</li>
+              <li>Use the results to diagnose yourself or others with any medical or psychological condition</li>
+              <li>Scrape, reverse-engineer, or reproduce any portion of the App</li>
+              <li>Share your account credentials with third parties</li>
+              <li>Misrepresent your identity or impersonate another person</li>
             </ul>
-            <p className="text-muted-foreground">
-              Different users with identical scores may receive different
-              interpretations. The AI does not have access to your life context,
-              history, or circumstances that a professional would consider.
-              AI-generated content should not be relied upon for important
-              decisions.
-            </p>
           </section>
 
           {/* 9 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              9. Assumption of Risk
+              9. Intellectual Property
+            </h2>
+            <p className="text-muted-foreground mb-3">
+              All content, features, and functionality of the App — including
+              text, graphics, logos, assessments, algorithms, and AI models — are
+              owned by The Vault, Inc. or its licensors and are protected by
+              U.S. and international intellectual property laws.
+            </p>
+            <p className="text-muted-foreground">
+              You retain ownership of the data you provide (e.g., assessment
+              responses, journal entries). By using the App, you grant us a
+              limited license to process your data solely for the purpose of
+              providing the service.
+            </p>
+          </section>
+
+          {/* 10 */}
+          <section>
+            <h2 className="text-lg font-bold font-serif text-foreground mb-3">
+              10. Assumption of Risk
             </h2>
             <p className="text-muted-foreground mb-2">
               By using this service, you acknowledge and accept that:
@@ -203,54 +225,58 @@ export default function TermsPage() {
             <ul className="list-disc pl-6 space-y-1 text-muted-foreground mb-3">
               <li>Personality assessment involves inherent uncertainty</li>
               <li>Self-report data has known limitations</li>
-              <li>You may encounter information about yourself that is uncomfortable</li>
+              <li>You may encounter information about yourself that is unexpected or uncomfortable</li>
               <li>Psychological self-reflection can occasionally trigger emotional responses</li>
-              <li>You are solely responsible for how you interpret and use results</li>
+              <li>You are solely responsible for how you interpret and use your results</li>
             </ul>
             <p className="text-muted-foreground">
-              You voluntarily assume all risks associated with using this
-              service.
-            </p>
-          </section>
-
-          {/* 10 */}
-          <section>
-            <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              10. Limitation of Liability
-            </h2>
-            <p className="text-muted-foreground">
-              To the maximum extent permitted by law, Deep Personality Inc. and
-              its operators shall not be liable for any direct, indirect,
-              incidental, consequential, or punitive damages arising from your
-              use of the App, including but not limited to emotional distress,
-              relationship decisions, or actions taken based on assessment
-              results.
+              You voluntarily assume all risks associated with using this service.
             </p>
           </section>
 
           {/* 11 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              11. Indemnification
+              11. Limitation of Liability
             </h2>
-            <p className="text-muted-foreground mb-2">
-              You agree to indemnify, defend, and hold harmless Deep Personality
-              Inc., its officers, directors, employees, and agents from any
-              claims, damages, losses, or expenses (including reasonable legal
-              fees) arising from:
+            <p className="text-muted-foreground mb-3">
+              TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE VAULT, INC.
+              AND ITS OFFICERS, DIRECTORS, EMPLOYEES, AND AGENTS SHALL NOT BE
+              LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR
+              PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS,
+              DATA, USE, OR GOODWILL, ARISING FROM YOUR USE OF OR INABILITY TO
+              USE THE APP.
             </p>
-            <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
-              <li>Your use of the service</li>
-              <li>Your violation of these Terms</li>
-              <li>Your violation of any third party rights</li>
-              <li>Any claim that your use of results caused harm to yourself or others</li>
-            </ul>
+            <p className="text-muted-foreground">
+              IN NO EVENT SHALL OUR TOTAL LIABILITY EXCEED THE AMOUNT YOU PAID TO
+              US IN THE TWELVE (12) MONTHS PRECEDING THE EVENT GIVING RISE TO THE
+              CLAIM, OR ONE HUNDRED DOLLARS ($100), WHICHEVER IS GREATER.
+            </p>
           </section>
 
           {/* 12 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              12. Privacy
+              12. Indemnification
+            </h2>
+            <p className="text-muted-foreground mb-2">
+              You agree to indemnify, defend, and hold harmless The Vault, Inc.,
+              its officers, directors, employees, and agents from any claims,
+              damages, losses, or expenses (including reasonable attorneys&apos;
+              fees) arising from:
+            </p>
+            <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
+              <li>Your use of the App</li>
+              <li>Your violation of these Terms</li>
+              <li>Your violation of any third-party rights</li>
+              <li>Any claim that your use of results caused harm to yourself or others</li>
+            </ul>
+          </section>
+
+          {/* 13 */}
+          <section>
+            <h2 className="text-lg font-bold font-serif text-foreground mb-3">
+              13. Privacy
             </h2>
             <p className="text-muted-foreground">
               Your use of the App is also governed by our{" "}
@@ -262,105 +288,92 @@ export default function TermsPage() {
             </p>
           </section>
 
-          {/* 13 */}
-          <section>
-            <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              13. Modifications
-            </h2>
-            <p className="text-muted-foreground">
-              We reserve the right to modify these Terms of Service at any time.
-              Continued use of the App after changes constitutes acceptance of
-              the modified terms.
-            </p>
-          </section>
-
           {/* 14 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              14. Geographic Availability
+              14. Modifications to Terms
             </h2>
-            <p className="text-muted-foreground mb-3">
-              This service is available to users in Canada and the United States
-              only. By using this service, you represent that you are located in
-              one of these countries.
-            </p>
-            <p className="text-muted-foreground mb-3">
-              <strong>European Union Notice:</strong> This service is not
-              available to residents of the European Union, European Economic
-              Area, or United Kingdom. We use IP-based geo-blocking to enforce
-              this restriction.
-            </p>
             <p className="text-muted-foreground">
-              <strong>VPN and Circumvention:</strong> If you are a resident of a
-              restricted region and attempt to access this service using a VPN,
-              proxy, or other means to circumvent our geo-blocking, you are in
-              violation of these Terms of Service. Any such unauthorized access
-              may result in immediate account termination and deletion of your
-              data without notice or refund.
+              We reserve the right to modify these Terms at any time. We will
+              notify you of material changes by posting a notice in the App or
+              sending an email to the address associated with your account.
+              Continued use of the App after changes are posted constitutes
+              acceptance of the modified Terms.
             </p>
           </section>
 
           {/* 15 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              15. Dispute Resolution
+              15. Termination
             </h2>
-            <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-2">
-              Arbitration Agreement — Please Read Carefully
-            </p>
-            <p className="text-muted-foreground mb-3">
-              Any dispute, controversy, or claim arising out of or relating to
-              this service shall be resolved through binding arbitration in
-              Vancouver, British Columbia, Canada, administered by the British
-              Columbia International Commercial Arbitration Centre (BCICAC) in
-              accordance with its rules, rather than in court. Judgment on the
-              award may be entered in any court having jurisdiction.
-            </p>
-            <p className="text-muted-foreground mb-3">
-              For users in the United States: By using this service, you agree
-              that the Federal Arbitration Act governs the interpretation and
-              enforcement of this arbitration provision, and you waive your right
-              to a jury trial.
-            </p>
-            <p className="text-muted-foreground mb-3">
-              <strong>Class Action Waiver:</strong> You agree to waive any right
-              to participate in class action lawsuits, class-wide arbitration, or
-              any consolidated or representative proceedings against Deep
-              Personality Inc. All claims must be brought in your individual
-              capacity.
-            </p>
-            <p className="text-muted-foreground mb-3">
-              <strong>Exceptions:</strong> This arbitration agreement does not
-              apply to: (a) disputes that qualify for small claims court in your
-              jurisdiction; (b) claims for injunctive relief to prevent
-              unauthorized use of intellectual property; or (c) complaints filed
-              with government agencies (such as the FTC or privacy
-              commissioners) that may seek relief on your behalf.
-            </p>
             <p className="text-muted-foreground">
-              <strong>Costs:</strong> Each party shall bear its own costs and
-              attorney fees. If any portion of this arbitration clause is found
-              unenforceable, the remaining portions shall remain in effect.
+              We may terminate or suspend your access to the App at any time, with
+              or without cause, and with or without notice. Upon termination, your
+              right to use the App ceases immediately. Sections that by their
+              nature should survive termination (including limitation of liability,
+              indemnification, and dispute resolution) shall survive.
             </p>
           </section>
 
           {/* 16 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              16. Governing Law
+              16. Dispute Resolution
             </h2>
+            <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-2">
+              Arbitration Agreement — Please Read Carefully
+            </p>
+            <p className="text-muted-foreground mb-3">
+              Any dispute, controversy, or claim arising out of or relating to
+              these Terms or the App shall be resolved through binding arbitration
+              administered by JAMS in accordance with its Streamlined Arbitration
+              Rules and Procedures. The arbitration shall take place in San
+              Francisco, California.
+            </p>
+            <p className="text-muted-foreground mb-3">
+              By using this service, you agree that the Federal Arbitration Act
+              governs the interpretation and enforcement of this arbitration
+              provision, and you waive your right to a jury trial.
+            </p>
+            <p className="text-muted-foreground mb-3">
+              <strong>Class Action Waiver:</strong> You agree to waive any right
+              to participate in class action lawsuits, class-wide arbitration, or
+              any consolidated or representative proceedings against The Vault,
+              Inc. All claims must be brought in your individual capacity.
+            </p>
+            <p className="text-muted-foreground mb-3">
+              <strong>Exceptions:</strong> This arbitration agreement does not
+              apply to: (a) disputes that qualify for small claims court in your
+              jurisdiction; (b) claims for injunctive relief to prevent
+              unauthorized use of intellectual property; or (c) complaints filed
+              with government agencies that may seek relief on your behalf.
+            </p>
             <p className="text-muted-foreground">
-              These Terms of Service are governed by the laws of British
-              Columbia, Canada, without regard to conflict of law principles. For
-              users in the United States, the Federal Arbitration Act governs
-              arbitration-related matters.
+              <strong>Costs:</strong> Each party shall bear its own costs and
+              attorneys&apos; fees. If any portion of this arbitration clause is
+              found unenforceable, the remaining portions shall remain in effect.
             </p>
           </section>
 
           {/* 17 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              17. Severability
+              17. Governing Law
+            </h2>
+            <p className="text-muted-foreground">
+              These Terms shall be governed by and construed in accordance with
+              the laws of the State of Delaware, without regard to its conflict of
+              law principles. For matters not subject to arbitration, you consent
+              to the exclusive jurisdiction of the state and federal courts
+              located in San Francisco, California.
+            </p>
+          </section>
+
+          {/* 18 */}
+          <section>
+            <h2 className="text-lg font-bold font-serif text-foreground mb-3">
+              18. Severability
             </h2>
             <p className="text-muted-foreground">
               If any provision of these Terms is found to be invalid, illegal, or
@@ -372,21 +385,38 @@ export default function TermsPage() {
             </p>
           </section>
 
-          {/* 18 */}
+          {/* 19 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              18. Contact
+              19. Entire Agreement
             </h2>
             <p className="text-muted-foreground">
+              These Terms, together with our Privacy Policy, constitute the entire
+              agreement between you and The Vault, Inc. regarding your use of the
+              App and supersede all prior agreements, understandings, and
+              representations.
+            </p>
+          </section>
+
+          {/* 20 */}
+          <section>
+            <h2 className="text-lg font-bold font-serif text-foreground mb-3">
+              20. Contact
+            </h2>
+            <p className="text-muted-foreground mb-2">
               If you have questions about these Terms of Service, please contact
-              us at{" "}
+              us at:
+            </p>
+            <p className="text-muted-foreground">
+              <strong>The Vault, Inc.</strong>
+              <br />
+              Email:{" "}
               <a
-                href="mailto:support@deeppersonality.app"
+                href="mailto:support@thevault.com"
                 className="text-primary underline underline-offset-2 hover:opacity-80"
               >
-                support@deeppersonality.app
+                support@thevault.com
               </a>
-              .
             </p>
           </section>
         </div>
