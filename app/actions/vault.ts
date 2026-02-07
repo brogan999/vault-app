@@ -164,12 +164,14 @@ export async function getVaultStats(): Promise<VaultStatsData> {
       .order("completedAt", { ascending: false })
       .limit(1);
 
-    const countResult = await admin
+    // Count unique tests completed (not total attempts)
+    const { data: uniqueTests } = await admin
       .from("testResults")
-      .select("id", { count: "exact", head: true })
+      .select("testId")
       .eq("userId", user.id);
 
-    const testsCompleted = countResult.count ?? 0;
+    const uniqueTestIds = new Set((uniqueTests ?? []).map((r) => r.testId));
+    const testsCompleted = uniqueTestIds.size;
     const latest = !error && results?.[0] ? results[0].completedAt : null;
 
     return {
