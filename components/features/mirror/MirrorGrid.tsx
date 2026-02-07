@@ -22,7 +22,7 @@ interface MirrorGridProps {
   testSnapshots: TestSnapshotItem[];
 }
 
-export function MirrorGrid({ profile, journals, stats, activity, testSnapshots }: MirrorGridProps) {
+export function MirrorGrid({ profile: _profile, journals, stats, activity, testSnapshots }: MirrorGridProps) {
   return (
     <div className="flex flex-col gap-6">
       {/* Quick Stats */}

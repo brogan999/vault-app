@@ -344,9 +344,7 @@ export async function getUserTestResults(
       completedAt:
         typeof row.completedAt === "string"
           ? row.completedAt
-          : row.completedAt instanceof Date
-            ? row.completedAt.toISOString()
-            : String(row.completedAt ?? ""),
+          : String(row.completedAt ?? ""),
     }));
   } catch {
     return [];

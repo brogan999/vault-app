@@ -35,18 +35,15 @@ export async function getDocumentsForVault(): Promise<VaultDocument[]> {
     return [];
   }
 
-  return (data || []).map((d: Record<string, unknown>) => {
-    const createdAt = d.createdAt;
-    return {
-      id: d.id,
-      fileName: d.fileName,
-      type: d.type,
-      category: d.category as DocumentCategory,
-      status: d.status,
-      fileUrl: (d.fileUrl as string) || null,
-      createdAt: typeof createdAt === "string" ? createdAt : createdAt instanceof Date ? createdAt.toISOString() : String(createdAt ?? ""),
-    };
-  });
+  return (data || []).map((d) => ({
+    id: d.id as string,
+    fileName: d.fileName as string,
+    type: d.type as string,
+    category: d.category as DocumentCategory,
+    status: d.status as string,
+    fileUrl: (d.fileUrl as string) || null,
+    createdAt: typeof d.createdAt === "string" ? d.createdAt : String(d.createdAt ?? ""),
+  }));
   } catch {
     return [];
   }

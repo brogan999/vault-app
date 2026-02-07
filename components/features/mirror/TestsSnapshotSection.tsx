@@ -35,7 +35,7 @@ function TestSnapshotCard({
   snapshot: TestSnapshotItem;
   shortTitle: string;
 }) {
-  const { color: accentColor, cardBg } = getProductDisplayColors(product);
+  const { cardBg } = getProductDisplayColors(product);
   const isPlacements = (snapshot.placements?.length ?? 0) >= 2;
   const isDimensions = (snapshot.dimensions?.length ?? 0) >= 2;
   const textMuted = "text-white/70";

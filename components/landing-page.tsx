@@ -29,7 +29,7 @@ import { HERO_TEST_ID } from "@/lib/products";
 
 /* ── Navbar ──────────────────────────────────────────────────────── */
 
-function Navbar() {
+export function Navbar() {
   const t = useTranslations("landing.navbar");
   const tc = useTranslations("common");
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -784,7 +784,7 @@ function FinalCta() {
 
 /* ── Footer ──────────────────────────────────────────────────────── */
 
-function Footer() {
+export function Footer() {
   const t = useTranslations("landing.footer");
   const tc = useTranslations("common");
 
