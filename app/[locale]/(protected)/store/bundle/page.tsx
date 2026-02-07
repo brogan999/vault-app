@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { products } from "@/lib/products";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
+import { products, getProductDisplayColors } from "@/lib/products";
+import { CANONICAL_TEN_IDS, REPORT_DISPLAY_PRICES } from "@/lib/reports";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,34 +18,39 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+const COMPLETE_BUNDLE_PRICE = 99.99;
+const BUNDLE_PRODUCT_ID = "complete_10";
+
 export default function BundlePage() {
+  const t = useTranslations("store.detail");
   const [loading, setLoading] = useState(false);
 
-  const totalValue = products.reduce((sum, p) => {
-    if (p.price) {
-      const num = parseFloat(p.price.replace("$", ""));
-      return sum + (isNaN(num) ? 0 : num);
-    }
-    return sum;
+  const bundleProducts = products.filter((p) =>
+    CANONICAL_TEN_IDS.includes(p.id as (typeof CANONICAL_TEN_IDS)[number])
+  );
+  const totalValue = bundleProducts.reduce((sum, p) => {
+    const price = REPORT_DISPLAY_PRICES[p.id] ?? "$9.99";
+    const num = parseFloat(price.replace("$", ""));
+    return sum + (isNaN(num) ? 0 : num);
   }, 0);
-
-  const bundlePrice = 49;
-  const savings = Math.round(totalValue);
+  const savings = Math.round(totalValue - COMPLETE_BUNDLE_PRICE);
 
   const handlePurchaseBundle = async () => {
     setLoading(true);
     try {
-      // Dynamic import to use the server action for bundle purchase
       const { createOneOffPurchase } = await import("@/app/actions/payments");
-      const bundlePriceId = process.env.NEXT_PUBLIC_STRIPE_BUNDLE_PRICE_ID;
+      const bundlePriceId =
+        process.env.NEXT_PUBLIC_STRIPE_BUNDLE_COMPLETE_PRICE_ID ||
+        process.env.NEXT_PUBLIC_STRIPE_BUNDLE_PRICE_ID;
       if (!bundlePriceId) {
-        toast.error(
-          "Bundle purchase is not configured yet. Please check back later.",
-        );
+        toast.error("Bundle purchase is not configured yet. Please check back later.");
         setLoading(false);
         return;
       }
-      const result = await createOneOffPurchase(bundlePriceId);
+      const result = await createOneOffPurchase(bundlePriceId, {
+        type: "bundle",
+        productId: BUNDLE_PRODUCT_ID,
+      });
       if (result?.url) {
         window.location.href = result.url;
       }
@@ -57,13 +64,13 @@ export default function BundlePage() {
   return (
     <div className="min-h-[calc(100vh-4rem)] px-4 py-8 md:px-6 lg:py-12">
       <div className="mx-auto max-w-4xl">
-        {/* Back link */}
+        {/* Back link — uses locale-aware Link so /store stays under current locale */}
         <Link
           href="/store"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to Store
+          {t("backToStore")}
         </Link>
 
         {/* Hero */}
@@ -72,29 +79,30 @@ export default function BundlePage() {
             <Crown className="h-8 w-8 text-primary" />
           </div>
           <h1 className="text-3xl font-bold font-serif text-foreground md:text-4xl">
-            Premium Assessment Bundle
+            The Complete Portrait
           </h1>
           <p className="text-muted-foreground max-w-lg mx-auto leading-relaxed">
-            Get access to all 12 assessments for one price. Unlock deeper
-            self-knowledge across personality, intelligence, strengths, wellness,
-            career, and astrology.
+            All 10 premium reports in one bundle: 4 psychometric + 6 esoteric
+            frameworks. Unlock full reports for every assessment you take.
           </p>
 
           {/* Pricing */}
           <div className="flex items-center justify-center gap-3 pt-2">
             <span className="text-4xl font-bold font-serif text-foreground">
-              ${bundlePrice}
+              ${COMPLETE_BUNDLE_PRICE.toFixed(2)}
             </span>
             <div className="text-left">
               <span className="text-sm text-muted-foreground line-through">
-                ${savings}+ value
+                ${totalValue.toFixed(0)} value
               </span>
-              <Badge
-                variant="secondary"
-                className="ml-2 bg-primary/10 text-primary border-0"
-              >
-                Save {Math.round(((savings - bundlePrice) / savings) * 100)}%
-              </Badge>
+              {savings > 0 && (
+                <Badge
+                  variant="secondary"
+                  className="ml-2 bg-primary/10 text-primary border-0"
+                >
+                  Save ${savings}
+                </Badge>
+              )}
             </div>
           </div>
 
@@ -112,11 +120,14 @@ export default function BundlePage() {
         {/* Tests included */}
         <div className="space-y-4">
           <h2 className="text-lg font-semibold text-foreground">
-            All 12 assessments included
+            All 10 premium reports included
           </h2>
 
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            {products.map((product) => (
+            {bundleProducts.map((product) => {
+              const displayColors = getProductDisplayColors(product);
+              const Icon = product.icon;
+              return (
               <Card
                 key={product.id}
                 className="border-0 shadow-sm rounded-2xl hover:shadow-md transition-shadow"
@@ -125,11 +136,11 @@ export default function BundlePage() {
                   <div className="flex items-start gap-3">
                     <div
                       className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
-                      style={{ backgroundColor: product.bgColor }}
+                      style={{ backgroundColor: displayColors.bgColor }}
                     >
-                      <product.icon
+                      <Icon
                         className="h-5 w-5"
-                        style={{ color: product.color }}
+                        style={{ color: displayColors.color }}
                       />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -151,12 +162,12 @@ export default function BundlePage() {
                           <Star className="h-3 w-3" />
                           {product.rating}
                         </span>
-                        {product.price ? (
+                        {REPORT_DISPLAY_PRICES[product.id] ? (
                           <Badge
                             variant="secondary"
                             className="text-[10px] px-1.5 h-4 rounded bg-muted border-0"
                           >
-                            {product.price}
+                            {REPORT_DISPLAY_PRICES[product.id]}
                           </Badge>
                         ) : (
                           <Badge
@@ -171,7 +182,8 @@ export default function BundlePage() {
                   </div>
                 </CardContent>
               </Card>
-            ))}
+            );
+            })}
           </div>
         </div>
 
@@ -182,7 +194,7 @@ export default function BundlePage() {
               Ready to unlock your full potential?
             </h2>
             <p className="text-sm text-primary-foreground/80">
-              One payment, lifetime access to all 12 premium assessments.
+              One payment: all 10 premium reports, yours forever.
             </p>
           </CardHeader>
           <CardContent className="text-center pb-6">
@@ -193,7 +205,7 @@ export default function BundlePage() {
               className="gap-2 rounded-xl bg-primary-foreground/15 text-primary-foreground hover:bg-primary-foreground/25 border-0 px-8"
             >
               <Crown className="h-4 w-4" />
-              {loading ? "Processing..." : `Get All 12 for $${bundlePrice}`}
+              {loading ? "Processing..." : `Get All 10 for $${COMPLETE_BUNDLE_PRICE.toFixed(2)}`}
             </Button>
           </CardContent>
         </Card>

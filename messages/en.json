@@ -40,7 +40,8 @@
       "getStartedFree": "Get Started Free",
       "openMenu": "Open menu",
       "closeMenu": "Close menu",
-      "language": "Language"
+      "language": "Language",
+      "themeAndColour": "Theme & colour"
     },
     "hero": {
       "badge": "AI-powered self-discovery",
@@ -51,10 +52,15 @@
       "disclaimer": "No credit card required. Takes under 10 minutes."
     },
     "socialProof": {
-      "testsToday": "Tests taken today",
-      "testsUS": "Tests taken in US",
-      "totalTests": "Total tests taken",
-      "ratedAccurate": "Rated accurate or very accurate"
+      "headline": "Why The Vault",
+      "stat1Value": "10",
+      "stat1Label": "Personality frameworks in one place — science and symbolism",
+      "stat2Value": "Zero",
+      "stat2Label": "We never sell or share your data",
+      "stat3Value": "Validated",
+      "stat3Label": "Research-backed psychometric methods",
+      "stat4Value": "One",
+      "stat4Label": "AI that weaves your full portrait"
     },
     "features": {
       "sectionLabel": "Everything you need",
@@ -105,37 +111,32 @@
       "freePlan": "Free",
       "freePrice": "$0",
       "freePeriod": "forever",
-      "freeDescription": "For curious explorers ready to start the journey.",
-      "freeFeature1": "Big 5 Personality Test",
-      "freeFeature2": "Basic type descriptions",
-      "freeFeature3": "3 AI conversations per day",
-      "freeFeature4": "Vault file storage (50MB)",
-      "freeFeature5": "Mood journal (5 entries/week)",
+      "freeDescription": "Take every test. Discover every framework. Start understanding yourself.",
+      "freeFeature1": "All 10 assessments free (limited result summaries)",
+      "freeFeature2": "10 Mirror messages per day",
+      "freeFeature3": "Vault file storage (50MB)",
+      "freeFeature4": "Mood journal (5 entries/week)",
+      "freeFeature5": "Shareable result cards",
       "freeCta": "Get Started Free",
       "proPlan": "Pro",
-      "proPrice": "$12",
+      "proPrice": "$14.99",
       "proPeriod": "/month",
+      "proPriceMonthly": "Monthly",
+      "proPriceAnnual": "Annual",
+      "proPriceMonthlyDisplay": "$14.99/month",
+      "proPriceAnnualDisplay": "$119.99/year (save 33%)",
       "proDescription": "For those serious about self-understanding.",
-      "proFeature1": "All Free features",
-      "proFeature2": "12 premium assessments",
-      "proFeature3": "Unlimited AI conversations",
-      "proFeature4": "Vault file storage (5GB)",
+      "proFeature1": "All premium reports included",
+      "proFeature2": "300 Mirror messages per month",
+      "proFeature3": "Voice journals with AI analysis",
+      "proFeature4": "Custom AI persona settings",
       "proFeature5": "Unlimited journal entries",
       "proFeature6": "Growth trend reports",
-      "proFeature7": "Voice journals with AI analysis",
-      "proFeature8": "Custom AI persona settings",
+      "proFeature7": "10GB vault, proactive check-ins",
+      "proFeature8": "Cross-framework dashboard, export all data",
       "proCta": "Start 7-Day Free Trial",
-      "lifetimePlan": "Lifetime",
-      "lifetimePrice": "$149",
-      "lifetimePeriod": "one-time",
-      "lifetimeDescription": "Own your self-discovery toolkit forever.",
-      "lifetimeFeature1": "Everything in Pro",
-      "lifetimeFeature2": "All future assessments included",
-      "lifetimeFeature3": "Vault storage (unlimited)",
-      "lifetimeFeature4": "Priority AI responses",
-      "lifetimeFeature5": "Early access to new features",
-      "lifetimeFeature6": "Export all data anytime",
-      "lifetimeCta": "Get Lifetime Access"
+      "premiumReportsBlurb": "Premium reports: buy individual reports without subscribing, from $9.99.",
+      "topUpsBlurb": "Pro users can buy extra Mirror messages: 50 for $2.99, 100 for $4.99, 250 for $9.99."
     },
     "finalCta": {
       "title": "Curious how accurate we are about you?",
@@ -157,6 +158,7 @@
       "help": "Help",
       "contactUs": "Contact Us",
       "faq": "FAQ",
+      "knowledgeBase": "Knowledge Base",
       "privacyPolicy": "Privacy Policy",
       "termsAndConditions": "Terms & Conditions",
       "copyright": "2024-2026 The Vault. All rights reserved."
@@ -167,8 +169,18 @@
   "mirror": {
     "greeting": "Good morning",
     "description": "Here is your personality mirror for today.",
+    "upgradeCta": "Get all assessments",
+    "upgradeCtaDescription": "Unlock the full suite of premium tests in the Store.",
     "personalitySnapshot": "Personality Snapshot",
     "personalitySnapshotDescription": "Your five core traits from your latest Big 5 test. Take the test in the Store to fill this in.",
+    "testSnapshot": {
+      "sectionLabel": "Test results snapshot",
+      "title": "Your Tests",
+      "description": "A snapshot of all your assessments. Complete any test to see your result here.",
+      "completePrompt": "You haven't completed this test yet.",
+      "completeCta": "Complete the test now",
+      "noTestsInCategory": "No tests in this category."
+    },
     "quickStats": {
       "testsCompleted": "Tests Completed",
       "journalEntries": "Journal Entries",
@@ -398,10 +410,10 @@
     "title": "Store",
     "description": "Discover assessments to unlock deeper self-knowledge",
     "bundle": {
-      "title": "Premium Assessment Bundle",
-      "description": "Get all 12 premium tests for one price. Includes Big 5 Deep Dive, IQ Pro, Career Compass, and 9 more assessments.",
-      "price": "$49",
-      "originalPrice": "$129 value",
+      "title": "The Complete Portrait",
+      "description": "All 10 premium reports in one bundle. Psychometric + esoteric frameworks.",
+      "price": "$99.99",
+      "originalPrice": "Value $140+",
       "viewBundle": "View Bundle"
     },
     "searchPlaceholder": "Search assessments...",
@@ -487,7 +499,9 @@
       "location": "Place of birth (city or town)",
       "save": "Save birth data",
       "saved": "Birth data saved",
-      "saveFailed": "Failed to save birth data"
+      "saveFailed": "Failed to save birth data",
+      "completedTestsPrefix": "We've completed the following using your birth data: {tests}. View them on your ",
+      "viewOnMirrorLink": "Mirror"
     },
     "account": {
       "title": "Account",
@@ -545,13 +559,40 @@
     "unexpectedError": "An unexpected error occurred. Please try again.",
     "unexpectedErrorRefresh": "An unexpected error occurred. Please refresh the page.",
     "pageNotFound": "404 - Page Not Found",
-    "pageNotFoundDescription": "The page you're looking for doesn't exist."
+    "pageNotFoundDescription": "The page you're looking for doesn't exist.",
+    "tryAgain": "Try again",
+    "goHome": "Go home"
   },
   "share": {
     "sharedFrom": "Shared from The Vault",
     "poweredBy": "Powered by"
   },
   "test": {
+    "freePersonalityTest": "Free Personality Test",
+    "nerisTypeExplorer": "Discover Your Personality Type",
+    "intro": {
+      "step1Title": "Take the Assessment",
+      "step1Description": "Answer each question openly and honestly — there are no right or wrong answers.",
+      "step2Title": "Explore Your Profile",
+      "step2Description": "Get a detailed breakdown of your unique personality traits and preferences.",
+      "step3Title": "Put It Into Action",
+      "step3Description": "Use your results to make smarter career choices and understand how you work best."
+    },
+    "step1Label": "STEP 1: Complete the Test",
+    "step2Label": "STEP 2: View Detailed Results",
+    "header": {
+      "personalityTest": "Personality Test",
+      "personalityTypes": "Personality Types",
+      "store": "Store",
+      "resources": "Resources",
+      "ourFramework": "Our Framework",
+      "articles": "Articles",
+      "faq": "FAQ",
+      "knowledgeBase": "Knowledge Base",
+      "privacyPolicy": "Privacy Policy",
+      "termsAndConditions": "Terms & Conditions",
+      "logIn": "Log In"
+    },
     "backToStore": "Back to Store",
     "beginAssessment": "Begin Assessment",
     "retakeAssessment": "Retake Assessment",
@@ -568,6 +609,19 @@
     "testNotFoundDescription": "This assessment does not exist or has been removed.",
     "assessmentComplete": "Assessment complete!",
     "failedToSubmit": "Failed to submit assessment",
+    "collect": {
+      "title": "Almost there",
+      "emailLabel": "Your email",
+      "emailHint": "Optional. Get your results by email and save them to track personality changes.",
+      "emailPlaceholder": "email@email.com",
+      "marketingLabel": "Send me career and personal insights",
+      "genderLabel": "Your gender",
+      "genderHint": "Optional. This will determine your avatar in the results screen.",
+      "male": "Male",
+      "female": "Female",
+      "other": "Other",
+      "seeResults": "See results"
+    },
     "results": {
       "title": "Your Results",
       "summary": "Summary",
@@ -577,7 +631,12 @@
       "growthTip": "Growth Tip",
       "moreRecommendations": "+ {count} more recommendations in the premium report",
       "retakeTest": "Retake Test",
-      "goToMirror": "Go to Mirror"
+      "goToMirror": "Go to Mirror",
+      "talkToMirror": "Talk to the Mirror",
+      "talkToMirrorSubcopy": "Ask the AI about your results",
+      "guestBannerTitle": "Save your results and unlock the Mirror",
+      "guestBannerDescription": "Create a free account to keep this result, chat with the AI about it, and access your Mirror dashboard.",
+      "guestSignUpCta": "Sign up free"
     },
     "premium": {
       "unlockFullReport": "Unlock Your Full Report",
@@ -598,14 +657,14 @@
       }
     },
     "bundle": {
-      "title": "Premium Assessment Bundle",
-      "description": "Get access to all 12 assessments for one price. Unlock deeper self-knowledge across personality, intelligence, strengths, wellness, career, and astrology.",
-      "price": "$49",
+      "title": "The Complete Portrait",
+      "description": "All 10 premium reports in one bundle. Psychometric + esoteric frameworks.",
+      "price": "$99.99",
       "savePercent": "Save {percent}%",
       "purchaseBundle": "Purchase Bundle",
-      "allIncluded": "All 12 assessments included",
+      "allIncluded": "All 10 premium reports included",
       "readyToUnlock": "Ready to unlock your full potential?",
-      "onePaymentLifetime": "One payment, lifetime access to all 12 premium assessments."
+      "onePaymentLifetime": "One payment: all 10 premium reports, yours forever."
     }
   }
 }

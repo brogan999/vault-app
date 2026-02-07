@@ -1,36 +1,72 @@
 "use client";
 
+import { useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { createCheckoutSession } from "@/app/actions/payments";
+import { toast } from "sonner";
 
 export default function PricingPage() {
   const t = useTranslations("landing.pricing");
   const tl = useTranslations("landing");
+  const [proInterval, setProInterval] = useState<"pro_monthly" | "pro_annual">("pro_annual");
+  const [loading, setLoading] = useState(false);
 
   const plans = [
     {
-      name: t("freePlan"), price: t("freePrice"), period: t("freePeriod"),
+      name: t("freePlan"),
+      price: t("freePrice"),
+      period: t("freePeriod"),
       description: t("freeDescription"),
-      features: [t("freeFeature1"), t("freeFeature2"), t("freeFeature3"), t("freeFeature4"), t("freeFeature5")],
-      cta: t("freeCta"), highlighted: false,
+      features: [
+        t("freeFeature1"),
+        t("freeFeature2"),
+        t("freeFeature3"),
+        t("freeFeature4"),
+        t("freeFeature5"),
+      ],
+      cta: t("freeCta"),
+      highlighted: false,
+      href: `/test/mbti`,
     },
     {
-      name: t("proPlan"), price: t("proPrice"), period: t("proPeriod"),
+      name: t("proPlan"),
+      price: t("proPrice"),
+      period: t("proPeriod"),
       description: t("proDescription"),
-      features: [t("proFeature1"), t("proFeature2"), t("proFeature3"), t("proFeature4"), t("proFeature5"), t("proFeature6"), t("proFeature7"), t("proFeature8")],
-      cta: t("proCta"), highlighted: true,
-    },
-    {
-      name: t("lifetimePlan"), price: t("lifetimePrice"), period: t("lifetimePeriod"),
-      description: t("lifetimeDescription"),
-      features: [t("lifetimeFeature1"), t("lifetimeFeature2"), t("lifetimeFeature3"), t("lifetimeFeature4"), t("lifetimeFeature5"), t("lifetimeFeature6")],
-      cta: t("lifetimeCta"), highlighted: false,
+      features: [
+        t("proFeature1"),
+        t("proFeature2"),
+        t("proFeature3"),
+        t("proFeature4"),
+        t("proFeature5"),
+        t("proFeature6"),
+        t("proFeature7"),
+        t("proFeature8"),
+      ],
+      cta: t("proCta"),
+      highlighted: true,
+      isPro: true,
     },
   ];
+
+  const handleProCta = async () => {
+    setLoading(true);
+    try {
+      const { url } = await createCheckoutSession(proInterval);
+      if (url) window.location.href = url;
+      else toast.error("Checkout could not be started. Please try again.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen py-20 lg:py-28">
       <div className="mx-auto max-w-6xl px-4 lg:px-8">
@@ -46,7 +82,7 @@ export default function PricingPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 max-w-4xl mx-auto">
           {plans.map((plan) => (
             <Card
               key={plan.name}
@@ -69,14 +105,49 @@ export default function PricingPage() {
                   <h3 className="text-lg font-bold text-foreground font-serif">
                     {plan.name}
                   </h3>
-                  <div className="mt-3 flex items-baseline gap-1">
-                    <span className="text-4xl font-extrabold text-foreground font-serif">
-                      {plan.price}
-                    </span>
-                    <span className="text-sm text-muted-foreground">
-                      {plan.period}
-                    </span>
-                  </div>
+                  {plan.isPro ? (
+                    <div className="mt-3 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setProInterval("pro_monthly")}
+                          className={cn(
+                            "text-sm font-medium px-2 py-1 rounded",
+                            proInterval === "pro_monthly"
+                              ? "bg-primary text-primary-foreground"
+                              : "text-muted-foreground hover:text-foreground"
+                          )}
+                        >
+                          {t("proPriceMonthly")}
+                        </button>
+                        <span className="text-muted-foreground">|</span>
+                        <button
+                          type="button"
+                          onClick={() => setProInterval("pro_annual")}
+                          className={cn(
+                            "text-sm font-medium px-2 py-1 rounded",
+                            proInterval === "pro_annual"
+                              ? "bg-primary text-primary-foreground"
+                              : "text-muted-foreground hover:text-foreground"
+                          )}
+                        >
+                          {t("proPriceAnnual")}
+                        </button>
+                      </div>
+                      <p className="text-2xl font-extrabold text-foreground font-serif">
+                        {proInterval === "pro_annual" ? t("proPriceAnnualDisplay") : t("proPriceMonthlyDisplay")}
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="mt-3 flex items-baseline gap-1">
+                      <span className="text-4xl font-extrabold text-foreground font-serif">
+                        {plan.price}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        {plan.period}
+                      </span>
+                    </div>
+                  )}
                   <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
                     {plan.description}
                   </p>
@@ -98,32 +169,40 @@ export default function PricingPage() {
                   ))}
                 </ul>
 
-                <Button
-                  className={cn(
-                    "mt-8 w-full rounded-xl h-11 font-semibold",
-                    plan.highlighted ? "" : "bg-transparent"
-                  )}
-                  variant={plan.highlighted ? "default" : "outline"}
-                  asChild
-                >
-                  <Link href="/sign-up">{plan.cta}</Link>
-                </Button>
+                {plan.isPro ? (
+                  <Button
+                    className="mt-8 w-full rounded-xl h-11 font-semibold"
+                    onClick={handleProCta}
+                    disabled={loading}
+                  >
+                    {loading ? "Loading..." : plan.cta}
+                  </Button>
+                ) : (
+                  <Button
+                    className={cn(
+                      "mt-8 w-full rounded-xl h-11 font-semibold bg-transparent"
+                    )}
+                    variant="outline"
+                    asChild
+                  >
+                    <Link href={plan.href ?? "/sign-up"}>{plan.cta}</Link>
+                  </Button>
+                )}
               </CardContent>
             </Card>
           ))}
         </div>
 
-        <div className="mt-16 text-center">
-          <p className="text-muted-foreground mb-4 text-sm">
-            {tl("storeNote")}
+        <div className="mt-16 max-w-2xl mx-auto space-y-6 text-center">
+          <p className="text-muted-foreground text-sm">
+            {t("premiumReportsBlurb")}
           </p>
-          <Button
-            asChild
-            variant="link"
-            className="text-primary font-semibold"
-          >
+          <Button asChild variant="link" className="text-primary font-semibold">
             <Link href="/store">{tl("browseStore")}</Link>
           </Button>
+          <p className="text-muted-foreground text-sm">
+            {t("topUpsBlurb")}
+          </p>
         </div>
       </div>
     </div>

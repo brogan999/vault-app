@@ -26,7 +26,8 @@ import {
   Lock,
   Search,
 } from "lucide-react";
-import { products, categories } from "@/lib/products";
+import { products, categories, getProductDisplayColors, getCategoryColorKey } from "@/lib/products";
+import { CANONICAL_TEN_IDS } from "@/lib/reports";
 
 /* ── Purchase record type ─────────────────────────────────────────── */
 
@@ -73,23 +74,28 @@ function StoreContent() {
   }, []);
 
   const filtered = useMemo(() => {
-    return products.filter((p) => {
-      const matchesCategory =
-        activeCategory === "all" ||
-        p.category.toLowerCase() === activeCategory.toLowerCase();
-      const matchesSearch =
-        searchQuery === "" ||
-        p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.tags.some((t) =>
-          t.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-      return matchesCategory && matchesSearch;
-    });
+    return products
+      .filter((p) => CANONICAL_TEN_IDS.includes(p.id as (typeof CANONICAL_TEN_IDS)[number]))
+      .filter((p) => {
+        const matchesCategory =
+          activeCategory === "all" ||
+          p.category.toLowerCase() === activeCategory.toLowerCase();
+        const matchesSearch =
+          searchQuery === "" ||
+          p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.tags.some((t) =>
+            t.toLowerCase().includes(searchQuery.toLowerCase())
+          );
+        return matchesCategory && matchesSearch;
+      });
   }, [activeCategory, searchQuery]);
 
-  const freeCount = products.filter((p) => p.price === null).length;
-  const paidCount = products.filter((p) => p.price !== null).length;
+  const storeProducts = products.filter((p) =>
+    CANONICAL_TEN_IDS.includes(p.id as (typeof CANONICAL_TEN_IDS)[number])
+  );
+  const freeCount = storeProducts.filter((p) => p.price === null).length;
+  const paidCount = storeProducts.length - freeCount;
 
   const isPurchased = (priceId?: string) =>
     priceId
@@ -169,21 +175,31 @@ function StoreContent() {
 
           {/* Category pills */}
           <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat.value}
-                type="button"
-                onClick={() => setActiveCategory(cat.value)}
-                className={cn(
-                  "rounded-full px-4 py-1.5 text-xs font-semibold transition-colors",
-                  activeCategory === cat.value
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
-                )}
-              >
-                {cat.label}
-              </button>
-            ))}
+            {categories.map((cat) => {
+              const colorKey = getCategoryColorKey(cat.value);
+              const isActive = activeCategory === cat.value;
+              return (
+                <button
+                  key={cat.value}
+                  type="button"
+                  onClick={() => setActiveCategory(cat.value)}
+                  className={cn(
+                    "rounded-full px-4 py-1.5 text-xs font-semibold transition-colors",
+                    !isActive && "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
+                  )}
+                  style={
+                    isActive
+                      ? {
+                          backgroundColor: `var(--category-${colorKey})`,
+                          color: "oklch(1 0 0)",
+                        }
+                      : undefined
+                  }
+                >
+                  {cat.label}
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -214,6 +230,7 @@ function StoreContent() {
               const owned = isPurchased(product.priceId);
               const isFree = product.price === null;
               const Icon = product.icon;
+              const displayColors = getProductDisplayColors(product);
 
               return (
                 <Link key={product.id} href={`/test/${product.id}`} className="block">
@@ -235,11 +252,11 @@ function StoreContent() {
                     <div className="flex items-start justify-between gap-3 mb-4">
                       <div
                         className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
-                        style={{ backgroundColor: product.bgColor }}
+                        style={{ backgroundColor: displayColors.bgColor }}
                       >
                         <Icon
                           className="h-6 w-6"
-                          style={{ color: product.color }}
+                          style={{ color: displayColors.color }}
                         />
                       </div>
                       <Badge
@@ -284,8 +301,8 @@ function StoreContent() {
                           key={tag}
                           className="rounded-md px-2 py-0.5 text-[10px] font-medium"
                           style={{
-                            backgroundColor: product.bgColor,
-                            color: product.color,
+                            backgroundColor: displayColors.bgColor,
+                            color: displayColors.color,
                           }}
                         >
                           {tag}
@@ -304,7 +321,7 @@ function StoreContent() {
                           <>
                             <span
                               className="text-lg font-bold font-serif"
-                              style={{ color: product.color }}
+                              style={{ color: displayColors.color }}
                             >
                               {product.price}
                             </span>

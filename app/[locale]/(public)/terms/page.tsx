@@ -1,5 +1,4 @@
 import { Link } from "@/i18n/navigation";
-import { Archive, ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,30 +9,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-lg">
-        <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-4 lg:px-8">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
-              <Archive className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="text-lg font-bold tracking-tight text-foreground font-serif">
-              Deep Personality
-            </span>
-          </Link>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Home
-          </Link>
-        </div>
-      </header>
-
-      {/* Content */}
-      <main className="mx-auto max-w-4xl px-4 py-12 lg:px-8 lg:py-16">
+    <main className="mx-auto max-w-4xl px-4 py-12 lg:px-8 lg:py-16">
         <h1 className="text-3xl font-extrabold text-foreground font-serif lg:text-4xl mb-2">
           Terms of Service
         </h1>
@@ -414,30 +390,6 @@ export default function TermsPage() {
             </p>
           </section>
         </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-border/60 bg-card">
-        <div className="mx-auto max-w-4xl px-4 py-8 lg:px-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-xs text-muted-foreground">
-            2024-2026 Deep Personality Inc. All rights reserved.
-          </p>
-          <div className="flex items-center gap-6">
-            <Link
-              href="/terms"
-              className="text-xs font-medium text-foreground"
-            >
-              Terms of Service
-            </Link>
-            <Link
-              href="/privacy"
-              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Privacy Policy
-            </Link>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </main>
   );
 }

@@ -25,10 +25,21 @@ import {
   getCheckinPreferences,
   updateCheckinPreferences,
 } from "@/app/actions/checkins";
+import {
+  getSubscriptionStatus,
+  getSubscriptionDetails,
+  getMessageCreditSummaryForUser,
+  getUserPurchases,
+  createCreditPackCheckout,
+} from "@/app/actions/payments";
 import { toast } from "sonner";
 import { UserButton, useClerk } from "@clerk/nextjs";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { Bot, Compass, Heart, Sun, Moon } from "lucide-react";
+import { Bot, Compass, Heart, Sun, Moon, CreditCard, MessageCircle, Package } from "lucide-react";
+import type { MessageCreditSummary } from "@/lib/credits";
+import { PlaceAutocomplete } from "@/components/features/settings/PlaceAutocomplete";
+import { getProductById } from "@/lib/products";
 
 function AccountSignOutButton() {
   const { signOut } = useClerk();
@@ -59,7 +70,18 @@ export default function SettingsPage() {
   const [birthTime, setBirthTime] = useState("");
   const [birthTimeUnknown, setBirthTimeUnknown] = useState(false);
   const [birthLocation, setBirthLocation] = useState("");
+  const [birthLocationLat, setBirthLocationLat] = useState<number | null>(null);
+  const [birthLocationLng, setBirthLocationLng] = useState<number | null>(null);
   const [birthDataSaving, setBirthDataSaving] = useState(false);
+  const [subscriptionTier, setSubscriptionTier] = useState<string>("free");
+  const [subscriptionDetails, setSubscriptionDetails] = useState<{
+    plan: string | null;
+    status: string | null;
+    currentPeriodEnd: string | null;
+  } | null>(null);
+  const [creditSummary, setCreditSummary] = useState<MessageCreditSummary | null>(null);
+  const [purchases, setPurchases] = useState<{ id: string; productName: string; amountPaid: number; createdAt: string; status: string }[]>([]);
+  const [topUpLoading, setTopUpLoading] = useState(false);
 
   const colorPalettes = [
     { value: "emerald", label: t("appearance.emerald"), swatch: ["#faf9f6", "#0c8d62", "#1a7a56", "#0d5f42"] },
@@ -95,6 +117,13 @@ export default function SettingsPage() {
   }, []);
 
   useEffect(() => {
+    getSubscriptionStatus().then((s) => setSubscriptionTier(s.tier)).catch(() => {});
+    getSubscriptionDetails().then(setSubscriptionDetails).catch(() => {});
+    getMessageCreditSummaryForUser().then(setCreditSummary).catch(() => {});
+    getUserPurchases().then((data) => setPurchases(data as typeof purchases)).catch(() => {});
+  }, []);
+
+  useEffect(() => {
     getCurrentUserPreferences().then((prefs) => {
       if (prefs?.personaPreference)
         setPersonaPreference(prefs.personaPreference);
@@ -104,34 +133,31 @@ export default function SettingsPage() {
         else setBirthTime(prefs.birthTime);
       }
       if (prefs?.birthLocationName) setBirthLocation(prefs.birthLocationName);
+      if (prefs?.birthLocationLat != null) setBirthLocationLat(prefs.birthLocationLat);
+      if (prefs?.birthLocationLng != null) setBirthLocationLng(prefs.birthLocationLng);
     });
   }, []);
 
   const handleThemeChange = async (newTheme: "light" | "dark") => {
     setTheme(newTheme);
-    try {
-      await updateThemePreference(`${newTheme}-${palette}`);
-    } catch (error) {
-      console.error("Error updating theme:", error);
-    }
+    const result = await updateThemePreference(`${newTheme}-${palette}`);
+    if (!result.success) console.error("Error updating theme:", result.error);
   };
 
   const handlePaletteChange = async (newPalette: string) => {
     setPalette(newPalette as any);
-    try {
-      await updateThemePreference(`${theme}-${newPalette}`);
-    } catch (error) {
-      console.error("Error updating palette:", error);
-    }
+    const result = await updateThemePreference(`${theme}-${newPalette}`);
+    if (!result.success) console.error("Error updating palette:", result.error);
   };
 
   const handlePersonaChange = async (persona: string) => {
+    const previous = personaPreference;
     setPersonaPreference(persona);
-    try {
-      await updatePersonaPreference(persona);
+    const result = await updatePersonaPreference(persona);
+    if (result.success) {
       toast.success(t("aiPersona.personaUpdated"));
-    } catch (error) {
-      console.error("Error updating persona:", error);
+    } else {
+      setPersonaPreference(previous);
       toast.error(t("aiPersona.personaFailed"));
     }
   };
@@ -332,13 +358,16 @@ export default function SettingsPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="birth-location">{t("birthData.location")}</Label>
-              <Input
+              <PlaceAutocomplete
                 id="birth-location"
-                type="text"
-                placeholder="e.g. London, New York"
                 value={birthLocation}
-                onChange={(e) => setBirthLocation(e.target.value)}
-                className="rounded-xl"
+                onSelect={({ displayName, lat, lng }) => {
+                  setBirthLocation(displayName);
+                  setBirthLocationLat(lat);
+                  setBirthLocationLng(lng);
+                }}
+                placeholder="e.g. London, New York"
+                className="w-full"
               />
             </div>
             <Button
@@ -347,12 +376,34 @@ export default function SettingsPage() {
               onClick={async () => {
                 setBirthDataSaving(true);
                 try {
-                  await updateBirthData({
+                  const result = await updateBirthData({
                     birthDate: birthDate || null,
                     birthTime: birthTimeUnknown ? "unknown" : (birthTime || null),
                     birthLocationName: birthLocation || null,
+                    birthLocationLat: birthLocationLat ?? null,
+                    birthLocationLng: birthLocationLng ?? null,
                   });
+                  if (!result.success) {
+                    toast.error(result.error || t("birthData.saveFailed"));
+                    return;
+                  }
                   toast.success(t("birthData.saved"));
+                  if (result.completedTestIds?.length) {
+                    const names = result.completedTestIds.map((id) => getProductById(id)?.title ?? id);
+                    toast.success(
+                      <span>
+                        {t("birthData.completedTestsPrefix", { tests: names.join(", ") })}
+                        <Link
+                          href="/mirror"
+                          className="font-medium underline underline-offset-2 hover:text-primary"
+                        >
+                          {t("birthData.viewOnMirrorLink")}
+                        </Link>
+                        .
+                      </span>,
+                      { duration: 6000 }
+                    );
+                  }
                 } catch {
                   toast.error(t("birthData.saveFailed"));
                 } finally {
@@ -363,6 +414,105 @@ export default function SettingsPage() {
             >
               {birthDataSaving ? t("checkins.saving") : t("birthData.save")}
             </Button>
+          </CardContent>
+        </Card>
+
+        {/* Billing & credits */}
+        <Card className="border-0 shadow-sm rounded-2xl">
+          <CardHeader>
+            <CardTitle className="text-base font-bold font-serif flex items-center gap-2">
+              <CreditCard className="h-4 w-4" />
+              Billing & usage
+            </CardTitle>
+            <CardDescription className="leading-relaxed">
+              Your plan, Mirror message credits, and purchase history.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-5">
+            <div>
+              <p className="text-sm font-medium text-foreground">
+                Plan: {subscriptionTier === "pro" ? "Pro" : "Free"}
+                {subscriptionDetails?.plan === "pro_annual" && " (Annual)"}
+                {subscriptionDetails?.plan === "pro_monthly" && " (Monthly)"}
+              </p>
+              {subscriptionDetails?.status && (
+                <p className="text-xs text-muted-foreground capitalize">{subscriptionDetails.status}</p>
+              )}
+              {subscriptionDetails?.currentPeriodEnd && (
+                <p className="text-xs text-muted-foreground">
+                  Renewal: {new Date(subscriptionDetails.currentPeriodEnd).toLocaleDateString()}
+                </p>
+              )}
+              {subscriptionTier !== "pro" && (
+                <Button asChild size="sm" className="mt-2 rounded-xl">
+                  <Link href="/pricing">Upgrade to Pro</Link>
+                </Button>
+              )}
+            </div>
+
+            {creditSummary && (
+              <div>
+                <p className="text-sm font-medium text-foreground flex items-center gap-2">
+                  <MessageCircle className="h-4 w-4" />
+                  Mirror messages
+                </p>
+                {creditSummary.plan === "free" ? (
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {creditSummary.messagesRemainingToday ?? 0} remaining today (resets midnight UTC)
+                  </p>
+                ) : (
+                  <div className="text-xs text-muted-foreground mt-1 space-y-0.5">
+                    <p>{creditSummary.messagesRemaining ?? 0} remaining this month</p>
+                    {creditSummary.renewalDate && (
+                      <p>Renewal: {new Date(creditSummary.renewalDate).toLocaleDateString()}</p>
+                    )}
+                    {(creditSummary.rolloverBalance ?? 0) > 0 && (
+                      <p>Rollover: {creditSummary.rolloverBalance}</p>
+                    )}
+                    {(creditSummary.topUpBalance ?? 0) > 0 && (
+                      <p>Top-up balance: {creditSummary.topUpBalance}</p>
+                    )}
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="mt-2 rounded-xl"
+                      disabled={topUpLoading}
+                      onClick={async () => {
+                        setTopUpLoading(true);
+                        try {
+                          const { url } = await createCreditPackCheckout(100);
+                          if (url) window.location.href = url;
+                          else toast.error("Top-up not configured");
+                        } catch (e) {
+                          toast.error(e instanceof Error ? e.message : "Failed to start checkout");
+                        } finally {
+                          setTopUpLoading(false);
+                        }
+                      }}
+                    >
+                      {topUpLoading ? "Loading..." : "Buy more messages (100 for $4.99)"}
+                    </Button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {purchases.length > 0 && (
+              <div>
+                <p className="text-sm font-medium text-foreground flex items-center gap-2 mb-2">
+                  <Package className="h-4 w-4" />
+                  Recent purchases
+                </p>
+                <ul className="space-y-1 text-xs text-muted-foreground">
+                  {purchases.slice(0, 10).map((p) => (
+                    <li key={p.id} className="flex justify-between">
+                      <span>{p.productName}</span>
+                      <span>${(p.amountPaid / 100).toFixed(2)} · {new Date(p.createdAt).toLocaleDateString()}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -437,13 +587,14 @@ export default function SettingsPage() {
               onClick={async () => {
                 setCheckinSaving(true);
                 try {
-                  await updateCheckinPreferences({
+                  const result = await updateCheckinPreferences({
                     enabled: checkinEnabled,
                     cadence: checkinCadence,
                     preferredTime: checkinTime,
                     timezone: checkinTimezone,
                   });
-                  toast.success(t("checkins.preferencesSaved"));
+                  if (result.success) toast.success(t("checkins.preferencesSaved"));
+                  else toast.error(t("checkins.preferencesFailed"));
                 } catch {
                   toast.error(t("checkins.preferencesFailed"));
                 } finally {

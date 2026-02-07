@@ -1,13 +1,16 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import { getProductById, PREMIUM_REPORT_PRICE } from "@/lib/products";
+import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
+import { getProductById } from "@/lib/products";
+import { getReportPriceDisplay } from "@/lib/reports";
 import { getTestResult } from "@/app/actions/tests";
+import { getSupabaseUser } from "@/lib/clerk/utils";
 import { TestShell } from "@/components/features/test/TestShell";
 import { FreeResults } from "@/components/features/test/FreeResults";
 import { PremiumUpgradeClient } from "./PremiumUpgradeClient";
 import { ExploreMoreTests } from "@/components/features/test/ExploreMoreTests";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, RotateCcw, Home, MessageCircle } from "lucide-react";
+import { ArrowLeft, RotateCcw, Home, MessageCircle, Sparkles } from "lucide-react";
 import type { TestScores } from "@/lib/tests/types";
 
 interface ResultsPageProps {
@@ -57,7 +60,13 @@ function normalizeInterpretation(raw: unknown): { summary: string; dimensionDeta
 
 export default async function ResultsPage({ params }: ResultsPageProps) {
   const { testId, attemptId } = await params;
+  const [t, tResults, user] = await Promise.all([
+    getTranslations("store.detail"),
+    getTranslations("test.results"),
+    getSupabaseUser(),
+  ]);
   const product = getProductById(testId);
+  const reportPrice = getReportPriceDisplay(testId);
   let result: Awaited<ReturnType<typeof getTestResult>> = null;
   try {
     result = await getTestResult(attemptId);
@@ -72,16 +81,17 @@ export default async function ResultsPage({ params }: ResultsPageProps) {
 
   const scores = normalizeScores(result.scores);
   const interpretation = normalizeInterpretation(result.interpretation);
+  const isGuest = !user;
 
   return (
     <TestShell>
-      {/* Back link */}
+      {/* Back link — uses locale-aware Link so /store stays under current locale */}
       <Link
         href="/store"
         className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
       >
         <ArrowLeft className="h-4 w-4" />
-        Back to Store
+        {t("backToStore")}
       </Link>
 
       {/* Free results */}
@@ -89,13 +99,14 @@ export default async function ResultsPage({ params }: ResultsPageProps) {
         testTitle={product.title}
         scores={scores}
         interpretation={interpretation}
+        gender={result.gender}
       />
 
       {/* Premium upgrade CTA — prominent for conversion */}
       <div className="mt-8">
         <PremiumUpgradeClient
           testTitle={product.title}
-          price={PREMIUM_REPORT_PRICE}
+          price={reportPrice}
           isPremium={result.isPremium}
           attemptId={attemptId}
           testId={testId}
@@ -114,24 +125,41 @@ export default async function ResultsPage({ params }: ResultsPageProps) {
         max={6}
       />
 
+      {/* Guest sign-up prompt — save results and unlock Chat/Mirror */}
+      {isGuest && (
+        <div className="mt-8 rounded-2xl border border-primary/20 bg-primary/5 p-5 text-center">
+          <p className="font-semibold text-foreground">{tResults("guestBannerTitle")}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{tResults("guestBannerDescription")}</p>
+          <Button asChild size="sm" className="mt-4 gap-2 rounded-xl" variant="default">
+            <Link href="/sign-up">
+              <Sparkles className="h-4 w-4" />
+              {tResults("guestSignUpCta")}
+            </Link>
+          </Button>
+        </div>
+      )}
+
       {/* Bottom actions */}
       <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-        <Link href="/chat">
-          <Button variant="default" size="sm" className="gap-2 rounded-xl">
-            <MessageCircle className="h-4 w-4" />
-            Talk to the Mirror
-          </Button>
-        </Link>
+        <div className="flex flex-col items-center gap-1">
+          <Link href="/chat">
+            <Button variant="default" size="sm" className="gap-2 rounded-xl">
+              <MessageCircle className="h-4 w-4" />
+              {tResults("talkToMirror")}
+            </Button>
+          </Link>
+          <span className="text-xs text-muted-foreground">{tResults("talkToMirrorSubcopy")}</span>
+        </div>
         <Link href={`/test/${testId}/questions`}>
           <Button variant="outline" size="sm" className="gap-2 rounded-xl">
             <RotateCcw className="h-4 w-4" />
-            Retake Test
+            {tResults("retakeTest")}
           </Button>
         </Link>
         <Link href="/mirror">
           <Button variant="outline" size="sm" className="gap-2 rounded-xl">
             <Home className="h-4 w-4" />
-            Go to Mirror
+            {tResults("goToMirror")}
           </Button>
         </Link>
       </div>

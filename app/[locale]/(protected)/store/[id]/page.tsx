@@ -3,7 +3,7 @@
 import { use, useState, useEffect } from "react";
 import { useRouter, Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { getProductById } from "@/lib/products";
+import { getProductById, getProductDisplayColors } from "@/lib/products";
 import { getTestDefinition } from "@/lib/tests";
 import { createOneOffPurchase, getUserPurchases } from "@/app/actions/payments";
 import { Card, CardContent } from "@/components/ui/card";
@@ -67,6 +67,7 @@ export default function ProductDetailPage({
   }
 
   const Icon = product.icon;
+  const displayColors = getProductDisplayColors(product);
   const isFree = product.price === null;
   const owned = product.priceId
     ? purchases.some(
@@ -114,9 +115,9 @@ export default function ProductDetailPage({
           <div className="flex items-start gap-4 mb-4">
             <div
               className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl"
-              style={{ backgroundColor: product.bgColor }}
+              style={{ backgroundColor: displayColors.bgColor }}
             >
-              <Icon className="h-7 w-7" style={{ color: product.color }} />
+              <Icon className="h-7 w-7" style={{ color: displayColors.color }} />
             </div>
             <div>
               <div className="flex items-center gap-2 mb-1">
@@ -168,8 +169,8 @@ export default function ProductDetailPage({
                 key={tag}
                 className="rounded-lg px-3 py-1 text-xs font-medium"
                 style={{
-                  backgroundColor: product.bgColor,
-                  color: product.color,
+                  backgroundColor: displayColors.bgColor,
+                  color: displayColors.color,
                 }}
               >
                 {tag}
@@ -192,7 +193,7 @@ export default function ProductDetailPage({
                   <>
                     <span
                       className="text-2xl font-bold font-serif"
-                      style={{ color: product.color }}
+                      style={{ color: displayColors.color }}
                     >
                       {product.price}
                     </span>
@@ -284,7 +285,7 @@ export default function ProductDetailPage({
                 >
                   <CheckCircle
                     className="h-4 w-4 shrink-0 mt-0.5"
-                    style={{ color: product.color }}
+                    style={{ color: displayColors.color }}
                   />
                   <span className="text-sm text-foreground leading-relaxed">
                     {highlight}

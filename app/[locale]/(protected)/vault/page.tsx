@@ -10,7 +10,6 @@ import { DocumentDetail } from "@/components/features/vault/DocumentDetail";
 import { VaultStats } from "@/components/features/vault/VaultStats";
 import { TestResultsList } from "@/components/features/vault/TestResultsList";
 import { Collections } from "@/components/features/vault/Collections";
-import { SavedProfiles } from "@/components/features/vault/SavedProfiles";
 import { RecentActivity } from "@/components/features/vault/RecentActivity";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getDocumentDetail, getVaultStats, getVaultRecentActivity } from "@/app/actions/vault";
@@ -151,12 +150,6 @@ function VaultContent() {
           >
             {t("collectionsTab")}
           </TabsTrigger>
-          <TabsTrigger
-            value="profiles"
-            className="rounded-lg px-4 py-2 text-sm font-semibold data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm"
-          >
-            {t("profiles")}
-          </TabsTrigger>
         </TabsList>
 
         {/* Test Results tab */}
@@ -167,11 +160,6 @@ function VaultContent() {
         {/* Collections tab */}
         <TabsContent value="collections" className="mt-4">
           <Collections />
-        </TabsContent>
-
-        {/* Profiles tab */}
-        <TabsContent value="profiles" className="mt-4">
-          <SavedProfiles />
         </TabsContent>
       </Tabs>
 

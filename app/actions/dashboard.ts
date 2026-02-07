@@ -28,7 +28,7 @@ export async function getDashboardData() {
     journalsResult,
     docCountResult,
     journalCountResult,
-    sessionCountResult,
+    sessionIdsResult,
     testResultsCountResult,
     latestBig5Result,
   ] = await Promise.all([
@@ -55,7 +55,7 @@ export async function getDashboardData() {
       .eq("category", "journal"),
     supabase
       .from("chatSessions")
-      .select("id", { count: "exact", head: true })
+      .select("id")
       .eq("userId", user.id),
     admin
       .from("testResults")
@@ -101,13 +101,27 @@ export async function getDashboardData() {
     return { ...j, createdAt: createdAtStr };
   });
 
+  // AI Conversations: count only sessions that have at least one user message
+  // (matches Chat sidebar and activity heatmap; excludes empty session rows)
+  let totalChatSessions = 0;
+  const sessionIds = (sessionIdsResult.data ?? []).map((s: { id: string }) => s.id);
+  if (sessionIds.length > 0) {
+    const { data: userMessages } = await supabase
+      .from("messages")
+      .select("sessionId")
+      .in("sessionId", sessionIds)
+      .eq("role", "user");
+    const sessionsWithMessages = new Set((userMessages ?? []).map((m: { sessionId: string }) => m.sessionId));
+    totalChatSessions = sessionsWithMessages.size;
+  }
+
   return {
     profile: safeProfile,
     journals: safeJournals,
     stats: {
       totalDocuments: docCountResult.count ?? 0,
       totalJournalEntries: journalCountResult.count ?? 0,
-      totalChatSessions: sessionCountResult.count ?? 0,
+      totalChatSessions,
       testsCompleted: testResultsCountResult.count ?? 0,
       hasProfile: !!profileResult.data || !!big5FromTest,
     },

@@ -1,104 +1,81 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Calendar, ChevronRight, Crown, Brain } from "lucide-react";
+import { Calendar, ChevronRight, Crown } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export interface TestResult {
   id: string;
   testId: string;
   title: string;
+  /** Short label for top-left (e.g. "Big 5", "Astrology") — matches Mirror CARD_SHORT_TITLES */
+  shortTitle?: string;
   subtitle: string;
   date: string;
   icon?: LucideIcon;
   color: string;
   bgColor: string;
+  cardBg?: string;
   resultLabel: string;
   resultValue: string;
   tags: string[];
   isPremium?: boolean;
 }
 
+/** Same format as Mirror: dark category card, top-left short title, top-right chevron, main result (big value + subtitle), date bottom, tags bottom-right. */
 export function TestResultCard({ result }: { result: TestResult }) {
-  const Icon = result.icon ?? Brain;
+  const cardBg = result.cardBg ?? result.bgColor;
+  const topLabel = result.shortTitle ?? result.title;
 
   return (
     <Link href={`/test/${result.testId}/results/${result.id}`}>
-      <Card className="group border-0 shadow-sm rounded-2xl hover:shadow-md transition-shadow cursor-pointer">
-        <CardContent className="p-5">
-          <div className="flex items-start gap-4">
-            {/* Icon */}
-            <div
-              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
-              style={{ backgroundColor: result.bgColor }}
-            >
-              <Icon
-                className="h-6 w-6"
-                style={{ color: result.color }}
-              />
+      <Card
+        className="group h-full border-0 shadow-sm rounded-2xl hover:shadow-md transition-all cursor-pointer overflow-hidden"
+        style={{ backgroundColor: cardBg }}
+      >
+        <CardContent className="p-4 flex flex-col h-full">
+          {/* Top row: short title left, chevron right — same as Mirror */}
+          <div className="flex items-start justify-between gap-2">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-white/80">
+              {topLabel}
+            </p>
+            <ChevronRight className="h-4 w-4 shrink-0 text-white/50 group-hover:text-white/80 transition-opacity" />
+          </div>
+
+          {/* Main result: big value + subtitle — same as Mirror hero layout */}
+          <div className="mt-3 flex-1">
+            <p className="text-2xl md:text-3xl font-bold font-serif leading-tight text-white">
+              {result.resultValue}
+            </p>
+            {(result.resultLabel && result.resultLabel !== result.resultValue) && (
+              <p className="mt-1.5 text-sm text-white/70 leading-snug">
+                {result.resultLabel}
+              </p>
+            )}
+          </div>
+
+          {/* Footer: date left, category/premium tags right — same as Mirror */}
+          <div className="mt-3 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-1.5 text-[10px] text-white/70">
+              <Calendar className="h-3 w-3 shrink-0" />
+              <span>{result.date}</span>
             </div>
-
-            {/* Content */}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between gap-2">
-                <div>
-                  <h3 className="text-sm font-bold text-foreground">
-                    {result.title}
-                  </h3>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    {result.subtitle}
-                  </p>
-                </div>
-                <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/40 group-hover:text-muted-foreground transition-colors mt-0.5" />
-              </div>
-
-              {/* Result highlight */}
-              <div className="mt-3 flex items-center gap-3">
-                <div
-                  className="rounded-lg px-3 py-1.5"
-                  style={{ backgroundColor: result.bgColor }}
-                >
-                  <span
-                    className="text-lg font-bold font-serif"
-                    style={{ color: result.color }}
-                  >
-                    {result.resultValue}
-                  </span>
-                </div>
-                <span className="text-xs text-muted-foreground font-medium">
-                  {result.resultLabel}
+            <div className="flex flex-wrap items-center justify-end gap-1.5">
+              {result.isPremium && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-medium text-white">
+                  <Crown className="h-3 w-3" />
+                  Premium
                 </span>
-              </div>
-
-              {/* Footer: date + tags + premium badge */}
-              <div className="mt-3 flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <Calendar className="h-3 w-3" />
-                  <span>{result.date}</span>
-                </div>
-                <div className="flex gap-1.5">
-                  {result.isPremium && (
-                    <Badge
-                      variant="secondary"
-                      className="text-[10px] px-2 py-0 h-5 rounded-md font-medium bg-primary/10 text-primary border-0 gap-1"
-                    >
-                      <Crown className="h-3 w-3" />
-                      Premium
-                    </Badge>
-                  )}
-                  {result.tags.map((tag) => (
-                    <Badge
-                      key={tag}
-                      variant="secondary"
-                      className="text-[10px] px-2 py-0 h-5 rounded-md font-medium bg-muted text-muted-foreground border-0"
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
+              )}
+              {result.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full px-2 py-0.5 text-[10px] font-medium bg-white/15 text-white"
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
         </CardContent>

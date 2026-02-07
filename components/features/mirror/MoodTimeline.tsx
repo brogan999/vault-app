@@ -119,11 +119,11 @@ export function MoodTimeline({ moods }: MoodTimelineProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="h-[200px] w-full">
+        <div className="h-[200px] w-full min-w-0 overflow-visible">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
               data={chartData}
-              margin={{ top: 5, right: 10, left: -20, bottom: 0 }}
+              margin={{ top: 5, right: 16, left: 36, bottom: 24 }}
             >
               <CartesianGrid
                 strokeDasharray="3 3"
@@ -142,7 +142,7 @@ export function MoodTimeline({ moods }: MoodTimelineProps) {
                 tick={{ fontSize: 14 }}
                 axisLine={false}
                 tickLine={false}
-                width={30}
+                width={32}
               />
               <Tooltip
                 content={({ active, payload }) => {

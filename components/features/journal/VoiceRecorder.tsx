@@ -60,20 +60,18 @@ export function VoiceRecorder({ autoStart = false }: VoiceRecorderProps) {
     if (!audioBlob) return;
 
     setIsProcessing(true);
-    try {
-      await submitVoiceJournal(audioBlob);
+    const result = await submitVoiceJournal(audioBlob);
+    if (result.success) {
       toast.success("Voice journal submitted successfully");
       setAudioBlob(null);
       setAudioUrl(null);
       if (audioUrl) {
         URL.revokeObjectURL(audioUrl);
       }
-    } catch (error) {
-      console.error("Error submitting journal:", error);
-      toast.error("Failed to submit voice journal");
-    } finally {
-      setIsProcessing(false);
+    } else {
+      toast.error(result.error || "Failed to submit voice journal");
     }
+    setIsProcessing(false);
   };
 
   useEffect(() => {

@@ -12,6 +12,8 @@ interface TestNavigationProps {
   onBack: () => void;
   onNext: () => void;
   onSubmit: () => void;
+  /** Label for the submit button on the last page (e.g. "See results") */
+  submitLabel?: string;
 }
 
 export const TestNavigation = forwardRef<HTMLButtonElement | null, TestNavigationProps>(
@@ -24,6 +26,7 @@ export const TestNavigation = forwardRef<HTMLButtonElement | null, TestNavigatio
       onBack,
       onNext,
       onSubmit,
+      submitLabel = "Submit",
     },
     ref
   ) {
@@ -31,13 +34,13 @@ export const TestNavigation = forwardRef<HTMLButtonElement | null, TestNavigatio
     const isLast = currentIndex === total - 1;
 
     return (
-      <div className="mt-8 flex items-center justify-between">
+      <div className="mt-10 flex items-center justify-between">
         <Button
           variant="ghost"
-          size="sm"
+          size="default"
           onClick={onBack}
           disabled={isFirst}
-          className="gap-1 text-muted-foreground"
+          className="gap-1.5 text-base text-muted-foreground"
         >
           <ChevronLeft className="h-4 w-4" />
           Back
@@ -48,9 +51,10 @@ export const TestNavigation = forwardRef<HTMLButtonElement | null, TestNavigatio
             ref={ref}
             onClick={onSubmit}
             disabled={!canGoNext || isSubmitting}
-            className="gap-2 rounded-xl px-6"
+            size="lg"
+            className="gap-2 rounded-xl px-8 text-base bg-violet-600 hover:bg-violet-700 text-white"
           >
-            {isSubmitting ? "Submitting..." : "Submit"}
+            {isSubmitting ? "..." : submitLabel}
             {!isSubmitting && <Send className="h-4 w-4" />}
           </Button>
         ) : (
@@ -58,7 +62,8 @@ export const TestNavigation = forwardRef<HTMLButtonElement | null, TestNavigatio
             ref={ref}
             onClick={onNext}
             disabled={!canGoNext}
-            className="gap-1 rounded-xl"
+            size="lg"
+            className="gap-1.5 rounded-xl px-8 text-base bg-violet-600 hover:bg-violet-700 text-white"
           >
             Next
             <ChevronRight className="h-4 w-4" />

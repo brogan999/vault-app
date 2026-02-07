@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getClerkUserId, getSupabaseUser } from "@/lib/clerk/utils";
 import { retrieveContext } from "@/lib/ai/rag";
 import { getSystemPrompt, buildUserPrompt } from "@/lib/ai/prompts";
+import { canSendMirrorMessage, deductMirrorMessage } from "@/lib/credits";
 import { openai } from "@ai-sdk/openai";
 import { streamText } from "ai";
 import { revalidatePath } from "next/cache";
@@ -239,6 +240,16 @@ export async function sendMessage(
   }
 
   await assertSessionOwnership(supabase, sessionId, user.id);
+
+  const tier = user.subscriptionTier ?? "free";
+  const { allowed, reason } = await canSendMirrorMessage(supabase, user.id, tier);
+  if (!allowed) {
+    if (reason === "daily_limit") {
+      throw new Error("daily_limit");
+    }
+    throw new Error("monthly_limit");
+  }
+  await deductMirrorMessage(supabase, user.id, tier);
 
   // Save user message
   await supabase.from("messages").insert({

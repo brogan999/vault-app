@@ -3,7 +3,7 @@
 import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { getSupabaseUser } from "@/lib/clerk/utils";
 import { revalidatePath } from "next/cache";
-import { products, getProductById } from "@/lib/products";
+import { AVAILABLE_TEST_COUNT, getProductById } from "@/lib/products";
 import { getUserTestResults } from "@/app/actions/tests";
 
 export type DocumentCategory = "cognitive" | "esoteric" | "journal" | "psyche";
@@ -19,11 +19,12 @@ export interface VaultDocument {
 }
 
 export async function getDocumentsForVault(): Promise<VaultDocument[]> {
-  const user = await getSupabaseUser();
-  if (!user) return [];
+  try {
+    const user = await getSupabaseUser();
+    if (!user) return [];
 
-  const supabase = await createClient();
-  const { data, error } = await supabase
+    const supabase = await createClient();
+    const { data, error } = await supabase
     .from("documents")
     .select("id, fileName, type, category, status, fileUrl, createdAt")
     .eq("userId", user.id)
@@ -34,15 +35,21 @@ export async function getDocumentsForVault(): Promise<VaultDocument[]> {
     return [];
   }
 
-  return (data || []).map((d) => ({
-    id: d.id,
-    fileName: d.fileName,
-    type: d.type,
-    category: d.category as DocumentCategory,
-    status: d.status,
-    fileUrl: (d.fileUrl as string) || null,
-    createdAt: d.createdAt,
-  }));
+  return (data || []).map((d: Record<string, unknown>) => {
+    const createdAt = d.createdAt;
+    return {
+      id: d.id,
+      fileName: d.fileName,
+      type: d.type,
+      category: d.category as DocumentCategory,
+      status: d.status,
+      fileUrl: (d.fileUrl as string) || null,
+      createdAt: typeof createdAt === "string" ? createdAt : createdAt instanceof Date ? createdAt.toISOString() : String(createdAt ?? ""),
+    };
+  });
+  } catch {
+    return [];
+  }
 }
 
 export interface VaultDocumentDetail {
@@ -145,7 +152,7 @@ export async function getVaultStats(): Promise<VaultStatsData> {
   if (!user) {
     return {
       testsCompleted: 0,
-      testsAvailable: products.length,
+      testsAvailable: AVAILABLE_TEST_COUNT,
       savedProfilesCount: 0,
       lastTakenLabel: null,
     };
@@ -169,7 +176,7 @@ export async function getVaultStats(): Promise<VaultStatsData> {
 
   return {
     testsCompleted,
-    testsAvailable: products.length,
+    testsAvailable: AVAILABLE_TEST_COUNT,
     savedProfilesCount: 0,
     lastTakenLabel: latest ? formatRelative(latest) : null,
   };

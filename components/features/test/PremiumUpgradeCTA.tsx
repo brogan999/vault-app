@@ -38,8 +38,9 @@ export function PremiumUpgradeCTA({
       if (result?.url) {
         window.location.href = result.url;
       }
-    } catch {
-      toast.error("Failed to initiate purchase. Please try again.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to initiate purchase. Please try again.";
+      toast.error(message);
     } finally {
       setLoading(false);
     }

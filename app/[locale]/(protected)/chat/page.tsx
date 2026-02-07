@@ -25,6 +25,7 @@ import { ChatPersonaSelector } from "@/components/features/chat/ChatPersonaSelec
 import { Shield, ShieldCheck, PanelLeft } from "lucide-react";
 import { toast } from "sonner";
 import { getProductById } from "@/lib/products";
+import { MirrorCreditsWidget } from "@/components/features/chat/MirrorCreditsWidget";
 
 export default function ChatPage() {
   const { privacyShieldEnabled, setPrivacyShield } = usePrivacyStore();
@@ -89,7 +90,14 @@ export default function ChatPage() {
     transport,
     messages: seedMessages,
     onError: (err) => {
-      toast.error(err?.message ?? "Failed to get a response. Please try again.");
+      const msg = err?.message ?? "";
+      if (msg === "daily_limit") {
+        toast.error("You've used your 10 messages for today. Resets at midnight UTC.");
+      } else if (msg === "monthly_limit") {
+        toast.error("You've reached your monthly message limit. Top up in Settings or wait until renewal.");
+      } else {
+        toast.error(msg || "Failed to get a response. Please try again.");
+      }
     },
   } as Parameters<typeof useChat>[0]);
 
@@ -197,14 +205,23 @@ export default function ChatPage() {
 
   return (
     <div className="flex h-full w-full">
-      {/* History sidebar */}
-      <ChatHistory
-        currentSessionId={sessionId}
-        onSelectSession={handleSelectSession}
-        onNewChat={handleNewChat}
-        isOpen={chatSidebarOpen}
-        onToggle={() => setChatSidebarOpen((prev) => !prev)}
-      />
+      {/* History sidebar + credits */}
+      <div className="flex flex-col shrink-0">
+        <ChatHistory
+          currentSessionId={sessionId}
+          onSelectSession={handleSelectSession}
+          onNewChat={handleNewChat}
+          isOpen={chatSidebarOpen}
+          onToggle={() => setChatSidebarOpen((prev) => !prev)}
+        />
+        {chatSidebarOpen && (
+          <div className="border-t border-border bg-card px-3 py-3 shrink-0">
+            <MirrorCreditsWidget
+              refreshTrigger={messages.filter((m) => m.role === "user").length}
+            />
+          </div>
+        )}
+      </div>
 
       {/* Main chat area */}
       <div className="flex-1 flex flex-col min-w-0 bg-background">
@@ -230,12 +247,12 @@ export default function ChatPage() {
               onClick={async () => {
                 const next = !privacyShieldEnabled;
                 setPrivacyShield(next);
-                try {
-                  await togglePrivacyShield(next);
+                const result = await togglePrivacyShield(next);
+                if (result.success) {
                   toast.success(next ? "Privacy Shield enabled — conversations won't be stored" : "Privacy Shield disabled");
-                } catch {
+                } else {
                   setPrivacyShield(!next);
-                  toast.error("Failed to update Privacy Shield");
+                  toast.error(result.error || "Failed to update Privacy Shield");
                 }
               }}
               className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${

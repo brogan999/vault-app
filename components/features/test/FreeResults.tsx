@@ -2,23 +2,43 @@
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import type { TestScores, TestInterpretation } from "@/lib/tests/types";
 
 interface FreeResultsProps {
   testTitle: string;
   scores: TestScores;
   interpretation: TestInterpretation | null;
+  /** Optional: from post-test collect; used for avatar in results header */
+  gender?: string | null;
 }
 
-export function FreeResults({ testTitle, scores, interpretation }: FreeResultsProps) {
+export function FreeResults({ testTitle, scores, interpretation, gender }: FreeResultsProps) {
   const interp = interpretation ?? { summary: "", dimensionDetails: [], tips: [] };
   const hasTypeAndDimensions = scores?.typeCode && (scores.dimensions?.length ?? 0) > 0;
+  const avatarInitial = gender
+    ? gender.toLowerCase() === "male"
+      ? "M"
+      : gender.toLowerCase() === "female"
+        ? "F"
+        : "O"
+    : null;
+
   return (
     <div className="space-y-6">
       <div className="text-center space-y-3">
-        <h1 className="text-2xl font-bold font-serif text-foreground md:text-3xl">
-          Your Results
-        </h1>
+        <div className="flex items-center justify-center gap-3">
+          {avatarInitial && (
+            <Avatar className="h-12 w-12 rounded-full border-2 border-primary/20">
+              <AvatarFallback className="bg-primary/10 text-primary text-lg font-semibold">
+                {avatarInitial}
+              </AvatarFallback>
+            </Avatar>
+          )}
+          <h1 className="text-2xl font-bold font-serif text-foreground md:text-3xl">
+            Your Results
+          </h1>
+        </div>
         <p className="text-sm text-muted-foreground">{testTitle}</p>
         {!hasTypeAndDimensions && scores?.typeLabel && (
           <div className="inline-flex items-center gap-2">

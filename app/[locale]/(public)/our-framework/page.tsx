@@ -1,8 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { HERO_TEST_ID } from "@/lib/products";
-import { Archive, ArrowLeft, Globe } from "lucide-react";
+import { Globe } from "lucide-react";
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -25,32 +24,8 @@ const SECTIONS = [
 ];
 
 export default async function OurFrameworkPage() {
-  const t = await getTranslations("common");
-
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-lg">
-        <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-4 lg:px-8">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
-              <Archive className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="text-lg font-bold tracking-tight text-foreground font-serif">
-              {t("theVault")}
-            </span>
-          </Link>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Home
-          </Link>
-        </div>
-      </header>
-
-      <div className="mx-auto max-w-4xl px-4 py-10 lg:px-8 lg:py-14">
+    <div className="mx-auto max-w-4xl px-4 py-10 lg:px-8 lg:py-14">
         {/* Page title & intro */}
         <div className="mb-12 border-b border-border/60 pb-10">
           <p className="text-sm font-semibold uppercase tracking-wider text-primary">
@@ -574,6 +549,5 @@ export default async function OurFrameworkPage() {
           </Link>
         </div>
       </div>
-    </div>
   );
 }

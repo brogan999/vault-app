@@ -10,10 +10,14 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+type JournalResult =
+  | { success: true; documentId: string }
+  | { success: false; error: string };
+
 /** Submit a written journal entry with an optional mood tag. */
-export async function submitTextJournal(text: string, mood?: string) {
+export async function submitTextJournal(text: string, mood?: string): Promise<JournalResult> {
   const user = await getSupabaseUser();
-  if (!user) throw new Error("Unauthorized");
+  if (!user) return { success: false, error: "Unauthorized" };
 
   const supabase = await createClient();
 
@@ -36,7 +40,7 @@ export async function submitTextJournal(text: string, mood?: string) {
     .single();
 
   if (error || !doc) {
-    throw new Error(`Failed to save journal entry: ${error?.message}`);
+    return { success: false, error: error?.message ?? "Failed to save journal entry" };
   }
 
   // Generate embeddings for RAG
@@ -53,77 +57,76 @@ export async function submitTextJournal(text: string, mood?: string) {
 }
 
 /** Log only a mood (quick one-tap entry). */
-export async function submitMoodOnly(mood: string) {
+export async function submitMoodOnly(mood: string): Promise<JournalResult> {
   return submitTextJournal(`Mood check-in: feeling ${mood}.`, mood);
 }
 
-export async function submitVoiceJournal(audioBlob: Blob) {
+export async function submitVoiceJournal(
+  audioBlob: Blob
+): Promise<JournalResult> {
   const userId = await getClerkUserId();
-  if (!userId) {
-    throw new Error("Unauthorized");
-  }
+  if (!userId) return { success: false, error: "Unauthorized" };
 
   const supabase = await createClient();
   const user = await getSupabaseUser();
+  if (!user) return { success: false, error: "User not found" };
 
-  if (!user) {
-    throw new Error("User not found");
-  }
-
-  // Convert blob to file-like object for OpenAI
-  const audioFile = new File([audioBlob], "voice-journal.webm", {
-    type: "audio/webm",
-  });
-
-  // Transcribe using Whisper
-  const transcription = await openai.audio.transcriptions.create({
-    file: audioFile,
-    model: "whisper-1",
-  });
-
-  const transcriptText = transcription.text;
-
-  // Upload audio to Supabase Storage
-  const filePath = `${user.id}/journals/${Date.now()}-voice-journal.webm`;
-  const { error: uploadError } = await supabase.storage
-    .from("documents")
-    .upload(filePath, audioBlob, {
-      contentType: "audio/webm",
-      upsert: false,
+  try {
+    const audioFile = new File([audioBlob], "voice-journal.webm", {
+      type: "audio/webm",
     });
 
-  if (uploadError) {
-    throw new Error(`Upload failed: ${uploadError.message}`);
+    const transcription = await openai.audio.transcriptions.create({
+      file: audioFile,
+      model: "whisper-1",
+    });
+
+    const transcriptText = transcription.text;
+
+    const filePath = `${user.id}/journals/${Date.now()}-voice-journal.webm`;
+    const { error: uploadError } = await supabase.storage
+      .from("documents")
+      .upload(filePath, audioBlob, {
+        contentType: "audio/webm",
+        upsert: false,
+      });
+
+    if (uploadError) {
+      return { success: false, error: `Upload failed: ${uploadError.message}` };
+    }
+
+    const { data: urlData } = supabase.storage
+      .from("documents")
+      .getPublicUrl(filePath);
+
+    const { data: document, error: docError } = await supabase
+      .from("documents")
+      .insert({
+        userId: user.id,
+        fileUrl: urlData.publicUrl,
+        fileName: "voice-journal.webm",
+        type: "audio",
+        category: "journal",
+        contentText: transcriptText,
+        status: "pending",
+      })
+      .select()
+      .single();
+
+    if (docError || !document) {
+      return {
+        success: false,
+        error: docError?.message ?? "Failed to create document record",
+      };
+    }
+
+    await processDocument(document.id, filePath, "audio", user.id);
+
+    revalidatePath("/mirror");
+    revalidatePath("/vault");
+    return { success: true, documentId: document.id };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Voice journal failed";
+    return { success: false, error: message };
   }
-
-  // Get public URL
-  const { data: urlData } = supabase.storage
-    .from("documents")
-    .getPublicUrl(filePath);
-
-  // Create document record
-  const { data: document, error: docError } = await supabase
-    .from("documents")
-    .insert({
-      userId: user.id,
-      fileUrl: urlData.publicUrl,
-      fileName: "voice-journal.webm",
-      type: "audio",
-      category: "journal",
-      contentText: transcriptText,
-      status: "pending",
-    })
-    .select()
-    .single();
-
-  if (docError || !document) {
-    throw new Error(`Failed to create document record: ${docError?.message}`);
-  }
-
-  // Process document (generate embeddings)
-  await processDocument(document.id, filePath, "audio", user.id);
-
-  revalidatePath("/mirror");
-  revalidatePath("/vault");
-  return { success: true, documentId: document.id };
 }

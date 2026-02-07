@@ -279,6 +279,26 @@ export const colorPalettes: Record<ColorPalette, PaletteDef> = {
   },
 };
 
+/** Six distinct category colors + dark card background for Mirror/Vault. */
+const categoryColorsByTheme: Record<Theme, Record<string, { color: string; bgColor: string; cardBg: string }>> = {
+  light: {
+    personality: { color: "oklch(0.55 0.22 285)", bgColor: "oklch(0.94 0.03 285)", cardBg: "oklch(0.28 0.08 285)" },
+    intelligence: { color: "oklch(0.65 0.18 55)", bgColor: "oklch(0.95 0.04 55)", cardBg: "oklch(0.32 0.08 55)" },
+    strengths: { color: "oklch(0.55 0.18 155)", bgColor: "oklch(0.94 0.04 155)", cardBg: "oklch(0.28 0.08 155)" },
+    wellness: { color: "oklch(0.58 0.14 205)", bgColor: "oklch(0.94 0.03 205)", cardBg: "oklch(0.30 0.06 205)" },
+    astrology: { color: "oklch(0.58 0.25 320)", bgColor: "oklch(0.94 0.05 320)", cardBg: "oklch(0.28 0.10 320)" },
+    career: { color: "oklch(0.52 0.18 250)", bgColor: "oklch(0.94 0.04 250)", cardBg: "oklch(0.28 0.08 250)" },
+  },
+  dark: {
+    personality: { color: "oklch(0.72 0.19 285)", bgColor: "oklch(0.28 0.05 285)", cardBg: "oklch(0.25 0.08 285)" },
+    intelligence: { color: "oklch(0.78 0.16 55)", bgColor: "oklch(0.28 0.05 55)", cardBg: "oklch(0.28 0.08 55)" },
+    strengths: { color: "oklch(0.72 0.17 155)", bgColor: "oklch(0.28 0.05 155)", cardBg: "oklch(0.25 0.08 155)" },
+    wellness: { color: "oklch(0.72 0.14 205)", bgColor: "oklch(0.28 0.04 205)", cardBg: "oklch(0.27 0.06 205)" },
+    astrology: { color: "oklch(0.75 0.22 320)", bgColor: "oklch(0.28 0.06 320)", cardBg: "oklch(0.25 0.10 320)" },
+    career: { color: "oklch(0.68 0.18 250)", bgColor: "oklch(0.28 0.05 250)", cardBg: "oklch(0.25 0.08 250)" },
+  },
+};
+
 export function applyTheme(theme: Theme, palette: ColorPalette) {
   const colors = colorPalettes[palette][theme];
   const root = document.documentElement;
@@ -309,4 +329,12 @@ export function applyTheme(theme: Theme, palette: ColorPalette) {
   root.style.setProperty("--sidebar-accent-foreground", colors.sidebarAccentForeground);
   root.style.setProperty("--chart-1", colors.chart1);
   root.style.setProperty("--chart-2", colors.chart2);
+
+  // Category colors + dark card background
+  const categoryColors = categoryColorsByTheme[theme];
+  for (const [key, value] of Object.entries(categoryColors)) {
+    root.style.setProperty(`--category-${key}`, value.color);
+    root.style.setProperty(`--category-${key}-bg`, value.bgColor);
+    root.style.setProperty(`--category-${key}-card`, value.cardBg);
+  }
 }

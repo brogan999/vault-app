@@ -6,9 +6,11 @@ import { cn } from "@/lib/utils";
 interface MainStageProps {
   children: ReactNode;
   className?: string;
+  /** Rendered at the end of the scrollable area so footer only appears at bottom of scroll */
+  footer?: ReactNode;
 }
 
-export function MainStage({ children, className }: MainStageProps) {
+export function MainStage({ children, className, footer }: MainStageProps) {
   return (
     <main
       className={cn(
@@ -21,6 +23,7 @@ export function MainStage({ children, className }: MainStageProps) {
       <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-[1200px] mx-auto">
         {children}
       </div>
+      {footer}
     </main>
   );
 }

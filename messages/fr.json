@@ -51,10 +51,15 @@
       "disclaimer": "Aucune carte de crédit requise. Moins de 10 minutes."
     },
     "socialProof": {
-      "testsToday": "Tests passés aujourd'hui",
-      "testsUS": "Tests passés aux États-Unis",
-      "totalTests": "Tests passés au total",
-      "ratedAccurate": "Jugés précis ou très précis"
+      "headline": "Pourquoi The Vault",
+      "stat1Value": "10",
+      "stat1Label": "Cadres de personnalité en un seul endroit — science et symbolisme",
+      "stat2Value": "Zéro",
+      "stat2Label": "Nous ne vendons ni ne partageons jamais vos données",
+      "stat3Value": "Validé",
+      "stat3Label": "Méthodes psychométriques validées par la recherche",
+      "stat4Value": "Un",
+      "stat4Label": "Une IA qui tisse votre portrait complet"
     },
     "features": {
       "sectionLabel": "Tout ce dont vous avez besoin",
@@ -105,37 +110,32 @@
       "freePlan": "Gratuit",
       "freePrice": "$0",
       "freePeriod": "pour toujours",
-      "freeDescription": "Pour les explorateurs curieux prêts à commencer le voyage.",
-      "freeFeature1": "Test de personnalité Big 5",
-      "freeFeature2": "Descriptions de types de base",
-      "freeFeature3": "3 conversations IA par jour",
-      "freeFeature4": "Stockage Vault (50 Mo)",
-      "freeFeature5": "Journal d'humeur (5 entrées/semaine)",
+      "freeDescription": "Passez chaque test. Découvrez chaque cadre. Commencez à vous comprendre.",
+      "freeFeature1": "Les 10 évaluations gratuites (résumés limités)",
+      "freeFeature2": "10 messages Mirror par jour",
+      "freeFeature3": "Stockage Vault (50 Mo)",
+      "freeFeature4": "Journal d'humeur (5 entrées/semaine)",
+      "freeFeature5": "Cartes de résultats partageables",
       "freeCta": "Commencer gratuitement",
       "proPlan": "Pro",
-      "proPrice": "$12",
+      "proPrice": "$14.99",
       "proPeriod": "/mois",
+      "proPriceMonthly": "Mensuel",
+      "proPriceAnnual": "Annuel",
+      "proPriceMonthlyDisplay": "14,99 $/mois",
+      "proPriceAnnualDisplay": "119,99 $/an (économisez 33 %)",
       "proDescription": "Pour ceux qui prennent la connaissance de soi au sérieux.",
-      "proFeature1": "Toutes les fonctionnalités gratuites",
-      "proFeature2": "12 évaluations premium",
-      "proFeature3": "Conversations IA illimitées",
-      "proFeature4": "Stockage Vault (5 Go)",
+      "proFeature1": "Tous les rapports premium inclus",
+      "proFeature2": "300 messages Mirror par mois",
+      "proFeature3": "Journaux vocaux avec analyse IA",
+      "proFeature4": "Paramètres de personnalité IA",
       "proFeature5": "Entrées de journal illimitées",
       "proFeature6": "Rapports de tendances de croissance",
-      "proFeature7": "Journaux vocaux avec analyse IA",
-      "proFeature8": "Paramètres de personnalité IA personnalisés",
+      "proFeature7": "10 Go Vault, relances proactives",
+      "proFeature8": "Tableau de bord, export des données",
       "proCta": "Essai gratuit de 7 jours",
-      "lifetimePlan": "À vie",
-      "lifetimePrice": "$149",
-      "lifetimePeriod": "paiement unique",
-      "lifetimeDescription": "Possédez votre boîte à outils de découverte de soi pour toujours.",
-      "lifetimeFeature1": "Tout ce qui est dans Pro",
-      "lifetimeFeature2": "Toutes les futures évaluations incluses",
-      "lifetimeFeature3": "Stockage Vault (illimité)",
-      "lifetimeFeature4": "Réponses IA prioritaires",
-      "lifetimeFeature5": "Accès anticipé aux nouvelles fonctionnalités",
-      "lifetimeFeature6": "Exportez toutes vos données à tout moment",
-      "lifetimeCta": "Obtenir l'accès à vie"
+      "premiumReportsBlurb": "Rapports premium : achetez des rapports à partir de 9,99 $ sans abonnement.",
+      "topUpsBlurb": "Les utilisateurs Pro peuvent acheter des messages Mirror : 50 pour 2,99 $, 100 pour 4,99 $, 250 pour 9,99 $."
     },
     "finalCta": {
       "title": "Curieux de savoir à quel point nous sommes précis à votre sujet ?",
@@ -157,6 +157,7 @@
       "help": "Aide",
       "contactUs": "Nous contacter",
       "faq": "FAQ",
+      "knowledgeBase": "Base de connaissances",
       "privacyPolicy": "Politique de confidentialité",
       "termsAndConditions": "Conditions générales",
       "copyright": "2024-2026 The Vault. Tous droits réservés."
@@ -509,5 +510,20 @@
   "share": {
     "sharedFrom": "Partagé depuis The Vault",
     "poweredBy": "Propulsé par"
+  },
+  "test": {
+    "header": {
+      "personalityTest": "Test de personnalité",
+      "personalityTypes": "Types de personnalité",
+      "store": "Boutique",
+      "resources": "Ressources",
+      "ourFramework": "Notre cadre",
+      "articles": "Articles",
+      "faq": "FAQ",
+      "knowledgeBase": "Base de connaissances",
+      "privacyPolicy": "Politique de confidentialité",
+      "termsAndConditions": "Conditions générales",
+      "logIn": "Se connecter"
+    }
   }
 }

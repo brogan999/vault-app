@@ -71,33 +71,30 @@ export function VoiceJournalWidget({
     if (mode === "write") return;
     // Quick mood-only check-in
     setMoodSaving(true);
-    try {
-      await submitMoodOnly(mood);
+    const result = await submitMoodOnly(mood);
+    if (result.success) {
       toast.success(`Mood logged: ${moodEmojis[mood]} ${mood}`);
-      // Reset after a moment
       setTimeout(() => setSelectedMood(null), 2000);
-    } catch {
-      toast.error("Failed to save mood");
-    } finally {
-      setMoodSaving(false);
+    } else {
+      toast.error(result.error || "Failed to save mood");
     }
+    setMoodSaving(false);
   };
 
   const handleSubmitText = async () => {
     const trimmed = text.trim();
     if (!trimmed || submitting) return;
     setSubmitting(true);
-    try {
-      await submitTextJournal(trimmed, selectedMood || undefined);
+    const result = await submitTextJournal(trimmed, selectedMood || undefined);
+    if (result.success) {
       toast.success("Journal entry saved");
       setText("");
       setSelectedMood(null);
       setMode("idle");
-    } catch {
-      toast.error("Failed to save journal entry");
-    } finally {
-      setSubmitting(false);
+    } else {
+      toast.error(result.error || "Failed to save journal entry");
     }
+    setSubmitting(false);
   };
 
   // Use real data, fall back to empty

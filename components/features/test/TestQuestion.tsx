@@ -75,40 +75,58 @@ const LikertQuestion = forwardRef<TestQuestionRef, TestQuestionProps & { variant
     }));
 
     if (variant === "inline") {
-      const leftLabel = options[0]?.label ?? "Disagree";
-      const rightLabel = options[options.length - 1]?.label ?? "Agree";
+      // 16p style: Agree (left) to Disagree (right); show options reversed so Strongly Agree is left
+      const reversed = [...options].reverse();
+      const leftLabel = options[options.length - 1]?.label ?? "Agree";
+      const rightLabel = options[0]?.label ?? "Disagree";
+      const n = reversed.length;
       return (
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold leading-relaxed text-foreground md:text-xl">
+        <div className="space-y-5">
+          <h2 className="text-xl font-semibold leading-relaxed text-foreground md:text-2xl">
             {question.text}
           </h2>
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 sm:gap-3">
-              <span className="w-24 shrink-0 text-left text-xs font-medium text-muted-foreground sm:text-sm">
+              <span className="w-28 shrink-0 text-left text-sm font-medium text-emerald-600 dark:text-emerald-400 sm:text-base">
                 {leftLabel}
               </span>
               <div className="flex flex-1 justify-between gap-1">
-                {options.map((opt, i) => (
-                  <button
-                    key={String(opt.value)}
-                    ref={i === 0 ? firstOptionRef : undefined}
-                    type="button"
-                    onClick={() => onChange(opt.value)}
-                    aria-label={opt.label}
-                    className={cn(
-                      "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 transition-colors sm:h-11 sm:w-11",
-                      value === opt.value
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-border bg-card hover:border-primary/40 hover:bg-muted/50"
-                    )}
-                  >
-                    {value === opt.value ? (
-                      <span className="h-2 w-2 rounded-full bg-current" />
-                    ) : null}
-                  </button>
-                ))}
+                {reversed.map((opt, i) => {
+                  const selected = value === opt.value;
+                  const isAgreeSide = n >= 7 ? i <= 2 : i <= 1;
+                  const isDisagreeSide = n >= 7 ? i >= 4 : i >= n - 2;
+                  const isNeutral = n >= 7 && i === 3;
+                  const selectedStyle = selected
+                    ? isAgreeSide
+                      ? "border-emerald-500 bg-emerald-500 text-white"
+                      : isDisagreeSide
+                        ? "border-violet-500 bg-violet-500 text-white"
+                        : isNeutral
+                          ? "border-muted-foreground/50 bg-muted text-foreground"
+                          : "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-card hover:border-primary/40 hover:bg-muted/50";
+                  return (
+                    <button
+                      key={String(opt.value)}
+                      ref={i === 0 ? firstOptionRef : undefined}
+                      type="button"
+                      onClick={() => onChange(opt.value)}
+                      aria-label={opt.label}
+                      className={cn(
+                        "flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 transition-colors sm:h-12 sm:w-12",
+                        selectedStyle
+                      )}
+                    >
+                      {selected ? (
+                        <svg className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      ) : null}
+                    </button>
+                  );
+                })}
               </div>
-              <span className="w-24 shrink-0 text-right text-xs font-medium text-muted-foreground sm:text-sm">
+              <span className="w-28 shrink-0 text-right text-sm font-medium text-violet-600 dark:text-violet-400 sm:text-base">
                 {rightLabel}
               </span>
             </div>
@@ -119,7 +137,7 @@ const LikertQuestion = forwardRef<TestQuestionRef, TestQuestionProps & { variant
 
     return (
       <div className="space-y-6">
-        <h2 className="text-lg font-semibold leading-relaxed text-foreground md:text-xl">
+        <h2 className="text-xl font-semibold leading-relaxed text-foreground md:text-2xl">
           {question.text}
         </h2>
         <div className="flex flex-col gap-3">
@@ -185,7 +203,7 @@ const MultipleChoiceQuestion = forwardRef<TestQuestionRef, TestQuestionProps>(
 
     return (
       <div className="space-y-6">
-        <h2 className="text-lg font-semibold leading-relaxed text-foreground md:text-xl">
+        <h2 className="text-xl font-semibold leading-relaxed text-foreground md:text-2xl">
           {question.text}
         </h2>
         <div className="flex flex-col gap-3">
@@ -223,7 +241,7 @@ const ForcedChoiceQuestion = forwardRef<TestQuestionRef, TestQuestionProps>(
 
     return (
       <div className="space-y-6">
-        <h2 className="text-lg font-semibold leading-relaxed text-foreground md:text-xl">
+        <h2 className="text-xl font-semibold leading-relaxed text-foreground md:text-2xl">
           {question.text}
         </h2>
         <div className="grid gap-3 sm:grid-cols-2">
@@ -254,7 +272,7 @@ const ForcedChoiceQuestion = forwardRef<TestQuestionRef, TestQuestionProps>(
 function TextInputQuestion({ question, value, onChange }: TestQuestionProps) {
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold leading-relaxed text-foreground md:text-xl">
+      <h2 className="text-xl font-semibold leading-relaxed text-foreground md:text-2xl">
         {question.text}
       </h2>
       <input
@@ -273,7 +291,7 @@ function TextInputQuestion({ question, value, onChange }: TestQuestionProps) {
 function DateInputQuestion({ question, value, onChange }: TestQuestionProps) {
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold leading-relaxed text-foreground md:text-xl">
+      <h2 className="text-xl font-semibold leading-relaxed text-foreground md:text-2xl">
         {question.text}
       </h2>
       <input
@@ -291,7 +309,7 @@ function DateInputQuestion({ question, value, onChange }: TestQuestionProps) {
 function NumberInputQuestion({ question, value, onChange }: TestQuestionProps) {
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold leading-relaxed text-foreground md:text-xl">
+      <h2 className="text-xl font-semibold leading-relaxed text-foreground md:text-2xl">
         {question.text}
       </h2>
       <input

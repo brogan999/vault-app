@@ -48,10 +48,10 @@ export function ChatPersonaSelector() {
     const next = value as PersonaId;
     setPersona(next);
     setOpen(false);
-    try {
-      await updatePersonaPreference(next);
+    const result = await updatePersonaPreference(next);
+    if (result.success) {
       toast.success(t("personaUpdated"));
-    } catch {
+    } else {
       setPersona(persona);
       toast.error(t("personaFailed"));
     }

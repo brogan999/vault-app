@@ -51,10 +51,15 @@
       "disclaimer": "クレジットカード不要。所要時間は10分未満。"
     },
     "socialProof": {
-      "testsToday": "本日受けられたテスト数",
-      "testsUS": "米国で受けられたテスト数",
-      "totalTests": "累計テスト数",
-      "ratedAccurate": "「正確」または「非常に正確」と評価"
+      "headline": "なぜThe Vaultか",
+      "stat1Value": "10",
+      "stat1Label": "10の性格フレームワークを一つの場所で — 科学と象徴",
+      "stat2Value": "ゼロ",
+      "stat2Label": "あなたのデータを販売・共有することはありません",
+      "stat3Value": "検証済み",
+      "stat3Label": "研究に基づく心理測定手法",
+      "stat4Value": "ひとつ",
+      "stat4Label": "あなたの全体像を紡ぐAI"
     },
     "features": {
       "sectionLabel": "必要なものがすべて揃う",
@@ -105,37 +110,32 @@
       "freePlan": "無料",
       "freePrice": "$0",
       "freePeriod": "永久無料",
-      "freeDescription": "旅を始める準備ができた探求者のために。",
-      "freeFeature1": "Big 5 性格診断テスト",
-      "freeFeature2": "基本タイプ解説",
-      "freeFeature3": "1日3回のAI会話",
-      "freeFeature4": "Vaultファイルストレージ（50MB）",
-      "freeFeature5": "ムードジャーナル（週5エントリー）",
+      "freeDescription": "すべての診断を受けよう。すべての枠組みを発見しよう。自分を理解し始めよう。",
+      "freeFeature1": "10の診断が無料（要約のみ）",
+      "freeFeature2": "1日10回のMirrorメッセージ",
+      "freeFeature3": "Vaultストレージ（50MB）",
+      "freeFeature4": "ムードジャーナル（週5エントリー）",
+      "freeFeature5": "共有用結果カード",
       "freeCta": "無料で始める",
       "proPlan": "Pro",
-      "proPrice": "$12",
+      "proPrice": "$14.99",
       "proPeriod": "/月",
+      "proPriceMonthly": "月額",
+      "proPriceAnnual": "年額",
+      "proPriceMonthlyDisplay": "$14.99/月",
+      "proPriceAnnualDisplay": "$119.99/年（33%お得）",
       "proDescription": "自己理解に本気で取り組む方のために。",
-      "proFeature1": "無料プランの全機能",
-      "proFeature2": "12のプレミアム診断",
-      "proFeature3": "無制限のAI会話",
-      "proFeature4": "Vaultファイルストレージ（5GB）",
+      "proFeature1": "全プレミアムレポート込み",
+      "proFeature2": "月300回のMirrorメッセージ",
+      "proFeature3": "AI分析付き音声ジャーナル",
+      "proFeature4": "カスタムAIペルソナ設定",
       "proFeature5": "無制限のジャーナルエントリー",
       "proFeature6": "成長トレンドレポート",
-      "proFeature7": "AI分析付き音声ジャーナル",
-      "proFeature8": "カスタムAIペルソナ設定",
+      "proFeature7": "10GB Vault、プロアクティブチェックイン",
+      "proFeature8": "クロスフレームワークダッシュボード、データエクスポート",
       "proCta": "7日間無料トライアルを始める",
-      "lifetimePlan": "Lifetime",
-      "lifetimePrice": "$149",
-      "lifetimePeriod": "一回限り",
-      "lifetimeDescription": "自己発見ツールキットを永久に手に入れる。",
-      "lifetimeFeature1": "Proの全機能",
-      "lifetimeFeature2": "今後のすべての診断を含む",
-      "lifetimeFeature3": "Vaultストレージ（無制限）",
-      "lifetimeFeature4": "優先AIレスポンス",
-      "lifetimeFeature5": "新機能への早期アクセス",
-      "lifetimeFeature6": "いつでも全データをエクスポート",
-      "lifetimeCta": "Lifetimeアクセスを取得"
+      "premiumReportsBlurb": "プレミアムレポート：$9.99から単体購入可能。",
+      "topUpsBlurb": "ProユーザーはMirrorメッセージを追加購入できます：50本$2.99、100本$4.99、250本$9.99。"
     },
     "finalCta": {
       "title": "私たちの診断がどれだけ正確か、気になりませんか？",
@@ -157,6 +157,7 @@
       "help": "ヘルプ",
       "contactUs": "お問い合わせ",
       "faq": "よくある質問",
+      "knowledgeBase": "ナレッジベース",
       "privacyPolicy": "プライバシーポリシー",
       "termsAndConditions": "利用規約",
       "copyright": "2024-2026 The Vault. All rights reserved."
@@ -509,5 +510,20 @@
   "share": {
     "sharedFrom": "The Vaultから共有",
     "poweredBy": "Powered by"
+  },
+  "test": {
+    "header": {
+      "personalityTest": "性格診断テスト",
+      "personalityTypes": "性格タイプ",
+      "store": "ストア",
+      "resources": "リソース",
+      "ourFramework": "私たちの考え方",
+      "articles": "記事",
+      "faq": "よくある質問",
+      "knowledgeBase": "ナレッジベース",
+      "privacyPolicy": "プライバシーポリシー",
+      "termsAndConditions": "利用規約",
+      "logIn": "ログイン"
+    }
   }
 }

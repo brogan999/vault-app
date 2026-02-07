@@ -249,3 +249,60 @@ model EsotericProfile {
   @@index([framework])
   @@map("esoteric_profiles")
 }
+
+// Pricing architecture
+model UserSubscription {
+  id                    String   @id @default(uuid())
+  userId                String
+  plan                  String   // pro_monthly | pro_annual
+  status                String   // active | cancelled | past_due | trialing
+  currentPeriodStart     DateTime
+  currentPeriodEnd       DateTime
+  stripeSubscriptionId  String?  @unique
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([userId])
+  @@map("user_subscriptions")
+}
+
+model UserPurchase {
+  id               String   @id @default(uuid())
+  userId           String
+  productType      String   // report | bundle | specialty_report | credit_pack
+  productId        String
+  pricePaid        Int      // cents
+  purchasedAt      DateTime @default(now())
+  stripePaymentId  String?
+
+  @@index([userId])
+  @@index([userId, productType, productId])
+  @@map("user_purchases")
+}
+
+model UserMessageCredit {
+  id               String    @id @default(uuid())
+  userId           String
+  creditType       String    // monthly_allowance | rollover | top_up
+  creditsRemaining Int       @default(0)
+  periodStart      DateTime?
+  periodEnd        DateTime?
+  createdAt        DateTime  @default(now())
+
+  @@index([userId])
+  @@index([userId, creditType])
+  @@map("user_message_credits")
+}
+
+model UserReport {
+  id          String   @id @default(uuid())
+  userId      String
+  framework   String   // big_five | personality_type | ... | annual_portrait
+  unlockedVia String  // purchase | subscription | bundle
+  unlockedAt  DateTime @default(now())
+  reportData  Json?
+
+  @@unique([userId, framework])
+  @@index([userId])
+  @@map("user_reports")
+}

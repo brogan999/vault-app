@@ -146,18 +146,34 @@ export async function saveBig5FromTestResult(
 }
 
 export async function getProfileHistory(limit = 20) {
-  const user = await getSupabaseUser();
-  if (!user) return [];
+  try {
+    const user = await getSupabaseUser();
+    if (!user) return [];
 
-  const supabase = createAdminClient();
-  const { data } = await supabase
-    .from("psychProfileSnapshots")
-    .select("*")
-    .eq("userId", user.id)
-    .order("createdAt", { ascending: true })
-    .limit(limit);
+    const supabase = createAdminClient();
+    const { data } = await supabase
+      .from("psychProfileSnapshots")
+      .select("*")
+      .eq("userId", user.id)
+      .order("createdAt", { ascending: true })
+      .limit(limit);
 
-  return data || [];
+    const rows = data || [];
+    return rows.map((row: Record<string, unknown>) => {
+      const createdAt = row.createdAt;
+      return {
+        ...row,
+        createdAt:
+          typeof createdAt === "string"
+            ? createdAt
+            : createdAt instanceof Date
+              ? createdAt.toISOString()
+              : String(createdAt ?? ""),
+      };
+    });
+  } catch {
+    return [];
+  }
 }
 
 /**

@@ -8,6 +8,10 @@ import { getTestDefinition } from "@/lib/tests";
 import type { Answer, TestResultRow } from "@/lib/tests/types";
 import { countAttentionCheckFailures } from "@/lib/tests/scoring";
 import { estimatePercentile, rawMeanToTScore } from "@/lib/tests/scoring";
+import { canAccessPremiumReport } from "@/lib/access";
+import { getReportPriceId } from "@/lib/reports";
+import { createOneOffPurchase } from "@/app/actions/payments";
+import { ESOTERIC_BIRTH_DATA_TEST_IDS } from "@/lib/tests/birth-data";
 
 const PSYCHOMETRIC_TEST_IDS = ["big5", "mbti", "enneagram", "disc"] as const;
 const TYPE_BASED_TEST_IDS = ["mbti", "enneagram", "disc"] as const;
@@ -174,6 +178,67 @@ export async function submitTestAnswers(
 }
 
 /* ------------------------------------------------------------------ */
+/*  Save optional post-test info (email, gender, marketing) then redirect to results */
+/* ------------------------------------------------------------------ */
+
+export async function savePostTestInfo(
+  testId: string,
+  attemptId: string,
+  payload: { email?: string; gender?: string; marketingOptIn?: boolean },
+): Promise<{ error?: string; redirectUrl?: string }> {
+  const user = await getSupabaseUser();
+  const supabase = createAdminClient();
+
+  if (user) {
+    const { data, error } = await supabase
+      .from("testResults")
+      .select("id")
+      .eq("id", attemptId)
+      .eq("userId", user.id)
+      .single();
+    if (error || !data) {
+      return { error: "Result not found" };
+    }
+  } else {
+    const cookieStore = await cookies();
+    const guestId = cookieStore.get(GUEST_COOKIE_NAME)?.value;
+    if (!guestId) return { error: "Session expired" };
+    const { data, error } = await supabase
+      .from("testResults")
+      .select("id")
+      .eq("id", attemptId)
+      .eq("guest_id", guestId)
+      .single();
+    if (error || !data) {
+      return { error: "Result not found" };
+    }
+  }
+
+  const update: Record<string, unknown> = {};
+  if (payload.email !== undefined && payload.email?.trim()) {
+    update.result_email = payload.email.trim();
+  }
+  if (payload.gender !== undefined && payload.gender?.trim()) {
+    update.gender = payload.gender.trim();
+  }
+  if (payload.marketingOptIn !== undefined) {
+    update.marketing_opt_in = !!payload.marketingOptIn;
+  }
+
+  if (Object.keys(update).length > 0) {
+    const { error } = await supabase
+      .from("testResults")
+      .update(update)
+      .eq("id", attemptId);
+    if (error) {
+      return { error: error.message };
+    }
+  }
+
+  return { redirectUrl: `/test/${testId}/results/${attemptId}` };
+}
+
+/* ------------------------------------------------------------------ */
 /*  Fetch a single test result                                         */
 /* ------------------------------------------------------------------ */
 
@@ -208,41 +273,97 @@ export async function getTestResult(attemptId: string): Promise<TestResultRow | 
 }
 
 /* ------------------------------------------------------------------ */
+/*  Esoteric tests: auto-complete from Settings birth data              */
+/* ------------------------------------------------------------------ */
+
+/** Persist one esoteric test result from pre-filled birth data (no item_responses/scale_scores). Returns attemptId or null. */
+export async function persistEsotericResultFromBirthData(
+  testId: string,
+  answers: Answer[]
+): Promise<string | null> {
+  const user = await getSupabaseUser();
+  if (!user) return null;
+
+  const testDef = getTestDefinition(testId);
+  if (!testDef || !ESOTERIC_BIRTH_DATA_TEST_IDS.includes(testId as (typeof ESOTERIC_BIRTH_DATA_TEST_IDS)[number])) {
+    return null;
+  }
+
+  const scores = testDef.score(answers);
+  const interpretation = testDef.interpret(scores);
+  const now = new Date().toISOString();
+  const supabase = createAdminClient();
+
+  const { data, error } = await supabase
+    .from("testResults")
+    .insert({
+      userId: user.id,
+      testId,
+      answers,
+      scores,
+      interpretation,
+      isPremium: false,
+      completedAt: now,
+      is_valid: true,
+      startedAt: now,
+    })
+    .select("id")
+    .single();
+
+  if (error || !data) return null;
+  return data.id;
+}
+
+/* ------------------------------------------------------------------ */
 /*  List test results for a user (optionally filter by testId)         */
 /* ------------------------------------------------------------------ */
 
 export async function getUserTestResults(
   testId?: string,
 ): Promise<TestResultRow[]> {
-  const user = await getSupabaseUser();
-  if (!user) return [];
+  try {
+    const user = await getSupabaseUser();
+    if (!user) return [];
 
-  const supabase = createAdminClient();
-  let query = supabase
-    .from("testResults")
-    .select("*")
-    .eq("userId", user.id)
-    .order("completedAt", { ascending: false });
+    const supabase = createAdminClient();
+    let query = supabase
+      .from("testResults")
+      .select("*")
+      .eq("userId", user.id)
+      .order("completedAt", { ascending: false });
 
-  if (testId) {
-    query = query.eq("testId", testId);
+    if (testId) {
+      query = query.eq("testId", testId);
+    }
+
+    const { data, error } = await query;
+    if (error || !data) return [];
+    const rows = data as TestResultRow[];
+    return rows.map((row) => ({
+      ...row,
+      completedAt:
+        typeof row.completedAt === "string"
+          ? row.completedAt
+          : row.completedAt instanceof Date
+            ? row.completedAt.toISOString()
+            : String(row.completedAt ?? ""),
+    }));
+  } catch {
+    return [];
   }
-
-  const { data, error } = await query;
-  if (error || !data) return [];
-  return data as TestResultRow[];
 }
 
 /* ------------------------------------------------------------------ */
-/*  Purchase premium report (creates Stripe checkout)                  */
-/*  Works for signed-in users or guests (16p flow: pay first, then account). */
+/*  Purchase premium report (unlock if Pro/owned, else Stripe checkout) */
 /* ------------------------------------------------------------------ */
 
 export async function purchasePremiumReport(
   attemptId: string,
-): Promise<{ url: string | null }> {
+): Promise<{ url: string | null; unlocked?: boolean }> {
   const user = await getSupabaseUser();
   const supabase = createAdminClient();
+
+  if (user) await claimGuestResultsIfPresent(user.id);
 
   let result: { id: string; testId: string; isPremium: boolean } | null = null;
 
@@ -254,6 +375,26 @@ export async function purchasePremiumReport(
       .eq("userId", user.id)
       .single();
     result = data;
+    if (!result) {
+      const cookieStore = await cookies();
+      const guestId = cookieStore.get(GUEST_COOKIE_NAME)?.value;
+      if (guestId) {
+        const { data: guestData } = await supabase
+          .from("testResults")
+          .select("id, testId, isPremium")
+          .eq("id", attemptId)
+          .eq("guest_id", guestId)
+          .single();
+        result = guestData ?? null;
+        if (result) {
+          await supabase
+            .from("testResults")
+            .update({ userId: user.id })
+            .eq("id", attemptId)
+            .eq("guest_id", guestId);
+        }
+      }
+    }
   } else {
     const cookieStore = await cookies();
     const guestId = cookieStore.get(GUEST_COOKIE_NAME)?.value;
@@ -269,43 +410,33 @@ export async function purchasePremiumReport(
   }
 
   if (!result) throw new Error("Test result not found");
-  if (result.isPremium) throw new Error("Already premium");
+  if (result.isPremium) return { url: null, unlocked: true };
 
-  const { default: Stripe } = await import("stripe");
-  const stripeKey = process.env.STRIPE_SECRET_KEY;
-  if (!stripeKey) {
-    throw new Error("Payments not configured. Add STRIPE_SECRET_KEY.");
+  const tier = user?.subscriptionTier ?? "free";
+  if (user && (await canAccessPremiumReport(supabase, user.id, result.testId, tier))) {
+    await supabase
+      .from("testResults")
+      .update({ isPremium: true })
+      .eq("id", attemptId)
+      .eq("userId", user.id);
+    revalidatePath(`/test/${result.testId}/results/${attemptId}`);
+    return { url: null, unlocked: true };
   }
-  const stripe = new Stripe(stripeKey, { apiVersion: "2025-12-15.clover" });
 
-  const priceId = process.env.STRIPE_PREMIUM_REPORT_PRICE_ID;
+  const priceId = getReportPriceId(result.testId) ?? process.env.STRIPE_PREMIUM_REPORT_PRICE_ID;
   if (!priceId) {
-    throw new Error("Premium report purchase is not configured. Add STRIPE_PREMIUM_REPORT_PRICE_ID.");
+    throw new Error("Premium report purchase is not configured. Add a Stripe report price ID.");
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-  const successUrl = `${baseUrl}/test/${result.testId}/results/${attemptId}?upgraded=true`;
-  const cancelUrl = `${baseUrl}/test/${result.testId}/results/${attemptId}?canceled=true`;
-
-  const metadata: Record<string, string> = {
-    type: "premium_report",
+  const { url } = await createOneOffPurchase(priceId, {
+    type: "report",
+    productId: result.testId,
     attemptId,
-    testId: result.testId,
-  };
-  if (user) metadata.userId = user.id;
-  else metadata.guest_id = (await cookies()).get(GUEST_COOKIE_NAME)?.value ?? "";
-
-  const session = await stripe.checkout.sessions.create({
-    mode: "payment",
-    payment_method_types: ["card"],
-    line_items: [{ price: priceId, quantity: 1 }],
-    ...(user ? { customer_email: user.email } : {}),
-    metadata,
-    success_url: successUrl,
-    cancel_url: cancelUrl,
+    successUrl: `${baseUrl}/test/${result.testId}/results/${attemptId}?upgraded=true`,
+    cancelUrl: `${baseUrl}/test/${result.testId}/results/${attemptId}?canceled=true`,
   });
-
-  return { url: session.url };
+  return { url: url ?? null };
 }
 
 /* ------------------------------------------------------------------ */

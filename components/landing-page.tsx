@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { ConsentDialog } from "@/components/features/consent/ConsentDialog";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+import { ThemePaletteSwitcher } from "@/components/landing/ThemePaletteSwitcher";
 import { HERO_TEST_ID } from "@/lib/products";
 
 /* ── Navbar ──────────────────────────────────────────────────────── */
@@ -78,6 +79,7 @@ function Navbar() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
+          <ThemePaletteSwitcher />
           <LanguageSwitcher className="rounded-xl" />
           <Button
             variant="ghost"
@@ -139,6 +141,12 @@ function Navbar() {
                 {t("language")}
               </span>
               <LanguageSwitcher className="rounded-xl" />
+            </div>
+            <div className="flex items-center justify-between rounded-xl border border-border/60 px-3 py-2">
+              <span className="text-sm font-medium text-muted-foreground">
+                {t("themeAndColour")}
+              </span>
+              <ThemePaletteSwitcher />
             </div>
             <Button
               variant="outline"
@@ -256,18 +264,21 @@ function SocialProof() {
   const t = useTranslations("landing.socialProof");
 
   const stats = [
-    { value: "91K+", label: t("testsToday") },
-    { value: "192M+", label: t("testsUS") },
-    { value: "1.4B+", label: t("totalTests") },
-    { value: "91.2%", label: t("ratedAccurate") },
+    { value: t("stat1Value"), label: t("stat1Label") },
+    { value: t("stat2Value"), label: t("stat2Label") },
+    { value: t("stat3Value"), label: t("stat3Label") },
+    { value: t("stat4Value"), label: t("stat4Label") },
   ];
 
   return (
     <section className="border-y border-border/60 bg-card py-12 lg:py-16">
       <div className="mx-auto max-w-6xl px-4 lg:px-8">
+        <p className="mb-10 text-center text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+          {t("headline")}
+        </p>
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
-          {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
+          {stats.map((stat, i) => (
+            <div key={i} className="text-center">
               <p className="text-3xl font-extrabold text-primary font-serif lg:text-4xl">
                 {stat.value}
               </p>
@@ -647,22 +658,6 @@ function Pricing() {
       cta: t("proCta"),
       highlighted: true,
     },
-    {
-      name: t("lifetimePlan"),
-      price: t("lifetimePrice"),
-      period: t("lifetimePeriod"),
-      description: t("lifetimeDescription"),
-      features: [
-        t("lifetimeFeature1"),
-        t("lifetimeFeature2"),
-        t("lifetimeFeature3"),
-        t("lifetimeFeature4"),
-        t("lifetimeFeature5"),
-        t("lifetimeFeature6"),
-      ],
-      cta: t("lifetimeCta"),
-      highlighted: false,
-    },
   ];
 
   return (
@@ -683,7 +678,7 @@ function Pricing() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 max-w-4xl mx-auto">
           {plans.map((plan, planIndex) => (
             <Card
               key={plan.name}
@@ -808,15 +803,15 @@ function Footer() {
       links: [
         { label: t("personalityTest"), href: `/test/${HERO_TEST_ID}` },
         { label: t("personalityTypes"), href: "#" },
-        { label: t("articles"), href: "#" },
         { label: t("ourFramework"), href: "/our-framework" },
       ],
     },
     {
       title: t("help"),
       links: [
-        { label: t("contactUs"), href: "#" },
-        { label: t("faq"), href: "#" },
+        { label: t("contactUs"), href: "/contact" },
+        { label: t("faq"), href: "/faq" },
+        { label: t("knowledgeBase"), href: "/knowledge-base" },
         { label: t("privacyPolicy"), href: "/privacy" },
         { label: t("termsAndConditions"), href: "/terms" },
       ],
@@ -887,18 +882,14 @@ function Footer() {
 
 export function LandingPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <main>
-        <Hero />
-        <SocialProof />
-        <Features />
-        <FeatureShowcase />
-        <Testimonials />
-        <Pricing />
-        <FinalCta />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <Hero />
+      <SocialProof />
+      <Features />
+      <FeatureShowcase />
+      <Testimonials />
+      <Pricing />
+      <FinalCta />
+    </>
   );
 }

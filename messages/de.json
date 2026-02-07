@@ -51,10 +51,15 @@
       "disclaimer": "Keine Kreditkarte erforderlich. Dauert weniger als 10 Minuten."
     },
     "socialProof": {
-      "testsToday": "Tests heute durchgeführt",
-      "testsUS": "Tests in den USA durchgeführt",
-      "totalTests": "Tests insgesamt durchgeführt",
-      "ratedAccurate": "Als zutreffend oder sehr zutreffend bewertet"
+      "headline": "Warum The Vault",
+      "stat1Value": "10",
+      "stat1Label": "Persönlichkeitsrahmen an einem Ort — Wissenschaft und Symbolik",
+      "stat2Value": "Null",
+      "stat2Label": "Wir verkaufen oder teilen deine Daten nie",
+      "stat3Value": "Validiert",
+      "stat3Label": "Forschungsgestützte psychometrische Methoden",
+      "stat4Value": "Eins",
+      "stat4Label": "KI, die dein vollständiges Porträt verwebt"
     },
     "features": {
       "sectionLabel": "Alles, was du brauchst",
@@ -105,37 +110,32 @@
       "freePlan": "Kostenlos",
       "freePrice": "$0",
       "freePeriod": "für immer",
-      "freeDescription": "Für neugierige Entdecker, die bereit sind, die Reise zu beginnen.",
-      "freeFeature1": "Big 5 Persönlichkeitstest",
-      "freeFeature2": "Grundlegende Typbeschreibungen",
-      "freeFeature3": "3 KI-Unterhaltungen pro Tag",
-      "freeFeature4": "Vault-Dateispeicher (50MB)",
-      "freeFeature5": "Stimmungstagebuch (5 Einträge/Woche)",
+      "freeDescription": "Mache jeden Test. Entdecke jedes Framework. Beginne, dich selbst zu verstehen.",
+      "freeFeature1": "Alle 10 Assessments kostenlos (kurze Ergebniszusammenfassungen)",
+      "freeFeature2": "10 Mirror-Nachrichten pro Tag",
+      "freeFeature3": "Vault-Dateispeicher (50MB)",
+      "freeFeature4": "Stimmungstagebuch (5 Einträge/Woche)",
+      "freeFeature5": "Teilbare Ergebnis-Karten",
       "freeCta": "Kostenlos starten",
       "proPlan": "Pro",
-      "proPrice": "$12",
+      "proPrice": "$14.99",
       "proPeriod": "/Monat",
       "proDescription": "Für alle, die es mit der Selbsterkenntnis ernst meinen.",
-      "proFeature1": "Alle kostenlosen Funktionen",
-      "proFeature2": "12 Premium-Assessments",
-      "proFeature3": "Unbegrenzte KI-Unterhaltungen",
-      "proFeature4": "Vault-Dateispeicher (5GB)",
+      "proFeature1": "Alle Premium-Berichte inklusive",
+      "proFeature2": "300 Mirror-Nachrichten pro Monat",
+      "proFeature3": "Sprachtagebücher mit KI-Analyse",
+      "proFeature4": "Individuelle KI-Persona-Einstellungen",
       "proFeature5": "Unbegrenzte Tagebucheinträge",
       "proFeature6": "Wachstums-Trendberichte",
-      "proFeature7": "Sprachtagebücher mit KI-Analyse",
-      "proFeature8": "Individuelle KI-Persona-Einstellungen",
+      "proFeature7": "10GB Vault, proaktive Check-ins",
+      "proFeature8": "Framework-Dashboard, alle Daten exportieren",
       "proCta": "7-Tage-Testversion starten",
-      "lifetimePlan": "Lifetime",
-      "lifetimePrice": "$149",
-      "lifetimePeriod": "einmalig",
-      "lifetimeDescription": "Dein Werkzeugkasten zur Selbsterkenntnis — für immer.",
-      "lifetimeFeature1": "Alles aus Pro",
-      "lifetimeFeature2": "Alle zukünftigen Assessments inklusive",
-      "lifetimeFeature3": "Vault-Speicher (unbegrenzt)",
-      "lifetimeFeature4": "Priorisierte KI-Antworten",
-      "lifetimeFeature5": "Frühzeitiger Zugang zu neuen Funktionen",
-      "lifetimeFeature6": "Alle Daten jederzeit exportieren",
-      "lifetimeCta": "Lifetime-Zugang sichern"
+      "proPriceMonthly": "Monatlich",
+      "proPriceAnnual": "Jährlich",
+      "proPriceMonthlyDisplay": "$14.99/Monat",
+      "proPriceAnnualDisplay": "$119.99/Jahr (33 % sparen)",
+      "premiumReportsBlurb": "Premium-Berichte: Einzelberichte ab $9.99 ohne Abo.",
+      "topUpsBlurb": "Pro-Nutzer können zusätzliche Mirror-Nachrichten kaufen: 50 für $2.99, 100 für $4.99, 250 für $9.99."
     },
     "finalCta": {
       "title": "Neugierig, wie genau wir dich einschätzen?",
@@ -157,6 +157,7 @@
       "help": "Hilfe",
       "contactUs": "Kontakt",
       "faq": "FAQ",
+      "knowledgeBase": "Wissensdatenbank",
       "privacyPolicy": "Datenschutzrichtlinie",
       "termsAndConditions": "Allgemeine Geschäftsbedingungen",
       "copyright": "2024-2026 The Vault. Alle Rechte vorbehalten."
@@ -509,5 +510,20 @@
   "share": {
     "sharedFrom": "Geteilt von The Vault",
     "poweredBy": "Bereitgestellt von"
+  },
+  "test": {
+    "header": {
+      "personalityTest": "Persönlichkeitstest",
+      "personalityTypes": "Persönlichkeitstypen",
+      "store": "Shop",
+      "resources": "Ressourcen",
+      "ourFramework": "Unser Rahmen",
+      "articles": "Artikel",
+      "faq": "FAQ",
+      "knowledgeBase": "Wissensdatenbank",
+      "privacyPolicy": "Datenschutz",
+      "termsAndConditions": "AGB",
+      "logIn": "Anmelden"
+    }
   }
 }

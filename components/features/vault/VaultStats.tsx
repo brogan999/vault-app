@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Archive, FlaskConical, Bookmark, Clock } from "lucide-react";
+import { Archive, FlaskConical, Clock } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { VaultStatsData } from "@/app/actions/vault";
 
@@ -29,13 +29,6 @@ export function VaultStats({ data }: VaultStatsProps) {
           bgColor: "rgba(139, 92, 246, 0.08)",
         },
         {
-          label: t("savedProfiles"),
-          value: String(data.savedProfilesCount),
-          icon: Bookmark,
-          color: "#0d9488",
-          bgColor: "rgba(13, 148, 136, 0.08)",
-        },
-        {
           label: t("lastTaken"),
           value: data.lastTakenLabel ?? "—",
           icon: Clock,
@@ -47,8 +40,8 @@ export function VaultStats({ data }: VaultStatsProps) {
 
   if (stats.length === 0) {
     return (
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {[1, 2, 3, 4].map((i) => (
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
+        {[1, 2, 3].map((i) => (
           <div key={i} className="h-[72px] animate-pulse rounded-2xl bg-muted/60" />
         ))}
       </div>
@@ -56,7 +49,7 @@ export function VaultStats({ data }: VaultStatsProps) {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
       {stats.map((stat) => (
         <Card key={stat.label} className="border-0 shadow-sm rounded-2xl">
           <CardContent className="p-4 flex items-center gap-3">

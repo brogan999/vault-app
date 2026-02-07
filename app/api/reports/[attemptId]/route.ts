@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { getSupabaseUser } from "@/lib/clerk/utils";
 import { createAdminClient } from "@/lib/supabase/server";
 import { getProductById } from "@/lib/products";
+import { canAccessPremiumReport } from "@/lib/access";
 import type { TestResultRow } from "@/lib/tests/types";
 import { jsPDF } from "jspdf";
 
@@ -45,8 +46,11 @@ export async function GET(
 
   const result = data as TestResultRow;
 
-  // Premium report requires purchase — same price for every test (16personalities-style)
-  if (!result.isPremium) {
+  const tier = user?.subscriptionTier ?? "free";
+  const hasAccess =
+    result.isPremium ||
+    (user && (await canAccessPremiumReport(supabase, user.id, result.testId, tier)));
+  if (!hasAccess) {
     return NextResponse.json(
       { error: "Premium report not purchased" },
       { status: 403 },

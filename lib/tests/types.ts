@@ -126,4 +126,8 @@ export interface TestResultRow {
   createdAt: string;
   is_valid?: boolean;
   startedAt?: string | null;
+  /** Optional: set on the "collect" step before viewing results */
+  result_email?: string | null;
+  gender?: string | null;
+  marketing_opt_in?: boolean | null;
 }

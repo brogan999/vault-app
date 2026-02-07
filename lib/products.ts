@@ -74,8 +74,7 @@ export const products: Product[] = [
     icon: Fingerprint,
     color: "#0d9488",
     bgColor: "rgba(13, 148, 136, 0.08)",
-    price: "$9.99",
-    originalPrice: "$14.99",
+    price: null,
     duration: "20 min",
     rating: 4.8,
     taken: 42100,
@@ -170,7 +169,7 @@ export const products: Product[] = [
     icon: Sparkles,
     color: "#7c3aed",
     bgColor: "rgba(124, 58, 237, 0.08)",
-    price: "$4.99",
+    price: null,
     duration: "5 min",
     rating: 4.5,
     taken: 67400,
@@ -457,6 +456,36 @@ export const products: Product[] = [
   },
 ];
 
+/** Map product category to CSS variable key (6 categories). Numerology/Esoteric → astrology. */
+const CATEGORY_TO_CSS_KEY: Record<string, string> = {
+  Personality: "personality",
+  Intelligence: "intelligence",
+  Strengths: "strengths",
+  Wellness: "wellness",
+  Astrology: "astrology",
+  Career: "career",
+  Numerology: "astrology",
+  Esoteric: "astrology",
+};
+
+/** One colour per category. Uses CSS variables so colours respect theme (light/dark) and palette. cardBg = dark tinted background for Mirror/Vault cards. */
+export function getProductDisplayColors(product: Product): { color: string; bgColor: string; cardBg: string } {
+  const key = CATEGORY_TO_CSS_KEY[product.category] ?? "personality";
+  return {
+    color: `var(--category-${key})`,
+    bgColor: `var(--category-${key}-bg)`,
+    cardBg: `var(--category-${key}-card)`,
+  };
+}
+
+/** Get category CSS variable key for a category value (e.g. for tab styling). */
+export function getCategoryColorKey(categoryValue: string): string {
+  const normalized = categoryValue.toLowerCase();
+  if (normalized === "all") return "personality";
+  const key = CATEGORY_TO_CSS_KEY[categoryValue.charAt(0).toUpperCase() + categoryValue.slice(1)];
+  return key ?? "personality";
+}
+
 export const categories = [
   { label: "All", value: "all" },
   { label: "Personality", value: "personality" },
@@ -466,6 +495,9 @@ export const categories = [
   { label: "Astrology", value: "astrology" },
   { label: "Career", value: "career" },
 ];
+
+/** Number of tests shown as "available" in the vault (may be less than products.length). */
+export const AVAILABLE_TEST_COUNT = 10;
 
 export function getProductById(id: string): Product | undefined {
   return products.find((p) => p.id === id);

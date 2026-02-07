@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { PremiumUpgradeCTA } from "@/components/features/test/PremiumUpgradeCTA";
 import { purchasePremiumReport } from "@/app/actions/tests";
 
@@ -18,8 +19,11 @@ export function PremiumUpgradeClient({
   attemptId,
   testId,
 }: PremiumUpgradeClientProps) {
+  const router = useRouter();
   const handlePurchase = async () => {
-    return purchasePremiumReport(attemptId);
+    const result = await purchasePremiumReport(attemptId);
+    if (result?.unlocked) router.refresh();
+    return result;
   };
 
   const handleDownload = async () => {

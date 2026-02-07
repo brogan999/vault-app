@@ -3,6 +3,8 @@
 import { createAdminClient } from "@/lib/supabase/server";
 import { getSupabaseUser } from "@/lib/clerk/utils";
 import { revalidatePath } from "next/cache";
+import { getUserTestResults, persistEsotericResultFromBirthData } from "@/app/actions/tests";
+import { buildAnswersFromBirthData, ESOTERIC_BIRTH_DATA_TEST_IDS } from "@/lib/tests/birth-data";
 
 export async function getCurrentUserPreferences(): Promise<{
   themePreference: string | null;
@@ -14,9 +16,10 @@ export async function getCurrentUserPreferences(): Promise<{
   birthLocationLat?: number | null;
   birthLocationLng?: number | null;
 } | null> {
-  const user = await getSupabaseUser();
-  if (!user) return null;
-  const u = user as {
+  try {
+    const user = await getSupabaseUser();
+    if (!user) return null;
+    const u = user as {
     themePreference?: string;
     privacyShieldEnabled?: boolean;
     personaPreference?: string;
@@ -36,6 +39,9 @@ export async function getCurrentUserPreferences(): Promise<{
     birthLocationLat: u.birth_location_lat ?? null,
     birthLocationLng: u.birth_location_lng ?? null,
   };
+  } catch {
+    return null;
+  }
 }
 
 export async function updateBirthData(data: {
@@ -44,9 +50,9 @@ export async function updateBirthData(data: {
   birthLocationName?: string | null;
   birthLocationLat?: number | null;
   birthLocationLng?: number | null;
-}) {
+}): Promise<{ success: true; completedTestIds: string[] } | { success: false; error: string }> {
   const user = await getSupabaseUser();
-  if (!user) throw new Error("User not found");
+  if (!user) return { success: false, error: "User not found" };
 
   const supabase = createAdminClient();
   const payload: Record<string, unknown> = {
@@ -62,68 +68,94 @@ export async function updateBirthData(data: {
     .update(payload)
     .eq("id", user.id);
 
-  if (error) throw new Error(`Failed to update birth data: ${error.message}`);
+  if (error) return { success: false, error: `Failed to update birth data: ${error.message}` };
   revalidatePath("/settings");
   revalidatePath("/mirror");
-  return { success: true };
+
+  let completedTestIds: string[] = [];
+  if (data.birthDate) {
+    try {
+      const existing = await getUserTestResults();
+      const existingByTest = new Set(existing.map((r) => r.testId));
+      const birthDataForTests = {
+        birthDate: data.birthDate,
+        birthTime: data.birthTime ?? null,
+        birthLocationName: data.birthLocationName ?? null,
+      };
+      for (const testId of ESOTERIC_BIRTH_DATA_TEST_IDS) {
+        if (existingByTest.has(testId)) continue;
+        const answers = buildAnswersFromBirthData(testId, birthDataForTests);
+        if (answers.length === 0) continue;
+        const attemptId = await persistEsotericResultFromBirthData(testId, answers);
+        if (attemptId) completedTestIds.push(testId);
+      }
+    } catch {
+      completedTestIds = [];
+    }
+  }
+
+  return { success: true, completedTestIds };
 }
 
-export async function togglePrivacyShield(enabled: boolean) {
-  const user = await getSupabaseUser();
-  if (!user) {
-    throw new Error("User not found");
+export async function togglePrivacyShield(
+  enabled: boolean
+): Promise<{ success: true } | { success: false; error: string }> {
+  try {
+    const user = await getSupabaseUser();
+    if (!user) return { success: false, error: "User not found" };
+
+    const supabase = createAdminClient();
+    const { error } = await supabase
+      .from("users")
+      .update({ privacyShieldEnabled: enabled })
+      .eq("id", user.id);
+
+    if (error) return { success: false, error: error.message };
+    revalidatePath("/settings");
+    return { success: true };
+  } catch (e) {
+    return { success: false, error: e instanceof Error ? e.message : "Failed to update" };
   }
-
-  const supabase = createAdminClient();
-  const { error } = await supabase
-    .from("users")
-    .update({ privacyShieldEnabled: enabled })
-    .eq("id", user.id);
-
-  if (error) {
-    throw new Error(`Failed to update privacy shield: ${error.message}`);
-  }
-
-  revalidatePath("/settings");
-  return { success: true };
 }
 
-export async function updatePersonaPreference(persona: string) {
-  const user = await getSupabaseUser();
-  if (!user) {
-    throw new Error("User not found");
+export async function updatePersonaPreference(
+  persona: string
+): Promise<{ success: true } | { success: false; error: string }> {
+  try {
+    const user = await getSupabaseUser();
+    if (!user) return { success: false, error: "User not found" };
+
+    const supabase = createAdminClient();
+    const { error } = await supabase
+      .from("users")
+      .update({ personaPreference: persona })
+      .eq("id", user.id);
+
+    if (error) return { success: false, error: error.message };
+    revalidatePath("/settings");
+    return { success: true };
+  } catch (e) {
+    return { success: false, error: e instanceof Error ? e.message : "Failed to update" };
   }
-
-  const supabase = createAdminClient();
-  const { error } = await supabase
-    .from("users")
-    .update({ personaPreference: persona })
-    .eq("id", user.id);
-
-  if (error) {
-    throw new Error(`Failed to update persona: ${error.message}`);
-  }
-
-  revalidatePath("/settings");
-  return { success: true };
 }
 
-export async function updateThemePreference(theme: string) {
-  const user = await getSupabaseUser();
-  if (!user) {
-    throw new Error("User not found");
+export async function updateThemePreference(
+  theme: string
+): Promise<{ success: true } | { success: false; error: string }> {
+  try {
+    const user = await getSupabaseUser();
+    if (!user) return { success: false, error: "User not found" };
+
+    const supabase = createAdminClient();
+    const { error } = await supabase
+      .from("users")
+      .update({ themePreference: theme })
+      .eq("id", user.id);
+
+    if (error) return { success: false, error: error.message };
+    revalidatePath("/settings");
+    return { success: true };
+  } catch (e) {
+    return { success: false, error: e instanceof Error ? e.message : "Failed to update theme" };
   }
-
-  const supabase = createAdminClient();
-  const { error } = await supabase
-    .from("users")
-    .update({ themePreference: theme })
-    .eq("id", user.id);
-
-  if (error) {
-    throw new Error(`Failed to update theme: ${error.message}`);
-  }
-
-  revalidatePath("/settings");
-  return { success: true };
 }

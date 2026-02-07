@@ -4,8 +4,22 @@ import { useEffect, useState } from "react";
 import { TestResultCard } from "./TestResultCard";
 import type { TestResult } from "./TestResultCard";
 import { getUserTestResults } from "@/app/actions/tests";
-import { getProductById } from "@/lib/products";
+import { getProductById, getProductDisplayColors } from "@/lib/products";
 import type { TestResultRow } from "@/lib/tests/types";
+
+/** Short label for card header — same as Mirror TestsSnapshotSection. */
+const CARD_SHORT_TITLES: Record<string, string> = {
+  "birth-chart": "Astrology",
+  vedic: "Vedic",
+  "human-design": "Human Design",
+  "chinese-zodiac": "Chinese",
+  "life-path": "Life Path",
+  mayan: "Mayan",
+  big5: "Big 5",
+  enneagram: "Enneagram",
+  disc: "DISC",
+  mbti: "Personality",
+};
 
 export function TestResultsList() {
   const [results, setResults] = useState<TestResult[]>([]);
@@ -16,10 +30,14 @@ export function TestResultsList() {
       .then((rows: TestResultRow[]) => {
         const mapped: TestResult[] = rows.map((row) => {
           const product = getProductById(row.testId);
+          const displayColors = product
+            ? getProductDisplayColors(product)
+            : { color: "var(--category-personality)", bgColor: "var(--category-personality-bg)", cardBg: "var(--category-personality-card)" };
           return {
             id: row.id,
             testId: row.testId,
             title: product?.title ?? row.testId,
+            shortTitle: product ? (CARD_SHORT_TITLES[row.testId] ?? product.title) : row.testId,
             subtitle: row.scores.typeLabel ?? "Assessment",
             date: new Date(row.completedAt).toLocaleDateString("en-US", {
               month: "short",
@@ -27,8 +45,9 @@ export function TestResultsList() {
               year: "numeric",
             }),
             icon: product?.icon,
-            color: product?.color ?? "#8b5cf6",
-            bgColor: product?.bgColor ?? "rgba(139, 92, 246, 0.08)",
+            color: displayColors.color,
+            bgColor: displayColors.bgColor,
+            cardBg: displayColors.cardBg,
             resultLabel: row.scores.typeLabel ?? "",
             resultValue: row.scores.overall !== undefined
               ? `${row.scores.overall}%`

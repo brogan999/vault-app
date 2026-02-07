@@ -1,14 +1,13 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import { ConstellationWidget } from "./ConstellationWidget";
 import { VoiceJournalWidget } from "./VoiceJournalWidget";
 import { QuickStatsWidget } from "./QuickStatsWidget";
-import { PersonalitySnapshotWidget } from "./PersonalitySnapshotWidget";
+import { TestsSnapshotSection } from "./TestsSnapshotSection";
 import { EngagementGrid } from "./EngagementGrid";
 import { MoodTimeline } from "./MoodTimeline";
 import { GrowthMomentum } from "./GrowthMomentum";
 import type { ActivitySummary } from "@/app/actions/activity";
+import type { TestSnapshotItem } from "@/app/actions/mirror";
 
 interface MirrorGridProps {
   profile: { big5Scores?: unknown; astrologyMeta?: unknown } | null;
@@ -20,11 +19,10 @@ interface MirrorGridProps {
     testsCompleted?: number;
   };
   activity: ActivitySummary;
+  testSnapshots: TestSnapshotItem[];
 }
 
-export function MirrorGrid({ profile, journals, stats, activity }: MirrorGridProps) {
-  const t = useTranslations("mirror");
-
+export function MirrorGrid({ profile, journals, stats, activity, testSnapshots }: MirrorGridProps) {
   return (
     <div className="flex flex-col gap-6">
       {/* Quick Stats */}
@@ -38,26 +36,8 @@ export function MirrorGrid({ profile, journals, stats, activity }: MirrorGridPro
         />
       </section>
 
-      {/* Personality Trait Snapshot Cards */}
-      <section aria-label="Big 5 personality snapshot">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-1">
-          {t("personalitySnapshot")}
-        </h2>
-        <p className="text-xs text-muted-foreground mb-3 max-w-xl">
-          {t("personalitySnapshotDescription")}
-        </p>
-        <PersonalitySnapshotWidget
-          big5Scores={profile?.big5Scores as Record<string, number> | undefined}
-        />
-      </section>
-
-      {/* Radar / personality constellation */}
-      <section aria-label="Personality details">
-        <ConstellationWidget
-          big5Scores={profile?.big5Scores as any}
-          astrologyMeta={profile?.astrologyMeta}
-        />
-      </section>
+      {/* Full snapshot of all tests (with category filter) */}
+      <TestsSnapshotSection snapshots={testSnapshots} />
 
       {/* Voice / mood journal */}
       <section aria-label="Journal">

@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "@/i18n/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { FolderOpen, ChevronRight } from "lucide-react";
@@ -49,8 +50,8 @@ export function Collections() {
       </p>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
       {collections.map((collection) => (
+        <Link key={collection.id} href="/store">
         <Card
-          key={collection.id}
           className="group border-0 shadow-sm rounded-2xl hover:shadow-md transition-shadow cursor-pointer"
         >
           <CardContent className="p-5">
@@ -85,6 +86,7 @@ export function Collections() {
             </div>
           </CardContent>
         </Card>
+        </Link>
       ))}
       </div>
     </div>

@@ -90,6 +90,26 @@
   --sidebar-accent-foreground: oklch(0.45 0.10 165);
   --sidebar-border: oklch(0.93 0.005 85);
   --sidebar-ring: oklch(0.52 0.14 165);
+  /* Category colors (6: Personality, Intelligence, Strengths, Wellness, Astrology, Career) */
+  --category-personality: oklch(0.55 0.22 285);
+  --category-personality-bg: oklch(0.94 0.03 285);
+  --category-intelligence: oklch(0.65 0.18 55);
+  --category-intelligence-bg: oklch(0.95 0.04 55);
+  --category-strengths: oklch(0.55 0.18 155);
+  --category-strengths-bg: oklch(0.94 0.04 155);
+  --category-wellness: oklch(0.58 0.14 205);
+  --category-wellness-bg: oklch(0.94 0.03 205);
+  --category-astrology: oklch(0.58 0.25 320);
+  --category-astrology-bg: oklch(0.94 0.05 320);
+  --category-career: oklch(0.52 0.18 250);
+  --category-career-bg: oklch(0.94 0.04 250);
+  /* Dark card background for Mirror/Vault (tinted card) */
+  --category-personality-card: oklch(0.28 0.08 285);
+  --category-intelligence-card: oklch(0.32 0.08 55);
+  --category-strengths-card: oklch(0.28 0.08 155);
+  --category-wellness-card: oklch(0.30 0.06 205);
+  --category-astrology-card: oklch(0.28 0.10 320);
+  --category-career-card: oklch(0.28 0.08 250);
 }
 
 .dark {
@@ -125,6 +145,26 @@
   --sidebar-accent-foreground: oklch(0.96 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.60 0.14 165);
+  /* Category colors (dark) */
+  --category-personality: oklch(0.72 0.19 285);
+  --category-personality-bg: oklch(0.28 0.05 285);
+  --category-intelligence: oklch(0.78 0.16 55);
+  --category-intelligence-bg: oklch(0.28 0.05 55);
+  --category-strengths: oklch(0.72 0.17 155);
+  --category-strengths-bg: oklch(0.28 0.05 155);
+  --category-wellness: oklch(0.72 0.14 205);
+  --category-wellness-bg: oklch(0.28 0.04 205);
+  --category-astrology: oklch(0.75 0.22 320);
+  --category-astrology-bg: oklch(0.28 0.06 320);
+  --category-career: oklch(0.68 0.18 250);
+  --category-career-bg: oklch(0.28 0.05 250);
+  /* Dark card background (dark theme) */
+  --category-personality-card: oklch(0.25 0.08 285);
+  --category-intelligence-card: oklch(0.28 0.08 55);
+  --category-strengths-card: oklch(0.25 0.08 155);
+  --category-wellness-card: oklch(0.27 0.06 205);
+  --category-astrology-card: oklch(0.25 0.10 320);
+  --category-career-card: oklch(0.25 0.08 250);
 }
 
 @layer base {
