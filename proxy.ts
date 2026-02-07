@@ -5,13 +5,28 @@ import { routing } from "./i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
 
+const LOCALE = "(en|es|fr|de|ja|pt)";
+
 const isPublicRoute = createRouteMatcher([
   "/",
   "/pricing",
   "/terms",
   "/privacy",
+  "/our-framework",
+  "/(.+)/our-framework",
   "/sign-in(.*)",
   "/sign-up(.*)",
+  "/test(.*)",
+  "/(.+)/test(.*)",
+  // Locale-prefixed paths (next-intl may redirect / to /en; without these, /en and /en/sign-in would be protected → redirect loop)
+  `/${LOCALE}`,
+  `/${LOCALE}/pricing`,
+  `/${LOCALE}/terms`,
+  `/${LOCALE}/privacy`,
+  `/${LOCALE}/our-framework`,
+  `/${LOCALE}/sign-in(.*)`,
+  `/${LOCALE}/sign-up(.*)`,
+  `/${LOCALE}/test(.*)`,
 ]);
 
 const clerkHandler = clerkMiddleware(async (auth, req) => {

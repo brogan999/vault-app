@@ -28,9 +28,10 @@ function AccountMenu() {
   const t = useTranslations("nav");
   const { user } = useUser();
   const { signOut } = useClerk();
+  const emailChar = user?.primaryEmailAddress?.emailAddress?.[0]?.toUpperCase();
   const initials = user?.firstName && user?.lastName
     ? `${user.firstName[0]}${user.lastName[0]}`
-    : user?.email?.[0]?.toUpperCase() ?? "?";
+    : emailChar ?? "?";
 
   return (
     <DropdownMenu>

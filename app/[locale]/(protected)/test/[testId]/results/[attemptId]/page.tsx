@@ -5,21 +5,73 @@ import { getTestResult } from "@/app/actions/tests";
 import { TestShell } from "@/components/features/test/TestShell";
 import { FreeResults } from "@/components/features/test/FreeResults";
 import { PremiumUpgradeClient } from "./PremiumUpgradeClient";
+import { ExploreMoreTests } from "@/components/features/test/ExploreMoreTests";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, RotateCcw, Home } from "lucide-react";
+import { ArrowLeft, RotateCcw, Home, MessageCircle } from "lucide-react";
+import type { TestScores } from "@/lib/tests/types";
 
 interface ResultsPageProps {
   params: Promise<{ testId: string; attemptId: string }>;
 }
 
+/** Normalize scores from DB (may be plain object; ensure shape so FreeResults never throws). */
+function normalizeScores(raw: unknown): TestScores {
+  if (raw && typeof raw === "object" && !Array.isArray(raw)) {
+    const o = raw as Record<string, unknown>;
+    const dims = Array.isArray(o.dimensions) ? o.dimensions : [];
+    const dimensions = dims.map((d: unknown) => {
+      if (d && typeof d === "object" && !Array.isArray(d)) {
+        const x = d as Record<string, unknown>;
+        return {
+          dimensionId: typeof x.dimensionId === "string" ? x.dimensionId : "",
+          label: typeof x.label === "string" ? x.label : "",
+          score: typeof x.score === "number" ? x.score : 0,
+          rawScore: typeof x.rawScore === "number" ? x.rawScore : 0,
+          description: typeof x.description === "string" ? x.description : "",
+        };
+      }
+      return { dimensionId: "", label: "", score: 0, rawScore: 0, description: "" };
+    });
+    return {
+      dimensions,
+      typeCode: typeof o.typeCode === "string" ? o.typeCode : undefined,
+      typeLabel: typeof o.typeLabel === "string" ? o.typeLabel : undefined,
+      overall: typeof o.overall === "number" ? o.overall : undefined,
+    };
+  }
+  return { dimensions: [] };
+}
+
+/** Normalize interpretation from DB so FreeResults never throws on missing keys. */
+function normalizeInterpretation(raw: unknown): { summary: string; dimensionDetails: { dimensionId: string; text: string }[]; typeLabel?: string; tips?: string[] } | null {
+  if (raw == null) return null;
+  if (typeof raw !== "object" || Array.isArray(raw)) return null;
+  const o = raw as Record<string, unknown>;
+  return {
+    summary: typeof o.summary === "string" ? o.summary : "",
+    dimensionDetails: Array.isArray(o.dimensionDetails) ? o.dimensionDetails : [],
+    typeLabel: typeof o.typeLabel === "string" ? o.typeLabel : undefined,
+    tips: Array.isArray(o.tips) ? o.tips.filter((t): t is string => typeof t === "string") : undefined,
+  };
+}
+
 export default async function ResultsPage({ params }: ResultsPageProps) {
   const { testId, attemptId } = await params;
   const product = getProductById(testId);
-  const result = await getTestResult(attemptId);
+  let result: Awaited<ReturnType<typeof getTestResult>> = null;
+  try {
+    result = await getTestResult(attemptId);
+  } catch (e) {
+    console.error("[ResultsPage] getTestResult failed:", e);
+    notFound();
+  }
 
   if (!product || !result) {
     notFound();
   }
+
+  const scores = normalizeScores(result.scores);
+  const interpretation = normalizeInterpretation(result.interpretation);
 
   return (
     <TestShell>
@@ -35,11 +87,11 @@ export default async function ResultsPage({ params }: ResultsPageProps) {
       {/* Free results */}
       <FreeResults
         testTitle={product.title}
-        scores={result.scores}
-        interpretation={result.interpretation}
+        scores={scores}
+        interpretation={interpretation}
       />
 
-      {/* Premium upgrade CTA — same price ($29) for every test */}
+      {/* Premium upgrade CTA — prominent for conversion */}
       <div className="mt-8">
         <PremiumUpgradeClient
           testTitle={product.title}
@@ -50,8 +102,26 @@ export default async function ResultsPage({ params }: ResultsPageProps) {
         />
       </div>
 
+      {/* Cross-sell: explore more tests */}
+      <ExploreMoreTests
+        excludeTestId={testId}
+        heading={
+          testId === "mbti" || testId === "enneagram"
+            ? "Your personality type is just the beginning"
+            : "Your results are just the beginning"
+        }
+        subheading="Discover more about yourself with our other assessments."
+        max={6}
+      />
+
       {/* Bottom actions */}
-      <div className="mt-8 flex items-center justify-center gap-4">
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <Link href="/chat">
+          <Button variant="default" size="sm" className="gap-2 rounded-xl">
+            <MessageCircle className="h-4 w-4" />
+            Talk to the Mirror
+          </Button>
+        </Link>
         <Link href={`/test/${testId}/questions`}>
           <Button variant="outline" size="sm" className="gap-2 rounded-xl">
             <RotateCcw className="h-4 w-4" />

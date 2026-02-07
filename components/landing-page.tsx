@@ -23,6 +23,8 @@ import {
   X,
 } from "lucide-react";
 import { ConsentDialog } from "@/components/features/consent/ConsentDialog";
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+import { HERO_TEST_ID } from "@/lib/products";
 
 /* ── Navbar ──────────────────────────────────────────────────────── */
 
@@ -32,6 +34,7 @@ function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const navLinks = [
+    { label: t("ourFramework"), href: "/our-framework" },
     { label: t("features"), href: "#features" },
     { label: t("testimonials"), href: "#testimonials" },
     { label: t("pricing"), href: "#pricing" },
@@ -53,18 +56,29 @@ function Navbar() {
           className="hidden items-center gap-8 md:flex"
           aria-label="Main navigation"
         >
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) =>
+            link.href.startsWith("#") ? (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </Link>
+            )
+          )}
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
+          <LanguageSwitcher className="rounded-xl" />
           <Button
             variant="ghost"
             className="rounded-xl text-sm font-medium"
@@ -98,17 +112,34 @@ function Navbar() {
         )}
       >
         <nav className="flex flex-col gap-1 px-4">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={() => setMobileOpen(false)}
-              className="rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) =>
+            link.href.startsWith("#") ? (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className="rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.label}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className="rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              >
+                {link.label}
+              </Link>
+            )
+          )}
           <div className="mt-3 flex flex-col gap-2">
+            <div className="flex items-center justify-between rounded-xl border border-border/60 px-3 py-2">
+              <span className="text-sm font-medium text-muted-foreground">
+                {t("language")}
+              </span>
+              <LanguageSwitcher className="rounded-xl" />
+            </div>
             <Button
               variant="outline"
               className="w-full rounded-xl bg-transparent"
@@ -134,18 +165,17 @@ function Hero() {
   const router = useRouter();
   const [showConsentDialog, setShowConsentDialog] = useState(false);
 
+  // Take the test with or without an account; sign-up is only needed for chat, vault, etc.
   const handlePrimaryCta = () => {
-    if (isSignedIn) {
-      router.push("/sign-up");
-    } else {
-      setShowConsentDialog(true);
-    }
+    router.push(`/test/${HERO_TEST_ID}`);
   };
 
   const handlePreSignupConsent = () => {
     setShowConsentDialog(false);
     router.push("/sign-up");
   };
+
+  const heroTestHref = `/test/${HERO_TEST_ID}`;
 
   return (
     <section className="relative overflow-hidden py-20 lg:py-32">
@@ -180,7 +210,7 @@ function Hero() {
                 className="h-12 rounded-xl px-8 text-base font-semibold gap-2"
                 asChild
               >
-                <Link href="/sign-up">
+                <Link href={heroTestHref}>
                   {t("cta")}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
@@ -452,7 +482,7 @@ function FeatureShowcase() {
               </p>
               <div className="mt-6 flex items-center gap-4">
                 <Button className="rounded-xl font-semibold gap-2" asChild>
-                  <Link href="/sign-up">
+                  <Link href={`/test/${HERO_TEST_ID}`}>
                     {t("takeTheTest")}
                     <ArrowRight className="h-4 w-4" />
                   </Link>
@@ -654,7 +684,7 @@ function Pricing() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {plans.map((plan) => (
+          {plans.map((plan, planIndex) => (
             <Card
               key={plan.name}
               className={cn(
@@ -713,7 +743,7 @@ function Pricing() {
                   variant={plan.highlighted ? "default" : "outline"}
                   asChild
                 >
-                  <Link href="/sign-up">{plan.cta}</Link>
+                  <Link href={planIndex === 0 ? `/test/${HERO_TEST_ID}` : "/sign-up"}>{plan.cta}</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -745,7 +775,7 @@ function FinalCta() {
               className="h-12 rounded-xl px-8 text-base font-semibold gap-2"
               asChild
             >
-              <Link href="/sign-up">
+              <Link href={`/test/${HERO_TEST_ID}`}>
                 {t("cta")}
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -776,10 +806,10 @@ function Footer() {
     {
       title: t("resources"),
       links: [
-        { label: t("personalityTest"), href: "/sign-up" },
+        { label: t("personalityTest"), href: `/test/${HERO_TEST_ID}` },
         { label: t("personalityTypes"), href: "#" },
         { label: t("articles"), href: "#" },
-        { label: t("ourFramework"), href: "#" },
+        { label: t("ourFramework"), href: "/our-framework" },
       ],
     },
     {

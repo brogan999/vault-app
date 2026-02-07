@@ -32,13 +32,15 @@
   },
   "landing": {
     "navbar": {
+      "ourFramework": "Unser Rahmen",
       "features": "Funktionen",
       "testimonials": "Erfahrungsberichte",
       "pricing": "Preise",
       "logIn": "Anmelden",
       "getStartedFree": "Kostenlos starten",
       "openMenu": "Menü öffnen",
-      "closeMenu": "Menü schließen"
+      "closeMenu": "Menü schließen",
+      "language": "Sprache"
     },
     "hero": {
       "badge": "KI-gestützte Selbsterkenntnis",
@@ -59,7 +61,7 @@
       "title": "Ein Ort für deine gesamte innere Welt",
       "description": "Tests, Tagebücher, KI-Chat und sicherer Speicher — so aufeinander abgestimmt, dass du dich selbst wirklich verstehen kannst.",
       "personalityTests": "Persönlichkeitstests",
-      "personalityTestsDesc": "Big 5, Enneagram, MBTI und mehr. Wissenschaftlich fundierte Assessments, die deine zentralen Persönlichkeitsmerkmale aufdecken.",
+      "personalityTestsDesc": "Big 5, Enneagram, Persönlichkeitstyp und mehr. Wissenschaftlich fundierte Assessments, die deine zentralen Persönlichkeitsmerkmale aufdecken.",
       "aiTherapistChat": "KI-Therapeuten-Chat",
       "aiTherapistChatDesc": "Eine KI, die deine Persönlichkeitsdaten, Tagebücher und Testergebnisse liest, um dir individuell zugeschnittene Unterstützung zu bieten.",
       "secureFileVault": "Sicherer Datei-Vault",

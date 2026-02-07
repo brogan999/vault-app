@@ -38,6 +38,10 @@ export interface Question {
   correctAnswer?: number | string;
   /** Whether the scoring should be reversed (high answer = low trait) */
   reverseScored?: boolean;
+  /** If true, used to detect careless responding; fail 2+ → is_valid false */
+  isAttentionCheck?: boolean;
+  /** For attention checks: expected value (e.g. 4 for "Agree" on 7-point) */
+  attentionCheckExpectedValue?: number;
 }
 
 /* ---- Answer / Score / Interpretation ---- */
@@ -45,14 +49,22 @@ export interface Question {
 export interface Answer {
   questionId: string;
   value: number | string;
+  /** Time in ms spent on this item (for validation/quality) */
+  responseTimeMs?: number;
+  /** 0-based order in which item was presented (for randomization tracking) */
+  presentedOrder?: number;
 }
 
 export interface DimensionScore {
   dimensionId: string;
   label: string;
   score: number;     // 0-100 normalised
-  rawScore: number;  // sum / count before normalisation
+  rawScore: number;  // mean 1-7 (or sum/count for legacy)
   description: string;
+  /** Percentile from norms (optional until N≥1000) */
+  percentile?: number;
+  /** T-score mean=50, SD=10 (optional) */
+  tScore?: number;
 }
 
 export interface TestScores {
@@ -89,6 +101,8 @@ export interface TestDefinition {
   dimensions: Dimension[];
   /** Ordered list of questions */
   questions: Question[];
+  /** Questions per page (default from QUESTIONS_PER_PAGE in questions page). e.g. 6 for 16p-style flow. */
+  questionsPerPage?: number;
   /** Primary scoring method for UI hints */
   scoringMethod: "likert" | "forced-choice" | "correct-answer" | "data-input";
   /** Pure function: answers → scores */
@@ -101,7 +115,8 @@ export interface TestDefinition {
 
 export interface TestResultRow {
   id: string;
-  userId: string;
+  userId: string | null;
+  guest_id?: string | null;
   testId: string;
   answers: Answer[];
   scores: TestScores;
@@ -109,4 +124,6 @@ export interface TestResultRow {
   isPremium: boolean;
   completedAt: string;
   createdAt: string;
+  is_valid?: boolean;
+  startedAt?: string | null;
 }

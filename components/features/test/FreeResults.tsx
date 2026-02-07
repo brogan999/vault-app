@@ -12,6 +12,7 @@ interface FreeResultsProps {
 
 export function FreeResults({ testTitle, scores, interpretation }: FreeResultsProps) {
   const interp = interpretation ?? { summary: "", dimensionDetails: [], tips: [] };
+  const hasTypeAndDimensions = scores?.typeCode && (scores.dimensions?.length ?? 0) > 0;
   return (
     <div className="space-y-6">
       <div className="text-center space-y-3">
@@ -19,34 +20,25 @@ export function FreeResults({ testTitle, scores, interpretation }: FreeResultsPr
           Your Results
         </h1>
         <p className="text-sm text-muted-foreground">{testTitle}</p>
-        {scores?.typeLabel && (
+        {!hasTypeAndDimensions && scores?.typeLabel && (
           <div className="inline-flex items-center gap-2">
             <Badge variant="secondary" className="px-4 py-1.5 text-base font-semibold rounded-xl">
               {scores.typeLabel}
             </Badge>
           </div>
         )}
-        {scores?.overall !== undefined && (
+        {scores?.overall !== undefined && !hasTypeAndDimensions && (
           <p className="text-4xl font-bold font-serif text-primary">{scores.overall}%</p>
         )}
       </div>
 
-      {/* Summary */}
-      <Card className="border-0 shadow-sm rounded-2xl">
+      {/* Continuous scores first for type-based tests (psychometric standard) */}
+      {(scores.dimensions?.length ?? 0) > 0 && (
+        <Card className="border-0 shadow-sm rounded-2xl">
         <CardHeader className="pb-2">
-          <h2 className="text-sm font-semibold text-foreground">Summary</h2>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            {interp.summary || "Your results have been saved."}
-          </p>
-        </CardContent>
-      </Card>
-
-      {/* Dimension scores bar chart */}
-      <Card className="border-0 shadow-sm rounded-2xl">
-        <CardHeader className="pb-2">
-          <h2 className="text-sm font-semibold text-foreground">Dimension Scores</h2>
+          <h2 className="text-sm font-semibold text-foreground">
+            {hasTypeAndDimensions ? "Your spectrum (continuous scores)" : "Dimension Scores"}
+          </h2>
         </CardHeader>
         <CardContent className="space-y-4">
           {(scores.dimensions ?? []).map((dim) => (
@@ -64,6 +56,29 @@ export function FreeResults({ testTitle, scores, interpretation }: FreeResultsPr
               <p className="text-xs text-muted-foreground">{dim.description}</p>
             </div>
           ))}
+        </CardContent>
+      </Card>
+      )}
+
+      {/* Type/category after continuous scores */}
+      {hasTypeAndDimensions && scores?.typeLabel && (
+        <div className="text-center">
+          <p className="text-xs text-muted-foreground mb-1">Your type</p>
+          <Badge variant="secondary" className="px-4 py-1.5 text-base font-semibold rounded-xl">
+            {scores.typeLabel}
+          </Badge>
+        </div>
+      )}
+
+      {/* Summary */}
+      <Card className="border-0 shadow-sm rounded-2xl">
+        <CardHeader className="pb-2">
+          <h2 className="text-sm font-semibold text-foreground">Summary</h2>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            {interp.summary || "Your results have been saved."}
+          </p>
         </CardContent>
       </Card>
 

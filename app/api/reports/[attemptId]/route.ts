@@ -1,30 +1,43 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { getSupabaseUser } from "@/lib/clerk/utils";
 import { createAdminClient } from "@/lib/supabase/server";
 import { getProductById } from "@/lib/products";
 import type { TestResultRow } from "@/lib/tests/types";
 import { jsPDF } from "jspdf";
 
+const GUEST_COOKIE_NAME = "vault_guest_id";
+
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ attemptId: string }> },
 ) {
   const { attemptId } = await params;
-
-  // Auth check
   const user = await getSupabaseUser();
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  // Fetch result
   const supabase = createAdminClient();
-  const { data } = await supabase
-    .from("testResults")
-    .select("*")
-    .eq("id", attemptId)
-    .eq("userId", user.id)
-    .single();
+
+  let data: unknown = null;
+  if (user) {
+    const res = await supabase
+      .from("testResults")
+      .select("*")
+      .eq("id", attemptId)
+      .eq("userId", user.id)
+      .single();
+    data = res.data;
+  } else {
+    const guestId = (await cookies()).get(GUEST_COOKIE_NAME)?.value;
+    if (!guestId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const res = await supabase
+      .from("testResults")
+      .select("*")
+      .eq("id", attemptId)
+      .eq("guest_id", guestId)
+      .single();
+    data = res.data;
+  }
 
   if (!data) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });

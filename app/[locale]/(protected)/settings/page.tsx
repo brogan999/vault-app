@@ -19,6 +19,7 @@ import {
   getCurrentUserPreferences,
   updateThemePreference,
   updatePersonaPreference,
+  updateBirthData,
 } from "@/app/actions/settings";
 import {
   getCheckinPreferences,
@@ -54,6 +55,11 @@ export default function SettingsPage() {
     Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York"
   );
   const [checkinSaving, setCheckinSaving] = useState(false);
+  const [birthDate, setBirthDate] = useState("");
+  const [birthTime, setBirthTime] = useState("");
+  const [birthTimeUnknown, setBirthTimeUnknown] = useState(false);
+  const [birthLocation, setBirthLocation] = useState("");
+  const [birthDataSaving, setBirthDataSaving] = useState(false);
 
   const colorPalettes = [
     { value: "emerald", label: t("appearance.emerald"), swatch: ["#faf9f6", "#0c8d62", "#1a7a56", "#0d5f42"] },
@@ -92,6 +98,12 @@ export default function SettingsPage() {
     getCurrentUserPreferences().then((prefs) => {
       if (prefs?.personaPreference)
         setPersonaPreference(prefs.personaPreference);
+      if (prefs?.birthDate) setBirthDate(prefs.birthDate);
+      if (prefs?.birthTime !== undefined && prefs.birthTime !== null) {
+        if (prefs.birthTime === "unknown") setBirthTimeUnknown(true);
+        else setBirthTime(prefs.birthTime);
+      }
+      if (prefs?.birthLocationName) setBirthLocation(prefs.birthLocationName);
     });
   }, []);
 
@@ -269,6 +281,88 @@ export default function SettingsPage() {
               </label>
               <LanguageSwitcher />
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Birth data (for esoteric frameworks) */}
+        <Card className="border-0 shadow-sm rounded-2xl">
+          <CardHeader>
+            <CardTitle className="text-base font-bold font-serif">
+              {t("birthData.title")}
+            </CardTitle>
+            <CardDescription className="leading-relaxed">
+              {t("birthData.description")}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="birth-date">{t("birthData.date")}</Label>
+              <Input
+                id="birth-date"
+                type="date"
+                value={birthDate}
+                onChange={(e) => setBirthDate(e.target.value)}
+                className="rounded-xl"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="birth-time">{t("birthData.time")}</Label>
+              <div className="flex gap-2 items-center">
+                <Input
+                  id="birth-time"
+                  type="time"
+                  value={birthTime}
+                  onChange={(e) => setBirthTime(e.target.value)}
+                  disabled={birthTimeUnknown}
+                  className="rounded-xl"
+                />
+                <label className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <input
+                    type="checkbox"
+                    checked={birthTimeUnknown}
+                    onChange={(e) => {
+                      setBirthTimeUnknown(e.target.checked);
+                      if (e.target.checked) setBirthTime("");
+                    }}
+                    className="rounded"
+                  />
+                  {t("birthData.timeUnknown")}
+                </label>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="birth-location">{t("birthData.location")}</Label>
+              <Input
+                id="birth-location"
+                type="text"
+                placeholder="e.g. London, New York"
+                value={birthLocation}
+                onChange={(e) => setBirthLocation(e.target.value)}
+                className="rounded-xl"
+              />
+            </div>
+            <Button
+              className="rounded-xl w-fit"
+              size="sm"
+              onClick={async () => {
+                setBirthDataSaving(true);
+                try {
+                  await updateBirthData({
+                    birthDate: birthDate || null,
+                    birthTime: birthTimeUnknown ? "unknown" : (birthTime || null),
+                    birthLocationName: birthLocation || null,
+                  });
+                  toast.success(t("birthData.saved"));
+                } catch {
+                  toast.error(t("birthData.saveFailed"));
+                } finally {
+                  setBirthDataSaving(false);
+                }
+              }}
+              disabled={birthDataSaving}
+            >
+              {birthDataSaving ? t("checkins.saving") : t("birthData.save")}
+            </Button>
           </CardContent>
         </Card>
 

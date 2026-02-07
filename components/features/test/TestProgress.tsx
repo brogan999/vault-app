@@ -4,10 +4,23 @@ interface TestProgressProps {
   current: number;
   total: number;
   testTitle?: string;
+  /** When using multi-question pages (e.g. 6 per page). */
+  pageIndex?: number;
+  pageCount?: number;
+  /** Number of questions answered so far; drives progress bar when using pages. */
+  answeredCount?: number;
 }
 
-export function TestProgress({ current, total, testTitle }: TestProgressProps) {
-  const pct = total > 0 ? Math.round(((current + 1) / total) * 100) : 0;
+export function TestProgress({
+  current,
+  total,
+  testTitle,
+  pageIndex,
+  pageCount,
+  answeredCount,
+}: TestProgressProps) {
+  const resolvedAnswered = answeredCount ?? current + 1;
+  const pct = total > 0 ? Math.round((resolvedAnswered / total) * 100) : 0;
 
   return (
     <div className="mb-8 space-y-2">
@@ -18,7 +31,11 @@ export function TestProgress({ current, total, testTitle }: TestProgressProps) {
       )}
       <div className="flex items-center justify-between text-sm text-muted-foreground">
         <span>
-          Question {current + 1} of {total}
+          {pageCount != null && pageIndex != null ? (
+            <>Step {pageIndex + 1} of {pageCount}</>
+          ) : (
+            <>Question {current + 1} of {total}</>
+          )}
         </span>
         <span>{pct}%</span>
       </div>

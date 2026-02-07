@@ -93,9 +93,7 @@ export async function createOneOffPurchase(priceId: string) {
 
 export async function getUserPurchases() {
   const user = await getSupabaseUser();
-  if (!user) {
-    throw new Error("User not found");
-  }
+  if (!user) return [];
 
   const supabase = (await import("@/lib/supabase/server")).createAdminClient();
   const { data } = await supabase

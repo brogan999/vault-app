@@ -80,6 +80,7 @@ export const products: Product[] = [
     rating: 4.8,
     taken: 42100,
     tags: ["9 Types", "Wings", "Tritype"],
+    featured: true,
     highlights: [
       "Core type identification with confidence score",
       "Wing analysis and tri-type pattern",
@@ -182,6 +183,116 @@ export const products: Product[] = [
     ],
   },
   {
+    id: "vedic",
+    title: "Vedic Astrology",
+    description:
+      "Enter your birth details for a simplified Vedic (Jyotish) chart with Lagna, Surya, and Chandra.",
+    longDescription:
+      "Vedic astrology uses the sidereal zodiac and your birth date, time, and place. We provide a simplified chart and store your details for richer analysis in future updates.",
+    category: "Astrology",
+    icon: Sparkles,
+    color: "#a855f7",
+    bgColor: "rgba(168, 85, 247, 0.08)",
+    price: null,
+    duration: "3 min",
+    rating: 4.4,
+    taken: 18200,
+    tags: ["Jyotish", "Lagna", "Nakshatra"],
+    highlights: [
+      "Simplified Lagna, Surya, and Chandra",
+      "Birth details saved for future analysis",
+      "Introduction to Vedic symbolism",
+    ],
+  },
+  {
+    id: "life-path",
+    title: "Life Path Number",
+    description:
+      "Discover your numerology Life Path number (1–9 or master 11/22) from your date of birth.",
+    longDescription:
+      "Your Life Path number is derived from your full birth date and represents core themes and purpose in numerology. We calculate it and give a short interpretation.",
+    category: "Numerology",
+    icon: Sparkles,
+    color: "#ec4899",
+    bgColor: "rgba(236, 72, 153, 0.08)",
+    price: null,
+    duration: "1 min",
+    rating: 4.6,
+    taken: 39100,
+    tags: ["Numerology", "Life Path", "1–9"],
+    highlights: [
+      "Your Life Path number (1–9 or 11/22)",
+      "Short description of your path",
+      "Reflection tips",
+    ],
+  },
+  {
+    id: "human-design",
+    title: "Human Design",
+    description:
+      "Enter your birth details for a simplified Human Design type (Manifestor, Generator, Projector, etc.).",
+    longDescription:
+      "Human Design combines astrology, I Ching, Kabbalah, and chakras. We use your birth date, time, and place to give a simplified type and strategy; full bodygraph analysis requires exact data.",
+    category: "Esoteric",
+    icon: Sparkles,
+    color: "#14b8a6",
+    bgColor: "rgba(20, 184, 166, 0.08)",
+    price: null,
+    duration: "3 min",
+    rating: 4.5,
+    taken: 22400,
+    tags: ["Type", "Strategy", "Authority"],
+    highlights: [
+      "Simplified Human Design type",
+      "Strategy and authority overview",
+      "Next steps for full chart",
+    ],
+  },
+  {
+    id: "mayan",
+    title: "Mayan Astrology (Tzolkin)",
+    description:
+      "Discover your Tzolkin day sign from your date of birth (one of 20 Mayan day signs).",
+    longDescription:
+      "The Tzolkin is a 260-day cycle of 20 day signs. We map your birth date to one of these signs for symbolism and reflection. A full Tzolkin date includes a number (1–13) as well.",
+    category: "Astrology",
+    icon: Sparkles,
+    color: "#f97316",
+    bgColor: "rgba(249, 115, 22, 0.08)",
+    price: null,
+    duration: "1 min",
+    rating: 4.3,
+    taken: 12100,
+    tags: ["Tzolkin", "Day Sign", "Mayan"],
+    highlights: [
+      "Your Tzolkin day sign",
+      "Brief symbolism",
+      "Link to full calendar tools",
+    ],
+  },
+  {
+    id: "chinese-zodiac",
+    title: "Chinese Zodiac",
+    description:
+      "Find your Chinese zodiac animal from your birth year (Rat, Ox, Tiger, Rabbit, Dragon, and more).",
+    longDescription:
+      "The Chinese zodiac assigns one of 12 animals to each year. Enter your birth year to get your sign and a short interpretation. For a full Ba Zi chart, month and hour are also used.",
+    category: "Astrology",
+    icon: Sparkles,
+    color: "#dc2626",
+    bgColor: "rgba(220, 38, 38, 0.08)",
+    price: null,
+    duration: "1 min",
+    rating: 4.7,
+    taken: 45800,
+    tags: ["12 Animals", "Birth Year", "Ba Zi"],
+    highlights: [
+      "Your Chinese zodiac animal",
+      "Traditional traits overview",
+      "Further reading suggestions",
+    ],
+  },
+  {
     id: "career-compass",
     title: "Career Compass",
     description:
@@ -253,11 +364,11 @@ export const products: Product[] = [
   },
   {
     id: "mbti",
-    title: "MBTI Type Indicator",
+    title: "Personality Type Indicator",
     description:
-      "Determine your Myers-Briggs personality type across four dimensions and understand your cognitive function stack.",
+      "Discover your four-letter personality type across four dimensions: Energy, Information, Decisions, and Lifestyle.",
     longDescription:
-      "Our Myers-Briggs assessment goes beyond simple letter typing to analyze your cognitive function stack. Understand not just your four-letter type, but how you perceive and judge the world through your dominant, auxiliary, tertiary, and inferior functions.",
+      "This assessment identifies your preferences across four dimensions and your four-letter type (e.g. INTJ, ENFP). Understand how you perceive and judge the world, with continuous scores shown alongside your type.",
     category: "Personality",
     icon: Target,
     color: "#f59e0b",
@@ -269,10 +380,33 @@ export const products: Product[] = [
     tags: ["16 Types", "Functions", "Classic"],
     featured: true,
     highlights: [
-      "Your four-letter MBTI type",
-      "Cognitive function stack analysis",
+      "Your four-letter personality type",
+      "Continuous scores on all four dimensions",
       "Strengths and blind spots of your type",
       "Type-specific growth recommendations",
+    ],
+  },
+  {
+    id: "disc",
+    title: "Work Style Assessment",
+    description:
+      "Discover your behavioural style at work across Dominance, Influence, Steadiness, and Conscientiousness.",
+    longDescription:
+      "Understand how you tend to behave and communicate in professional settings. Your primary style and blend (e.g. Di, SC) across all four dimensions are used to tailor insights and recommendations in your Vault.",
+    category: "Personality",
+    icon: Target,
+    color: "#6366f1",
+    bgColor: "rgba(99, 102, 241, 0.08)",
+    price: null,
+    duration: "8 min",
+    rating: 4.7,
+    taken: 28900,
+    tags: ["Behaviour", "D/i/S/C", "Communication"],
+    highlights: [
+      "Primary work style and blend (e.g. Di, SC)",
+      "Scores across all four dimensions",
+      "Behavioural strengths and tips",
+      "Communication adaptation guidance",
     ],
   },
   {
@@ -336,6 +470,9 @@ export const categories = [
 export function getProductById(id: string): Product | undefined {
   return products.find((p) => p.id === id);
 }
+
+/** Hero test: first test when user clicks "Take the Free Test" on the landing page (16p-style). */
+export const HERO_TEST_ID = "mbti";
 
 /** Single price for premium PDF report (same for every test, 16personalities-style). */
 export const PREMIUM_REPORT_PRICE = "$29";

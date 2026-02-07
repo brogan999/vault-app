@@ -42,13 +42,18 @@ export function scoreLikertDimensions(
 
     const avg = count > 0 ? total / count : 0;
     const normalised = count > 0 ? Math.round(((avg - 1) / (scaleMax - 1)) * 100) : 0;
+    const rawScore = Math.round(avg * 100) / 100;
+    const percentile = estimatePercentile(normalised);
+    const tScore = rawMeanToTScore(rawScore, (scaleMax + 1) / 2, scaleMax / 3);
 
     return {
       dimensionId: dim.id,
       label: dim.label,
       score: normalised,
-      rawScore: Math.round(avg * 100) / 100,
+      rawScore,
       description: dim.description,
+      percentile,
+      tScore,
     };
   });
 }
@@ -135,7 +140,7 @@ export function topNDimensions(scores: DimensionScore[], n: number): DimensionSc
 }
 
 /**
- * For MBTI-style dichotomies: given two opposing dimension scores,
+ * For personality-type dichotomies: given two opposing dimension scores,
  * return the letter for the higher one.
  */
 export function dichotomyLetter(
@@ -161,4 +166,38 @@ export function estimatePercentile(score: number): number {
   const z = (score - 50) / 16;
   const pct = Math.round(100 / (1 + Math.exp(-1.7 * z)));
   return Math.max(1, Math.min(99, pct));
+}
+
+/**
+ * Convert raw mean (1-7) to T-score (mean=50, SD=10).
+ * Uses scale mean=4, SD≈1.5 for 1-7 Likert.
+ */
+export function rawMeanToTScore(rawMean: number, scaleMean = 4, scaleSd = 1.5): number {
+  const z = (rawMean - scaleMean) / scaleSd;
+  return Math.round(50 + 10 * z);
+}
+
+/* ---------- Attention check ---------- */
+
+/**
+ * Count how many attention-check items were failed (wrong or missing answer).
+ * Session is invalid if 2+ attention checks failed.
+ */
+export function countAttentionCheckFailures(
+  questions: Question[],
+  answers: Answer[],
+): number {
+  const answerMap = new Map(answers.map((a) => [a.questionId, a.value]));
+  let failures = 0;
+  for (const q of questions) {
+    if (!q.isAttentionCheck) continue;
+    const value = answerMap.get(q.id);
+    const expected = q.attentionCheckExpectedValue;
+    if (expected === undefined) continue;
+    const numVal = typeof value === "string" ? parseFloat(value) : value;
+    if (typeof numVal !== "number" || Number.isNaN(numVal) || numVal !== expected) {
+      failures += 1;
+    }
+  }
+  return failures;
 }

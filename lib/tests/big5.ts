@@ -9,12 +9,14 @@ const dimensions = [
   { id: "neuroticism", label: "Neuroticism", description: "Tendency toward negative emotions and emotional reactivity" },
 ] as const;
 
-const L5 = [
+const L7 = [
   { value: 1, label: "Strongly Disagree" },
   { value: 2, label: "Disagree" },
-  { value: 3, label: "Neutral" },
-  { value: 4, label: "Agree" },
-  { value: 5, label: "Strongly Agree" },
+  { value: 3, label: "Slightly Disagree" },
+  { value: 4, label: "Neutral" },
+  { value: 5, label: "Slightly Agree" },
+  { value: 6, label: "Agree" },
+  { value: 7, label: "Strongly Agree" },
 ];
 
 export const big5Test: TestDefinition = {
@@ -23,51 +25,56 @@ export const big5Test: TestDefinition = {
   subtitle: "Measure your five core personality dimensions",
   dimensions: [...dimensions],
   scoringMethod: "likert",
+  questionsPerPage: 6,
 
   questions: [
     // --- Openness (6 items) ---
-    { id: "o1", text: "I enjoy exploring abstract concepts and philosophical discussions.", dimension: "openness", type: "likert-5", options: L5 },
-    { id: "o2", text: "I often seek out experiences that are unfamiliar or unconventional.", dimension: "openness", type: "likert-5", options: L5 },
-    { id: "o3", text: "I find beauty in art, music, or nature on a regular basis.", dimension: "openness", type: "likert-5", options: L5 },
-    { id: "o4", text: "I prefer routine and predictability over novelty.", dimension: "openness", type: "likert-5", options: L5, reverseScored: true },
-    { id: "o5", text: "I like to imagine how things could be different from the way they are.", dimension: "openness", type: "likert-5", options: L5 },
-    { id: "o6", text: "I am drawn to ideas that challenge my existing worldview.", dimension: "openness", type: "likert-5", options: L5 },
+    { id: "o1", text: "I enjoy exploring abstract concepts and philosophical discussions.", dimension: "openness", type: "likert-7", options: L7 },
+    { id: "o2", text: "I often seek out experiences that are unfamiliar or unconventional.", dimension: "openness", type: "likert-7", options: L7 },
+    { id: "o3", text: "I find beauty in art, music, or nature on a regular basis.", dimension: "openness", type: "likert-7", options: L7 },
+    { id: "o4", text: "I prefer routine and predictability over novelty.", dimension: "openness", type: "likert-7", options: L7, reverseScored: true },
+    { id: "o5", text: "I like to imagine how things could be different from the way they are.", dimension: "openness", type: "likert-7", options: L7 },
+    { id: "o6", text: "I am drawn to ideas that challenge my existing worldview.", dimension: "openness", type: "likert-7", options: L7 },
 
     // --- Conscientiousness (6 items) ---
-    { id: "c1", text: "I make a plan and stick to it when working toward a goal.", dimension: "conscientiousness", type: "likert-5", options: L5 },
-    { id: "c2", text: "I pay close attention to details in my work.", dimension: "conscientiousness", type: "likert-5", options: L5 },
-    { id: "c3", text: "I tend to put off tasks until the last minute.", dimension: "conscientiousness", type: "likert-5", options: L5, reverseScored: true },
-    { id: "c4", text: "I keep my living and working spaces well-organised.", dimension: "conscientiousness", type: "likert-5", options: L5 },
-    { id: "c5", text: "I follow through on commitments even when it is inconvenient.", dimension: "conscientiousness", type: "likert-5", options: L5 },
-    { id: "c6", text: "I set clear priorities and manage my time effectively.", dimension: "conscientiousness", type: "likert-5", options: L5 },
+    { id: "c1", text: "I make a plan and stick to it when working toward a goal.", dimension: "conscientiousness", type: "likert-7", options: L7 },
+    { id: "c2", text: "I pay close attention to details in my work.", dimension: "conscientiousness", type: "likert-7", options: L7 },
+    { id: "c3", text: "I tend to put off tasks until the last minute.", dimension: "conscientiousness", type: "likert-7", options: L7, reverseScored: true },
+    { id: "c4", text: "I keep my living and working spaces well-organised.", dimension: "conscientiousness", type: "likert-7", options: L7 },
+    { id: "c5", text: "I follow through on commitments even when it is inconvenient.", dimension: "conscientiousness", type: "likert-7", options: L7 },
+    { id: "c6", text: "I set clear priorities and manage my time effectively.", dimension: "conscientiousness", type: "likert-7", options: L7 },
 
     // --- Extraversion (6 items) ---
-    { id: "e1", text: "I feel energised after spending time with a group of people.", dimension: "extraversion", type: "likert-5", options: L5 },
-    { id: "e2", text: "I am usually the one to start conversations in social settings.", dimension: "extraversion", type: "likert-5", options: L5 },
-    { id: "e3", text: "I prefer spending evenings at home rather than going out.", dimension: "extraversion", type: "likert-5", options: L5, reverseScored: true },
-    { id: "e4", text: "I find it easy to express enthusiasm openly.", dimension: "extraversion", type: "likert-5", options: L5 },
-    { id: "e5", text: "I enjoy being the centre of attention in a group.", dimension: "extraversion", type: "likert-5", options: L5 },
-    { id: "e6", text: "I actively seek out social gatherings and events.", dimension: "extraversion", type: "likert-5", options: L5 },
+    { id: "e1", text: "I feel energised after spending time with a group of people.", dimension: "extraversion", type: "likert-7", options: L7 },
+    { id: "e2", text: "I am usually the one to start conversations in social settings.", dimension: "extraversion", type: "likert-7", options: L7 },
+    { id: "e3", text: "I prefer spending evenings at home rather than going out.", dimension: "extraversion", type: "likert-7", options: L7, reverseScored: true },
+    { id: "e4", text: "I find it easy to express enthusiasm openly.", dimension: "extraversion", type: "likert-7", options: L7 },
+    { id: "e5", text: "I enjoy being the centre of attention in a group.", dimension: "extraversion", type: "likert-7", options: L7 },
+    { id: "e6", text: "I actively seek out social gatherings and events.", dimension: "extraversion", type: "likert-7", options: L7 },
 
     // --- Agreeableness (6 items) ---
-    { id: "a1", text: "I go out of my way to make others feel comfortable.", dimension: "agreeableness", type: "likert-5", options: L5 },
-    { id: "a2", text: "I find it easy to forgive others after a disagreement.", dimension: "agreeableness", type: "likert-5", options: L5 },
-    { id: "a3", text: "I tend to be skeptical of other people's intentions.", dimension: "agreeableness", type: "likert-5", options: L5, reverseScored: true },
-    { id: "a4", text: "I genuinely care about the well-being of people I interact with.", dimension: "agreeableness", type: "likert-5", options: L5 },
-    { id: "a5", text: "I try to see situations from the other person's point of view.", dimension: "agreeableness", type: "likert-5", options: L5 },
-    { id: "a6", text: "I avoid confrontation even when I strongly disagree.", dimension: "agreeableness", type: "likert-5", options: L5 },
+    { id: "a1", text: "I go out of my way to make others feel comfortable.", dimension: "agreeableness", type: "likert-7", options: L7 },
+    { id: "a2", text: "I find it easy to forgive others after a disagreement.", dimension: "agreeableness", type: "likert-7", options: L7 },
+    { id: "a3", text: "I tend to be skeptical of other people's intentions.", dimension: "agreeableness", type: "likert-7", options: L7, reverseScored: true },
+    { id: "a4", text: "I genuinely care about the well-being of people I interact with.", dimension: "agreeableness", type: "likert-7", options: L7 },
+    { id: "a5", text: "I try to see situations from the other person's point of view.", dimension: "agreeableness", type: "likert-7", options: L7 },
+    { id: "a6", text: "I avoid confrontation even when I strongly disagree.", dimension: "agreeableness", type: "likert-7", options: L7 },
 
     // --- Neuroticism (6 items) ---
-    { id: "n1", text: "I often worry about things that might go wrong.", dimension: "neuroticism", type: "likert-5", options: L5 },
-    { id: "n2", text: "I feel stressed or overwhelmed more often than most people.", dimension: "neuroticism", type: "likert-5", options: L5 },
-    { id: "n3", text: "I stay calm and composed even in difficult situations.", dimension: "neuroticism", type: "likert-5", options: L5, reverseScored: true },
-    { id: "n4", text: "My mood can shift quickly in response to small events.", dimension: "neuroticism", type: "likert-5", options: L5 },
-    { id: "n5", text: "I tend to dwell on negative experiences long after they happen.", dimension: "neuroticism", type: "likert-5", options: L5 },
-    { id: "n6", text: "I frequently feel anxious about the future.", dimension: "neuroticism", type: "likert-5", options: L5 },
+    { id: "n1", text: "I often worry about things that might go wrong.", dimension: "neuroticism", type: "likert-7", options: L7 },
+    { id: "n2", text: "I feel stressed or overwhelmed more often than most people.", dimension: "neuroticism", type: "likert-7", options: L7 },
+    { id: "n3", text: "I stay calm and composed even in difficult situations.", dimension: "neuroticism", type: "likert-7", options: L7, reverseScored: true },
+    { id: "n4", text: "My mood can shift quickly in response to small events.", dimension: "neuroticism", type: "likert-7", options: L7 },
+    { id: "n5", text: "I tend to dwell on negative experiences long after they happen.", dimension: "neuroticism", type: "likert-7", options: L7 },
+    { id: "n6", text: "I frequently feel anxious about the future.", dimension: "neuroticism", type: "likert-7", options: L7 },
+
+    // --- Attention checks (2) ---
+    { id: "ac1", text: "Please select Agree for this item to show you are reading.", type: "likert-7", options: L7, isAttentionCheck: true, attentionCheckExpectedValue: 6 },
+    { id: "ac2", text: "This is an attention check. Please choose Slightly Agree.", type: "likert-7", options: L7, isAttentionCheck: true, attentionCheckExpectedValue: 5 },
   ],
 
   score(answers: Answer[]): TestScores {
-    const dimScores = scoreLikertDimensions(answers, this.questions, [...dimensions]);
+    const dimScores = scoreLikertDimensions(answers, this.questions, [...dimensions], 7);
     const overall = Math.round(dimScores.reduce((s, d) => s + d.score, 0) / dimScores.length);
     return { dimensions: dimScores, overall };
   },
@@ -77,7 +84,7 @@ export const big5Test: TestDefinition = {
     const highest = sorted[0];
     const lowest = sorted[sorted.length - 1];
 
-    const summary = `Your strongest trait is ${highest.label} (${highest.score}%), placing you in approximately the ${estimatePercentile(highest.score)}th percentile. Your most moderate trait is ${lowest.label} (${lowest.score}%). This combination suggests you are ${getSummaryPhrase(highest.dimensionId, lowest.dimensionId)}.`;
+    const summary = `Your strongest trait is ${highest.label} (${highest.score}%), placing you in approximately the ${highest.percentile ?? estimatePercentile(highest.score)}th percentile. Your most moderate trait is ${lowest.label} (${lowest.score}%). This combination suggests you are ${getSummaryPhrase(highest.dimensionId, lowest.dimensionId)}.`;
 
     const dimensionDetails = scores.dimensions.map((d) => ({
       dimensionId: d.dimensionId,

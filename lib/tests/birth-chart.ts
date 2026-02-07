@@ -48,7 +48,10 @@ export const birthChartTest: TestDefinition = {
 
     // For moon, rising, etc. we use a simplified offset (real calculations need ephemeris data)
     const moonSign = getOffsetSign(sunSign, 4);
-    const risingSign = getOffsetSign(sunSign, getHourOffset(answers));
+    const timeUnknown = isTimeUnknown(answers);
+    const risingSign = timeUnknown
+      ? "Unknown (birth time required)"
+      : getOffsetSign(sunSign, getHourOffset(answers));
     const mercurySign = getOffsetSign(sunSign, 1);
     const venusSign = getOffsetSign(sunSign, 2);
     const marsSign = getOffsetSign(sunSign, 3);
@@ -90,8 +93,11 @@ export const birthChartTest: TestDefinition = {
 
     const sunElement = ELEMENTS[sunSign] ?? "Unknown";
     const moonElement = ELEMENTS[moonSign] ?? "Unknown";
+    const risingNeedsTime = risingSign.startsWith("Unknown");
 
-    const summary = `Your Sun is in ${sunSign} (${sunElement}), Moon in ${moonSign} (${moonElement}), and Rising in ${risingSign}. This combination gives you a ${sunElement.toLowerCase()} core identity with a ${moonElement.toLowerCase()} emotional landscape and a ${risingSign} first impression.`;
+    const summary = risingNeedsTime
+      ? `According to Western astrology, your Sun is in ${sunSign} (${sunElement}) and Moon in ${moonSign} (${moonElement}). Your Rising sign could not be calculated because birth time is required; enter your birth time in Settings or when taking this assessment to see it.`
+      : `According to Western astrology, your Sun is in ${sunSign} (${sunElement}), Moon in ${moonSign} (${moonElement}), and Rising in ${risingSign}. In this tradition, this combination is often described as a ${sunElement.toLowerCase()} core identity with a ${moonElement.toLowerCase()} emotional landscape and a ${risingSign} first impression.`;
 
     const dimensionDetails = scores.dimensions.map((d) => ({
       dimensionId: d.dimensionId,
@@ -139,7 +145,18 @@ function getOffsetSign(baseName: string, offset: number): string {
   return ZODIAC[(idx + offset) % 12];
 }
 
+/** True when birth time is missing or explicitly "unknown" — do not compute Rising/Ascendant. */
+function isTimeUnknown(answers: Answer[]): boolean {
+  const timeAnswer = answers.find((a) => a.questionId === "bc-time");
+  const v = timeAnswer?.value;
+  if (v == null || v === "") return true;
+  const s = String(v).trim().toLowerCase();
+  if (s === "unknown" || s === "unk" || s === "?") return true;
+  return false;
+}
+
 function getHourOffset(answers: Answer[]): number {
+  if (isTimeUnknown(answers)) return 0;
   const timeAnswer = answers.find((a) => a.questionId === "bc-time");
   const timeStr = String(timeAnswer?.value ?? "12:00");
   const match = timeStr.match(/(\d{1,2})/);
@@ -148,6 +165,9 @@ function getHourOffset(answers: Answer[]): number {
 }
 
 function getSignBlurb(placement: string, sign: string): string {
+  if (placement === "rising" && sign.startsWith("Unknown")) {
+    return "Your Rising sign (Ascendant) depends on your exact birth time. Enter your birth time in Settings or above to calculate it.";
+  }
   const blurbs: Record<string, string> = {
     sun: `Your Sun in ${sign} shapes your core identity. This is who you are at your essence — your fundamental drives and life purpose.`,
     moon: `Your Moon in ${sign} governs your emotional world. This reveals how you process feelings, what makes you feel secure, and your instinctive reactions.`,

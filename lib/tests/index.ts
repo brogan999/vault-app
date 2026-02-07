@@ -15,6 +15,12 @@ import { attachmentTest } from "./attachment";
 import { mbtiTest } from "./mbti";
 import { resilienceTest } from "./resilience";
 import { focusStyleTest } from "./focus-style";
+import { discTest } from "./disc";
+import { vedicTest } from "./vedic";
+import { lifePathTest } from "./life-path";
+import { humanDesignTest } from "./human-design";
+import { mayanTest } from "./mayan";
+import { chineseZodiacTest } from "./chinese-zodiac";
 
 export const testRegistry: Record<string, TestDefinition> = {
   big5: big5Test,
@@ -27,8 +33,14 @@ export const testRegistry: Record<string, TestDefinition> = {
   "stress-profile": stressProfileTest,
   attachment: attachmentTest,
   mbti: mbtiTest,
+  disc: discTest,
   resilience: resilienceTest,
   "focus-style": focusStyleTest,
+  vedic: vedicTest,
+  "life-path": lifePathTest,
+  "human-design": humanDesignTest,
+  mayan: mayanTest,
+  "chinese-zodiac": chineseZodiacTest,
 };
 
 /** All test definitions as an array. */

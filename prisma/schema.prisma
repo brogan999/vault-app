@@ -37,6 +37,11 @@ model User {
   privacyShieldEnabled Boolean     @default(false)
   personaPreference String?       @default("balanced")
   consentedAt     DateTime?
+  birthDate       DateTime?       // date of birth for esoteric frameworks
+  birthTime       String?         // "HH:mm" or null if unknown
+  birthLocationLat Float?
+  birthLocationLng Float?
+  birthLocationName String?
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 
@@ -167,4 +172,80 @@ model Message {
   
   @@index([sessionId])
   @@map("messages")
+}
+
+// Assessment flow: testResults row acts as session; these tables extend it
+model AssessmentSession {
+  id              String   @id @default(uuid())
+  userId          String
+  assessmentType  String   // big5 | mbti | enneagram | work_style
+  startedAt       DateTime @default(now())
+  completedAt     DateTime?
+  isValid         Boolean  @default(true) // false if 2+ attention checks failed
+  testResultId    String?  @unique // link to testResults.id for backward compat
+
+  @@index([userId])
+  @@index([assessmentType])
+  @@map("assessment_sessions")
+}
+
+model ItemResponse {
+  id              String   @id @default(uuid())
+  sessionId       String   // testResults.id or assessment_sessions.id
+  itemId          String
+  responseValue   Int      // 1-7 for Likert
+  responseTimeMs   Int?
+  presentedOrder  Int
+
+  @@index([sessionId])
+  @@map("item_responses")
+}
+
+model ScaleScore {
+  id          String   @id @default(uuid())
+  sessionId   String
+  scaleName   String
+  rawScore    Float    // mean 1-7
+  percentile  Float?
+  tScore      Float?   // mean=50, SD=10
+
+  @@index([sessionId])
+  @@map("scale_scores")
+}
+
+model TypeAssignment {
+  id                String   @id @default(uuid())
+  sessionId         String
+  primaryType       String
+  secondaryType     String?
+  typeClarityIndex  Float?
+  fullProfileJson   Json?
+
+  @@index([sessionId])
+  @@map("type_assignments")
+}
+
+model ValidationMetric {
+  id              String   @id @default(uuid())
+  assessmentType  String
+  metricName      String   // cronbach_alpha | cfa_cfi | cfa_rmsea | test_retest_r
+  scaleName       String?
+  value           Float
+  sampleSize      Int?
+  computedAt      DateTime @default(now())
+
+  @@index([assessmentType])
+  @@map("validation_metrics")
+}
+
+model EsotericProfile {
+  id          String   @id @default(uuid())
+  userId      String
+  framework   String   // western_astro | vedic_astro | numerology | human_design | chinese_zodiac | mayan
+  profileJson Json
+  computedAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([framework])
+  @@map("esoteric_profiles")
 }

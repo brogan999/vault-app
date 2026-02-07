@@ -16,10 +16,10 @@ interface PremiumUpgradeCTAProps {
 }
 
 const premiumFeatures = [
-  { icon: BarChart3, label: "Detailed dimension breakdown with percentile rankings" },
-  { icon: Lightbulb, label: "Personalised interpretation for every dimension" },
-  { icon: FileText, label: "Actionable growth recommendations" },
-  { icon: Download, label: "Downloadable PDF report" },
+  { icon: FileText, label: "Full type description and dimension breakdown" },
+  { icon: BarChart3, label: "Career fit and relationship patterns" },
+  { icon: Lightbulb, label: "Personalised growth path and recommendations" },
+  { icon: Download, label: "Downloadable PDF report to keep or share" },
 ];
 
 export function PremiumUpgradeCTA({
@@ -88,7 +88,8 @@ export function PremiumUpgradeCTA({
           <h3 className="font-semibold">Unlock Your Full Report</h3>
         </div>
         <p className="mt-1 text-sm text-primary-foreground/80">
-          Get the complete {testTitle} analysis with actionable insights.
+          Get the complete {testTitle} analysis: full type description, career
+          fit, relationship patterns, and downloadable PDF.
         </p>
       </div>
       <CardContent className="p-6 space-y-4">
@@ -101,6 +102,9 @@ export function PremiumUpgradeCTA({
           ))}
         </ul>
 
+        <p className="text-xs text-muted-foreground pt-1">
+          Your results are saved; upgrade anytime for the full report.
+        </p>
         <div className="flex items-center justify-between pt-2">
           <div>
             {price ? (

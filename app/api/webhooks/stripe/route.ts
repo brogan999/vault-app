@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { clerkClient } from "@clerk/nextjs/server";
 import { createAdminClient } from "@/lib/supabase/server";
 
 // Map Stripe price IDs to human-readable product names
@@ -43,12 +44,71 @@ export async function POST(req: NextRequest) {
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
-      const userId = session.metadata?.userId;
+      const userId = session.metadata?.userId as string | undefined;
+      const guestId = session.metadata?.guest_id as string | undefined;
       const isOneOff = session.metadata?.type === "one_off";
+      const isPremiumReport = session.metadata?.type === "premium_report";
+      const attemptId = session.metadata?.attemptId as string | undefined;
+      const testId = session.metadata?.testId as string | undefined;
 
-      if (userId && session.metadata?.type === "premium_report") {
-        // --- Premium report purchase ---
-        const attemptId = session.metadata?.attemptId;
+      // --- Guest premium report: create account from checkout email, then link result (16p flow) ---
+      if (isPremiumReport && guestId && !userId && attemptId) {
+        const email =
+          session.customer_email ??
+          (session.customer_details?.email as string | undefined);
+        if (!email) {
+          console.error("[Stripe webhook] Guest premium_report: no email on session");
+          break;
+        }
+        try {
+          const clerk = await clerkClient();
+          const clerkUser = await clerk.users.createUser({
+            emailAddress: [email],
+            skipPasswordRequirement: true,
+          });
+          const clerkUserId = clerkUser.id;
+          const now = new Date().toISOString();
+          const { data: newUser, error: insertErr } = await supabase
+            .from("users")
+            .insert({
+              id: crypto.randomUUID(),
+              clerkId: clerkUserId,
+              email,
+              subscriptionTier: "free",
+              createdAt: now,
+              updatedAt: now,
+            })
+            .select("id")
+            .single();
+          if (insertErr || !newUser) {
+            console.error("[Stripe webhook] Guest premium_report: Supabase insert failed", insertErr);
+            break;
+          }
+          await supabase
+            .from("testResults")
+            .update({ userId: newUser.id, isPremium: true })
+            .eq("id", attemptId)
+            .eq("guest_id", guestId)
+            .is("userId", null);
+          const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+          const priceId = lineItems.data[0]?.price?.id || "";
+          await supabase.from("purchases").insert({
+            userId: newUser.id,
+            stripeSessionId: session.id,
+            priceId,
+            productName: `Premium Report: ${testId || "Assessment"}`,
+            amountPaid: session.amount_total || 0,
+            currency: session.currency || "usd",
+            status: "completed",
+          });
+        } catch (err) {
+          console.error("[Stripe webhook] Guest premium_report: create user failed", err);
+        }
+        break;
+      }
+
+      if (userId && isPremiumReport) {
+        // --- Signed-in user: premium report purchase ---
         if (attemptId) {
           await supabase
             .from("testResults")
@@ -56,7 +116,6 @@ export async function POST(req: NextRequest) {
             .eq("id", attemptId)
             .eq("userId", userId);
         }
-        // Also record in purchases
         const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
         const item = lineItems.data[0];
         const priceId = item?.price?.id || "";
@@ -64,7 +123,7 @@ export async function POST(req: NextRequest) {
           userId,
           stripeSessionId: session.id,
           priceId,
-          productName: `Premium Report: ${session.metadata?.testId || "Assessment"}`,
+          productName: `Premium Report: ${testId || "Assessment"}`,
           amountPaid: session.amount_total || 0,
           currency: session.currency || "usd",
           status: "completed",

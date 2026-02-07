@@ -32,13 +32,15 @@
   },
   "landing": {
     "navbar": {
+      "ourFramework": "Our Framework",
       "features": "Features",
       "testimonials": "Testimonials",
       "pricing": "Pricing",
       "logIn": "Log In",
       "getStartedFree": "Get Started Free",
       "openMenu": "Open menu",
-      "closeMenu": "Close menu"
+      "closeMenu": "Close menu",
+      "language": "Language"
     },
     "hero": {
       "badge": "AI-powered self-discovery",
@@ -59,7 +61,7 @@
       "title": "One place for your entire inner world",
       "description": "Tests, journals, AI chat, and secure storage — designed to work together so you can truly understand yourself.",
       "personalityTests": "Personality Tests",
-      "personalityTestsDesc": "Big 5, Enneagram, MBTI, and more. Scientifically grounded assessments that reveal your core personality traits.",
+      "personalityTestsDesc": "Big 5, Enneagram, Personality Type, and more. Scientifically grounded assessments that reveal your core personality traits.",
       "aiTherapistChat": "AI Therapist Chat",
       "aiTherapistChatDesc": "An AI that reads your personality data, journals, and test results to give deeply personalized guidance.",
       "secureFileVault": "Secure File Vault",
@@ -475,6 +477,17 @@
       "saving": "Saving...",
       "preferencesSaved": "Check-in preferences saved",
       "preferencesFailed": "Failed to save preferences"
+    },
+    "birthData": {
+      "title": "Birth data",
+      "description": "Used once for astrology, numerology, Human Design, and Chinese Zodiac. Time can be \"unknown\" if you don't know it.",
+      "date": "Date of birth",
+      "time": "Time of birth",
+      "timeUnknown": "I don't know my birth time",
+      "location": "Place of birth (city or town)",
+      "save": "Save birth data",
+      "saved": "Birth data saved",
+      "saveFailed": "Failed to save birth data"
     },
     "account": {
       "title": "Account",

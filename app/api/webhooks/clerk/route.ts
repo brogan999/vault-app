@@ -58,8 +58,17 @@ export async function POST(req: Request) {
       return new Response("No email found", { status: 400 });
     }
 
-    // Sync user to Supabase (admin client: no cookies in webhook)
     const supabase = createAdminClient();
+    const { data: existing } = await supabase
+      .from("users")
+      .select("id")
+      .eq("clerkId", id)
+      .single();
+
+    if (existing) {
+      return new Response("", { status: 200 });
+    }
+
     const now = new Date().toISOString();
     const { error } = await supabase.from("users").insert({
       id: crypto.randomUUID(),

@@ -32,13 +32,15 @@
   },
   "landing": {
     "navbar": {
+      "ourFramework": "Notre cadre",
       "features": "Fonctionnalités",
       "testimonials": "Témoignages",
       "pricing": "Tarifs",
       "logIn": "Se connecter",
       "getStartedFree": "Commencer gratuitement",
       "openMenu": "Ouvrir le menu",
-      "closeMenu": "Fermer le menu"
+      "closeMenu": "Fermer le menu",
+      "language": "Langue"
     },
     "hero": {
       "badge": "Découverte de soi par l'IA",
@@ -59,7 +61,7 @@
       "title": "Un seul endroit pour tout votre monde intérieur",
       "description": "Tests, journaux, chat IA et stockage sécurisé — conçus pour fonctionner ensemble afin de vraiment vous comprendre.",
       "personalityTests": "Tests de personnalité",
-      "personalityTestsDesc": "Big 5, Enneagram, MBTI et plus encore. Des évaluations scientifiquement fondées qui révèlent vos traits de personnalité fondamentaux.",
+      "personalityTestsDesc": "Big 5, Enneagram, Type de personnalité et plus encore. Des évaluations scientifiquement fondées qui révèlent vos traits de personnalité fondamentaux.",
       "aiTherapistChat": "Chat avec IA thérapeute",
       "aiTherapistChatDesc": "Une IA qui lit vos données de personnalité, vos journaux et vos résultats de tests pour vous offrir des conseils profondément personnalisés.",
       "secureFileVault": "Coffre-fort sécurisé",

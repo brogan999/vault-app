@@ -9,7 +9,7 @@ const collections = [
   {
     id: "core-personality",
     name: "Core Personality",
-    description: "Big 5, MBTI, and Enneagram results grouped together",
+    description: "Big 5, Personality Type, and Enneagram results grouped together",
     itemCount: 3,
     color: "#8b5cf6",
     bgColor: "rgba(139, 92, 246, 0.08)",

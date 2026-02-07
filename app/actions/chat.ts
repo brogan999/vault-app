@@ -311,13 +311,94 @@ export async function sendMessage(
     .eq("userId", user.id)
     .single();
 
-  // Get privacy shield status
+  // Get latest test result per testId for Mirror context
+  const { data: testResults } = await supabase
+    .from("testResults")
+    .select("testId, scores, interpretation")
+    .eq("userId", user.id)
+    .order("completedAt", { ascending: false });
+
+  const latestByTest = new Map<string, { scores: any; interpretation: any }>();
+  for (const row of testResults ?? []) {
+    if (!latestByTest.has(row.testId)) {
+      latestByTest.set(row.testId, { scores: row.scores, interpretation: row.interpretation });
+    }
+  }
+
+  const { data: esotericProfiles, error: _esotericError } = await supabase
+    .from("esoteric_profiles")
+    .select("framework, profile_json")
+    .eq("userId", user.id)
+    .order("computed_at", { ascending: false });
+
+  const latestEsoteric = new Map<string, any>();
+  for (const row of esotericProfiles ?? []) {
+    if (!latestEsoteric.has(row.framework)) {
+      latestEsoteric.set(row.framework, row.profile_json);
+    }
+  }
+
+  const assessmentContext: import("@/lib/ai/prompts").MirrorAssessmentContext = {};
+  const big5 = latestByTest.get("big5")?.scores;
+  if (big5?.dimensions) {
+    assessmentContext.big5 = Object.fromEntries(
+      big5.dimensions.map((d: { dimensionId: string; score: number }) => [d.dimensionId, d.score])
+    );
+  }
+  const mbti = latestByTest.get("mbti")?.scores;
+  if (mbti) {
+    assessmentContext.personalityType = {
+      typeCode: mbti.typeCode ?? "",
+      typeLabel: mbti.typeLabel,
+      dimensions: mbti.dimensions,
+    };
+  }
+  const enneagram = latestByTest.get("enneagram")?.scores;
+  if (enneagram) {
+    assessmentContext.enneagram = {
+      typeCode: enneagram.typeCode ?? "",
+      typeLabel: enneagram.typeLabel,
+      fullProfile: enneagram.dimensions,
+    };
+  }
+  const disc = latestByTest.get("disc")?.scores;
+  if (disc) {
+    assessmentContext.workStyle = {
+      typeCode: disc.typeCode ?? "",
+      typeLabel: disc.typeLabel,
+      dimensions: disc.dimensions,
+    };
+  }
+  const lifePath = latestByTest.get("life-path")?.scores;
+  if (lifePath?.typeCode) {
+    assessmentContext.lifePath = parseInt(String(lifePath.typeCode), 10) || undefined;
+  }
+  const hd = latestByTest.get("human-design")?.scores;
+  if (hd?.dimensions) {
+    const typeDim = hd.dimensions.find((d: { dimensionId: string }) => d.dimensionId === "type");
+    const strategyDim = hd.dimensions.find((d: { dimensionId: string }) => d.dimensionId === "strategy");
+    const authDim = hd.dimensions.find((d: { dimensionId: string }) => d.dimensionId === "authority");
+    assessmentContext.humanDesign = {
+      type: typeDim?.description ?? hd.typeLabel,
+      strategy: strategyDim?.description,
+      authority: authDim?.description,
+    };
+  }
+  const cz = latestByTest.get("chinese-zodiac")?.scores;
+  if (cz?.typeLabel) assessmentContext.chineseZodiac = cz.typeLabel;
+  const mayan = latestByTest.get("mayan")?.scores;
+  if (mayan?.typeLabel) assessmentContext.mayanTzolkin = mayan.typeLabel;
+  const western = latestEsoteric.get("western_astro");
+  if (western) assessmentContext.westernChart = western;
+  const vedic = latestEsoteric.get("vedic_astro");
+  if (vedic) assessmentContext.vedicChart = vedic;
+
   const privacyShieldEnabled = user.privacyShieldEnabled || false;
 
-  // Build prompts
   const systemPrompt = getSystemPrompt({
     big5Scores: profile?.big5Scores,
     astrologyMeta: profile?.astrologyMeta,
+    assessmentContext: Object.keys(assessmentContext).length ? assessmentContext : undefined,
     privacyShieldEnabled,
     personaPreference: (user as { personaPreference?: string }).personaPreference,
   });
@@ -325,6 +406,7 @@ export async function sendMessage(
   const userPrompt = buildUserPrompt(message, contextText, {
     big5Scores: profile?.big5Scores,
     astrologyMeta: profile?.astrologyMeta,
+    assessmentContext: Object.keys(assessmentContext).length ? assessmentContext : undefined,
   });
 
   // Stream response from OpenAI

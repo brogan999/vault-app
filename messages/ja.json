@@ -32,13 +32,15 @@
   },
   "landing": {
     "navbar": {
+      "ourFramework": "私たちの考え方",
       "features": "機能",
       "testimonials": "利用者の声",
       "pricing": "料金プラン",
       "logIn": "ログイン",
       "getStartedFree": "無料で始める",
       "openMenu": "メニューを開く",
-      "closeMenu": "メニューを閉じる"
+      "closeMenu": "メニューを閉じる",
+      "language": "言語"
     },
     "hero": {
       "badge": "AI搭載の自己発見",
@@ -59,7 +61,7 @@
       "title": "あなたの内なる世界を一つの場所に",
       "description": "テスト、ジャーナル、AIチャット、安全なストレージ — すべてが連携し、本当の自分を理解できるよう設計されています。",
       "personalityTests": "性格診断テスト",
-      "personalityTestsDesc": "Big 5、Enneagram、MBTIなど。科学的根拠に基づいた診断で、あなたの核となる性格特性を明らかにします。",
+      "personalityTestsDesc": "Big 5、Enneagram、性格タイプなど。科学的根拠に基づいた診断で、あなたの核となる性格特性を明らかにします。",
       "aiTherapistChat": "AIセラピストチャット",
       "aiTherapistChatDesc": "あなたの性格データ、ジャーナル、テスト結果を読み取り、深くパーソナライズされたガイダンスを提供するAI。",
       "secureFileVault": "安全なファイルVault",

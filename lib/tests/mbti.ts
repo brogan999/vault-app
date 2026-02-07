@@ -1,7 +1,7 @@
 import type { TestDefinition, Answer, TestScores, TestInterpretation } from "./types";
-import { dichotomyLetter } from "./scoring";
+import { dichotomyLetter, scoreLikertDimensions } from "./scoring";
 
-/* 8 poles across 4 dichotomies */
+/* 8 poles across 4 dichotomies — used for scoring and type assignment; "attention" is for attention-check items only */
 const dimensions = [
   { id: "extraversion-m", label: "Extraversion (E)", description: "Energised by the outer world of people and activity" },
   { id: "introversion", label: "Introversion (I)", description: "Energised by the inner world of reflection and solitude" },
@@ -11,82 +11,105 @@ const dimensions = [
   { id: "feeling", label: "Feeling (F)", description: "Makes decisions based on values and how they affect people" },
   { id: "judging", label: "Judging (J)", description: "Prefers structure, plans, and decisiveness" },
   { id: "perceiving", label: "Perceiving (P)", description: "Prefers flexibility, spontaneity, and keeping options open" },
+  { id: "attention", label: "Attention", description: "Attention check (not scored)" },
 ];
 
-const FC = (a: string, aLabel: string, b: string, bLabel: string) => ({
-  type: "forced-choice" as const,
-  options: [
-    { value: a, label: aLabel },
-    { value: b, label: bLabel },
-  ],
-});
+const L7 = [
+  { value: 1, label: "Strongly Disagree" },
+  { value: 2, label: "Disagree" },
+  { value: 3, label: "Slightly Disagree" },
+  { value: 4, label: "Neutral" },
+  { value: 5, label: "Slightly Agree" },
+  { value: 6, label: "Agree" },
+  { value: 7, label: "Strongly Agree" },
+];
 
 export const mbtiTest: TestDefinition = {
   id: "mbti",
-  title: "MBTI Type Indicator",
+  title: "Personality Type Indicator",
   subtitle: "Discover your four-letter personality type",
   dimensions: [...dimensions],
-  scoringMethod: "forced-choice",
+  scoringMethod: "likert",
+  questionsPerPage: 6,
 
   questions: [
-    // E/I (8 items)
-    { id: "mb1", text: "After a long week, you prefer to:", dimension: undefined, ...FC("extraversion-m", "Go out and socialise with friends", "introversion", "Spend a quiet evening at home recharging") },
-    { id: "mb2", text: "In group projects, you tend to:", dimension: undefined, ...FC("extraversion-m", "Take the lead in brainstorming and discussions", "introversion", "Think things through before sharing your ideas") },
-    { id: "mb3", text: "You recharge your energy by:", dimension: undefined, ...FC("extraversion-m", "Being around people and talking through ideas", "introversion", "Having time alone to reflect and process") },
-    { id: "mb4", text: "At a networking event, you:", dimension: undefined, ...FC("extraversion-m", "Circulate and meet as many people as possible", "introversion", "Find one or two people to have deep conversations with") },
-    { id: "mb5", text: "When solving a problem, you prefer to:", dimension: undefined, ...FC("extraversion-m", "Talk it out with someone else", "introversion", "Think about it internally before discussing") },
-    { id: "mb6", text: "You find it more energising to:", dimension: undefined, ...FC("extraversion-m", "Be in a bustling, lively environment", "introversion", "Be in a calm, quiet space") },
-    { id: "mb7", text: "In conversations, you:", dimension: undefined, ...FC("extraversion-m", "Speak quickly and think out loud", "introversion", "Pause and choose your words carefully") },
-    { id: "mb8", text: "Your ideal working style is:", dimension: undefined, ...FC("extraversion-m", "Collaborative with frequent team interaction", "introversion", "Independent with focused solo work time") },
+    // E/I — 15 items (8 E-keyed, 7 I-keyed)
+    { id: "mb1", text: "After a long week, I prefer to go out and socialise with friends.", dimension: "extraversion-m", type: "likert-7", options: L7 },
+    { id: "mb2", text: "In group projects, I tend to think things through before sharing my ideas.", dimension: "introversion", type: "likert-7", options: L7 },
+    { id: "mb3", text: "I recharge my energy by being around people and talking through ideas.", dimension: "extraversion-m", type: "likert-7", options: L7 },
+    { id: "mb4", text: "At a networking event, I prefer to find one or two people to have deep conversations with.", dimension: "introversion", type: "likert-7", options: L7 },
+    { id: "mb5", text: "When solving a problem, I prefer to talk it out with someone else.", dimension: "extraversion-m", type: "likert-7", options: L7 },
+    { id: "mb6", text: "I find it more energising to be in a calm, quiet space.", dimension: "introversion", type: "likert-7", options: L7 },
+    { id: "mb7", text: "In conversations, I tend to speak quickly and think out loud.", dimension: "extraversion-m", type: "likert-7", options: L7 },
+    { id: "mb8", text: "My ideal working style is independent with focused solo work time.", dimension: "introversion", type: "likert-7", options: L7 },
+    { id: "mb9", text: "At a party, I am more likely to stay late and enjoy the crowd.", dimension: "extraversion-m", type: "likert-7", options: L7 },
+    { id: "mb10", text: "When I have big news, I reflect on it myself before telling anyone.", dimension: "introversion", type: "likert-7", options: L7 },
+    { id: "mb11", text: "My ideal weekend includes social activities and being with people.", dimension: "extraversion-m", type: "likert-7", options: L7 },
+    { id: "mb12", text: "In meetings, I usually listen first and share when I have something clear to say.", dimension: "introversion", type: "likert-7", options: L7 },
+    { id: "mb13", text: "I feel more like myself when I am in the middle of the action.", dimension: "extraversion-m", type: "likert-7", options: L7 },
+    { id: "mb14", text: "After a busy day, I prefer time alone with no demands.", dimension: "introversion", type: "likert-7", options: L7 },
+    { id: "mb15", text: "When making a decision, I tend to talk it through with others to clarify.", dimension: "extraversion-m", type: "likert-7", options: L7 },
 
-    // S/N (8 items)
-    { id: "mb9", text: "You are more interested in:", dimension: undefined, ...FC("sensing", "What is real and happening now", "intuition", "What could be possible in the future") },
-    { id: "mb10", text: "When reading, you prefer:", dimension: undefined, ...FC("sensing", "Practical how-to guides and factual accounts", "intuition", "Theoretical concepts and imaginative stories") },
-    { id: "mb11", text: "You tend to trust:", dimension: undefined, ...FC("sensing", "Direct experience and verifiable evidence", "intuition", "Your gut feeling and hunches") },
-    { id: "mb12", text: "When describing an event, you focus on:", dimension: undefined, ...FC("sensing", "The specific details of what happened", "intuition", "The meaning and implications behind it") },
-    { id: "mb13", text: "In your work, you prefer tasks that:", dimension: undefined, ...FC("sensing", "Have clear steps and tangible outcomes", "intuition", "Require innovation and abstract thinking") },
-    { id: "mb14", text: "You are more drawn to:", dimension: undefined, ...FC("sensing", "Established methods that have been proven to work", "intuition", "Novel approaches that have not been tried before") },
-    { id: "mb15", text: "When learning something new, you prefer:", dimension: undefined, ...FC("sensing", "Step-by-step instructions with concrete examples", "intuition", "An overview of the big picture and underlying theory") },
-    { id: "mb16", text: "In conversations, you notice:", dimension: undefined, ...FC("sensing", "The literal meaning of what people say", "intuition", "The hidden meaning or subtext behind words") },
+    // S/N — 15 items (8 S-keyed, 7 N-keyed)
+    { id: "mb16", text: "I am more interested in what is real and happening now than in future possibilities.", dimension: "sensing", type: "likert-7", options: L7 },
+    { id: "mb17", text: "When reading, I prefer theoretical concepts and imaginative stories.", dimension: "intuition", type: "likert-7", options: L7 },
+    { id: "mb18", text: "I tend to trust direct experience and verifiable evidence.", dimension: "sensing", type: "likert-7", options: L7 },
+    { id: "mb19", text: "When describing an event, I focus on the meaning and implications behind it.", dimension: "intuition", type: "likert-7", options: L7 },
+    { id: "mb20", text: "In my work, I prefer tasks that have clear steps and tangible outcomes.", dimension: "sensing", type: "likert-7", options: L7 },
+    { id: "mb21", text: "I am more drawn to novel approaches that have not been tried before.", dimension: "intuition", type: "likert-7", options: L7 },
+    { id: "mb22", text: "When learning something new, I prefer step-by-step instructions with concrete examples.", dimension: "sensing", type: "likert-7", options: L7 },
+    { id: "mb23", text: "In conversations, I notice the hidden meaning or subtext behind words.", dimension: "intuition", type: "likert-7", options: L7 },
+    { id: "mb24", text: "I am more convinced by data and real-world examples than by theories.", dimension: "sensing", type: "likert-7", options: L7 },
+    { id: "mb25", text: "When someone describes a problem, I focus on the underlying causes and what it might mean.", dimension: "intuition", type: "likert-7", options: L7 },
+    { id: "mb26", text: "I prefer work that produces visible, practical results.", dimension: "sensing", type: "likert-7", options: L7 },
+    { id: "mb27", text: "In a new place, I tend to notice the atmosphere and what it might mean.", dimension: "intuition", type: "likert-7", options: L7 },
+    { id: "mb28", text: "I would rather apply a proven method correctly than invent a new approach.", dimension: "sensing", type: "likert-7", options: L7 },
+    { id: "mb29", text: "When planning, I rely more on my vision of what could work.", dimension: "intuition", type: "likert-7", options: L7 },
+    { id: "mb30", text: "I find it easier to explain things using step-by-step facts and examples.", dimension: "sensing", type: "likert-7", options: L7 },
 
-    // T/F (8 items)
-    { id: "mb17", text: "When making an important decision, you rely more on:", dimension: undefined, ...FC("thinking", "Logical analysis and objective criteria", "feeling", "Personal values and how it affects people") },
-    { id: "mb18", text: "When giving feedback, you prioritise:", dimension: undefined, ...FC("thinking", "Being truthful and direct, even if it is tough", "feeling", "Being tactful and considering the person's feelings") },
-    { id: "mb19", text: "In a debate, you value:", dimension: undefined, ...FC("thinking", "Finding the most logical and correct position", "feeling", "Finding common ground and maintaining harmony") },
-    { id: "mb20", text: "You are more bothered when people are:", dimension: undefined, ...FC("thinking", "Illogical or irrational", "feeling", "Insensitive or unkind") },
-    { id: "mb21", text: "You believe the best decisions are:", dimension: undefined, ...FC("thinking", "Fair and consistent based on universal principles", "feeling", "Compassionate and consider unique circumstances") },
-    { id: "mb22", text: "When a friend is upset, your first instinct is to:", dimension: undefined, ...FC("thinking", "Help them analyse the situation and find a solution", "feeling", "Listen empathetically and validate their feelings") },
-    { id: "mb23", text: "In your career, you are more motivated by:", dimension: undefined, ...FC("thinking", "Competence, efficiency, and achievement", "feeling", "Meaningful work that positively impacts others") },
-    { id: "mb24", text: "You would describe yourself as more:", dimension: undefined, ...FC("thinking", "Objective and analytical", "feeling", "Warm and empathetic") },
+    // T/F — 15 items (8 T-keyed, 7 F-keyed)
+    { id: "mb31", text: "When making an important decision, I rely more on logical analysis and objective criteria.", dimension: "thinking", type: "likert-7", options: L7 },
+    { id: "mb32", text: "When giving feedback, I prioritise being tactful and considering the person's feelings.", dimension: "feeling", type: "likert-7", options: L7 },
+    { id: "mb33", text: "In a debate, I value finding the most logical and correct position.", dimension: "thinking", type: "likert-7", options: L7 },
+    { id: "mb34", text: "I am more bothered when people are insensitive or unkind than when they are illogical.", dimension: "feeling", type: "likert-7", options: L7 },
+    { id: "mb35", text: "I believe the best decisions are fair and consistent based on universal principles.", dimension: "thinking", type: "likert-7", options: L7 },
+    { id: "mb36", text: "When a friend is upset, my first instinct is to listen empathetically and validate their feelings.", dimension: "feeling", type: "likert-7", options: L7 },
+    { id: "mb37", text: "In my career, I am more motivated by competence, efficiency, and achievement.", dimension: "thinking", type: "likert-7", options: L7 },
+    { id: "mb38", text: "I would describe myself as more warm and empathetic than objective and analytical.", dimension: "feeling", type: "likert-7", options: L7 },
+    { id: "mb39", text: "In a conflict, I care more about resolving the issue fairly and correctly.", dimension: "thinking", type: "likert-7", options: L7 },
+    { id: "mb40", text: "I am more impressed when someone is warm and considerate of others.", dimension: "feeling", type: "likert-7", options: L7 },
+    { id: "mb41", text: "When choosing a job, I weigh growth, challenge, and fair compensation more than team culture.", dimension: "thinking", type: "likert-7", options: L7 },
+    { id: "mb42", text: "I believe criticism should be delivered with care for the person's feelings.", dimension: "feeling", type: "likert-7", options: L7 },
+    { id: "mb43", text: "I get more frustrated when people ignore logic or facts.", dimension: "thinking", type: "likert-7", options: L7 },
+    { id: "mb44", text: "My strengths are more in understanding and supporting people.", dimension: "feeling", type: "likert-7", options: L7 },
+    { id: "mb45", text: "In a group, I tend to focus on the task and what makes sense.", dimension: "thinking", type: "likert-7", options: L7 },
 
-    // J/P (8 items)
-    { id: "mb25", text: "You prefer your schedule to be:", dimension: undefined, ...FC("judging", "Planned and structured well in advance", "perceiving", "Flexible and open to change") },
-    { id: "mb26", text: "When starting a project, you:", dimension: undefined, ...FC("judging", "Create a detailed plan before starting", "perceiving", "Dive in and figure it out as you go") },
-    { id: "mb27", text: "You feel most comfortable when:", dimension: undefined, ...FC("judging", "Decisions are made and plans are finalised", "perceiving", "Options are still open and nothing is set in stone") },
-    { id: "mb28", text: "Your workspace tends to be:", dimension: undefined, ...FC("judging", "Neat and organised with everything in its place", "perceiving", "Somewhat messy but you know where things are") },
-    { id: "mb29", text: "With deadlines, you typically:", dimension: undefined, ...FC("judging", "Finish well ahead of time", "perceiving", "Work best under last-minute pressure") },
-    { id: "mb30", text: "On vacation, you prefer:", dimension: undefined, ...FC("judging", "A well-planned itinerary with reservations", "perceiving", "A loose plan that allows spontaneous adventures") },
-    { id: "mb31", text: "When plans change unexpectedly, you feel:", dimension: undefined, ...FC("judging", "Frustrated and need to re-organise quickly", "perceiving", "Excited about the new possibility") },
-    { id: "mb32", text: "You prefer to:", dimension: undefined, ...FC("judging", "Complete one task fully before moving to the next", "perceiving", "Work on multiple things simultaneously") },
+    // J/P — 15 items (8 J-keyed, 7 P-keyed)
+    { id: "mb46", text: "I prefer my schedule to be planned and structured well in advance.", dimension: "judging", type: "likert-7", options: L7 },
+    { id: "mb47", text: "When starting a project, I dive in and figure it out as I go.", dimension: "perceiving", type: "likert-7", options: L7 },
+    { id: "mb48", text: "I feel most comfortable when decisions are made and plans are finalised.", dimension: "judging", type: "likert-7", options: L7 },
+    { id: "mb49", text: "My workspace tends to be somewhat messy but I know where things are.", dimension: "perceiving", type: "likert-7", options: L7 },
+    { id: "mb50", text: "With deadlines, I typically finish well ahead of time.", dimension: "judging", type: "likert-7", options: L7 },
+    { id: "mb51", text: "On vacation, I prefer a loose plan that allows spontaneous adventures.", dimension: "perceiving", type: "likert-7", options: L7 },
+    { id: "mb52", text: "When plans change unexpectedly, I feel frustrated and need to re-organise quickly.", dimension: "judging", type: "likert-7", options: L7 },
+    { id: "mb53", text: "I prefer to work on multiple things simultaneously.", dimension: "perceiving", type: "likert-7", options: L7 },
+    { id: "mb54", text: "I prefer to know what is planned so I can prepare.", dimension: "judging", type: "likert-7", options: L7 },
+    { id: "mb55", text: "My to-do list is usually flexible or in my head.", dimension: "perceiving", type: "likert-7", options: L7 },
+    { id: "mb56", text: "I feel better when things are decided and under control.", dimension: "judging", type: "likert-7", options: L7 },
+    { id: "mb57", text: "When packing for a trip, I pack closer to the last minute.", dimension: "perceiving", type: "likert-7", options: L7 },
+    { id: "mb58", text: "I prefer projects that have a clear deadline and outcome.", dimension: "judging", type: "likert-7", options: L7 },
+    { id: "mb59", text: "In my free time, I am more likely to do whatever feels right in the moment.", dimension: "perceiving", type: "likert-7", options: L7 },
+    { id: "mb60", text: "I would rather finish tasks so I can relax than stay open to new options until the last moment.", dimension: "judging", type: "likert-7", options: L7 },
+
+    // Attention checks (audit: 2–3 per assessment); dimension "attention" so they do not affect type scores
+    { id: "mb_ac1", text: "Please select Agree for this item to show you are reading.", dimension: "attention", type: "likert-7", options: L7, isAttentionCheck: true, attentionCheckExpectedValue: 6 },
+    { id: "mb_ac2", text: "This is an attention check. Please choose Slightly Agree.", dimension: "attention", type: "likert-7", options: L7, isAttentionCheck: true, attentionCheckExpectedValue: 5 },
   ],
 
   score(answers: Answer[]): TestScores {
-    // Count votes per dimension
-    const counts = new Map<string, number>();
-    dimensions.forEach((d) => counts.set(d.id, 0));
-    for (const a of answers) {
-      const dimId = String(a.value);
-      counts.set(dimId, (counts.get(dimId) ?? 0) + 1);
-    }
+    const allScores = scoreLikertDimensions(answers, this.questions, [...dimensions], 7);
+    const dimScores = allScores.filter((d) => d.dimensionId !== "attention");
 
-    const dimScores = dimensions.map((dim) => {
-      const raw = counts.get(dim.id) ?? 0;
-      // Each pole gets 8 questions max, score as percentage of max
-      const score = Math.round((raw / 8) * 100);
-      return { dimensionId: dim.id, label: dim.label, score, rawScore: raw, description: dim.description };
-    });
-
-    // Determine four-letter type
     const letter1 = dichotomyLetter(dimScores, "extraversion-m", "E", "introversion", "I");
     const letter2 = dichotomyLetter(dimScores, "sensing", "S", "intuition", "N");
     const letter3 = dichotomyLetter(dimScores, "thinking", "T", "feeling", "F");
@@ -104,7 +127,7 @@ export const mbtiTest: TestDefinition = {
     const code = scores.typeCode ?? "INFJ";
     const nickname = getTypeNickname(code);
 
-    const summary = `Your MBTI type is ${code} — "${nickname}". ${getTypeDescription(code)}`;
+    const summary = `Your personality type is ${code} — "${nickname}". ${getTypeDescription(code)}`;
 
     const pairs = [
       ["extraversion-m", "introversion"],
@@ -129,7 +152,7 @@ export const mbtiTest: TestDefinition = {
       typeLabel: `${code} — ${nickname}`,
       tips: [
         `As an ${code}, your growth edge is ${getGrowthEdge(code)}.`,
-        "Remember that MBTI reflects preferences, not abilities. You can develop skills in any area.",
+        "Remember that type reflects preferences, not abilities. You can develop skills in any area.",
         "Explore your cognitive function stack for even deeper insight into how you process information.",
       ],
     };
