@@ -44,7 +44,7 @@ const statusStyles: Record<
     label: "completed",
   },
   processing: {
-    text: "text-amber-600",
+    text: "text-primary",
     bg: "rgba(217, 119, 6, 0.08)",
     label: "processing",
   },

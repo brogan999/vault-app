@@ -13,8 +13,8 @@ import { cn } from "@/lib/utils";
 
 /** Short label for card header (like reference: ASTROLOGY, LIFE PATH, BIG 5). */
 const CARD_SHORT_TITLES: Record<string, string> = {
-  "birth-chart": "Astrology",
-  vedic: "Vedic",
+  "birth-chart": "Western astrology",
+  vedic: "Vedic astrology",
   "human-design": "Human Design",
   "chinese-zodiac": "Chinese",
   "life-path": "Life Path",
@@ -229,7 +229,7 @@ export function TestsSnapshotSection({ snapshots }: TestsSnapshotSectionProps) {
                     <p className="mt-3 text-sm text-white/80">
                       {t("completePrompt")}
                     </p>
-                    <span className="inline-flex items-center gap-2 mt-3 text-sm font-semibold text-emerald-400">
+                    <span className="inline-flex items-center gap-2 mt-3 text-sm font-semibold text-primary">
                       <Play className="h-4 w-4 fill-current" />
                       {t("completeCta")}
                     </span>

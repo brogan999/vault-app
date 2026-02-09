@@ -87,15 +87,12 @@ export function DailyBriefWidget() {
           >
             <div
               className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
-              style={{ backgroundColor: "rgba(5, 150, 105, 0.15)" }}
+              className="bg-muted"
             >
-              <Sparkles className="h-4 w-4" style={{ color: "#059669" }} />
+              <Sparkles className="h-4 w-4 text-foreground" />
             </div>
             <div>
-              <p
-                className="text-sm font-semibold mb-0.5"
-                style={{ color: "#059669" }}
-              >
+              <p className="text-sm font-semibold mb-0.5 text-foreground">
                 Today&apos;s Insight
               </p>
               <p className="text-sm text-foreground/80 leading-relaxed">

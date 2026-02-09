@@ -34,13 +34,7 @@ interface Snapshot {
   source: string;
 }
 
-const TRAIT_COLORS: Record<string, string> = {
-  openness: "#8b5cf6",
-  conscientiousness: "#0d9488",
-  extraversion: "#d97706",
-  agreeableness: "#16a34a",
-  neuroticism: "#e11d48",
-};
+const TRAIT_COLOR = "var(--color-foreground)";
 
 const TRAIT_LABELS: Record<string, string> = {
   openness: "Openness",
@@ -169,8 +163,8 @@ export function TrendsWidget() {
                   key={trait}
                   type="monotone"
                   dataKey={trait}
-                  stroke={TRAIT_COLORS[trait]}
-                  fill={TRAIT_COLORS[trait]}
+                  stroke={TRAIT_COLOR}
+                  fill={TRAIT_COLOR}
                   fillOpacity={0.06}
                   strokeWidth={2}
                   name={TRAIT_LABELS[trait]}

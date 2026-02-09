@@ -47,124 +47,115 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
-/* Warm palette — emerald primary, off-white background */
+/* Black, white, gray only — no accent hue */
 :root {
+  --font-sans: "Monument Grotesk Regular", "Helvetica Neue", Helvetica, sans-serif;
+  --font-serif: "Monument Grotesk Regular", "Helvetica Neue", Helvetica, sans-serif;
   --radius: 0.75rem;
-  /* Warm off-white background (hsl 48 33% 97%) */
-  --background: oklch(0.975 0.005 90);
-  --foreground: oklch(0.22 0.02 255);
-  /* Pure white cards */
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.02 255);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.02 255);
-  /* Emerald green primary (hsl 160 84% 30%) */
-  --primary: oklch(0.52 0.14 165);
-  --primary-foreground: oklch(1 0 0);
-  /* Warm secondary */
-  --secondary: oklch(0.95 0.005 85);
-  --secondary-foreground: oklch(0.22 0.02 255);
-  /* Warm muted */
-  --muted: oklch(0.935 0.005 85);
-  --muted-foreground: oklch(0.55 0.02 255);
-  --accent: oklch(0.95 0.005 85);
-  --accent-foreground: oklch(0.22 0.02 255);
-  --destructive: oklch(0.63 0.24 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  /* Warm borders (hsl 40 12% 88%) */
-  --border: oklch(0.915 0.005 85);
-  --input: oklch(0.915 0.005 85);
-  --ring: oklch(0.52 0.14 165);
-  /* Trait-coded chart colors: purple, teal, amber, green, rose */
-  --chart-1: oklch(0.58 0.21 295);
-  --chart-2: oklch(0.60 0.12 185);
-  --chart-3: oklch(0.72 0.16 75);
-  --chart-4: oklch(0.60 0.16 150);
-  --chart-5: oklch(0.63 0.24 15);
-  /* Sidebar */
-  --sidebar: oklch(1 0 0);
-  --sidebar-foreground: oklch(0.37 0.02 255);
-  --sidebar-primary: oklch(0.52 0.14 165);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.96 0.02 165);
-  --sidebar-accent-foreground: oklch(0.45 0.10 165);
-  --sidebar-border: oklch(0.93 0.005 85);
-  --sidebar-ring: oklch(0.52 0.14 165);
-  /* Category colors (6: Personality, Intelligence, Strengths, Wellness, Astrology, Career) */
-  --category-personality: oklch(0.55 0.22 285);
-  --category-personality-bg: oklch(0.94 0.03 285);
-  --category-intelligence: oklch(0.65 0.18 55);
-  --category-intelligence-bg: oklch(0.95 0.04 55);
-  --category-strengths: oklch(0.55 0.18 155);
-  --category-strengths-bg: oklch(0.94 0.04 155);
-  --category-wellness: oklch(0.58 0.14 205);
-  --category-wellness-bg: oklch(0.94 0.03 205);
-  --category-astrology: oklch(0.58 0.25 320);
-  --category-astrology-bg: oklch(0.94 0.05 320);
-  --category-career: oklch(0.52 0.18 250);
-  --category-career-bg: oklch(0.94 0.04 250);
-  /* Dark card background for Mirror/Vault (tinted card) */
-  --category-personality-card: oklch(0.28 0.08 285);
-  --category-intelligence-card: oklch(0.32 0.08 55);
-  --category-strengths-card: oklch(0.28 0.08 155);
-  --category-wellness-card: oklch(0.30 0.06 205);
-  --category-astrology-card: oklch(0.28 0.10 320);
-  --category-career-card: oklch(0.28 0.08 250);
+  --background: #ffffff;
+  --foreground: #171717;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+  --primary: #171717;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #171717;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+  --accent: #f5f5f5;
+  --accent-foreground: #171717;
+  --destructive: #737373;
+  --destructive-foreground: #ffffff;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #171717;
+  --chart-1: #737373;
+  --chart-2: #525252;
+  --chart-3: #737373;
+  --chart-4: #525252;
+  --chart-5: #737373;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #171717;
+  --sidebar-primary: #171717;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f5f5f5;
+  --sidebar-accent-foreground: #171717;
+  --sidebar-border: #e5e5e5;
+  --sidebar-ring: #525252;
+  /* Category: gray only */
+  --category-personality: #525252;
+  --category-personality-bg: #f5f5f5;
+  --category-intelligence: #525252;
+  --category-intelligence-bg: #f5f5f5;
+  --category-strengths: #525252;
+  --category-strengths-bg: #f5f5f5;
+  --category-wellness: #525252;
+  --category-wellness-bg: #f5f5f5;
+  --category-astrology: #525252;
+  --category-astrology-bg: #f5f5f5;
+  --category-career: #525252;
+  --category-career-bg: #f5f5f5;
+  --category-personality-card: #404040;
+  --category-intelligence-card: #404040;
+  --category-strengths-card: #404040;
+  --category-wellness-card: #404040;
+  --category-astrology-card: #404040;
+  --category-career-card: #404040;
 }
 
 .dark {
-  --background: oklch(0.17 0.01 260);
-  --foreground: oklch(0.96 0 0);
-  --card: oklch(0.22 0.01 260);
-  --card-foreground: oklch(0.96 0 0);
-  --popover: oklch(0.22 0.01 260);
-  --popover-foreground: oklch(0.96 0 0);
-  --primary: oklch(0.60 0.14 165);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.26 0.01 260);
-  --secondary-foreground: oklch(0.96 0 0);
-  --muted: oklch(0.26 0.01 260);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.26 0.01 260);
-  --accent-foreground: oklch(0.96 0 0);
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.60 0.14 165);
-  --chart-1: oklch(0.58 0.21 295);
-  --chart-2: oklch(0.60 0.12 185);
-  --chart-3: oklch(0.72 0.16 75);
-  --chart-4: oklch(0.60 0.16 150);
-  --chart-5: oklch(0.63 0.24 15);
-  --sidebar: oklch(0.20 0.01 260);
-  --sidebar-foreground: oklch(0.96 0 0);
-  --sidebar-primary: oklch(0.60 0.14 165);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.26 0.01 260);
-  --sidebar-accent-foreground: oklch(0.96 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.60 0.14 165);
-  /* Category colors (dark) */
-  --category-personality: oklch(0.72 0.19 285);
-  --category-personality-bg: oklch(0.28 0.05 285);
-  --category-intelligence: oklch(0.78 0.16 55);
-  --category-intelligence-bg: oklch(0.28 0.05 55);
-  --category-strengths: oklch(0.72 0.17 155);
-  --category-strengths-bg: oklch(0.28 0.05 155);
-  --category-wellness: oklch(0.72 0.14 205);
-  --category-wellness-bg: oklch(0.28 0.04 205);
-  --category-astrology: oklch(0.75 0.22 320);
-  --category-astrology-bg: oklch(0.28 0.06 320);
-  --category-career: oklch(0.68 0.18 250);
-  --category-career-bg: oklch(0.28 0.05 250);
-  /* Dark card background (dark theme) */
-  --category-personality-card: oklch(0.25 0.08 285);
-  --category-intelligence-card: oklch(0.28 0.08 55);
-  --category-strengths-card: oklch(0.25 0.08 155);
-  --category-wellness-card: oklch(0.27 0.06 205);
-  --category-astrology-card: oklch(0.25 0.10 320);
-  --category-career-card: oklch(0.25 0.08 250);
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+  --card: #0a0a0a;
+  --card-foreground: #fafafa;
+  --popover: #0a0a0a;
+  --popover-foreground: #fafafa;
+  --primary: #fafafa;
+  --primary-foreground: #0a0a0a;
+  --secondary: #262626;
+  --secondary-foreground: #fafafa;
+  --muted: #262626;
+  --muted-foreground: #a3a3a3;
+  --accent: #262626;
+  --accent-foreground: #fafafa;
+  --destructive: #737373;
+  --destructive-foreground: #fafafa;
+  --border: #404040;
+  --input: #404040;
+  --ring: #fafafa;
+  --chart-1: #737373;
+  --chart-2: #a3a3a3;
+  --chart-3: #737373;
+  --chart-4: #a3a3a3;
+  --chart-5: #737373;
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #fafafa;
+  --sidebar-primary-foreground: #0a0a0a;
+  --sidebar-accent: #262626;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: #404040;
+  --sidebar-ring: #a3a3a3;
+  --category-personality: #a3a3a3;
+  --category-personality-bg: #262626;
+  --category-intelligence: #a3a3a3;
+  --category-intelligence-bg: #262626;
+  --category-strengths: #a3a3a3;
+  --category-strengths-bg: #262626;
+  --category-wellness: #a3a3a3;
+  --category-wellness-bg: #262626;
+  --category-astrology: #a3a3a3;
+  --category-astrology-bg: #262626;
+  --category-career: #a3a3a3;
+  --category-career-bg: #262626;
+  --category-personality-card: #404040;
+  --category-intelligence-card: #404040;
+  --category-strengths-card: #404040;
+  --category-wellness-card: #404040;
+  --category-astrology-card: #404040;
+  --category-career-card: #404040;
 }
 
 @layer base {
@@ -173,6 +164,14 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: -0.01em;
+    font-weight: 400;
+  }
+  a, h1, h2, h3, h4, h5, p, span {
+    font-weight: 400;
+    margin: 0;
   }
 }
 

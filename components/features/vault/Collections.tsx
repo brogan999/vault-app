@@ -7,38 +7,10 @@ import { FolderOpen, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 const collections = [
-  {
-    id: "core-personality",
-    name: "Core Personality",
-    description: "Big 5, Personality Type, and Enneagram results grouped together",
-    itemCount: 3,
-    color: "#8b5cf6",
-    bgColor: "rgba(139, 92, 246, 0.08)",
-  },
-  {
-    id: "intelligence",
-    name: "Intelligence & Cognitive",
-    description: "IQ, EQ, and cognitive ability test results",
-    itemCount: 2,
-    color: "#d97706",
-    bgColor: "rgba(217, 119, 6, 0.08)",
-  },
-  {
-    id: "wellness",
-    name: "Wellness & Health",
-    description: "Sleep quality, stress, and resilience assessments",
-    itemCount: 2,
-    color: "#059669",
-    bgColor: "rgba(5, 150, 105, 0.08)",
-  },
-  {
-    id: "career",
-    name: "Career & Strengths",
-    description: "CliftonStrengths, Career Compass, and values assessments",
-    itemCount: 1,
-    color: "#2563eb",
-    bgColor: "rgba(37, 99, 235, 0.08)",
-  },
+  { id: "core-personality", name: "Core Personality", description: "Big 5, Personality Type, and Enneagram results grouped together", itemCount: 3 },
+  { id: "intelligence", name: "Intelligence & Cognitive", description: "IQ, EQ, and cognitive ability test results", itemCount: 2 },
+  { id: "wellness", name: "Wellness & Health", description: "Sleep quality, stress, and resilience assessments", itemCount: 2 },
+  { id: "career", name: "Career & Strengths", description: "CliftonStrengths, Career Compass, and values assessments", itemCount: 1 },
 ];
 
 export function Collections() {
@@ -56,14 +28,8 @@ export function Collections() {
         >
           <CardContent className="p-5">
             <div className="flex items-start gap-4">
-              <div
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
-                style={{ backgroundColor: collection.bgColor }}
-              >
-                <FolderOpen
-                  className="h-5 w-5"
-                  style={{ color: collection.color }}
-                />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-muted">
+                <FolderOpen className="h-5 w-5 text-foreground" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">

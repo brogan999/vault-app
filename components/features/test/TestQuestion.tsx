@@ -81,16 +81,16 @@ const LikertQuestion = forwardRef<TestQuestionRef, TestQuestionProps & { variant
       const rightLabel = options[0]?.label ?? "Disagree";
       const n = reversed.length;
       return (
-        <div className="space-y-5">
+        <div className="space-y-5 min-w-0 overflow-hidden">
           <h2 className="text-xl font-semibold leading-relaxed text-foreground md:text-2xl">
             {question.text}
           </h2>
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <span className="w-28 shrink-0 text-left text-sm font-medium text-emerald-600 dark:text-emerald-400 sm:text-base">
+          <div className="flex flex-col gap-2 min-w-0">
+            <div className="flex items-center gap-1 sm:gap-3 min-w-0">
+              <span className="w-14 shrink-0 text-left text-xs font-medium text-primary sm:w-28 sm:text-base">
                 {leftLabel}
               </span>
-              <div className="flex flex-1 justify-between gap-1">
+              <div className="flex flex-1 justify-between gap-0.5 sm:gap-1 min-w-0">
                 {reversed.map((opt, i) => {
                   const selected = value === opt.value;
                   const isAgreeSide = n >= 7 ? i <= 2 : i <= 1;
@@ -98,13 +98,17 @@ const LikertQuestion = forwardRef<TestQuestionRef, TestQuestionProps & { variant
                   const isNeutral = n >= 7 && i === 3;
                   const selectedStyle = selected
                     ? isAgreeSide
-                      ? "border-emerald-500 bg-emerald-500 text-white"
+                      ? "border-primary bg-primary text-primary-foreground"
                       : isDisagreeSide
-                        ? "border-violet-500 bg-violet-500 text-white"
+                        ? "border-muted-foreground/50 bg-muted text-foreground"
                         : isNeutral
                           ? "border-muted-foreground/50 bg-muted text-foreground"
                           : "border-primary bg-primary text-primary-foreground"
                     : "border-border bg-card hover:border-primary/40 hover:bg-muted/50";
+                  const neutralIndex = Math.floor(n / 2);
+                  const distanceFromCenter = Math.abs(i - neutralIndex);
+                  const maxDistance = Math.floor(n / 2);
+                  const scale = maxDistance === 0 ? 1 : 0.88 + (0.12 * distanceFromCenter) / maxDistance;
                   return (
                     <button
                       key={String(opt.value)}
@@ -112,13 +116,14 @@ const LikertQuestion = forwardRef<TestQuestionRef, TestQuestionProps & { variant
                       type="button"
                       onClick={() => onChange(opt.value)}
                       aria-label={opt.label}
+                      style={{ transform: `scale(${scale})` }}
                       className={cn(
-                        "flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 transition-colors sm:h-12 sm:w-12",
+                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 transition-colors min-[400px]:h-10 min-[400px]:w-10 sm:h-11 sm:w-11 md:h-12 md:w-12",
                         selectedStyle
                       )}
                     >
                       {selected ? (
-                        <svg className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <svg className="h-4 w-4 min-[400px]:h-5 min-[400px]:w-5 sm:h-5 sm:w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
                       ) : null}
@@ -126,7 +131,7 @@ const LikertQuestion = forwardRef<TestQuestionRef, TestQuestionProps & { variant
                   );
                 })}
               </div>
-              <span className="w-28 shrink-0 text-right text-sm font-medium text-violet-600 dark:text-violet-400 sm:text-base">
+              <span className="w-14 shrink-0 text-right text-xs font-medium text-muted-foreground sm:w-28 sm:text-base">
                 {rightLabel}
               </span>
             </div>

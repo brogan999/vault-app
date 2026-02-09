@@ -272,9 +272,9 @@ export default function QuestionsPage({ params }: QuestionsPageProps) {
   }
 
   const steps = [
-    { number: 1, title: tIntro("step1Title"), description: tIntro("step1Description"), icon: ClipboardCheck, labelColor: "text-emerald-700 dark:text-emerald-300", titleColor: "text-emerald-900 dark:text-emerald-50", descColor: "text-emerald-800/90 dark:text-emerald-200/90", bgColor: "bg-emerald-50 dark:bg-emerald-950/80", borderColor: "border-emerald-200 dark:border-emerald-800" },
-    { number: 2, title: tIntro("step2Title"), description: tIntro("step2Description"), icon: BarChart3, labelColor: "text-blue-700 dark:text-blue-300", titleColor: "text-blue-900 dark:text-blue-50", descColor: "text-blue-800/90 dark:text-blue-200/90", bgColor: "bg-blue-50 dark:bg-blue-950/80", borderColor: "border-blue-200 dark:border-blue-800" },
-    { number: 3, title: tIntro("step3Title"), description: tIntro("step3Description"), icon: Rocket, labelColor: "text-violet-700 dark:text-violet-300", titleColor: "text-violet-900 dark:text-violet-50", descColor: "text-violet-800/90 dark:text-violet-200/90", bgColor: "bg-violet-50 dark:bg-violet-950/80", borderColor: "border-violet-200 dark:border-violet-800" },
+    { number: 1, title: tIntro("step1Title"), description: tIntro("step1Description"), icon: ClipboardCheck, labelColor: "text-primary", titleColor: "text-foreground", descColor: "text-muted-foreground", bgColor: "bg-primary/10", borderColor: "border-primary/30" },
+    { number: 2, title: tIntro("step2Title"), description: tIntro("step2Description"), icon: BarChart3, labelColor: "text-muted-foreground", titleColor: "text-foreground", descColor: "text-muted-foreground", bgColor: "bg-muted", borderColor: "border-border" },
+    { number: 3, title: tIntro("step3Title"), description: tIntro("step3Description"), icon: Rocket, labelColor: "text-muted-foreground", titleColor: "text-foreground", descColor: "text-muted-foreground", bgColor: "bg-muted", borderColor: "border-border" },
   ];
 
   return (
@@ -413,6 +413,11 @@ export default function QuestionsPage({ params }: QuestionsPageProps) {
         </form>
       )}
 
+      {!canGoNext && (
+        <p className="mt-6 text-center text-sm text-primary" role="status">
+          {t("answerAllToContinue")}
+        </p>
+      )}
       <TestNavigation
         ref={nextButtonRef}
         currentIndex={pageIndex}

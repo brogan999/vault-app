@@ -150,10 +150,7 @@ export default function ProductDetailPage({
               {product.duration}
             </span>
             <span className="flex items-center gap-1.5">
-              <Star
-                className="h-4 w-4"
-                style={{ color: "#d97706", fill: "#d97706" }}
-              />
+              <Star className="h-4 w-4 fill-foreground text-foreground" />
               {product.rating}
             </span>
             <span className="flex items-center gap-1.5">

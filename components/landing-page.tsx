@@ -299,48 +299,12 @@ function Features() {
   const t = useTranslations("landing.features");
 
   const features = [
-    {
-      icon: Brain,
-      title: t("personalityTests"),
-      description: t("personalityTestsDesc"),
-      color: "#8b5cf6",
-      bgColor: "rgba(139, 92, 246, 0.08)",
-    },
-    {
-      icon: MessageSquare,
-      title: t("aiTherapistChat"),
-      description: t("aiTherapistChatDesc"),
-      color: "#0d9488",
-      bgColor: "rgba(13, 148, 136, 0.08)",
-    },
-    {
-      icon: Archive,
-      title: t("secureFileVault"),
-      description: t("secureFileVaultDesc"),
-      color: "#059669",
-      bgColor: "rgba(5, 150, 105, 0.08)",
-    },
-    {
-      icon: Mic,
-      title: t("voiceJournals"),
-      description: t("voiceJournalsDesc"),
-      color: "#d97706",
-      bgColor: "rgba(217, 119, 6, 0.08)",
-    },
-    {
-      icon: BarChart3,
-      title: t("growthTracking"),
-      description: t("growthTrackingDesc"),
-      color: "#e11d48",
-      bgColor: "rgba(225, 29, 72, 0.08)",
-    },
-    {
-      icon: Shield,
-      title: t("privateByDefault"),
-      description: t("privateByDefaultDesc"),
-      color: "#2563eb",
-      bgColor: "rgba(37, 99, 235, 0.08)",
-    },
+    { icon: Brain, title: t("personalityTests"), description: t("personalityTestsDesc") },
+    { icon: MessageSquare, title: t("aiTherapistChat"), description: t("aiTherapistChatDesc") },
+    { icon: Archive, title: t("secureFileVault"), description: t("secureFileVaultDesc") },
+    { icon: Mic, title: t("voiceJournals"), description: t("voiceJournalsDesc") },
+    { icon: BarChart3, title: t("growthTracking"), description: t("growthTrackingDesc") },
+    { icon: Shield, title: t("privateByDefault"), description: t("privateByDefaultDesc") },
   ];
 
   return (
@@ -365,14 +329,8 @@ function Features() {
               className="group border-0 shadow-sm rounded-2xl transition-shadow hover:shadow-md"
             >
               <CardContent className="p-6">
-                <div
-                  className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl"
-                  style={{ backgroundColor: feature.bgColor }}
-                >
-                  <feature.icon
-                    className="h-6 w-6"
-                    style={{ color: feature.color }}
-                  />
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-muted">
+                  <feature.icon className="h-6 w-6 text-foreground" />
                 </div>
                 <h3 className="text-lg font-bold text-foreground font-serif">
                   {feature.title}
@@ -395,11 +353,11 @@ function PersonalityPreview() {
   const t = useTranslations("landing.showcase");
 
   const traits = [
-    { name: t("openness"), score: 82, color: "#8b5cf6" },
-    { name: t("conscientiousness"), score: 68, color: "#0d9488" },
-    { name: t("extraversion"), score: 45, color: "#d97706" },
-    { name: t("agreeableness"), score: 74, color: "#059669" },
-    { name: t("neuroticism"), score: 38, color: "#e11d48" },
+    { name: t("openness"), score: 82 },
+    { name: t("conscientiousness"), score: 68 },
+    { name: t("extraversion"), score: 45 },
+    { name: t("agreeableness"), score: 74 },
+    { name: t("neuroticism"), score: 38 },
   ];
 
   return (
@@ -414,20 +372,14 @@ function PersonalityPreview() {
               <span className="text-sm font-medium text-foreground">
                 {trait.name}
               </span>
-              <span
-                className="text-sm font-bold font-serif"
-                style={{ color: trait.color }}
-              >
+              <span className="text-sm font-bold font-serif text-foreground">
                 {trait.score}%
               </span>
             </div>
             <div className="h-2.5 rounded-full bg-muted overflow-hidden">
               <div
-                className="h-full rounded-full transition-all duration-700"
-                style={{
-                  width: `${trait.score}%`,
-                  backgroundColor: trait.color,
-                }}
+                className="h-full rounded-full bg-foreground transition-all duration-700"
+                style={{ width: `${trait.score}%` }}
               />
             </div>
           </div>
@@ -603,7 +555,7 @@ function Testimonials() {
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star
                       key={i}
-                      className="h-4 w-4 fill-amber-400 text-amber-400"
+                      className="h-4 w-4 fill-primary text-primary"
                     />
                   ))}
                 </div>

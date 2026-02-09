@@ -18,7 +18,6 @@ import {
 } from "recharts";
 import { useTranslations } from "next-intl";
 
-const EMERALD = "#059669";
 
 interface ConstellationWidgetProps {
   big5Scores?: {
@@ -83,8 +82,8 @@ export function ConstellationWidget({
               <Radar
                 name={t("score")}
                 dataKey="score"
-                stroke={EMERALD}
-                fill={EMERALD}
+                stroke="var(--color-foreground)"
+                fill="var(--color-foreground)"
                 fillOpacity={0.2}
                 strokeWidth={2}
               />

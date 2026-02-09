@@ -52,7 +52,7 @@ export const TestNavigation = forwardRef<HTMLButtonElement | null, TestNavigatio
             onClick={onSubmit}
             disabled={!canGoNext || isSubmitting}
             size="lg"
-            className="gap-2 rounded-xl px-8 text-base bg-violet-600 hover:bg-violet-700 text-white"
+            className="gap-2 rounded-xl px-8 text-base bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             {isSubmitting ? "..." : submitLabel}
             {!isSubmitting && <Send className="h-4 w-4" />}
@@ -63,7 +63,7 @@ export const TestNavigation = forwardRef<HTMLButtonElement | null, TestNavigatio
             onClick={onNext}
             disabled={!canGoNext}
             size="lg"
-            className="gap-1.5 rounded-xl px-8 text-base bg-violet-600 hover:bg-violet-700 text-white"
+            className="gap-1.5 rounded-xl px-8 text-base bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             Next
             <ChevronRight className="h-4 w-4" />

@@ -1,18 +1,6 @@
-import { Nunito_Sans, Nunito, JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import "./globals.css";
-
-const nunitoSans = Nunito_Sans({
-  variable: "--font-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const nunito = Nunito({
-  variable: "--font-serif",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
@@ -56,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang={routing.defaultLocale} suppressHydrationWarning>
       <body
-        className={`${nunitoSans.variable} ${nunito.variable} ${jetbrainsMono.variable} font-sans antialiased`}
+        className={`${jetbrainsMono.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
         {children}
