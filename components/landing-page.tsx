@@ -211,7 +211,7 @@ function Hero() {
             {t("description")}
           </p>
 
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="mt-10 flex justify-center">
             {isSignedIn ? (
               <Button
                 size="lg"
@@ -233,14 +233,6 @@ function Hero() {
                 <ArrowRight className="h-4 w-4" />
               </Button>
             )}
-            <Button
-              size="lg"
-              variant="outline"
-              className="h-12 rounded-xl px-8 text-base font-semibold bg-transparent"
-              asChild
-            >
-              <a href="#features">{t("secondaryCta")}</a>
-            </Button>
           </div>
 
           <p className="mt-5 text-sm text-muted-foreground">
