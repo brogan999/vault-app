@@ -25,6 +25,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# BFG replacement list (contains secrets during history scrub)
+replacements.txt
+
 # local env files (never commit secrets)
 .env
 .env.local
