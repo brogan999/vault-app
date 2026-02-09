@@ -54,8 +54,7 @@ export function RecentActivity({ activities }: RecentActivityProps) {
             activities.map((activity, idx) => (
               <div key={idx} className="flex items-start gap-3 py-2.5 relative">
                 <div
-                  className="relative z-10 mt-1.5 h-[15px] w-[15px] shrink-0 rounded-full border-2 border-card"
-                  style={{ backgroundColor: activity.dotColor }}
+                  className="relative z-10 mt-1.5 h-[15px] w-[15px] shrink-0 rounded-full border-2 border-card bg-primary"
                 />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm text-foreground leading-relaxed">

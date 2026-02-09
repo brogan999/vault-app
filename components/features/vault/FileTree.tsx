@@ -40,17 +40,17 @@ const statusStyles: Record<
 > = {
   completed: {
     text: "text-primary",
-    bg: "rgba(5, 150, 105, 0.08)",
+    bg: "bg-muted",
     label: "completed",
   },
   processing: {
     text: "text-primary",
-    bg: "rgba(217, 119, 6, 0.08)",
+    bg: "bg-muted",
     label: "processing",
   },
   error: {
     text: "text-destructive",
-    bg: "rgba(225, 29, 72, 0.08)",
+    bg: "bg-destructive/10",
     label: "error",
   },
 };
@@ -216,9 +216,9 @@ export function FileTree({ onDocumentOpen }: FileTreeProps) {
                           <span
                             className={cn(
                               "text-xs font-semibold px-2 py-0.5 rounded-md shrink-0",
-                              style.text
+                              style.text,
+                              style.bg
                             )}
-                            style={{ backgroundColor: style.bg }}
                           >
                             {style.label}
                           </span>

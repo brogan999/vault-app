@@ -16,6 +16,7 @@ import {
 import { useClerk, useUser } from "@clerk/nextjs";
 import { NotificationBell } from "@/components/features/notifications/NotificationBell";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+import { ThemePaletteSwitcher } from "@/components/landing/ThemePaletteSwitcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -139,8 +140,11 @@ export function NavRail() {
         </nav>
       </div>
 
-      {/* Bottom: Language + Notifications + User */}
+      {/* Bottom: Theme + Language + Notifications + User */}
       <div className="flex flex-col items-center gap-3 lg:w-full lg:px-4">
+        <div className="flex items-center justify-center lg:w-full lg:justify-start lg:px-2">
+          <ThemePaletteSwitcher />
+        </div>
         <div className="flex items-center justify-center lg:w-full lg:justify-start lg:px-2">
           <LanguageSwitcher compact />
         </div>

@@ -19,7 +19,6 @@ import {
 import { format, subDays } from "date-fns";
 import { useTranslations } from "next-intl";
 
-const EMERALD = "#059669";
 
 interface PulseWidgetProps {
   journals?: Array<{ createdAt: string }>;
@@ -77,8 +76,8 @@ export function PulseWidget({ journals = [] }: PulseWidgetProps) {
               <Area
                 type="monotone"
                 dataKey="count"
-                stroke={EMERALD}
-                fill={EMERALD}
+                stroke="var(--color-foreground)"
+                fill="var(--color-foreground)"
                 fillOpacity={0.15}
                 strokeWidth={2}
                 name={t("activity")}

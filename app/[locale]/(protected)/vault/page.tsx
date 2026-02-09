@@ -50,7 +50,7 @@ function DiscoverMoreCard({
       </div>
       <Link
         href="/store"
-        className="mt-4 w-full block rounded-xl bg-primary-foreground/15 px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary-foreground/25 transition-colors text-center"
+        className="mt-4 w-full block rounded-xl bg-primary-foreground px-4 py-2.5 text-sm font-semibold text-primary text-center transition-colors hover:opacity-90"
       >
         {t("browseTests")}
       </Link>

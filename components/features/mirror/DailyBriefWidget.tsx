@@ -81,14 +81,8 @@ export function DailyBriefWidget() {
             ))}
           </div>
         ) : brief ? (
-          <div
-            className="flex gap-3 rounded-xl p-3"
-            style={{ backgroundColor: "rgba(5, 150, 105, 0.08)" }}
-          >
-            <div
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
-              className="bg-muted"
-            >
+          <div className="flex gap-3 rounded-xl p-3 bg-muted">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted">
               <Sparkles className="h-4 w-4 text-foreground" />
             </div>
             <div>

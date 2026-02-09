@@ -184,17 +184,11 @@ export function DropZone() {
               {file.status === "uploading" ? (
                 <Loader2 className="h-4 w-4 animate-spin text-primary shrink-0" />
               ) : file.status === "completed" ? (
-                <span
-                  className="text-xs font-semibold px-2 py-0.5 rounded-md text-primary"
-                  style={{ backgroundColor: "rgba(5, 150, 105, 0.08)" }}
-                >
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-md text-primary bg-muted">
                   {tc("completed")}
                 </span>
               ) : (
-                <span
-                  className="text-xs font-semibold px-2 py-0.5 rounded-md text-destructive"
-                  style={{ backgroundColor: "rgba(225, 29, 72, 0.08)" }}
-                >
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-md text-destructive bg-destructive/10">
                   {tc("error")}
                 </span>
               )}

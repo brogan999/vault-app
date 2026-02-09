@@ -361,7 +361,7 @@ export async function getVaultRecentActivity(): Promise<VaultActivityItem[]> {
         action: "Completed",
         item: product?.title ?? row.testId,
         completedAt: row.completedAt ?? "",
-        dotColor: product?.color ?? "#059669",
+        dotColor: "#737373",
       };
     });
   } catch (e) {

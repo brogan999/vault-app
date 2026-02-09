@@ -14,27 +14,9 @@ export function VaultStats({ data }: VaultStatsProps) {
 
   const stats = data
     ? [
-        {
-          label: t("totalResults"),
-          value: String(data.testsCompleted),
-          icon: Archive,
-          color: "#059669",
-          bgColor: "rgba(5, 150, 105, 0.08)",
-        },
-        {
-          label: t("testsAvailable"),
-          value: String(data.testsAvailable),
-          icon: FlaskConical,
-          color: "#8b5cf6",
-          bgColor: "rgba(139, 92, 246, 0.08)",
-        },
-        {
-          label: t("lastTaken"),
-          value: data.lastTakenLabel ?? "—",
-          icon: Clock,
-          color: "#d97706",
-          bgColor: "rgba(217, 119, 6, 0.08)",
-        },
+        { label: t("totalResults"), value: String(data.testsCompleted), icon: Archive },
+        { label: t("testsAvailable"), value: String(data.testsAvailable), icon: FlaskConical },
+        { label: t("lastTaken"), value: data.lastTakenLabel ?? "—", icon: Clock },
       ]
     : [];
 
@@ -53,11 +35,8 @@ export function VaultStats({ data }: VaultStatsProps) {
       {stats.map((stat) => (
         <Card key={stat.label} className="border-0 shadow-sm rounded-2xl">
           <CardContent className="p-4 flex items-center gap-3">
-            <div
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
-              style={{ backgroundColor: stat.bgColor }}
-            >
-              <stat.icon className="h-5 w-5" style={{ color: stat.color }} />
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-muted">
+              <stat.icon className="h-5 w-5 text-foreground" />
             </div>
             <div>
               <p className="text-xl font-bold font-serif text-foreground">
