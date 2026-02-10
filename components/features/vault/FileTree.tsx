@@ -147,7 +147,7 @@ export function FileTree({ onDocumentOpen }: FileTreeProps) {
               "rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors",
               selectedCategory === filter
                 ? "bg-primary text-primary-foreground"
-                : "bg-card text-muted-foreground hover:bg-muted hover:text-foreground shadow-sm"
+                : "bg-card text-muted-foreground hover:bg-muted hover:text-foreground"
             )}
           >
             {filterLabels[filter]}

@@ -42,7 +42,7 @@ function TestSnapshotCard({
 
   return (
     <Card
-      className="group h-full border-0 shadow-sm rounded-2xl hover:shadow-md transition-all cursor-pointer overflow-hidden"
+      className="group h-full border-0 rounded-2xl transition-all cursor-pointer overflow-hidden"
       style={{ backgroundColor: cardBg }}
     >
       <CardContent className="p-4 flex flex-col h-full">
@@ -209,7 +209,7 @@ export function TestsSnapshotSection({ snapshots }: TestsSnapshotSectionProps) {
           return (
             <Link key={product.id} href={`/test/${product.id}`}>
               <Card
-                className="group h-full border-0 shadow-sm rounded-2xl hover:shadow-md transition-all cursor-pointer overflow-hidden"
+                className="group h-full border-0 rounded-2xl transition-all cursor-pointer overflow-hidden"
                 style={{ backgroundColor: displayColors.cardBg }}
               >
                 <CardContent className="p-4 flex flex-col h-full">

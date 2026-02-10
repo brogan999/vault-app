@@ -54,7 +54,7 @@ export function FreeResults({ testTitle, scores, interpretation, gender }: FreeR
 
       {/* Continuous scores first for type-based tests (psychometric standard) */}
       {(scores.dimensions?.length ?? 0) > 0 && (
-        <Card className="border-0 shadow-sm rounded-2xl">
+        <Card className="border-0 rounded-2xl">
         <CardHeader className="pb-2">
           <h2 className="text-sm font-semibold text-foreground">
             {hasTypeAndDimensions ? "Your spectrum (continuous scores)" : "Dimension Scores"}
@@ -91,7 +91,7 @@ export function FreeResults({ testTitle, scores, interpretation, gender }: FreeR
       )}
 
       {/* Summary */}
-      <Card className="border-0 shadow-sm rounded-2xl">
+      <Card className="border-0 rounded-2xl">
         <CardHeader className="pb-2">
           <h2 className="text-sm font-semibold text-foreground">Summary</h2>
         </CardHeader>
@@ -103,7 +103,7 @@ export function FreeResults({ testTitle, scores, interpretation, gender }: FreeR
       </Card>
 
       {interp.dimensionDetails.length > 0 && (
-        <Card className="border-0 shadow-sm rounded-2xl">
+        <Card className="border-0 rounded-2xl">
           <CardHeader className="pb-2">
             <h2 className="text-sm font-semibold text-foreground">Key Insights</h2>
           </CardHeader>
@@ -123,7 +123,7 @@ export function FreeResults({ testTitle, scores, interpretation, gender }: FreeR
       )}
 
       {interp.tips && interp.tips.length > 0 && (
-        <Card className="border-0 shadow-sm rounded-2xl">
+        <Card className="border-0 rounded-2xl">
           <CardHeader className="pb-2">
             <h2 className="text-sm font-semibold text-foreground">Growth Tip</h2>
           </CardHeader>

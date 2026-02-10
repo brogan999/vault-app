@@ -85,7 +85,7 @@ export function EngagementGrid({ daily }: EngagementGridProps) {
   const totalActivities = daily.reduce((sum, d) => sum + d.total, 0);
 
   return (
-    <Card className="border-0 shadow-sm rounded-2xl">
+    <Card className="border-0 rounded-2xl">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div>

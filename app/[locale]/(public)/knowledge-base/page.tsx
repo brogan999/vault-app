@@ -234,7 +234,7 @@ const SECTIONS: KBSection[] = [
 
   /* ------ Western Astrology ------ */
   {
-    title: "Western Astrology",
+    title: "Western astrology",
     subtitle:
       "The sky at the moment you were born \u2014 a symbolic map of your inner landscape.",
     subsections: [
@@ -279,7 +279,7 @@ const SECTIONS: KBSection[] = [
 
   /* ------ Vedic Astrology ------ */
   {
-    title: "Vedic Astrology (Jyotish)",
+    title: "Vedic astrology (Jyotish)",
     subtitle:
       "India\u2019s ancient star science \u2014 a different angle on the same sky.",
     subsections: [

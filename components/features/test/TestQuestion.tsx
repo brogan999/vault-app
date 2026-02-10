@@ -177,7 +177,7 @@ const LikertOption = forwardRef<
       className={cn(
         "flex items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm font-medium transition-all",
         selected
-          ? "border-primary bg-primary/8 text-primary shadow-sm"
+          ? "border-primary bg-primary/8 text-primary"
           : "border-border bg-card text-foreground hover:border-primary/40 hover:bg-muted/50"
       )}
     >
@@ -221,7 +221,7 @@ const MultipleChoiceQuestion = forwardRef<TestQuestionRef, TestQuestionProps>(
               className={cn(
                 "rounded-xl border px-4 py-3 text-left text-sm font-medium transition-all",
                 value === opt.value
-                  ? "border-primary bg-primary/8 text-primary shadow-sm"
+                  ? "border-primary bg-primary/8 text-primary"
                   : "border-border bg-card text-foreground hover:border-primary/40 hover:bg-muted/50"
               )}
             >
@@ -259,7 +259,7 @@ const ForcedChoiceQuestion = forwardRef<TestQuestionRef, TestQuestionProps>(
               className={cn(
                 "flex items-center gap-3 rounded-xl border px-4 py-4 text-left text-sm font-medium transition-all",
                 value === opt.value
-                  ? "border-primary bg-primary/8 text-primary shadow-sm"
+                  ? "border-primary bg-primary/8 text-primary"
                   : "border-border bg-card text-foreground hover:border-primary/40 hover:bg-muted/50"
               )}
             >

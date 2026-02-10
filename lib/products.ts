@@ -160,7 +160,7 @@ export const products: Product[] = [
   },
   {
     id: "birth-chart",
-    title: "Birth Chart Analysis",
+    title: "Western astrology",
     description:
       "Generate your complete natal chart with interpretations for Sun, Moon, Rising, and all planetary placements.",
     longDescription:
@@ -183,7 +183,7 @@ export const products: Product[] = [
   },
   {
     id: "vedic",
-    title: "Vedic Astrology",
+    title: "Vedic astrology",
     description:
       "Enter your birth details for a simplified Vedic (Jyotish) chart with Lagna, Surya, and Chandra.",
     longDescription:

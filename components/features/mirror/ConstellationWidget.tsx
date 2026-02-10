@@ -38,7 +38,7 @@ export function ConstellationWidget({
 
   if (!big5Scores) {
     return (
-      <Card className="border-0 shadow-sm rounded-2xl">
+      <Card className="border-0 rounded-2xl">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg font-serif">{t("title")}</CardTitle>
           <CardDescription>
@@ -58,7 +58,7 @@ export function ConstellationWidget({
   ];
 
   return (
-    <Card className="border-0 shadow-sm rounded-2xl">
+    <Card className="border-0 rounded-2xl">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg font-serif">{t("title")}</CardTitle>
         <CardDescription>{t("description")}</CardDescription>

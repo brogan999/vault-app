@@ -25,7 +25,7 @@ export function PersonalitySnapshotWidget({
         return (
           <Card
             key={trait.name}
-            className="border-0 shadow-sm rounded-2xl overflow-hidden border-l-4 border-l-primary"
+            className="border-0 rounded-2xl overflow-hidden border-l-4 border-l-primary"
           >
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-2">

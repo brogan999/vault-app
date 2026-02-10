@@ -9,8 +9,8 @@ import type { TestResultRow } from "@/lib/tests/types";
 
 /** Short label for card header — same as Mirror TestsSnapshotSection. */
 const CARD_SHORT_TITLES: Record<string, string> = {
-  "birth-chart": "Astrology",
-  vedic: "Vedic",
+  "birth-chart": "Western astrology",
+  vedic: "Vedic astrology",
   "human-design": "Human Design",
   "chinese-zodiac": "Chinese",
   "life-path": "Life Path",

@@ -39,7 +39,7 @@ export function DailyBriefWidget() {
   });
 
   return (
-    <Card className="border-0 shadow-sm rounded-2xl">
+    <Card className="border-0 rounded-2xl">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-serif">Daily Brief</CardTitle>

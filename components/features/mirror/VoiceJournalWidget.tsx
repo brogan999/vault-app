@@ -101,7 +101,7 @@ export function VoiceJournalWidget({
   const entries = recentJournals.slice(0, 3);
 
   return (
-    <Card className="border-0 shadow-sm rounded-2xl">
+    <Card className="border-0 rounded-2xl">
       <CardHeader className="pb-3">
         <CardTitle className="text-lg font-serif">{t("title")}</CardTitle>
         <CardDescription>{t("howFeeling")}</CardDescription>
@@ -117,7 +117,7 @@ export function VoiceJournalWidget({
               className={cn(
                 "flex flex-col items-center gap-1 rounded-lg px-3 py-2 transition-all",
                 selectedMood === key
-                  ? "bg-card shadow-sm scale-105"
+                  ? "bg-card scale-105"
                   : "hover:bg-card/60",
                 moodSaving && "opacity-50 cursor-not-allowed"
               )}

@@ -286,7 +286,7 @@ export default async function OurFrameworkPage() {
             <div className="mt-10 space-y-10">
               <div>
                 <h3 className="text-lg font-bold font-serif text-foreground">
-                  Western Astrology
+                  Western astrology
                 </h3>
                 <p className="mt-3 leading-relaxed text-muted-foreground">
                   Your birth chart is a snapshot of the sky at the exact moment
@@ -307,7 +307,7 @@ export default async function OurFrameworkPage() {
 
               <div>
                 <h3 className="text-lg font-bold font-serif text-foreground">
-                  Vedic Astrology (Jyotish)
+                  Vedic astrology (Jyotish)
                 </h3>
                 <p className="mt-3 leading-relaxed text-muted-foreground">
                   India&apos;s ancient astrological tradition uses the sidereal zodiac

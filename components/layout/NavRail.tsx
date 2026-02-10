@@ -96,7 +96,7 @@ export function NavRail() {
   ];
 
   return (
-    <aside className="fixed left-0 top-0 z-40 flex h-screen w-[72px] flex-col items-center justify-between border-r border-sidebar-border bg-sidebar py-6 lg:w-[220px]">
+    <aside className="fixed left-0 top-0 z-40 flex h-screen w-[72px] flex-col items-center justify-between border-r border-border bg-background py-6 lg:w-[220px]">
       {/* Top: Logo + Nav */}
       <div className="flex flex-col items-center gap-8 lg:items-start lg:px-4">
         {/* Logo */}
@@ -104,7 +104,7 @@ export function NavRail() {
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
             <Archive className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="hidden text-lg font-bold tracking-tight text-foreground font-serif lg:block">
+          <span className="hidden text-lg font-medium tracking-tight text-foreground font-serif lg:block">
             {tc("theVault")}
           </span>
         </Link>
@@ -121,16 +121,16 @@ export function NavRail() {
                 key={item.label}
                 href={item.href}
                 className={cn(
-                  "group flex items-center justify-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors lg:justify-start",
+                  "group flex items-center justify-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors lg:justify-start",
                   isActive
-                    ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                    : "text-sidebar-foreground/60 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                    ? "bg-secondary text-foreground"
+                    : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
                 )}
               >
                 <item.icon
                   className={cn(
                     "h-5 w-5 shrink-0",
-                    isActive ? "text-primary" : ""
+                    isActive ? "text-foreground" : ""
                   )}
                 />
                 <span className="hidden lg:block">{item.label}</span>
@@ -151,7 +151,7 @@ export function NavRail() {
         <div className="flex items-center justify-center lg:w-full lg:justify-start lg:px-2">
           <NotificationBell />
         </div>
-        <div className="flex items-center gap-3 rounded-xl px-2 py-2 lg:w-full">
+        <div className="border-t border-border pt-3 flex items-center gap-3 px-2 py-2 lg:w-full">
           {mounted ? (
             <AccountMenu />
           ) : (

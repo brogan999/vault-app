@@ -178,7 +178,7 @@ export default function ProductDetailPage({
 
         {/* Right: CTA card */}
         <div className="lg:col-span-1">
-          <Card className="border-0 shadow-sm rounded-2xl sticky top-8">
+          <Card className="border-0 rounded-2xl sticky top-8">
             <CardContent className="p-6">
               {/* Price */}
               <div className="flex items-baseline gap-2 mb-1">
@@ -268,7 +268,7 @@ export default function ProductDetailPage({
 
       {/* What you'll discover */}
       {product.highlights && product.highlights.length > 0 && (
-        <Card className="border-0 shadow-sm rounded-2xl mb-8">
+        <Card className="border-0 rounded-2xl mb-8">
           <CardContent className="p-6">
             <h2 className="text-lg font-bold text-foreground font-serif mb-4 flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" />

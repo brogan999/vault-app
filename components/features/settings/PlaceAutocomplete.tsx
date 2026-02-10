@@ -198,7 +198,7 @@ export function PlaceAutocomplete({
             id={`${id}-listbox`}
             ref={listRef}
             role="listbox"
-            className="fixed z-[100] rounded-xl border border-border bg-card py-1 shadow-lg max-h-60 overflow-auto"
+            className="fixed z-[100] rounded-xl border border-border bg-card py-1 max-h-60 overflow-auto"
             style={{
               top: dropdownRect.top,
               left: dropdownRect.left,

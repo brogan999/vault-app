@@ -44,7 +44,7 @@ export function ExploreMoreTests({
           return (
             <Card
               key={product.id}
-              className="border-0 shadow-sm rounded-2xl overflow-hidden transition-shadow hover:shadow-md"
+              className="border-0 rounded-2xl overflow-hidden transition-shadow"
             >
               <CardContent className="p-5 flex flex-col h-full">
                 <div

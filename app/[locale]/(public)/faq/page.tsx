@@ -28,7 +28,7 @@ const SECTIONS: FaqSection[] = [
       },
       {
         q: "Why combine scientific tests with things like astrology?",
-        a: "Because they do different things. Our psychometric assessments (Big Five, Personality Types, Enneagram, Work Style Profile) measure real psychological constructs with validated question sets. Our esoteric frameworks (Western Astrology, Vedic Astrology, Numerology, Human Design, Chinese Zodiac, Mayan Astrology) offer symbolic languages for self-reflection that billions of people across thousands of years have found meaningful.\n\nWe never blur the line between them. Every result on the platform is clearly labeled so you always know whether you\u2019re looking at a psychometric finding or a symbolic framework. We respect you enough to let you decide what resonates.",
+        a: "Because they do different things. Our psychometric assessments (Big Five, Personality Types, Enneagram, Work Style Profile) measure real psychological constructs with validated question sets. Our esoteric frameworks (Western astrology, Vedic astrology, Numerology, Human Design, Chinese Zodiac, Mayan Astrology) offer symbolic languages for self-reflection that billions of people across thousands of years have found meaningful.\n\nWe never blur the line between them. Every result on the platform is clearly labeled so you always know whether you\u2019re looking at a psychometric finding or a symbolic framework. We respect you enough to let you decide what resonates.",
       },
       {
         q: "Do I have to complete all ten frameworks?",
@@ -90,7 +90,7 @@ const SECTIONS: FaqSection[] = [
       },
       {
         q: "Why are my Western and Vedic astrology signs different?",
-        a: "Western Astrology uses the Tropical zodiac (based on the seasons), while Vedic Astrology uses the Sidereal zodiac (based on the actual positions of the constellations). Because of the Earth\u2019s axial precession, these two systems have drifted about 24 degrees apart over the centuries. So your Vedic placements are often one sign earlier than your Western ones.\n\nThis isn\u2019t a contradiction \u2014 it\u2019s two different coordinate systems looking at the same sky. Both are calculated correctly.",
+        a: "Western astrology uses the Tropical zodiac (based on the seasons), while Vedic astrology uses the Sidereal zodiac (based on the actual positions of the constellations). Because of the Earth\u2019s axial precession, these two systems have drifted about 24 degrees apart over the centuries. So your Vedic placements are often one sign earlier than your Western ones.\n\nThis isn\u2019t a contradiction \u2014 it\u2019s two different coordinate systems looking at the same sky. Both are calculated correctly.",
       },
       {
         q: "What information do you need for the esoteric frameworks?",
@@ -157,7 +157,7 @@ const SECTIONS: FaqSection[] = [
     items: [
       {
         q: "What's included for free?",
-        a: "All 10 assessments are free to take: you get a limited result summary for each (e.g. Big Five dimension scores, type + short description for Personality Type and Enneagram, Sun/Moon/Rising for Western Astrology, and similar top-level results for the other frameworks). Free users get 10 Mirror messages per day (reset at midnight UTC), mood journaling (5 entries per week), 50MB of Vault storage, and basic shareable result cards.",
+        a: "All 10 assessments are free to take: you get a limited result summary for each (e.g. Big Five dimension scores, type + short description for Personality Type and Enneagram, Sun/Moon/Rising for Western astrology, and similar top-level results for the other frameworks). Free users get 10 Mirror messages per day (reset at midnight UTC), mood journaling (5 entries per week), 50MB of Vault storage, and basic shareable result cards.",
       },
       {
         q: "What are premium reports?",

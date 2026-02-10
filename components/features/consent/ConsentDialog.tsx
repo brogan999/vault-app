@@ -108,7 +108,7 @@ export function ConsentDialog({
         <div className="px-6 pt-6 pb-2">
           <DialogHeader className="text-left">
             <DialogTitle className="text-xl font-bold text-foreground font-serif">
-              Before You Begin
+              Before you begin
             </DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground mt-1.5">
               This assessment includes psychological screening tools. Please
@@ -164,12 +164,9 @@ export function ConsentDialog({
               onCheckedChange={setAssessmentConsented}
             />
             <span className="text-sm text-foreground leading-relaxed pt-0.5">
-              I consent to complete{" "}
-              <strong className="font-semibold">
-                psychological assessments
-              </strong>{" "}
-              including personality, mental health screening, and interpersonal
-              patterns.
+              I agree to take self-report assessments about personality and
+              preferences, and understand they are for self-reflection, not
+              diagnosis.
             </span>
           </label>
         </div>

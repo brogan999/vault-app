@@ -9,10 +9,18 @@ If GitGuardian (or similar) reports an exposed **Supabase Service Role** key:
 3. Find **Project API keys** → **service_role** (secret).
 4. **Generate new secret** / **Rotate**. This invalidates the old key everywhere.
 
-## 2. Update environments
+## 2. Update environments (use new API keys, not Legacy)
 
-- **Local:** Replace `SUPABASE_SERVICE_ROLE_KEY` in `.env.local` with the new key.
-- **Vercel:** Project → Settings → Environment Variables → edit `SUPABASE_SERVICE_ROLE_KEY` to the new value for Production/Preview/Development as needed.
+After revoking the JWT signing key, **Legacy** anon/service_role keys stop working. Use the **Publishable and Secret** keys instead:
+
+1. Supabase Dashboard → **Project Settings** → **API**.
+2. Open the tab **"Publishable and secret API keys"** (not "Legacy anon, service_role").
+3. Copy the **Publishable** key (`sb_publishable_...`) and the **Secret** key (`sb_secret_...`).
+4. **Local:** In `.env.local` set:
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` = the **Publishable** key
+   - `SUPABASE_SERVICE_ROLE_KEY` = the **Secret** key
+5. **Vercel:** Project → Settings → Environment Variables → set the same two variables for Production/Preview/Development.
+6. Restart dev server and redeploy.
 
 ## 3. (Optional) Clean Git history
 

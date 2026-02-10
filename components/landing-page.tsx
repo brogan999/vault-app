@@ -42,13 +42,13 @@ export function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-lg">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-lg">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 lg:px-8">
         <Link href="/" className="flex items-center gap-2.5">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
             <Archive className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="text-lg font-bold tracking-tight text-foreground font-serif">
+          <span className="text-lg font-medium tracking-tight text-foreground font-serif">
             {tc("theVault")}
           </span>
         </Link>
@@ -83,12 +83,12 @@ export function Navbar() {
           <LanguageSwitcher className="rounded-xl" />
           <Button
             variant="ghost"
-            className="rounded-xl text-sm font-medium"
+            className="rounded-full text-sm font-medium"
             asChild
           >
             <Link href="/sign-in">{t("logIn")}</Link>
           </Button>
-          <Button className="rounded-xl font-semibold" asChild>
+          <Button className="rounded-full font-medium" asChild>
             <Link href="/sign-up">{t("getStartedFree")}</Link>
           </Button>
         </div>
@@ -109,7 +109,7 @@ export function Navbar() {
 
       <div
         className={cn(
-          "overflow-hidden border-t border-border/60 bg-background transition-all duration-300 md:hidden",
+          "overflow-hidden border-t border-border bg-background transition-all duration-300 md:hidden",
           mobileOpen ? "max-h-72 py-4" : "max-h-0 py-0"
         )}
       >
@@ -136,13 +136,13 @@ export function Navbar() {
             )
           )}
           <div className="mt-3 flex flex-col gap-2">
-            <div className="flex items-center justify-between rounded-xl border border-border/60 px-3 py-2">
+            <div className="flex items-center justify-between rounded-xl border border-border px-3 py-2">
               <span className="text-sm font-medium text-muted-foreground">
                 {t("language")}
               </span>
               <LanguageSwitcher className="rounded-xl" />
             </div>
-            <div className="flex items-center justify-between rounded-xl border border-border/60 px-3 py-2">
+            <div className="flex items-center justify-between rounded-xl border border-border px-3 py-2">
               <span className="text-sm font-medium text-muted-foreground">
                 {t("themeAndColour")}
               </span>
@@ -150,12 +150,12 @@ export function Navbar() {
             </div>
             <Button
               variant="outline"
-              className="w-full rounded-xl bg-transparent"
+              className="w-full rounded-full bg-transparent"
               asChild
             >
               <Link href="/sign-in">{t("logIn")}</Link>
             </Button>
-            <Button className="w-full rounded-xl font-semibold" asChild>
+            <Button className="w-full rounded-full font-medium" asChild>
               <Link href="/sign-up">{t("getStartedFree")}</Link>
             </Button>
           </div>
@@ -186,36 +186,29 @@ function Hero() {
   const heroTestHref = `/test/${HERO_TEST_ID}`;
 
   return (
-    <section className="relative overflow-hidden py-20 lg:py-32">
-      <div className="absolute inset-0 -z-10">
-        <div
-          className="absolute left-1/2 top-0 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.04]"
-          style={{ backgroundColor: "hsl(160, 84%, 30%)" }}
-        />
-      </div>
-
+    <section className="py-20 lg:py-32">
       <div className="mx-auto max-w-6xl px-4 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 shadow-sm">
-            <Sparkles className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium text-foreground">
+        <div>
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border px-4 py-1.5">
+            <Sparkles className="h-4 w-4 text-muted-foreground" />
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               {t("badge")}
             </span>
           </div>
 
-          <h1 className="text-4xl font-extrabold tracking-tight text-foreground font-serif leading-tight text-balance md:text-5xl lg:text-6xl">
+          <h1 className="text-3xl font-medium tracking-tight text-foreground font-serif leading-tight text-balance lg:text-4xl">
             {t("title")}
           </h1>
 
-          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground lg:text-xl">
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground lg:text-xl">
             {t("description")}
           </p>
 
-          <div className="mt-10 flex justify-center">
+          <div className="mt-10 flex">
             {isSignedIn ? (
               <Button
                 size="lg"
-                className="h-12 rounded-xl px-8 text-base font-semibold gap-2"
+                className="h-12 rounded-full px-8 text-base font-medium gap-2"
                 asChild
               >
                 <Link href={heroTestHref}>
@@ -226,7 +219,7 @@ function Hero() {
             ) : (
               <Button
                 size="lg"
-                className="h-12 rounded-xl px-8 text-base font-semibold gap-2"
+                className="h-12 rounded-full px-8 text-base font-medium gap-2"
                 onClick={handlePrimaryCta}
               >
                 {t("cta")}
@@ -263,15 +256,15 @@ function SocialProof() {
   ];
 
   return (
-    <section className="border-y border-border/60 bg-card py-12 lg:py-16">
+    <section className="border-t border-border py-12 lg:py-16">
       <div className="mx-auto max-w-6xl px-4 lg:px-8">
-        <p className="mb-10 text-center text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+        <p className="mb-10 text-xs font-medium uppercase tracking-wider text-muted-foreground">
           {t("headline")}
         </p>
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
           {stats.map((stat, i) => (
-            <div key={i} className="text-center">
-              <p className="text-3xl font-extrabold text-primary font-serif lg:text-4xl">
+            <div key={i}>
+              <p className="text-3xl font-medium text-foreground font-serif lg:text-4xl">
                 {stat.value}
               </p>
               <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
@@ -300,16 +293,16 @@ function Features() {
   ];
 
   return (
-    <section id="features" className="py-20 lg:py-28">
+    <section id="features" className="border-t border-border py-20 lg:py-28">
       <div className="mx-auto max-w-6xl px-4 lg:px-8">
-        <div className="mx-auto mb-14 max-w-2xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+        <div className="mb-14">
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             {t("sectionLabel")}
           </p>
-          <h2 className="mt-3 text-3xl font-extrabold text-foreground font-serif text-balance lg:text-4xl">
+          <h2 className="mt-3 text-3xl font-medium text-foreground font-serif text-balance lg:text-4xl">
             {t("title")}
           </h2>
-          <p className="mt-4 text-muted-foreground leading-relaxed lg:text-lg">
+          <p className="mt-4 max-w-2xl text-muted-foreground leading-relaxed lg:text-lg">
             {t("description")}
           </p>
         </div>
@@ -318,13 +311,13 @@ function Features() {
           {features.map((feature) => (
             <Card
               key={feature.title}
-              className="group border-0 shadow-sm rounded-2xl transition-shadow hover:shadow-md"
+              className="group border border-border rounded-2xl bg-transparent"
             >
               <CardContent className="p-6">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-muted">
                   <feature.icon className="h-6 w-6 text-foreground" />
                 </div>
-                <h3 className="text-lg font-bold text-foreground font-serif">
+                <h3 className="text-lg font-medium text-foreground font-serif">
                   {feature.title}
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
@@ -353,8 +346,8 @@ function PersonalityPreview() {
   ];
 
   return (
-    <div className="bg-card p-6 lg:p-8">
-      <p className="text-sm font-semibold text-muted-foreground mb-5">
+    <div className="p-6 lg:p-8">
+      <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-5">
         {t("big5Results")}
       </p>
       <div className="flex flex-col gap-4">
@@ -364,7 +357,7 @@ function PersonalityPreview() {
               <span className="text-sm font-medium text-foreground">
                 {trait.name}
               </span>
-              <span className="text-sm font-bold font-serif text-foreground">
+              <span className="text-sm font-medium font-serif text-foreground">
                 {trait.score}%
               </span>
             </div>
@@ -385,8 +378,8 @@ function ChatPreview() {
   const t = useTranslations("landing.showcase");
 
   return (
-    <div className="bg-card p-6 lg:p-8">
-      <p className="text-sm font-semibold text-muted-foreground mb-5">
+    <div className="p-6 lg:p-8">
+      <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-5">
         {t("aiConversation")}
       </p>
       <div className="flex flex-col gap-4">
@@ -420,23 +413,23 @@ function FeatureShowcase() {
   const t = useTranslations("landing.showcase");
 
   return (
-    <section className="bg-card py-20 lg:py-28 border-y border-border/60">
+    <section className="border-t border-border py-20 lg:py-28">
       <div className="mx-auto max-w-6xl px-4 lg:px-8">
         <div className="flex flex-col gap-20 lg:gap-28">
           {/* Personality Tests showcase */}
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
             <div className="flex flex-col justify-center">
-              <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 {t("personalityTestsLabel")}
               </p>
-              <h3 className="mt-3 text-2xl font-extrabold text-foreground font-serif text-balance lg:text-3xl">
+              <h3 className="mt-3 text-2xl font-medium text-foreground font-serif text-balance lg:text-3xl">
                 {t("personalityTestsTitle")}
               </h3>
               <p className="mt-4 text-muted-foreground leading-relaxed lg:text-base">
                 {t("personalityTestsDescription")}
               </p>
               <div className="mt-6 flex items-center gap-4">
-                <Button className="rounded-xl font-semibold gap-2" asChild>
+                <Button className="rounded-full font-medium gap-2" asChild>
                   <Link href={`/test/${HERO_TEST_ID}`}>
                     {t("takeTheTest")}
                     <ArrowRight className="h-4 w-4" />
@@ -444,34 +437,30 @@ function FeatureShowcase() {
                 </Button>
               </div>
             </div>
-            <Card className="border-0 shadow-sm rounded-2xl overflow-hidden">
-              <CardContent className="p-0">
-                <PersonalityPreview />
-              </CardContent>
-            </Card>
+            <div className="rounded-2xl border border-border overflow-hidden">
+              <PersonalityPreview />
+            </div>
           </div>
 
           {/* AI Chat showcase */}
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
             <div className="order-2 lg:order-1">
-              <Card className="border-0 shadow-sm rounded-2xl overflow-hidden">
-                <CardContent className="p-0">
-                  <ChatPreview />
-                </CardContent>
-              </Card>
+              <div className="rounded-2xl border border-border overflow-hidden">
+                <ChatPreview />
+              </div>
             </div>
             <div className="order-1 lg:order-2 flex flex-col justify-center">
-              <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 {t("aiChatLabel")}
               </p>
-              <h3 className="mt-3 text-2xl font-extrabold text-foreground font-serif text-balance lg:text-3xl">
+              <h3 className="mt-3 text-2xl font-medium text-foreground font-serif text-balance lg:text-3xl">
                 {t("aiChatTitle")}
               </h3>
               <p className="mt-4 text-muted-foreground leading-relaxed lg:text-base">
                 {t("aiChatDescription")}
               </p>
               <div className="mt-6 flex items-center gap-4">
-                <Button className="rounded-xl font-semibold gap-2" asChild>
+                <Button className="rounded-full font-medium gap-2" asChild>
                   <Link href="/sign-up">
                     {t("startConversation")}
                     <ArrowRight className="h-4 w-4" />
@@ -513,29 +502,29 @@ function Testimonials() {
   const t = useTranslations("landing.testimonials");
 
   return (
-    <section id="testimonials" className="py-20 lg:py-28">
+    <section id="testimonials" className="border-t border-border py-20 lg:py-28">
       <div className="mx-auto max-w-6xl px-4 lg:px-8">
-        <div className="mx-auto mb-14 max-w-2xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+        <div className="mb-14">
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             {t("sectionLabel")}
           </p>
-          <h2 className="mt-3 text-3xl font-extrabold text-foreground font-serif text-balance lg:text-4xl">
+          <h2 className="mt-3 text-3xl font-medium text-foreground font-serif text-balance lg:text-4xl">
             {t("title")}
           </h2>
         </div>
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((t) => (
-            <Card key={t.name} className="border-0 shadow-sm rounded-2xl">
+            <Card key={t.name} className="border border-border rounded-2xl bg-transparent">
               <CardContent className="p-6">
                 <div className="mb-4 flex items-center gap-3">
                   <Avatar className="h-10 w-10">
-                    <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
+                    <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
                       {t.initials}
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="text-sm font-bold text-foreground">
+                    <p className="text-sm font-medium text-foreground">
                       {t.name}
                     </p>
                     <p className="text-xs text-primary font-medium">
@@ -607,46 +596,46 @@ function Pricing() {
   return (
     <section
       id="pricing"
-      className="bg-card py-20 lg:py-28 border-y border-border/60"
+      className="border-t border-border py-20 lg:py-28"
     >
       <div className="mx-auto max-w-6xl px-4 lg:px-8">
-        <div className="mx-auto mb-14 max-w-2xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+        <div className="mb-14">
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             {t("sectionLabel")}
           </p>
-          <h2 className="mt-3 text-3xl font-extrabold text-foreground font-serif text-balance lg:text-4xl">
+          <h2 className="mt-3 text-3xl font-medium text-foreground font-serif text-balance lg:text-4xl">
             {t("title")}
           </h2>
-          <p className="mt-4 text-muted-foreground leading-relaxed lg:text-lg">
+          <p className="mt-4 max-w-2xl text-muted-foreground leading-relaxed lg:text-lg">
             {t("description")}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 max-w-4xl">
           {plans.map((plan, planIndex) => (
             <Card
               key={plan.name}
               className={cn(
-                "rounded-2xl transition-shadow",
+                "rounded-2xl bg-transparent",
                 plan.highlighted
-                  ? "border-2 border-primary shadow-md relative"
-                  : "border-0 shadow-sm"
+                  ? "border-2 border-primary relative"
+                  : "border border-border"
               )}
             >
               {plan.highlighted && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                  <span className="rounded-full bg-primary px-4 py-1 text-xs font-semibold text-primary-foreground">
+                <div className="absolute -top-3.5 left-6">
+                  <span className="rounded-full bg-primary px-4 py-1 text-xs font-medium text-primary-foreground">
                     {t("recommended")}
                   </span>
                 </div>
               )}
               <CardContent className="p-6 lg:p-8 flex flex-col h-full">
                 <div>
-                  <h3 className="text-lg font-bold text-foreground font-serif">
+                  <h3 className="text-lg font-medium text-foreground font-serif">
                     {plan.name}
                   </h3>
                   <div className="mt-3 flex items-baseline gap-1">
-                    <span className="text-4xl font-extrabold text-foreground font-serif">
+                    <span className="text-4xl font-medium text-foreground font-serif">
                       {plan.price}
                     </span>
                     <span className="text-sm text-muted-foreground">
@@ -676,7 +665,7 @@ function Pricing() {
 
                 <Button
                   className={cn(
-                    "mt-8 w-full rounded-xl h-11 font-semibold",
+                    "mt-8 w-full rounded-full h-11 font-medium",
                     plan.highlighted ? "" : "bg-transparent"
                   )}
                   variant={plan.highlighted ? "default" : "outline"}
@@ -699,19 +688,19 @@ function FinalCta() {
   const t = useTranslations("landing.finalCta");
 
   return (
-    <section className="py-20 lg:py-28">
+    <section className="border-t border-border py-20 lg:py-28">
       <div className="mx-auto max-w-6xl px-4 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-extrabold text-foreground font-serif text-balance lg:text-4xl">
+        <div>
+          <h2 className="text-3xl font-medium text-foreground font-serif text-balance lg:text-4xl">
             {t("title")}
           </h2>
-          <p className="mt-4 text-muted-foreground leading-relaxed lg:text-lg">
+          <p className="mt-4 max-w-2xl text-muted-foreground leading-relaxed lg:text-lg">
             {t("description")}
           </p>
           <div className="mt-8">
             <Button
               size="lg"
-              className="h-12 rounded-xl px-8 text-base font-semibold gap-2"
+              className="h-12 rounded-full px-8 text-base font-medium gap-2"
               asChild
             >
               <Link href={`/test/${HERO_TEST_ID}`}>
@@ -763,7 +752,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="border-t border-border/60 bg-card">
+    <footer className="border-t border-border">
       <div className="mx-auto max-w-6xl px-4 py-12 lg:px-8 lg:py-16">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
@@ -771,7 +760,7 @@ export function Footer() {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
                 <Archive className="h-4 w-4 text-primary-foreground" />
               </div>
-              <span className="text-base font-bold text-foreground font-serif">
+              <span className="text-base font-medium text-foreground font-serif">
                 {tc("theVault")}
               </span>
             </Link>
@@ -782,7 +771,7 @@ export function Footer() {
 
           {footerColumns.map((col) => (
             <div key={col.title}>
-              <p className="text-sm font-semibold text-foreground">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 {col.title}
               </p>
               <nav className="mt-3 flex flex-col gap-2.5">
@@ -800,7 +789,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border/60 pt-8 md:flex-row">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
           <p className="text-xs text-muted-foreground">{t("copyright")}</p>
           <div className="flex items-center gap-6">
             <Link

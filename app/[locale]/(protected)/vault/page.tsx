@@ -145,19 +145,19 @@ function VaultContent() {
         <TabsList className="rounded-xl bg-muted/60 p-1 h-auto">
           <TabsTrigger
             value="results"
-            className="rounded-lg px-4 py-2 text-sm font-semibold data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+            className="rounded-lg px-4 py-2 text-sm font-semibold data-[state=active]:bg-card data-[state=active]:text-foreground"
           >
             {t("testResults")}
           </TabsTrigger>
           <TabsTrigger
             value="collections"
-            className="rounded-lg px-4 py-2 text-sm font-semibold data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+            className="rounded-lg px-4 py-2 text-sm font-semibold data-[state=active]:bg-card data-[state=active]:text-foreground"
           >
             {t("collectionsTab")}
           </TabsTrigger>
           <TabsTrigger
             value="reports"
-            className="rounded-lg px-4 py-2 text-sm font-semibold data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+            className="rounded-lg px-4 py-2 text-sm font-semibold data-[state=active]:bg-card data-[state=active]:text-foreground"
           >
             {t("reportsTab")}
           </TabsTrigger>

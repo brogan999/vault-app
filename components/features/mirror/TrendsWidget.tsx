@@ -58,7 +58,7 @@ export function TrendsWidget() {
 
   if (loading) {
     return (
-      <Card className="border-0 shadow-sm rounded-2xl">
+      <Card className="border-0 rounded-2xl">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg font-serif">{t("title")}</CardTitle>
           <CardDescription>{t("loadingDescription")}</CardDescription>
@@ -72,7 +72,7 @@ export function TrendsWidget() {
 
   if (snapshots.length < 2) {
     return (
-      <Card className="border-0 shadow-sm rounded-2xl">
+      <Card className="border-0 rounded-2xl">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg font-serif">{t("title")}</CardTitle>
           <CardDescription>
@@ -106,7 +106,7 @@ export function TrendsWidget() {
 
   if (chartData.length < 2) {
     return (
-      <Card className="border-0 shadow-sm rounded-2xl">
+      <Card className="border-0 rounded-2xl">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg font-serif">{t("title")}</CardTitle>
           <CardDescription>{t("needMore")}</CardDescription>
@@ -116,7 +116,7 @@ export function TrendsWidget() {
   }
 
   return (
-    <Card className="border-0 shadow-sm rounded-2xl">
+    <Card className="border-0 rounded-2xl">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg font-serif">{t("title")}</CardTitle>
         <CardDescription>

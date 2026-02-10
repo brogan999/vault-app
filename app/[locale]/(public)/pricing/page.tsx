@@ -87,10 +87,10 @@ export default function PricingPage() {
             <Card
               key={plan.name}
               className={cn(
-                "rounded-2xl transition-shadow",
+                "rounded-2xl",
                 plan.highlighted
-                  ? "border-2 border-primary shadow-md relative"
-                  : "border-0 shadow-sm"
+                  ? "border-2 border-primary relative"
+                  : "border-0"
               )}
             >
               {plan.highlighted && (

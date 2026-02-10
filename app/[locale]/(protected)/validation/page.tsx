@@ -20,7 +20,7 @@ export default async function ValidationPage() {
       </div>
 
       {metrics.length === 0 ? (
-        <Card className="border-0 shadow-sm rounded-2xl">
+        <Card className="border-0 rounded-2xl">
           <CardHeader>
             <CardTitle className="text-base">No metrics yet</CardTitle>
             <CardDescription>
@@ -29,7 +29,7 @@ export default async function ValidationPage() {
           </CardHeader>
         </Card>
       ) : (
-        <Card className="border-0 shadow-sm rounded-2xl">
+        <Card className="border-0 rounded-2xl">
           <CardHeader>
             <CardTitle className="text-base">Stored metrics</CardTitle>
             <CardDescription>

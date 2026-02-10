@@ -192,7 +192,7 @@ export function MessageThread({
             if (isLimit) {
               const isDaily = msg === "daily_limit";
               return (
-                <div className="rounded-2xl border border-border bg-card px-5 py-5 text-sm shadow-sm">
+                <div className="rounded-2xl border border-border bg-card px-5 py-5 text-sm">
                   <div className="flex items-start gap-3">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500/10">
                       {isDaily ? (

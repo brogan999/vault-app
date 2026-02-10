@@ -130,7 +130,7 @@ export default function BundlePage() {
               return (
               <Card
                 key={product.id}
-                className="border-0 shadow-sm rounded-2xl hover:shadow-md transition-shadow"
+                className="border-0 rounded-2xl"
               >
                 <CardContent className="p-4">
                   <div className="flex items-start gap-3">
@@ -188,7 +188,7 @@ export default function BundlePage() {
         </div>
 
         {/* Bottom CTA */}
-        <Card className="mt-10 border-0 shadow-sm rounded-2xl overflow-hidden bg-primary">
+        <Card className="mt-10 border-0 rounded-2xl overflow-hidden bg-primary">
           <CardHeader className="text-center pb-2">
             <h2 className="text-lg font-bold text-primary-foreground font-serif">
               Ready to unlock your full potential?

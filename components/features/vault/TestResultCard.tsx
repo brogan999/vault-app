@@ -31,7 +31,7 @@ export function TestResultCard({ result }: { result: TestResult }) {
   return (
     <Link href={`/test/${result.testId}/results/${result.id}`}>
       <Card
-        className="group h-full border-0 shadow-sm rounded-2xl hover:shadow-md transition-all cursor-pointer overflow-hidden"
+        className="group h-full border-0 rounded-2xl transition-all cursor-pointer overflow-hidden"
         style={{ backgroundColor: cardBg }}
       >
         <CardContent className="p-4 flex flex-col h-full">

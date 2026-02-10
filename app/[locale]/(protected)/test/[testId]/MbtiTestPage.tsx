@@ -355,7 +355,7 @@ export function MbtiTestPage({ testId }: MbtiTestPageProps) {
             e.preventDefault();
             handleSubmit();
           }}
-          className="mt-16 rounded-2xl border border-border/60 bg-card p-6 shadow-sm space-y-6"
+          className="mt-16 rounded-2xl border border-border/60 bg-card p-6 space-y-6"
         >
           <div className="space-y-2">
             <Label

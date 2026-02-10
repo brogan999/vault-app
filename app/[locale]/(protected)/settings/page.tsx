@@ -57,7 +57,7 @@ function AccountSignOutButton() {
 
 export default function SettingsPage() {
   const t = useTranslations("settings");
-  const { theme, palette, setTheme, setPalette } = useThemeStore();
+  const { theme, setTheme } = useThemeStore();
   const [personaPreference, setPersonaPreference] = useState<string>("balanced");
   const [checkinEnabled, setCheckinEnabled] = useState(false);
   const [checkinCadence, setCheckinCadence] = useState("weekly");
@@ -82,15 +82,6 @@ export default function SettingsPage() {
   const [creditSummary, setCreditSummary] = useState<MessageCreditSummary | null>(null);
   const [purchases, setPurchases] = useState<{ id: string; productName: string; amountPaid: number; createdAt: string; status: string }[]>([]);
   const [topUpLoading, setTopUpLoading] = useState(false);
-
-  const colorPalettes = [
-    { value: "emerald", label: t("appearance.emerald"), swatch: ["#faf9f6", "#0c8d62", "#1a7a56", "#0d5f42"] },
-    { value: "neutral", label: t("appearance.neutral"), swatch: ["#f5f5f4", "#a8a29e", "#57534e", "#292524"] },
-    { value: "muddy", label: t("appearance.muddy"), swatch: ["#e7e0d6", "#a39682", "#6b5c4d", "#3d3228"] },
-    { value: "neon", label: t("appearance.neon"), swatch: ["#ecfccb", "#84cc16", "#22c55e", "#06b6d4"] },
-    { value: "jewel", label: t("appearance.jewel"), swatch: ["#fef3c7", "#f59e0b", "#dc2626", "#7c3aed"] },
-    { value: "pastel", label: t("appearance.pastel"), swatch: ["#fce7f3", "#c4b5fd", "#93c5fd", "#a7f3d0"] },
-  ];
 
   const personas = [
     { id: "balanced", label: t("aiPersona.balanced"), description: t("aiPersona.balancedDesc"), icon: Compass },
@@ -140,14 +131,8 @@ export default function SettingsPage() {
 
   const handleThemeChange = async (newTheme: "light" | "dark") => {
     setTheme(newTheme);
-    const result = await updateThemePreference(`${newTheme}-${palette}`);
+    const result = await updateThemePreference(newTheme);
     if (!result.success) console.error("Error updating theme:", result.error);
-  };
-
-  const handlePaletteChange = async (newPalette: string) => {
-    setPalette(newPalette as any);
-    const result = await updateThemePreference(`${theme}-${newPalette}`);
-    if (!result.success) console.error("Error updating palette:", result.error);
   };
 
   const handlePersonaChange = async (persona: string) => {
@@ -177,7 +162,7 @@ export default function SettingsPage() {
       {/* Settings sections */}
       <div className="flex flex-col gap-6">
         {/* AI Persona */}
-        <Card className="border-0 shadow-sm rounded-2xl">
+        <Card className="border-0 rounded-2xl">
           <CardHeader>
             <CardTitle className="text-base font-bold font-serif">
               {t("aiPersona.title")}
@@ -217,7 +202,7 @@ export default function SettingsPage() {
         </Card>
 
         {/* Appearance */}
-        <Card className="border-0 shadow-sm rounded-2xl">
+        <Card className="border-0 rounded-2xl">
           <CardHeader>
             <CardTitle className="text-base font-bold font-serif">
               {t("appearance.title")}
@@ -258,48 +243,6 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            {/* Color palette */}
-            <div>
-              <label className="text-sm font-semibold text-foreground mb-3 block">
-                {t("appearance.colorPalette")}
-              </label>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-                {colorPalettes.map((p) => {
-                  const isActive = palette === p.value;
-                  return (
-                    <button
-                      key={p.value}
-                      type="button"
-                      onClick={() => handlePaletteChange(p.value)}
-                      className={cn(
-                        "flex flex-col items-center gap-2 rounded-xl border-2 px-3 py-3 transition-all",
-                        isActive
-                          ? "border-primary bg-primary/5"
-                          : "border-border bg-card hover:border-primary/40"
-                      )}
-                    >
-                      <div className="flex gap-1">
-                        {p.swatch.map((color) => (
-                          <span
-                            key={color}
-                            className="block h-5 w-5 rounded-full border border-border/50"
-                            style={{ backgroundColor: color }}
-                          />
-                        ))}
-                      </div>
-                      <span
-                        className={cn(
-                          "text-xs font-semibold",
-                          isActive ? "text-primary" : "text-foreground"
-                        )}
-                      >
-                        {p.label}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
             {/* Language */}
             <div>
               <label className="text-sm font-semibold text-foreground mb-2 block">
@@ -311,7 +254,7 @@ export default function SettingsPage() {
         </Card>
 
         {/* Birth data (for esoteric frameworks) */}
-        <Card className="border-0 shadow-sm rounded-2xl">
+        <Card className="border-0 rounded-2xl">
           <CardHeader>
             <CardTitle className="text-base font-bold font-serif">
               {t("birthData.title")}
@@ -418,7 +361,7 @@ export default function SettingsPage() {
         </Card>
 
         {/* Billing & credits */}
-        <Card className="border-0 shadow-sm rounded-2xl">
+        <Card className="border-0 rounded-2xl">
           <CardHeader>
             <CardTitle className="text-base font-bold font-serif flex items-center gap-2">
               <CreditCard className="h-4 w-4" />
@@ -517,7 +460,7 @@ export default function SettingsPage() {
         </Card>
 
         {/* Proactive Check-ins */}
-        <Card className="border-0 shadow-sm rounded-2xl">
+        <Card className="border-0 rounded-2xl">
           <CardHeader>
             <CardTitle className="text-base font-bold font-serif">
               {t("checkins.title")}
@@ -609,7 +552,7 @@ export default function SettingsPage() {
         </Card>
 
         {/* Account */}
-        <Card className="border-0 shadow-sm rounded-2xl">
+        <Card className="border-0 rounded-2xl">
           <CardHeader>
             <CardTitle className="text-base font-bold font-serif">
               {t("account.title")}

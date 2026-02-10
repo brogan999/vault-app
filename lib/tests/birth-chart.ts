@@ -28,7 +28,7 @@ const ELEMENTS: Record<string, string> = {
 
 export const birthChartTest: TestDefinition = {
   id: "birth-chart",
-  title: "Birth Chart Analysis",
+  title: "Western astrology",
   subtitle: "Generate your natal chart from your birth details",
   dimensions: [...dimensions],
   scoringMethod: "data-input",

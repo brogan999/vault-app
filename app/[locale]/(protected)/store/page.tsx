@@ -118,7 +118,7 @@ function StoreContent() {
 
       {/* Featured Bundle Banner */}
       <section className="mb-8" aria-label="Featured bundle">
-        <Card className="border-0 shadow-sm rounded-2xl overflow-hidden bg-primary">
+        <Card className="border-0 rounded-2xl overflow-hidden bg-primary">
           <CardContent className="p-0">
             <div className="flex flex-col gap-6 p-6 lg:flex-row lg:items-center lg:justify-between lg:p-8">
               <div className="flex items-start gap-4 lg:items-center">
@@ -235,7 +235,7 @@ function StoreContent() {
               return (
                 <Link key={product.id} href={`/test/${product.id}`} className="block">
                 <Card
-                  className={`group border-0 shadow-sm rounded-2xl hover:shadow-md transition-all cursor-pointer relative overflow-hidden ${
+                  className={`group border-0 rounded-2xl transition-all cursor-pointer relative overflow-hidden ${
                     product.featured ? "ring-2 ring-primary/20" : ""
                   }`}
                 >
@@ -379,7 +379,7 @@ function StoreContent() {
 
       {/* Purchase History */}
       {purchases.length > 0 && (
-        <Card className="border-0 shadow-sm rounded-2xl mb-6">
+        <Card className="border-0 rounded-2xl mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-lg font-serif">
               <Package className="h-5 w-5" />

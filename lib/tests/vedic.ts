@@ -13,7 +13,7 @@ const dimensions = [
 
 export const vedicTest: TestDefinition = {
   id: "vedic",
-  title: "Vedic Astrology",
+  title: "Vedic astrology",
   subtitle: "Enter your birth details for a simplified Vedic chart (Jyotish)",
   dimensions: [...dimensions],
   scoringMethod: "data-input",

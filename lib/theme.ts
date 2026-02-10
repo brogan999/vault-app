@@ -21,7 +21,7 @@ interface PaletteColors {
   chart2: string;
 }
 
-/** Black, white, gray only — no accent hue. */
+/** Vault design system — dark-first, minimalist. */
 const defaultPalette: { light: PaletteColors; dark: PaletteColors } = {
   light: {
     primary: "#171717",
@@ -44,44 +44,44 @@ const defaultPalette: { light: PaletteColors; dark: PaletteColors } = {
     chart2: "#525252",
   },
   dark: {
-    primary: "#fafafa",
-    primaryForeground: "#0a0a0a",
-    secondary: "#262626",
-    secondaryForeground: "#fafafa",
-    accent: "#262626",
-    accentForeground: "#fafafa",
-    muted: "#262626",
-    mutedForeground: "#a3a3a3",
-    card: "#0a0a0a",
-    cardForeground: "#fafafa",
-    border: "#404040",
-    ring: "#fafafa",
-    sidebarPrimary: "#fafafa",
-    sidebarPrimaryForeground: "#0a0a0a",
-    sidebarAccent: "#262626",
-    sidebarAccentForeground: "#fafafa",
-    chart1: "#737373",
-    chart2: "#a3a3a3",
+    primary: "#EEECE8",
+    primaryForeground: "#000000",
+    secondary: "#181818",
+    secondaryForeground: "#EEECE8",
+    accent: "#181818",
+    accentForeground: "#EEECE8",
+    muted: "#181818",
+    mutedForeground: "#8F8E8B",
+    card: "#000000",
+    cardForeground: "#EEECE8",
+    border: "rgba(255, 255, 255, 0.1)",
+    ring: "#EEECE8",
+    sidebarPrimary: "#EEECE8",
+    sidebarPrimaryForeground: "#000000",
+    sidebarAccent: "#181818",
+    sidebarAccentForeground: "#EEECE8",
+    chart1: "#328181",
+    chart2: "#C7A356",
   },
 };
 
-/** Category colors: gray only for Mirror/Vault. */
+/** Category colors: minimalist palette for Mirror/Vault. */
 const categoryColorsByTheme: Record<Theme, Record<string, { color: string; bgColor: string; cardBg: string }>> = {
   light: {
-    personality: { color: "#525252", bgColor: "#f5f5f5", cardBg: "#404040" },
-    intelligence: { color: "#525252", bgColor: "#f5f5f5", cardBg: "#404040" },
-    strengths: { color: "#525252", bgColor: "#f5f5f5", cardBg: "#404040" },
-    wellness: { color: "#525252", bgColor: "#f5f5f5", cardBg: "#404040" },
-    astrology: { color: "#525252", bgColor: "#f5f5f5", cardBg: "#404040" },
-    career: { color: "#525252", bgColor: "#f5f5f5", cardBg: "#404040" },
+    personality: { color: "#525252", bgColor: "#f5f5f5", cardBg: "#e5e5e5" },
+    intelligence: { color: "#525252", bgColor: "#f5f5f5", cardBg: "#e5e5e5" },
+    strengths: { color: "#525252", bgColor: "#f5f5f5", cardBg: "#e5e5e5" },
+    wellness: { color: "#525252", bgColor: "#f5f5f5", cardBg: "#e5e5e5" },
+    astrology: { color: "#525252", bgColor: "#f5f5f5", cardBg: "#e5e5e5" },
+    career: { color: "#525252", bgColor: "#f5f5f5", cardBg: "#e5e5e5" },
   },
   dark: {
-    personality: { color: "#a3a3a3", bgColor: "#262626", cardBg: "#404040" },
-    intelligence: { color: "#a3a3a3", bgColor: "#262626", cardBg: "#404040" },
-    strengths: { color: "#a3a3a3", bgColor: "#262626", cardBg: "#404040" },
-    wellness: { color: "#a3a3a3", bgColor: "#262626", cardBg: "#404040" },
-    astrology: { color: "#a3a3a3", bgColor: "#262626", cardBg: "#404040" },
-    career: { color: "#a3a3a3", bgColor: "#262626", cardBg: "#404040" },
+    personality: { color: "#8F8E8B", bgColor: "#181818", cardBg: "#181818" },
+    intelligence: { color: "#8F8E8B", bgColor: "#181818", cardBg: "#181818" },
+    strengths: { color: "#8F8E8B", bgColor: "#181818", cardBg: "#181818" },
+    wellness: { color: "#8F8E8B", bgColor: "#181818", cardBg: "#181818" },
+    astrology: { color: "#8F8E8B", bgColor: "#181818", cardBg: "#181818" },
+    career: { color: "#8F8E8B", bgColor: "#181818", cardBg: "#181818" },
   },
 };
 

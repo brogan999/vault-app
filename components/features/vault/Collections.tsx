@@ -24,7 +24,7 @@ export function Collections() {
       {collections.map((collection) => (
         <Link key={collection.id} href="/store">
         <Card
-          className="group border-0 shadow-sm rounded-2xl hover:shadow-md transition-shadow cursor-pointer"
+          className="group border-0 rounded-2xl transition-shadow cursor-pointer"
         >
           <CardContent className="p-5">
             <div className="flex items-start gap-4">

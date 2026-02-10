@@ -61,7 +61,7 @@ export function ChatInput({
             e.preventDefault();
             handleSubmit();
           }}
-          className="flex items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-ring transition-shadow"
+          className="flex items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2 focus-within:ring-1 focus-within:ring-ring transition-shadow"
         >
           {/* Voice button */}
           <button

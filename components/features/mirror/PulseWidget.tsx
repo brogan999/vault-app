@@ -39,7 +39,7 @@ export function PulseWidget({ journals = [] }: PulseWidgetProps) {
   });
 
   return (
-    <Card className="border-0 shadow-sm rounded-2xl">
+    <Card className="border-0 rounded-2xl">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg font-serif">{t("title")}</CardTitle>
         <CardDescription>{t("description")}</CardDescription>

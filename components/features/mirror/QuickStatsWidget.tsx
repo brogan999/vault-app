@@ -30,7 +30,7 @@ export function QuickStatsWidget({
   return (
     <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
       {stats.map((stat) => (
-        <Card key={stat.label} className="border-0 shadow-sm rounded-2xl">
+        <Card key={stat.label} className="border-0 rounded-2xl">
           <CardContent className="p-4 flex items-center gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-muted">
               <stat.icon className="h-5 w-5 text-foreground" />

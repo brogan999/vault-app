@@ -58,7 +58,7 @@ export function MoodTimeline({ moods }: MoodTimelineProps) {
 
   if (moods.length === 0) {
     return (
-      <Card className="border-0 shadow-sm rounded-2xl">
+      <Card className="border-0 rounded-2xl">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg font-serif">{t("title")}</CardTitle>
           <CardDescription>{t("description")}</CardDescription>
@@ -100,7 +100,7 @@ export function MoodTimeline({ moods }: MoodTimelineProps) {
   const avgRounded = Math.round(avg);
 
   return (
-    <Card className="border-0 shadow-sm rounded-2xl">
+    <Card className="border-0 rounded-2xl">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div>
@@ -149,7 +149,7 @@ export function MoodTimeline({ moods }: MoodTimelineProps) {
                   if (!active || !payload?.[0]) return null;
                   const d = payload[0].payload;
                   return (
-                    <div className="rounded-lg border border-border bg-card px-3 py-2 shadow-md">
+                    <div className="rounded-lg border border-border bg-card px-3 py-2">
                       <p className="text-xs text-muted-foreground">{d.label}</p>
                       <p className="text-sm font-semibold">
                         {VALUE_TO_EMOJI[d.value]} {VALUE_TO_LABEL[d.value]}

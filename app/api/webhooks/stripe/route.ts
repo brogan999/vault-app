@@ -13,7 +13,7 @@ const ROLLOVER_CAP = 100;
 
 function getProductName(priceId: string): string {
   const map: Record<string, string> = {
-    [process.env.NEXT_PUBLIC_STRIPE_DEEP_VEDIC_PRICE_ID || ""]: "Deep Dive Vedic Astrology Analysis",
+    [process.env.NEXT_PUBLIC_STRIPE_DEEP_VEDIC_PRICE_ID || ""]: "Deep dive Vedic astrology analysis",
     [process.env.NEXT_PUBLIC_STRIPE_SCHEMA_PRICE_ID || ""]: "Schema Activation Analysis",
   };
   return map[priceId] || "One-off Purchase";

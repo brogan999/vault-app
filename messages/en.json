@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "title": "The Vault — Know Yourself Deeper",
+    "title": "The Vault — Know yourself deeper",
     "description": "Personality tests, voice journals, IQ assessments, and an AI that knows your data. All in one secure, private vault."
   },
   "common": {
@@ -17,13 +17,13 @@
     "free": "Free",
     "popular": "Popular",
     "purchased": "Purchased",
-    "comingSoon": "Coming Soon"
+    "comingSoon": "Coming soon"
   },
   "nav": {
-    "mirror": "Mirror",
+    "mirror": "Your results",
     "vault": "Vault",
     "chat": "Chat",
-    "store": "Store",
+    "store": "Assessments",
     "settings": "Settings",
     "account": "Account",
     "manageSettings": "Manage settings",
@@ -32,23 +32,23 @@
   },
   "landing": {
     "navbar": {
-      "ourFramework": "Our Framework",
+      "ourFramework": "Our framework",
       "features": "Features",
       "testimonials": "Testimonials",
       "pricing": "Pricing",
-      "logIn": "Log In",
-      "getStartedFree": "Get Started Free",
+      "logIn": "Log in",
+      "getStartedFree": "Get started free",
       "openMenu": "Open menu",
       "closeMenu": "Close menu",
       "language": "Language",
-      "themeAndColour": "Theme & colour"
+      "themeAndColour": "Theme"
     },
     "hero": {
       "badge": "AI-powered self-discovery",
       "title": "Finally understand who you really are",
       "description": "Personality tests, voice journals, IQ assessments, and an AI that knows your data. All in one secure, private vault.",
-      "cta": "Take the Free Test",
-      "secondaryCta": "See How It Works",
+      "cta": "Take the free test",
+      "secondaryCta": "See how it works",
       "disclaimer": "No credit card required. Takes under 10 minutes."
     },
     "socialProof": {
@@ -66,38 +66,38 @@
       "sectionLabel": "Everything you need",
       "title": "One place for your entire inner world",
       "description": "Tests, journals, AI chat, and secure storage — designed to work together so you can truly understand yourself.",
-      "personalityTests": "Personality Tests",
+      "personalityTests": "Personality tests",
       "personalityTestsDesc": "Big 5, Enneagram, Personality Type, and more. Scientifically grounded assessments that reveal your core personality traits.",
-      "aiTherapistChat": "AI Therapist Chat",
+      "aiTherapistChat": "AI therapist chat",
       "aiTherapistChatDesc": "An AI that reads your personality data, journals, and test results to give deeply personalized guidance.",
-      "secureFileVault": "Secure File Vault",
+      "secureFileVault": "Secure file vault",
       "secureFileVaultDesc": "Upload test results, PDFs, voice notes, and images. Everything organized by category, all in one place.",
-      "voiceJournals": "Voice Journals",
+      "voiceJournals": "Voice journals",
       "voiceJournalsDesc": "Record reflections and mood check-ins with your voice. AI transcribes and analyzes patterns over time.",
-      "growthTracking": "Growth Tracking",
+      "growthTracking": "Growth tracking",
       "growthTrackingDesc": "Watch your personality evolve with trend charts, mood graphs, and monthly growth reports.",
-      "privateByDefault": "Private by Default",
+      "privateByDefault": "Private by default",
       "privateByDefaultDesc": "Your psychological data never leaves your vault. End-to-end encryption and zero third-party sharing."
     },
     "showcase": {
-      "big5Results": "Your Big 5 Results",
+      "big5Results": "Your Big 5 results",
       "openness": "Openness",
       "conscientiousness": "Conscientiousness",
       "extraversion": "Extraversion",
       "agreeableness": "Agreeableness",
       "neuroticism": "Neuroticism",
-      "aiConversation": "AI Conversation",
+      "aiConversation": "AI conversation",
       "sampleQuestion": "Why do I shut down during conflict?",
       "sampleAnswer1": "Based on your Big 5 profile, your high agreeableness (74%) combined with lower extraversion (45%) means you naturally prioritize harmony. Your Enneagram Type 9 results confirm a pattern of conflict avoidance rooted in a desire for inner peace.",
       "sampleAnswer2": "This is not a flaw — it is a deeply adaptive trait. The growth edge is learning to stay present in discomfort.",
-      "personalityTestsLabel": "Personality Tests",
+      "personalityTestsLabel": "Personality tests",
       "personalityTestsTitle": "Understand others by first understanding yourself",
       "personalityTestsDescription": "In our free type descriptions you will learn what really drives, inspires, and worries different personality types, helping you build more meaningful relationships.",
-      "takeTheTest": "Take the Test",
+      "takeTheTest": "Take the test",
       "aiChatLabel": "AI Chat",
       "aiChatTitle": "An AI that actually knows you",
       "aiChatDescription": "Your Vault documents are automatically used as context. Ask anything about your personality data, test results, or journal entries and get deeply personal answers.",
-      "startConversation": "Start a Conversation"
+      "startConversation": "Start a conversation"
     },
     "testimonials": {
       "sectionLabel": "Testimonials",
@@ -117,7 +117,7 @@
       "freeFeature3": "Vault file storage (50MB)",
       "freeFeature4": "Mood journal (5 entries/week)",
       "freeFeature5": "Shareable result cards",
-      "freeCta": "Get Started Free",
+      "freeCta": "Get started free",
       "proPlan": "Pro",
       "proPrice": "$14.99",
       "proPeriod": "/month",
@@ -134,63 +134,63 @@
       "proFeature6": "Growth trend reports",
       "proFeature7": "10GB vault, proactive check-ins",
       "proFeature8": "Cross-framework dashboard, export all data",
-      "proCta": "Start 7-Day Free Trial",
+      "proCta": "Start 7-day free trial",
       "premiumReportsBlurb": "Premium reports: buy individual reports without subscribing, from $9.99.",
       "topUpsBlurb": "Pro users can buy extra Mirror messages: 50 for $2.99, 100 for $4.99, 250 for $9.99."
     },
     "finalCta": {
       "title": "Curious how accurate we are about you?",
       "description": "Take the free personality test and see your results in under 10 minutes. No sign-up required to start.",
-      "cta": "Take the Test"
+      "cta": "Take the test"
     },
     "footer": {
       "tagline": "Know yourself deeper. AI-powered personality insights and secure data storage.",
       "products": "Products",
-      "premiumAssessments": "Premium Assessments",
+      "premiumAssessments": "Premium assessments",
       "aiChat": "AI Chat",
-      "voiceJournals": "Voice Journals",
+      "voiceJournals": "Voice journals",
       "testimonials": "Testimonials",
       "resources": "Resources",
-      "personalityTest": "Personality Test",
-      "personalityTypes": "Personality Types",
+      "personalityTest": "Personality test",
+      "personalityTypes": "Personality types",
       "articles": "Articles",
-      "ourFramework": "Our Framework",
+      "ourFramework": "Our framework",
       "help": "Help",
-      "contactUs": "Contact Us",
+      "contactUs": "Contact us",
       "faq": "FAQ",
-      "knowledgeBase": "Knowledge Base",
-      "privacyPolicy": "Privacy Policy",
-      "termsAndConditions": "Terms & Conditions",
+      "knowledgeBase": "Knowledge base",
+      "privacyPolicy": "Privacy policy",
+      "termsAndConditions": "Terms & conditions",
       "copyright": "2024-2026 The Vault. All rights reserved."
     },
     "storeNote": "Also available: One-off deep-dive analyses in The Store",
-    "browseStore": "Browse The Store"
+    "browseStore": "Browse the Store"
   },
   "mirror": {
     "greeting": "Good morning",
-    "description": "Here is your personality mirror for today.",
+    "description": "Your results, journals, and insights in one place.",
     "upgradeCta": "Get all assessments",
     "upgradeCtaDescription": "Unlock the full suite of premium tests in the Store.",
-    "personalitySnapshot": "Personality Snapshot",
+    "personalitySnapshot": "Personality snapshot",
     "personalitySnapshotDescription": "Your five core traits from your latest Big 5 test. Take the test in the Store to fill this in.",
     "testSnapshot": {
       "sectionLabel": "Test results snapshot",
-      "title": "Your Tests",
+      "title": "Your tests",
       "description": "A snapshot of all your assessments. Complete any test to see your result here.",
       "completePrompt": "You haven't completed this test yet.",
       "completeCta": "Complete the test now",
       "noTestsInCategory": "No tests in this category."
     },
     "quickStats": {
-      "testsCompleted": "Tests Completed",
-      "journalEntries": "Journal Entries",
-      "aiConversations": "AI Conversations",
+      "testsCompleted": "Tests completed",
+      "journalEntries": "Journal entries",
+      "aiConversations": "AI conversations",
       "streak": "Streak"
     },
     "dailyBrief": {
-      "title": "Daily Brief",
+      "title": "Daily brief",
       "personalizedInsights": "Personalized insights for today",
-      "todaysInsight": "Today's Insight",
+      "todaysInsight": "Today's insight",
       "emptyState": "Upload some data and start journaling to get your personalized daily brief."
     },
     "personality": {
@@ -206,9 +206,9 @@
       "neuroticismDesc": "Emotionally stable, calm under pressure"
     },
     "constellation": {
-      "title": "Big 5 Personality",
+      "title": "Big 5 personality",
       "emptyState": "Take the Big 5 test in the Store to see your radar chart here.",
-      "description": "Your five traits at a glance — same data as your Personality Snapshot, shown as a chart.",
+      "description": "Your five traits at a glance — same data as your Personality snapshot, shown as a chart.",
       "score": "Score",
       "trait": "Trait",
       "openness": "Openness",
@@ -218,7 +218,7 @@
       "neuroticism": "Neuroticism"
     },
     "trends": {
-      "title": "Growth Trends",
+      "title": "Growth trends",
       "description": "See how your Big 5 traits change over time. Take the Big 5 test every few months to build this chart.",
       "loadingDescription": "Loading trait data...",
       "emptyState": "Take the Big 5 test in the Store. Retake it in a few months to see how your traits evolve.",
@@ -227,7 +227,7 @@
       "evolution": "Trait evolution over {count} snapshots"
     },
     "journal": {
-      "title": "Mood & Journal",
+      "title": "Mood & journal",
       "howFeeling": "How are you feeling right now?",
       "great": "Great",
       "good": "Good",
@@ -236,13 +236,13 @@
       "tough": "Tough",
       "cancel": "Cancel",
       "save": "Save",
-      "writeEntry": "Write Entry",
-      "voiceNote": "Voice Note",
+      "writeEntry": "Write entry",
+      "voiceNote": "Voice note",
       "writePlaceholder": "What's on your mind today?",
       "taggedMood": "Tagged mood",
-      "recentEntries": "Recent Entries",
+      "recentEntries": "Recent entries",
       "noEntries": "No entries yet. Tap a mood or write your first journal entry!",
-      "viewAllEntries": "View All Entries"
+      "viewAllEntries": "View all entries"
     },
     "engagement": {
       "title": "Engagement",
@@ -252,13 +252,13 @@
       "more": "More"
     },
     "moodTimeline": {
-      "title": "Mood Over Time",
+      "title": "Mood over time",
       "description": "How you've been feeling across journal entries",
       "emptyState": "Start logging your mood with journal entries to see your emotional patterns over time.",
       "avgMood": "avg. mood"
     },
     "growth": {
-      "title": "Growth Momentum",
+      "title": "Growth momentum",
       "description": "How consistently you're showing up for self-discovery",
       "currentStreak": "Current streak",
       "best": "Best",
@@ -275,13 +275,13 @@
   "vault": {
     "title": "The Vault",
     "description": "Upload and manage your psychological data",
-    "testResults": "Test Results",
+    "testResults": "Test results",
     "collectionsTab": "Collections",
-    "reportsTab": "My Reports",
+    "reportsTab": "My reports",
     "profiles": "Profiles",
-    "discoverMore": "Discover More",
+    "discoverMore": "Discover more",
     "assessmentProgress": "You have completed {count} out of {total} available assessments. Take another test to unlock deeper self-knowledge.",
-    "browseTests": "Browse Tests",
+    "browseTests": "Browse tests",
     "dropZone": {
       "dragAndDrop": "Drag & drop files here",
       "orClickToBrowse": "or click to browse (PDF, Text, Audio, Images)",
@@ -304,7 +304,7 @@
     },
     "documentDetail": {
       "document": "Document",
-      "voiceJournal": "Voice Journal",
+      "voiceJournal": "Voice journal",
       "personality": "Personality",
       "intelligence": "Intelligence",
       "strengths": "Strengths",
@@ -316,18 +316,18 @@
       "openOriginalFile": "Open original file"
     },
     "stats": {
-      "totalResults": "Total Results",
-      "testsAvailable": "Tests Available",
-      "savedProfiles": "Saved Profiles",
-      "lastTaken": "Last Taken"
+      "totalResults": "Total results",
+      "testsAvailable": "Tests available",
+      "savedProfiles": "Saved profiles",
+      "lastTaken": "Last taken"
     },
     "savedProfiles": {
-      "title": "Saved Profiles",
-      "viewAll": "View All",
+      "title": "Saved profiles",
+      "viewAll": "View all",
       "empty": "No saved profiles yet. Save other people's personality types here for quick reference (coming soon)."
     },
     "recentActivity": {
-      "title": "Recent Activity",
+      "title": "Recent activity",
       "subtitle": "Your latest actions in The Vault",
       "empty": "No activity yet. Complete an assessment to see it here."
     },
@@ -340,8 +340,8 @@
   "chat": {
     "openHistory": "Open chat history",
     "closeHistory": "Close chat history",
-    "shieldOn": "Shield On",
-    "shieldOff": "Shield Off",
+    "shieldOn": "Shield on",
+    "shieldOff": "Shield off",
     "shieldEnabledToast": "Privacy Shield enabled — conversations won't be stored",
     "shieldDisabledToast": "Privacy Shield disabled",
     "shieldFailedToast": "Failed to update Privacy Shield",
@@ -372,7 +372,7 @@
       "unpinChat": "Unpin chat",
       "archive": "Archive",
       "unarchive": "Unarchive",
-      "newChatDefault": "New Chat",
+      "newChatDefault": "New chat",
       "chatRenamed": "Chat renamed",
       "renameFailed": "Failed to rename",
       "chatDeleted": "Chat deleted",
@@ -404,24 +404,24 @@
       "shareCreateFailed": "Failed to create share link"
     },
     "activeContext": {
-      "title": "Active Context",
+      "title": "Active context",
       "referencing": "The AI is referencing these sources",
       "documentsQueued": "{count} document(s) queued for next message",
       "addDocuments": "Add documents to give the AI context about you",
       "uploadHint": "Upload personality tests, journal entries, or other data in the Vault, then attach them here so the AI can reference them.",
-      "attachDocument": "Attach Document",
-      "addMore": "Add More"
+      "attachDocument": "Attach document",
+      "addMore": "Add more"
     }
   },
   "store": {
-    "title": "Store",
-    "description": "Discover assessments to unlock deeper self-knowledge",
+    "title": "Assessments",
+    "description": "Browse and take assessments to unlock deeper self-knowledge",
     "bundle": {
-      "title": "The Complete Portrait",
+      "title": "The complete portrait",
       "description": "All 10 premium reports in one bundle. Psychometric + esoteric frameworks.",
       "price": "$99.99",
       "originalPrice": "Value $140+",
-      "viewBundle": "View Bundle"
+      "viewBundle": "View bundle"
     },
     "searchPlaceholder": "Search assessments...",
     "showing": "Showing",
@@ -432,9 +432,9 @@
     "noAssessments": "No assessments found",
     "noAssessmentsHint": "Try a different search term or category.",
     "unlock": "Unlock",
-    "startTest": "Start Test",
+    "startTest": "Start test",
     "purchase": "Purchase",
-    "purchaseHistory": "Purchase History",
+    "purchaseHistory": "Purchase history",
     "purchaseSuccess": "Purchase successful! Your analysis will be available soon.",
     "purchaseCanceled": "Purchase canceled.",
     "purchaseFailed": "Failed to initiate purchase",
@@ -442,7 +442,7 @@
       "notFound": "Assessment not found",
       "notFoundDescription": "This assessment doesn't exist or has been removed.",
       "backToStore": "Back to Store",
-      "beginAssessment": "Begin Assessment",
+      "beginAssessment": "Begin assessment",
       "duration": "Duration",
       "questions": "Questions",
       "aiGuided": "AI-guided",
@@ -456,13 +456,13 @@
     "title": "Settings",
     "description": "Manage your account and preferences",
     "aiPersona": {
-      "title": "AI Persona",
+      "title": "AI persona",
       "description": "How the AI responds in Chat: balanced, direct coach, or empathetic therapist",
       "balanced": "Balanced",
       "balancedDesc": "A thoughtful mix of insight and empathy",
-      "directCoach": "Direct Coach",
+      "directCoach": "Direct coach",
       "directCoachDesc": "Straightforward feedback and action steps",
-      "empatheticTherapist": "Empathetic Therapist",
+      "empatheticTherapist": "Empathetic therapist",
       "empatheticTherapistDesc": "Warm, understanding, and reflective",
       "personaUpdated": "AI persona updated",
       "personaFailed": "Failed to update persona"
@@ -473,7 +473,7 @@
       "theme": "Theme",
       "light": "Light",
       "dark": "Dark",
-      "colorPalette": "Color Palette",
+      "colorPalette": "Color palette",
       "emerald": "Emerald",
       "neutral": "Neutral",
       "muddy": "Muddy",
@@ -483,13 +483,13 @@
       "language": "Language"
     },
     "checkins": {
-      "title": "Proactive Check-ins",
+      "title": "Proactive check-ins",
       "description": "Let the AI initiate conversations on a schedule to track your growth",
       "enableCheckins": "Enable check-ins",
       "frequency": "Frequency",
       "daily": "Daily",
       "weekly": "Weekly",
-      "biweekly": "Every 2 Weeks",
+      "biweekly": "Every 2 weeks",
       "monthly": "Monthly",
       "preferredTime": "Preferred time",
       "savePreferences": "Save check-in preferences",
@@ -512,7 +512,7 @@
     },
     "account": {
       "title": "Account",
-      "description": "Sign out or open Clerk’s account menu using the avatar. You can also use the avatar in the left sidebar to open the same menu.",
+      "description": "Sign out or open Clerk's account menu using the avatar. You can also use the avatar in the left sidebar to open the same menu.",
       "management": "Account",
       "avatarHint": "Click the avatar to open the menu (sign out, profile, etc.).",
       "signOut": "Sign out"
@@ -531,8 +531,8 @@
     "goToStore": "Go to Store",
     "goToSettings": "Go to Settings",
     "actions": "Actions",
-    "uploadFile": "Upload File",
-    "toggleDarkMode": "Toggle Dark Mode",
+    "uploadFile": "Upload file",
+    "toggleDarkMode": "Toggle dark mode",
     "searchPlaceholder": "Type a command or search...",
     "noResults": "No results found."
   },
@@ -543,7 +543,7 @@
     "googleDriveDesc": "Sync documents from your Google Drive for RAG context",
     "googleCalendar": "Google Calendar",
     "googleCalendarDesc": "Import calendar events for context-aware insights",
-    "notesApp": "Notes App",
+    "notesApp": "Notes app",
     "notesAppDesc": "Import from Apple Notes or other note apps",
     "connected": "Connected",
     "disconnect": "Disconnect",
@@ -555,7 +555,7 @@
   },
   "journal": {
     "recording": "Recording...",
-    "submitJournal": "Submit Journal",
+    "submitJournal": "Submit journal",
     "discard": "Discard",
     "submitSuccess": "Voice journal submitted successfully",
     "submitFailed": "Failed to submit voice journal",
@@ -565,7 +565,7 @@
     "somethingWentWrong": "Something went wrong",
     "unexpectedError": "An unexpected error occurred. Please try again.",
     "unexpectedErrorRefresh": "An unexpected error occurred. Please refresh the page.",
-    "pageNotFound": "404 - Page Not Found",
+    "pageNotFound": "404 - Page not found",
     "pageNotFoundDescription": "The page you're looking for doesn't exist.",
     "tryAgain": "Try again",
     "goHome": "Go home"
@@ -575,38 +575,38 @@
     "poweredBy": "Powered by"
   },
   "test": {
-    "freePersonalityTest": "Free Personality Test",
-    "nerisTypeExplorer": "Discover Your Personality Type",
+    "freePersonalityTest": "Free personality test",
+    "nerisTypeExplorer": "Discover your Personality Type",
     "intro": {
-      "step1Title": "Take the Assessment",
+      "step1Title": "Take the assessment",
       "step1Description": "Answer each question openly and honestly — there are no right or wrong answers.",
-      "step2Title": "Explore Your Profile",
+      "step2Title": "Explore your profile",
       "step2Description": "Get a detailed breakdown of your unique personality traits and preferences.",
-      "step3Title": "Put It Into Action",
+      "step3Title": "Put it into action",
       "step3Description": "Use your results to make smarter career choices and understand how you work best."
     },
     "step1Label": "STEP 1: Complete the Test",
     "step2Label": "STEP 2: View Detailed Results",
     "header": {
-      "personalityTest": "Personality Test",
-      "personalityTypes": "Personality Types",
+      "personalityTest": "Personality test",
+      "personalityTypes": "Personality types",
       "store": "Store",
       "resources": "Resources",
-      "ourFramework": "Our Framework",
+      "ourFramework": "Our framework",
       "articles": "Articles",
       "faq": "FAQ",
-      "knowledgeBase": "Knowledge Base",
-      "privacyPolicy": "Privacy Policy",
-      "termsAndConditions": "Terms & Conditions",
-      "logIn": "Log In"
+      "knowledgeBase": "Knowledge base",
+      "privacyPolicy": "Privacy policy",
+      "termsAndConditions": "Terms & conditions",
+      "logIn": "Log in"
     },
     "backToStore": "Back to Store",
-    "beginAssessment": "Begin Assessment",
-    "retakeAssessment": "Retake Assessment",
+    "beginAssessment": "Begin assessment",
+    "retakeAssessment": "Retake assessment",
     "viewLatestResults": "View your latest results",
     "whatYouWillDiscover": "What you'll discover",
     "premiumAssessment": "This is a premium assessment.",
-    "comingSoon": "Coming Soon",
+    "comingSoon": "Coming soon",
     "questionOf": "Question {current} of {total}",
     "back": "Back",
     "next": "Next",
@@ -617,6 +617,7 @@
     "assessmentComplete": "Assessment complete!",
     "failedToSubmit": "Failed to submit assessment",
     "collect": {
+      "answerAllToContinue": "Answer all questions on this page to continue.",
       "title": "Almost there",
       "emailLabel": "Your email",
       "emailHint": "Optional. Get your results by email and save them to track personality changes.",
@@ -630,14 +631,14 @@
       "seeResults": "See results"
     },
     "results": {
-      "title": "Your Results",
+      "title": "Your results",
       "summary": "Summary",
-      "dimensionScores": "Dimension Scores",
-      "keyInsights": "Key Insights",
+      "dimensionScores": "Dimension scores",
+      "keyInsights": "Key insights",
       "moreInsights": "+ {count} more insights available in the premium report",
-      "growthTip": "Growth Tip",
+      "growthTip": "Growth tip",
       "moreRecommendations": "+ {count} more recommendations in the premium report",
-      "retakeTest": "Retake Test",
+      "retakeTest": "Retake test",
       "goToMirror": "Go to Mirror",
       "talkToMirror": "Talk to the Mirror",
       "talkToMirrorSubcopy": "Ask the AI about your results",
@@ -646,15 +647,15 @@
       "guestSignUpCta": "Sign up free"
     },
     "premium": {
-      "unlockFullReport": "Unlock Your Full Report",
+      "unlockFullReport": "Unlock your full report",
       "getCompleteAnalysis": "Get the complete {testTitle} analysis with actionable insights.",
-      "premiumUnlocked": "Premium Report Unlocked",
+      "premiumUnlocked": "Premium report unlocked",
       "readyToDownload": "Your full {testTitle} report is ready to download.",
-      "downloadPdf": "Download PDF Report",
+      "downloadPdf": "Download PDF report",
       "generating": "Generating...",
       "processing": "Processing...",
       "upgradeFor": "Upgrade for {price}",
-      "getFullReport": "Get Full Report",
+      "getFullReport": "Get full report",
       "oneTimePayment": "One-time payment",
       "features": {
         "dimensions": "Detailed dimension breakdown with percentile rankings",
@@ -664,11 +665,11 @@
       }
     },
     "bundle": {
-      "title": "The Complete Portrait",
+      "title": "The complete portrait",
       "description": "All 10 premium reports in one bundle. Psychometric + esoteric frameworks.",
       "price": "$99.99",
       "savePercent": "Save {percent}%",
-      "purchaseBundle": "Purchase Bundle",
+      "purchaseBundle": "Purchase bundle",
       "allIncluded": "All 10 premium reports included",
       "readyToUnlock": "Ready to unlock your full potential?",
       "onePaymentLifetime": "One payment: all 10 premium reports, yours forever."

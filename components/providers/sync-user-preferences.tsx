@@ -5,8 +5,6 @@ import { getCurrentUserPreferences } from "@/app/actions/settings";
 import { useThemeStore } from "@/store/theme-store";
 import { usePrivacyStore } from "@/store/privacy-store";
 
-const PALETTES = ["neutral", "muddy", "neon", "jewel", "pastel"] as const;
-
 /**
  * Fetches theme and Privacy Shield from the server and syncs to Zustand stores
  * so a new device or cleared storage reflects the user's saved preferences.
@@ -14,7 +12,6 @@ const PALETTES = ["neutral", "muddy", "neon", "jewel", "pastel"] as const;
 export function SyncUserPreferences() {
   const synced = useRef(false);
   const setTheme = useThemeStore((s) => s.setTheme);
-  const setPalette = useThemeStore((s) => s.setPalette);
   const setPrivacyShield = usePrivacyStore((s) => s.setPrivacyShield);
 
   useEffect(() => {
@@ -28,16 +25,11 @@ export function SyncUserPreferences() {
 
       const raw = prefs.themePreference?.trim() || "";
       if (raw) {
-        const parts = raw.split("-");
-        const theme = parts[0] === "dark" ? "dark" : "light";
-        const palette = PALETTES.includes(parts[1] as (typeof PALETTES)[number])
-          ? (parts[1] as (typeof PALETTES)[number])
-          : "neutral";
+        const theme = raw.startsWith("dark") ? "dark" : "light";
         setTheme(theme);
-        setPalette(palette);
       }
     });
-  }, [setTheme, setPalette, setPrivacyShield]);
+  }, [setTheme, setPrivacyShield]);
 
   return null;
 }

@@ -59,7 +59,7 @@ export function PremiumUpgradeCTA({
 
   if (isPremium) {
     return (
-      <Card className="border-0 shadow-sm rounded-2xl bg-primary/5 border-primary/10">
+      <Card className="border-0 rounded-2xl bg-primary/5 border-primary/10">
         <CardContent className="p-6 text-center space-y-4">
           <div className="flex items-center justify-center gap-2">
             <Crown className="h-5 w-5 text-primary" />
@@ -82,7 +82,7 @@ export function PremiumUpgradeCTA({
   }
 
   return (
-    <Card className="border-0 shadow-sm rounded-2xl overflow-hidden">
+    <Card className="border-0 rounded-2xl overflow-hidden">
       <div className="bg-gradient-to-r from-primary to-primary/80 px-6 py-4">
         <div className="flex items-center gap-2 text-primary-foreground">
           <Crown className="h-5 w-5" />
