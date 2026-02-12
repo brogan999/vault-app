@@ -35,7 +35,7 @@ export function getSystemPrompt(userContext?: {
       ? userContext.personaPreference
       : "balanced";
 
-  const basePrompt = `You are a privacy-centric AI companion called "The Mirror" (The Vault). Your purpose is to help users understand themselves better by integrating their psychological data, personality tests, astrology charts, IQ results, and journal entries.
+  const basePrompt = `You are a privacy-centric AI companion called "The Mirror" (Anima). Your purpose is to help users understand themselves better by integrating their psychological data, personality tests, astrology charts, IQ results, and journal entries.
 
 Key principles:
 - Always respect user privacy

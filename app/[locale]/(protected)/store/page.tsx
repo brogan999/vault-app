@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getUserPurchases } from "@/app/actions/payments";
 import { toast } from "sonner";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { cn } from "@/lib/utils";
 import {
   Sparkles,
@@ -106,18 +107,10 @@ function StoreContent() {
 
   return (
     <>
-      {/* Header */}
-      <header className="mb-8">
-        <h1 className="text-2xl font-bold text-foreground font-serif lg:text-3xl text-balance">
-          {t("title")}
-        </h1>
-        <p className="text-muted-foreground mt-1 leading-relaxed">
-          {t("description")}
-        </p>
-      </header>
+      <PageHeader title={t("title")} description={t("description")} />
 
       {/* Featured Bundle Banner */}
-      <section className="mb-8" aria-label="Featured bundle">
+      <section className="mb-8 border-t border-border pt-8" aria-label="Featured bundle">
         <Card className="border-0 rounded-2xl overflow-hidden bg-primary">
           <CardContent className="p-0">
             <div className="flex flex-col gap-6 p-6 lg:flex-row lg:items-center lg:justify-between lg:p-8">
@@ -126,7 +119,7 @@ function StoreContent() {
                   <Sparkles className="h-7 w-7 text-primary-foreground" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold text-primary-foreground font-serif lg:text-xl">
+                  <h2 className="text-lg font-medium text-primary-foreground font-serif lg:text-xl">
                     {t("bundle.title")}
                   </h2>
                   <p className="mt-1 text-sm text-primary-foreground/80 leading-relaxed max-w-md">
@@ -146,7 +139,8 @@ function StoreContent() {
                 <Link href="/store/bundle">
                   <Button
                     size="lg"
-                    className="rounded-xl bg-primary-foreground/15 text-primary-foreground hover:bg-primary-foreground/25 font-semibold gap-2 border-0"
+                    variant="accent"
+                    className="rounded-xl font-semibold gap-2"
                   >
                     {t("bundle.viewBundle")}
                     <ArrowRight className="h-4 w-4" />
@@ -223,7 +217,7 @@ function StoreContent() {
       </div>
 
       {/* Product Grid */}
-      <section className="mb-8" aria-label="Available assessments">
+      <section className="mb-8 border-t border-border pt-6" aria-label="Available assessments">
         {filtered.length > 0 ? (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((product) => {
@@ -260,15 +254,15 @@ function StoreContent() {
                         />
                       </div>
                       <Badge
-                        variant="secondary"
-                        className="text-[10px] px-2 py-0 h-5 rounded-md font-medium bg-muted text-muted-foreground border-0 shrink-0"
+                        variant="accent"
+                        className="text-[10px] px-2 py-0 h-5 font-medium shrink-0"
                       >
                         {product.category}
                       </Badge>
                     </div>
 
                     {/* Title + description */}
-                    <h3 className="text-base font-bold text-foreground font-serif leading-tight">
+                    <h3 className="text-base font-medium text-foreground font-serif leading-tight">
                       {product.title}
                     </h3>
                     <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed flex-1">
@@ -299,11 +293,7 @@ function StoreContent() {
                       {product.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="rounded-md px-2 py-0.5 text-[10px] font-medium"
-                          style={{
-                            backgroundColor: displayColors.bgColor,
-                            color: displayColors.color,
-                          }}
+                          className="rounded-full px-2 py-0.5 text-[10px] font-medium bg-[#328181]/15 text-[#328181]"
                         >
                           {tag}
                         </span>

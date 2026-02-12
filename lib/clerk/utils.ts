@@ -1,5 +1,5 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { createClient, createAdminClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/server";
 
 export async function getSupabaseUser() {
   const { userId } = await auth();
@@ -8,7 +8,7 @@ export async function getSupabaseUser() {
     return null;
   }
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error: _error } = await supabase
     .from("users")
     .select("*")
@@ -52,8 +52,7 @@ export async function getSupabaseUser() {
     if (insertError) {
       // e.g. duplicate if webhook created user between our check and insert
       console.error("[Clerk→Supabase] Sync failed:", insertError.message, insertError);
-      const supabaseAgain = await createClient();
-      const { data: existing } = await supabaseAgain
+      const { data: existing } = await admin
         .from("users")
         .select("*")
         .eq("clerkId", userId)

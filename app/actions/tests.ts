@@ -431,7 +431,7 @@ export async function purchasePremiumReport(
     type: "report",
     productId: result.testId,
     attemptId,
-    successUrl: `${baseUrl}/test/${result.testId}/results/${attemptId}?upgraded=true`,
+    successUrl: `${baseUrl}/test/${result.testId}/results/${attemptId}/offer`,
     cancelUrl: `${baseUrl}/test/${result.testId}/results/${attemptId}?canceled=true`,
   });
   return { url: url ?? null };
@@ -447,4 +447,29 @@ export async function markResultAsPremium(attemptId: string): Promise<void> {
     .from("testResults")
     .update({ isPremium: true })
     .eq("id", attemptId);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Accuracy rating (post-test feedback)                               */
+/* ------------------------------------------------------------------ */
+
+export async function submitAccuracyRating(
+  attemptId: string,
+  rating: number,
+): Promise<void> {
+  if (rating < 1 || rating > 5) throw new Error("Rating must be between 1 and 5");
+
+  const supabase = createAdminClient();
+
+  // Store rating in the testResults row as a JSON column or update metadata
+  // Using a simple approach: store in the existing row as accuracy_rating
+  const { error } = await supabase
+    .from("testResults")
+    .update({ accuracy_rating: rating })
+    .eq("id", attemptId);
+
+  if (error) {
+    console.error("[submitAccuracyRating] Error:", error);
+    // Non-critical — don't throw
+  }
 }

@@ -78,7 +78,7 @@ export default function BundlePage() {
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
             <Crown className="h-8 w-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold font-serif text-foreground md:text-4xl">
+          <h1 className="text-3xl font-medium font-serif text-foreground md:text-4xl">
             The Complete Portrait
           </h1>
           <p className="text-muted-foreground max-w-lg mx-auto leading-relaxed">
@@ -190,7 +190,7 @@ export default function BundlePage() {
         {/* Bottom CTA */}
         <Card className="mt-10 border-0 rounded-2xl overflow-hidden bg-primary">
           <CardHeader className="text-center pb-2">
-            <h2 className="text-lg font-bold text-primary-foreground font-serif">
+            <h2 className="text-lg font-medium text-primary-foreground font-serif">
               Ready to unlock your full potential?
             </h2>
             <p className="text-sm text-primary-foreground/80">

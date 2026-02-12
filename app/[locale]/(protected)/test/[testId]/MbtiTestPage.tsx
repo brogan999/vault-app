@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef, useMemo, useEffect } from "react";
+import { useState, useCallback, useRef, useMemo, useEffect, useLayoutEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { getProductById } from "@/lib/products";
 import { getTestDefinition } from "@/lib/tests";
@@ -247,11 +247,13 @@ export function MbtiTestPage({ testId }: MbtiTestPageProps) {
         window.scrollTo({ top: Math.max(0, targetY), behavior: "auto" });
       }
     }
+  }, [pageIndex, questionsOnPage.length]);
 
-    const timer = setTimeout(() => {
-      questionRefs.current[0]?.focusFirstOption();
-    }, 150);
-    return () => clearTimeout(timer);
+  // Fallback: focus first question after layout settles so keyboard works.
+  useLayoutEffect(() => {
+    if (questionsOnPage.length === 0) return;
+    const fallback = setTimeout(() => questionRefs.current[0]?.focusFirstOption(), 400);
+    return () => clearTimeout(fallback);
   }, [pageIndex, questionsOnPage.length]);
 
   if (!product || !testDef) {
@@ -279,7 +281,7 @@ export function MbtiTestPage({ testId }: MbtiTestPageProps) {
     <TestShell>
       {/* ── Intro header ── */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold font-serif text-foreground tracking-tight sm:text-5xl">
+        <h1 className="text-4xl font-medium font-serif text-foreground tracking-tight sm:text-5xl">
           {tTest("freePersonalityTest")}
         </h1>
         <p className="mt-3 text-lg text-muted-foreground tracking-wide">
@@ -342,6 +344,7 @@ export function MbtiTestPage({ testId }: MbtiTestPageProps) {
                 value={answers.get(q.id)}
                 onChange={(value) => handleAnswer(q.id, value)}
                 variant="inline"
+                autoFocus={i === 0}
               />
             </div>
           );

@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "The Vault — 自分をもっと深く知る",
+    "title": "Anima — 自分をもっと深く知る",
     "description": "性格診断、音声ジャーナル、IQ評価、そしてあなたのデータを理解するAI。すべてが安全でプライベートなVaultに。"
   },
   "common": {
-    "theVault": "The Vault",
+    "theVault": "Anima",
     "loading": "読み込み中...",
     "tryAgain": "もう一度試す",
     "goHome": "ホームに戻る",
@@ -51,7 +51,7 @@
       "disclaimer": "クレジットカード不要。所要時間は10分未満。"
     },
     "socialProof": {
-      "headline": "なぜThe Vaultか",
+      "headline": "なぜAnimaか",
       "stat1Value": "10",
       "stat1Label": "10の性格フレームワークを一つの場所で — 科学と象徴",
       "stat2Value": "ゼロ",
@@ -160,7 +160,7 @@
       "knowledgeBase": "ナレッジベース",
       "privacyPolicy": "プライバシーポリシー",
       "termsAndConditions": "利用規約",
-      "copyright": "2024-2026 The Vault. All rights reserved."
+      "copyright": "2024-2026 Anima. All rights reserved."
     },
     "storeNote": "ストアでは単品の深掘り分析もご利用いただけます",
     "browseStore": "ストアを見る"
@@ -235,7 +235,7 @@
     }
   },
   "vault": {
-    "title": "The Vault",
+    "title": "Anima",
     "description": "心理データをアップロードして管理する",
     "testResults": "テスト結果",
     "collectionsTab": "コレクション",
@@ -284,7 +284,7 @@
     },
     "recentActivity": {
       "title": "最近のアクティビティ",
-      "subtitle": "The Vaultでの最新の操作",
+      "subtitle": "Animaでの最新の操作",
       "empty": "まだアクティビティがありません。診断を完了するとここに表示されます。"
     },
     "collections": {
@@ -509,7 +509,7 @@
     "pageNotFoundDescription": "お探しのページは存在しません。"
   },
   "share": {
-    "sharedFrom": "The Vaultから共有",
+    "sharedFrom": "Animaから共有",
     "poweredBy": "Powered by"
   },
   "test": {

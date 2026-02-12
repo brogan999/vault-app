@@ -102,7 +102,7 @@ export async function generateDailyBrief(): Promise<string | null> {
       messages: [
         {
           role: "system",
-          content: `You are the AI companion for "The Vault," a privacy-centric psychological data app. Generate a short, warm, personalized daily brief (3-5 sentences) for the user based on their personality profile, recent journal entries, and chat history. 
+          content: `You are the AI companion for Anima, a privacy-centric psychological data app. Generate a short, warm, personalized daily brief (3-5 sentences) for the user based on their personality profile, recent journal entries, and chat history. 
 
 The brief should:
 - Reflect on patterns or themes you notice

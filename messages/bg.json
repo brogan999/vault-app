@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "The Vault — Know Yourself Deeper",
+    "title": "Anima — Know Yourself Deeper",
     "description": "Personality tests, voice journals, IQ assessments, and an AI that knows your data. All in one secure, private vault."
   },
   "common": {
-    "theVault": "The Vault",
+    "theVault": "Anima",
     "loading": "Loading...",
     "tryAgain": "Try again",
     "goHome": "Go home",
@@ -52,7 +52,7 @@
       "disclaimer": "No credit card required. Takes under 10 minutes."
     },
     "socialProof": {
-      "headline": "Why The Vault",
+      "headline": "Why Anima",
       "stat1Value": "10",
       "stat1Label": "Personality frameworks in one place — science and symbolism",
       "stat2Value": "Zero",
@@ -161,7 +161,7 @@
       "knowledgeBase": "Knowledge Base",
       "privacyPolicy": "Privacy Policy",
       "termsAndConditions": "Terms & Conditions",
-      "copyright": "2024-2026 The Vault. All rights reserved."
+      "copyright": "2024-2026 Anima. All rights reserved."
     },
     "storeNote": "Also available: One-off deep-dive analyses in The Store",
     "browseStore": "Browse The Store"
@@ -273,7 +273,7 @@
     }
   },
   "vault": {
-    "title": "The Vault",
+    "title": "Anima",
     "description": "Upload and manage your psychological data",
     "testResults": "Test Results",
     "collectionsTab": "Collections",
@@ -328,7 +328,7 @@
     },
     "recentActivity": {
       "title": "Recent activity",
-      "subtitle": "Your latest actions in The Vault",
+      "subtitle": "Your latest actions in Anima",
       "empty": "No activity yet. Complete an assessment to see it here."
     },
     "collections": {
@@ -408,7 +408,7 @@
       "referencing": "The AI is referencing these sources",
       "documentsQueued": "{count} document(s) queued for next message",
       "addDocuments": "Add documents to give the AI context about you",
-      "uploadHint": "Upload personality tests, journal entries, or other data in the Vault, then attach them here so the AI can reference them.",
+      "uploadHint": "Upload personality tests, journal entries, or other data in Anima, then attach them here so the AI can reference them.",
       "attachDocument": "Attach Document",
       "addMore": "Add More"
     }
@@ -538,7 +538,7 @@
   },
   "integrations": {
     "title": "Integrations",
-    "description": "Connect external services to automatically sync your data into the Vault",
+    "description": "Connect external services to automatically sync your data into Anima",
     "googleDrive": "Google Drive",
     "googleDriveDesc": "Sync documents from your Google Drive for RAG context",
     "googleCalendar": "Google Calendar",
@@ -571,7 +571,7 @@
     "goHome": "Go home"
   },
   "share": {
-    "sharedFrom": "Shared from The Vault",
+    "sharedFrom": "Shared from Anima",
     "poweredBy": "Powered by"
   },
   "test": {

@@ -7,6 +7,7 @@ import { useUser } from "@clerk/nextjs";
 import { Archive, ChevronDown, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+import { ThemePaletteSwitcher } from "@/components/landing/ThemePaletteSwitcher";
 import { UserButton } from "@clerk/nextjs";
 import {
   DropdownMenu,
@@ -18,74 +19,85 @@ import { cn } from "@/lib/utils";
 import { HERO_TEST_ID } from "@/lib/products";
 
 /**
- * 16personalities-style top header for test pages: logo, nav links, language, Log In.
+ * Header for test pages. Matches PublicHeader: Products and Resources dropdowns,
+ * language, account / Log In. Same link structure as public header and footer.
  */
 export function TestHeader() {
   const t = useTranslations("test.header");
+  const tc = useTranslations("common");
+  const tNav = useTranslations("landing.navbar");
+  const tFooter = useTranslations("landing.footer");
   const { isSignedIn } = useUser();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const mainNav = [
-    { label: t("personalityTest"), href: `/test/${HERO_TEST_ID}` },
-    { label: t("personalityTypes"), href: "/store" },
-    { label: t("store"), href: "/store" },
+  const productsLinks = [
+    { label: tFooter("personalityTest"), href: `/test/${HERO_TEST_ID}` },
+    { label: tFooter("premiumAssessments"), href: "/pricing" },
+    { label: tFooter("aiChat"), href: "/sign-up" },
   ];
 
   const resourcesLinks = [
-    { label: t("ourFramework"), href: "/our-framework" },
-    { label: t("faq"), href: "/faq" },
-    { label: t("knowledgeBase"), href: "/knowledge-base" },
-    { label: t("privacyPolicy"), href: "/privacy" },
-    { label: t("termsAndConditions"), href: "/terms" },
+    { label: tNav("ourFramework"), href: "/our-framework" },
+    { label: tFooter("knowledgeBase"), href: "/knowledge-base" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 lg:px-8">
+    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-lg">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex shrink-0 items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-            <Archive className="h-4 w-4 text-primary-foreground" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
+            <Archive className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="text-base font-bold tracking-tight text-foreground font-serif">
-            The Vault
+          <span className="text-lg font-bold tracking-tight text-foreground font-serif">
+            {tc("theVault")}
           </span>
         </Link>
 
-        {/* Desktop nav */}
+        {/* Desktop nav: Products + Resources dropdowns (aligned with PublicHeader) */}
         <nav className="hidden items-center gap-6 md:flex" aria-label="Main navigation">
-          {mainNav.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {item.label}
-            </Link>
-          ))}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
                 className="flex items-center gap-0.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
-                {t("resources")}
+                {tFooter("products")}
                 <ChevronDown className="h-4 w-4" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-48">
-              {resourcesLinks.map((item) => (
-                <DropdownMenuItem key={item.label} asChild>
-                  <Link href={item.href}>{item.label}</Link>
+              {productsLinks.map((link) => (
+                <DropdownMenuItem key={link.href} asChild>
+                  <Link href={link.href}>{link.label}</Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className="flex items-center gap-0.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {tFooter("resources")}
+                <ChevronDown className="h-4 w-4" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-48">
+              {resourcesLinks.map((link) => (
+                <DropdownMenuItem key={link.href} asChild>
+                  <Link href={link.href}>{link.label}</Link>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
         </nav>
 
-        {/* Right: language, account, Log In */}
-        <div className="flex shrink-0 items-center gap-2">
-          <LanguageSwitcher className="rounded-lg" />
+        {/* Right: theme, language, account, Log In */}
+        <div className="flex shrink-0 items-center gap-3">
+          <ThemePaletteSwitcher />
+          <LanguageSwitcher className="rounded-xl" />
           {isSignedIn ? (
             <UserButton
               afterSignOutUrl="/"
@@ -97,51 +109,54 @@ export function TestHeader() {
             />
           ) : (
             <Link href="/sign-in">
-              <Button variant="ghost" size="sm" className="text-sm font-medium rounded-lg">
+              <Button variant="ghost" size="sm" className="text-sm font-medium rounded-xl">
                 {t("logIn")}
               </Button>
             </Link>
           )}
           <button
             type="button"
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-foreground md:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-xl text-foreground md:hidden"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-label={mobileOpen ? tNav("closeMenu") : tNav("openMenu")}
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu: Products + Resources (aligned with PublicHeader) */}
       <div
         className={cn(
-          "overflow-hidden border-t border-border/60 bg-background transition-all duration-200 md:hidden",
+          "overflow-hidden border-t border-border/60 bg-background transition-all duration-300 md:hidden",
           mobileOpen ? "max-h-[80vh] py-4" : "max-h-0 py-0"
         )}
       >
         <nav className="flex flex-col gap-1 px-4">
-          {mainNav.map((item) => (
+          <p className="px-3 pt-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {tFooter("products")}
+          </p>
+          {productsLinks.map((link) => (
             <Link
-              key={item.label}
-              href={item.href}
+              key={link.href}
+              href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-foreground"
+              className="rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             >
-              {item.label}
+              {link.label}
             </Link>
           ))}
-          <p className="px-3 pt-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            {t("resources")}
+          <p className="px-3 pt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {tFooter("resources")}
           </p>
-          {resourcesLinks.map((item) => (
+          {resourcesLinks.map((link) => (
             <Link
-              key={item.label}
-              href={item.href}
+              key={link.href}
+              href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground"
+              className="rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             >
-              {item.label}
+              {link.label}
             </Link>
           ))}
         </nav>

@@ -93,7 +93,7 @@ export function IntegrationsPanel() {
       <CardHeader>
         <CardTitle>Integrations</CardTitle>
         <CardDescription>
-          Connect external services to automatically sync your data into the Vault
+          Connect external services to automatically sync your data into Anima
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

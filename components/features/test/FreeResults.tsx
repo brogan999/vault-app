@@ -35,7 +35,7 @@ export function FreeResults({ testTitle, scores, interpretation, gender }: FreeR
               </AvatarFallback>
             </Avatar>
           )}
-          <h1 className="text-2xl font-bold font-serif text-foreground md:text-3xl">
+          <h1 className="text-2xl font-medium font-serif text-foreground md:text-3xl">
             Your Results
           </h1>
         </div>
@@ -48,7 +48,7 @@ export function FreeResults({ testTitle, scores, interpretation, gender }: FreeR
           </div>
         )}
         {scores?.overall !== undefined && !hasTypeAndDimensions && (
-          <p className="text-4xl font-bold font-serif text-primary">{scores.overall}%</p>
+          <p className="text-4xl font-medium font-serif text-primary">{scores.overall}%</p>
         )}
       </div>
 

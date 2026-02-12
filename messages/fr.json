@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "The Vault — Apprenez à mieux vous connaître",
+    "title": "Anima — Apprenez à mieux vous connaître",
     "description": "Tests de personnalité, journaux vocaux, évaluations de QI et une IA qui connaît vos données. Le tout dans un coffre-fort sécurisé et privé."
   },
   "common": {
-    "theVault": "The Vault",
+    "theVault": "Anima",
     "loading": "Chargement...",
     "tryAgain": "Réessayer",
     "goHome": "Retour à l'accueil",
@@ -51,7 +51,7 @@
       "disclaimer": "Aucune carte de crédit requise. Moins de 10 minutes."
     },
     "socialProof": {
-      "headline": "Pourquoi The Vault",
+      "headline": "Pourquoi Anima",
       "stat1Value": "10",
       "stat1Label": "Cadres de personnalité en un seul endroit — science et symbolisme",
       "stat2Value": "Zéro",
@@ -160,7 +160,8 @@
       "knowledgeBase": "Base de connaissances",
       "privacyPolicy": "Politique de confidentialité",
       "termsAndConditions": "Conditions générales",
-      "copyright": "2024-2026 The Vault. Tous droits réservés."
+      "cookiePolicy": "Politique des cookies",
+      "copyright": "2024-2026 Anima. Tous droits réservés."
     },
     "storeNote": "Également disponible : analyses approfondies à l'unité dans la Boutique",
     "browseStore": "Parcourir la Boutique"
@@ -235,7 +236,7 @@
     }
   },
   "vault": {
-    "title": "The Vault",
+    "title": "Anima",
     "description": "Importez et gérez vos données psychologiques",
     "testResults": "Résultats de tests",
     "collectionsTab": "Collections",
@@ -284,7 +285,7 @@
     },
     "recentActivity": {
       "title": "Activité récente",
-      "subtitle": "Vos dernières actions dans The Vault",
+      "subtitle": "Vos dernières actions dans Anima",
       "empty": "Aucune activité pour le moment. Complétez une évaluation pour la voir ici."
     },
     "collections": {
@@ -509,7 +510,7 @@
     "pageNotFoundDescription": "La page que vous recherchez n'existe pas."
   },
   "share": {
-    "sharedFrom": "Partagé depuis The Vault",
+    "sharedFrom": "Partagé depuis Anima",
     "poweredBy": "Propulsé par"
   },
   "test": {
@@ -524,6 +525,7 @@
       "knowledgeBase": "Base de connaissances",
       "privacyPolicy": "Politique de confidentialité",
       "termsAndConditions": "Conditions générales",
+      "cookiePolicy": "Politique des cookies",
       "logIn": "Se connecter"
     }
   }

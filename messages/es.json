@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "The Vault — Conócete más profundamente",
+    "title": "Anima — Conócete más profundamente",
     "description": "Tests de personalidad, diarios de voz, evaluaciones de IQ y una IA que conoce tus datos. Todo en una bóveda segura y privada."
   },
   "common": {
-    "theVault": "The Vault",
+    "theVault": "Anima",
     "loading": "Cargando...",
     "tryAgain": "Intentar de nuevo",
     "goHome": "Ir al inicio",
@@ -51,7 +51,7 @@
       "disclaimer": "No se requiere tarjeta de crédito. Toma menos de 10 minutos."
     },
     "socialProof": {
-      "headline": "Por qué The Vault",
+      "headline": "Por qué Anima",
       "stat1Value": "10",
       "stat1Label": "Marcos de personalidad en un solo lugar — ciencia y simbolismo",
       "stat2Value": "Cero",
@@ -95,7 +95,7 @@
       "takeTheTest": "Hacer el test",
       "aiChatLabel": "Chat con IA",
       "aiChatTitle": "Una IA que realmente te conoce",
-      "aiChatDescription": "Tus documentos de The Vault se usan automáticamente como contexto. Pregunta lo que quieras sobre tus datos de personalidad, resultados de tests o entradas de diario y obtén respuestas profundamente personales.",
+      "aiChatDescription": "Tus documentos de Anima se usan automáticamente como contexto. Pregunta lo que quieras sobre tus datos de personalidad, resultados de tests o entradas de diario y obtén respuestas profundamente personales.",
       "startConversation": "Iniciar una conversación"
     },
     "testimonials": {
@@ -160,7 +160,8 @@
       "knowledgeBase": "Base de conocimientos",
       "privacyPolicy": "Política de privacidad",
       "termsAndConditions": "Términos y condiciones",
-      "copyright": "2024-2026 The Vault. Todos los derechos reservados."
+      "cookiePolicy": "Política de cookies",
+      "copyright": "2024-2026 Anima. Todos los derechos reservados."
     },
     "storeNote": "También disponible: Análisis profundos individuales en la Tienda",
     "browseStore": "Explorar la Tienda"
@@ -235,7 +236,7 @@
     }
   },
   "vault": {
-    "title": "The Vault",
+    "title": "Anima",
     "description": "Sube y administra tus datos psicológicos",
     "testResults": "Resultados de tests",
     "collectionsTab": "Colecciones",
@@ -284,7 +285,7 @@
     },
     "recentActivity": {
       "title": "Actividad reciente",
-      "subtitle": "Tus últimas acciones en The Vault",
+      "subtitle": "Tus últimas acciones en Anima",
       "empty": "Aún no hay actividad. Completa una evaluación para verla aquí."
     },
     "collections": {
@@ -308,7 +309,7 @@
       "placeholder": "Pregunta lo que quieras",
       "voiceInput": "Entrada de voz",
       "sendMessage": "Enviar mensaje",
-      "contextHint": "Tus documentos de The Vault se usan automáticamente como contexto"
+      "contextHint": "Tus documentos de Anima se usan automáticamente como contexto"
     },
     "history": {
       "newChat": "Nuevo chat",
@@ -361,7 +362,7 @@
       "referencing": "La IA está consultando estas fuentes",
       "documentsQueued": "{count} documento(s) en cola para el próximo mensaje",
       "addDocuments": "Agrega documentos para darle contexto a la IA sobre ti",
-      "uploadHint": "Sube tests de personalidad, entradas de diario u otros datos a The Vault, y luego adjúntalos aquí para que la IA pueda consultarlos.",
+      "uploadHint": "Sube tests de personalidad, entradas de diario u otros datos a Anima, y luego adjúntalos aquí para que la IA pueda consultarlos.",
       "attachDocument": "Adjuntar documento",
       "addMore": "Agregar más"
     }
@@ -466,7 +467,7 @@
   "commands": {
     "navigation": "Navegación",
     "goToMirror": "Ir al Espejo",
-    "goToVault": "Ir a The Vault",
+    "goToVault": "Ir a Anima",
     "goToChat": "Ir al Chat",
     "goToStore": "Ir a la Tienda",
     "goToSettings": "Ir a Ajustes",
@@ -478,7 +479,7 @@
   },
   "integrations": {
     "title": "Integraciones",
-    "description": "Conecta servicios externos para sincronizar automáticamente tus datos en The Vault",
+    "description": "Conecta servicios externos para sincronizar automáticamente tus datos en Anima",
     "googleDrive": "Google Drive",
     "googleDriveDesc": "Sincroniza documentos de tu Google Drive para contexto RAG",
     "googleCalendar": "Google Calendar",
@@ -509,7 +510,7 @@
     "pageNotFoundDescription": "La página que buscas no existe."
   },
   "share": {
-    "sharedFrom": "Compartido desde The Vault",
+    "sharedFrom": "Compartido desde Anima",
     "poweredBy": "Desarrollado por"
   },
   "test": {
@@ -524,6 +525,7 @@
       "knowledgeBase": "Base de conocimientos",
       "privacyPolicy": "Política de privacidad",
       "termsAndConditions": "Términos y condiciones",
+      "cookiePolicy": "Política de cookies",
       "logIn": "Iniciar sesión"
     }
   }

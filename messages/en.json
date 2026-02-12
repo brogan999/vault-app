@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "The Vault — Know yourself deeper",
+    "title": "Anima — Know yourself deeper",
     "description": "Personality tests, voice journals, IQ assessments, and an AI that knows your data. All in one secure, private vault."
   },
   "common": {
-    "theVault": "The Vault",
+    "theVault": "Anima",
     "loading": "Loading...",
     "tryAgain": "Try again",
     "goHome": "Go home",
@@ -52,7 +52,7 @@
       "disclaimer": "No credit card required. Takes under 10 minutes."
     },
     "socialProof": {
-      "headline": "Why The Vault",
+      "headline": "Why Anima",
       "stat1Value": "10",
       "stat1Label": "Personality frameworks in one place — science and symbolism",
       "stat2Value": "Zero",
@@ -94,7 +94,7 @@
       "personalityTestsTitle": "Understand others by first understanding yourself",
       "personalityTestsDescription": "In our free type descriptions you will learn what really drives, inspires, and worries different personality types, helping you build more meaningful relationships.",
       "takeTheTest": "Take the test",
-      "aiChatLabel": "AI Chat",
+      "aiChatLabel": "AI chat",
       "aiChatTitle": "An AI that actually knows you",
       "aiChatDescription": "Your Vault documents are automatically used as context. Ask anything about your personality data, test results, or journal entries and get deeply personal answers.",
       "startConversation": "Start a conversation"
@@ -147,7 +147,7 @@
       "tagline": "Know yourself deeper. AI-powered personality insights and secure data storage.",
       "products": "Products",
       "premiumAssessments": "Premium assessments",
-      "aiChat": "AI Chat",
+      "aiChat": "AI chat",
       "voiceJournals": "Voice journals",
       "testimonials": "Testimonials",
       "resources": "Resources",
@@ -161,10 +161,11 @@
       "knowledgeBase": "Knowledge base",
       "privacyPolicy": "Privacy policy",
       "termsAndConditions": "Terms & conditions",
-      "copyright": "2024-2026 The Vault. All rights reserved."
+      "cookiePolicy": "Cookie policy",
+      "copyright": "2024-2026 Anima. All rights reserved."
     },
     "storeNote": "Also available: One-off deep-dive analyses in The Store",
-    "browseStore": "Browse the Store"
+    "browseStore": "Browse the store"
   },
   "mirror": {
     "greeting": "Good morning",
@@ -273,7 +274,7 @@
     }
   },
   "vault": {
-    "title": "The Vault",
+    "title": "Anima",
     "description": "Upload and manage your psychological data",
     "testResults": "Test results",
     "collectionsTab": "Collections",
@@ -328,7 +329,7 @@
     },
     "recentActivity": {
       "title": "Recent activity",
-      "subtitle": "Your latest actions in The Vault",
+      "subtitle": "Your latest actions in Anima",
       "empty": "No activity yet. Complete an assessment to see it here."
     },
     "collections": {
@@ -408,7 +409,7 @@
       "referencing": "The AI is referencing these sources",
       "documentsQueued": "{count} document(s) queued for next message",
       "addDocuments": "Add documents to give the AI context about you",
-      "uploadHint": "Upload personality tests, journal entries, or other data in the Vault, then attach them here so the AI can reference them.",
+      "uploadHint": "Upload personality tests, journal entries, or other data in Anima, then attach them here so the AI can reference them.",
       "attachDocument": "Attach document",
       "addMore": "Add more"
     }
@@ -441,7 +442,7 @@
     "detail": {
       "notFound": "Assessment not found",
       "notFoundDescription": "This assessment doesn't exist or has been removed.",
-      "backToStore": "Back to Store",
+      "backToStore": "Back to store",
       "beginAssessment": "Begin assessment",
       "duration": "Duration",
       "questions": "Questions",
@@ -515,7 +516,16 @@
       "description": "Sign out or open Clerk's account menu using the avatar. You can also use the avatar in the left sidebar to open the same menu.",
       "management": "Account",
       "avatarHint": "Click the avatar to open the menu (sign out, profile, etc.).",
-      "signOut": "Sign out"
+      "signOut": "Sign out",
+      "deleteAccount": "Delete my account",
+      "deleteAccountDescription": "Permanently delete your account and all associated data (assessments, vault, chat history, journals). This cannot be undone. Any active subscription will be cancelled.",
+      "deleteAccountConfirmTitle": "Delete account?",
+      "deleteAccountConfirmDescription": "This will permanently delete your account and all your data. Your subscription will be cancelled. This action cannot be undone.",
+      "deleteAccountUnderstand": "I understand that my data will be permanently deleted and this cannot be undone.",
+      "deleteAccountButton": "Delete my account",
+      "deleteAccountCancel": "Cancel",
+      "deleteAccountSuccess": "Your account has been deleted. Redirecting…",
+      "deleteAccountError": "Could not delete account. Please try again or contact support."
     }
   },
   "notifications": {
@@ -538,7 +548,7 @@
   },
   "integrations": {
     "title": "Integrations",
-    "description": "Connect external services to automatically sync your data into the Vault",
+    "description": "Connect external services to automatically sync your data into Anima",
     "googleDrive": "Google Drive",
     "googleDriveDesc": "Sync documents from your Google Drive for RAG context",
     "googleCalendar": "Google Calendar",
@@ -571,12 +581,12 @@
     "goHome": "Go home"
   },
   "share": {
-    "sharedFrom": "Shared from The Vault",
+    "sharedFrom": "Shared from Anima",
     "poweredBy": "Powered by"
   },
   "test": {
     "freePersonalityTest": "Free personality test",
-    "nerisTypeExplorer": "Discover your Personality Type",
+    "nerisTypeExplorer": "Discover your personality type",
     "intro": {
       "step1Title": "Take the assessment",
       "step1Description": "Answer each question openly and honestly — there are no right or wrong answers.",
@@ -585,8 +595,8 @@
       "step3Title": "Put it into action",
       "step3Description": "Use your results to make smarter career choices and understand how you work best."
     },
-    "step1Label": "STEP 1: Complete the Test",
-    "step2Label": "STEP 2: View Detailed Results",
+    "step1Label": "STEP 1: Complete the test",
+    "step2Label": "STEP 2: View detailed results",
     "header": {
       "personalityTest": "Personality test",
       "personalityTypes": "Personality types",
@@ -598,9 +608,10 @@
       "knowledgeBase": "Knowledge base",
       "privacyPolicy": "Privacy policy",
       "termsAndConditions": "Terms & conditions",
+      "cookiePolicy": "Cookie policy",
       "logIn": "Log in"
     },
-    "backToStore": "Back to Store",
+    "backToStore": "Back to store",
     "beginAssessment": "Begin assessment",
     "retakeAssessment": "Retake assessment",
     "viewLatestResults": "View your latest results",

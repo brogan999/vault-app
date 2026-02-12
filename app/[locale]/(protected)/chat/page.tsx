@@ -26,6 +26,7 @@ import { Shield, ShieldCheck, PanelLeft } from "lucide-react";
 import { toast } from "sonner";
 import { getProductById } from "@/lib/products";
 import { MirrorCreditsWidget } from "@/components/features/chat/MirrorCreditsWidget";
+import { trackChatSessionStarted, trackMessageSent } from "@/lib/analytics";
 
 export default function ChatPage() {
   const { privacyShieldEnabled, setPrivacyShield } = usePrivacyStore();
@@ -149,6 +150,7 @@ export default function ChatPage() {
     async (message: { text: string }) => {
       if (sessionId) {
         // Session exists — send directly
+        trackMessageSent(sessionId, message.text.length);
         sendMessage(message);
         return;
       }
@@ -157,6 +159,8 @@ export default function ChatPage() {
       try {
         pendingMessageRef.current = message.text;
         const session = await createChatSession();
+        trackChatSessionStarted(session.id);
+        trackMessageSent(session.id, message.text.length);
         setSessionId(session.id);
         setHasTitled(false);
       } catch (error) {

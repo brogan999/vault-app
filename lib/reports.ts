@@ -16,6 +16,8 @@ export const REPORT_FRAMEWORKS = [
   "career_compass",
   "relationship_blueprint",
   "annual_portrait",
+  "career_suite",
+  "pro_bundle",
 ] as const;
 
 export type ReportFramework = (typeof REPORT_FRAMEWORKS)[number];

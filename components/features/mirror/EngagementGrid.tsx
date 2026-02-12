@@ -95,7 +95,7 @@ export function EngagementGrid({ daily }: EngagementGridProps) {
             <CardDescription>{t("description")}</CardDescription>
           </div>
           <div className="text-right">
-            <p className="text-2xl font-bold font-serif text-foreground">
+            <p className="text-2xl font-medium font-serif text-foreground">
               {totalActivities}
             </p>
             <p className="text-xs text-muted-foreground">{t("totalActivities")}</p>

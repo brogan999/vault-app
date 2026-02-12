@@ -161,12 +161,12 @@ export const mbtiTest: TestDefinition = {
 
 function getTypeNickname(code: string): string {
   const nicknames: Record<string, string> = {
-    INTJ: "The Architect", INTP: "The Logician", ENTJ: "The Commander", ENTP: "The Debater",
-    INFJ: "The Advocate", INFP: "The Mediator", ENFJ: "The Protagonist", ENFP: "The Campaigner",
-    ISTJ: "The Logistician", ISFJ: "The Defender", ESTJ: "The Executive", ESFJ: "The Consul",
-    ISTP: "The Virtuoso", ISFP: "The Adventurer", ESTP: "The Entrepreneur", ESFP: "The Entertainer",
+    INTJ: "The Mastermind", INTP: "The Philosopher", ENTJ: "The Executive", ENTP: "The Visionary",
+    INFJ: "The Champion", INFP: "The Harmonizer", ENFJ: "The Hero", ENFP: "The Inspirer",
+    ISTJ: "The Director", ISFJ: "The Guardian", ESTJ: "The Governor", ESFJ: "The Anchor",
+    ISTP: "The Master", ISFP: "The Trailblazer", ESTP: "The Dynamo", ESFP: "The Muse",
   };
-  return nicknames[code] ?? "The Explorer";
+  return nicknames[code] ?? "Unknown Type";
 }
 
 function getTypeDescription(code: string): string {

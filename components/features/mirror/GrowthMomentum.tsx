@@ -93,7 +93,7 @@ export function GrowthMomentum({
             <Flame className="h-8 w-8" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-3xl font-bold font-serif text-foreground leading-none">
+            <p className="text-3xl font-medium font-serif text-foreground leading-none">
               {currentStreak}{" "}
               <span className="text-base font-normal text-muted-foreground">
                 {currentStreak === 1 ? t("day") : t("days")}
@@ -109,7 +109,7 @@ export function GrowthMomentum({
                 <Trophy className="h-3.5 w-3.5" />
                 <span className="text-xs font-medium">{t("best")}</span>
               </div>
-              <p className="text-lg font-bold font-serif text-foreground">
+              <p className="text-lg font-medium font-serif text-foreground">
                 {longestStreak}
               </p>
             </div>

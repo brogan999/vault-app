@@ -17,18 +17,16 @@ export function AppFooter() {
     {
       title: t("products"),
       links: [
+        { label: t("personalityTest"), href: `/test/${HERO_TEST_ID}` },
         { label: t("premiumAssessments"), href: "/pricing" },
         { label: t("aiChat"), href: "/sign-up" },
-        { label: t("voiceJournals"), href: "/sign-up" },
-        { label: t("testimonials"), href: "/#testimonials" },
       ],
     },
     {
       title: t("resources"),
       links: [
-        { label: t("personalityTest"), href: `/test/${HERO_TEST_ID}` },
-        { label: t("personalityTypes"), href: "/store" },
         { label: t("ourFramework"), href: "/our-framework" },
+        { label: t("knowledgeBase"), href: "/knowledge-base" },
       ],
     },
     {
@@ -36,9 +34,9 @@ export function AppFooter() {
       links: [
         { label: t("contactUs"), href: "/contact" },
         { label: t("faq"), href: "/faq" },
-        { label: t("knowledgeBase"), href: "/knowledge-base" },
         { label: t("privacyPolicy"), href: "/privacy" },
         { label: t("termsAndConditions"), href: "/terms" },
+        { label: t("cookiePolicy"), href: "/cookies" },
       ],
     },
   ];
@@ -91,6 +89,12 @@ export function AppFooter() {
               className="text-xs text-muted-foreground transition-colors hover:text-foreground"
             >
               {t("privacyPolicy")}
+            </Link>
+            <Link
+              href="/cookies"
+              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {t("cookiePolicy")}
             </Link>
           </div>
         </div>

@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Contact Us — The Vault",
+    title: "Contact Us — Anima",
     description:
       "Get in touch with our team for support, bug reports, partnerships, press, or research collaboration.",
   };
@@ -26,10 +26,10 @@ interface ContactCategory {
 const CATEGORIES: ContactCategory[] = [
   {
     icon: Mail,
-    title: "General Support",
+    title: "General support",
     description:
       "For questions about your account, your results, the assessments, or anything else about the platform.",
-    email: "support@thevault.com",
+    email: "support@theanima.ai",
     details: [
       "We typically respond within 24 hours on business days.",
       "Sometimes faster, sometimes a bit longer during busy periods \u2014 but we read every message, and we don\u2019t use canned responses. A real person will get back to you.",
@@ -37,10 +37,10 @@ const CATEGORIES: ContactCategory[] = [
   },
   {
     icon: Bug,
-    title: "Bug Reports & Technical Issues",
+    title: "Bug reports & technical issues",
     description:
       "Something broken? A chart not loading, a calculation that looks off, or a page behaving strangely?",
-    email: "bugs@thevault.com",
+    email: "bugs@theanima.ai",
     details: [
       "When reporting a bug, it helps us if you include:",
       "\u2022 What you were doing when it happened",
@@ -52,29 +52,29 @@ const CATEGORIES: ContactCategory[] = [
   },
   {
     icon: Handshake,
-    title: "Business & Partnership Inquiries",
+    title: "Business & partnership inquiries",
     description:
       "Interested in working with us? Whether you\u2019re a coach, therapist, organizational consultant, educator, or someone else who sees value in what we\u2019re building \u2014 we\u2019d like to hear about it.",
-    email: "partnerships@thevault.com",
+    email: "partnerships@theanima.ai",
     details: [
       "We\u2019re especially interested in conversations about integrating our assessments into coaching practices, team development programs, and educational settings.",
     ],
   },
   {
     icon: Newspaper,
-    title: "Press & Media",
+    title: "Press & media",
     description: "For press inquiries, interviews, or media-related requests.",
-    email: "press@thevault.com",
+    email: "press@theanima.ai",
     details: [
       "We\u2019re happy to discuss the science behind our psychometric assessments, the philosophy of multi-framework self-discovery, or the broader question of how personality tools are evolving.",
     ],
   },
   {
     icon: FlaskConical,
-    title: "Research Collaboration",
+    title: "Research collaboration",
     description:
       "We take psychometric validity seriously, and we welcome collaboration with researchers in personality psychology, psychometrics, and related fields.",
-    email: "research@thevault.com",
+    email: "research@theanima.ai",
     details: [
       "If you\u2019re interested in our data, our methodology, or conducting studies using our platform, we\u2019d love to hear from you.",
     ],
@@ -84,10 +84,10 @@ const CATEGORIES: ContactCategory[] = [
 /* ------------------------------------------------------------------ */
 
 const SOCIAL_LINKS = [
-  { label: "Twitter / X", handle: "@thevault" },
-  { label: "Instagram", handle: "@thevault" },
-  { label: "TikTok", handle: "@thevault" },
-  { label: "LinkedIn", handle: "The Vault" },
+  { label: "Twitter / X", handle: "@theanima" },
+  { label: "Instagram", handle: "@theanima" },
+  { label: "TikTok", handle: "@theanima" },
+  { label: "LinkedIn", handle: "Anima" },
 ];
 
 /* ------------------------------------------------------------------ */

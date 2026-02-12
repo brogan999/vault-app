@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -9,12 +9,18 @@ import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createCheckoutSession } from "@/app/actions/payments";
 import { toast } from "sonner";
+import { JsonLd, softwareApplicationSchema } from "@/components/seo/json-ld";
+import { trackPricingPageViewed, trackCheckoutStarted } from "@/lib/analytics";
 
 export default function PricingPage() {
   const t = useTranslations("landing.pricing");
   const tl = useTranslations("landing");
   const [proInterval, setProInterval] = useState<"pro_monthly" | "pro_annual">("pro_annual");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    trackPricingPageViewed();
+  }, []);
 
   const plans = [
     {
@@ -56,6 +62,8 @@ export default function PricingPage() {
 
   const handleProCta = async () => {
     setLoading(true);
+    const interval = proInterval === "pro_annual" ? "annual" : "monthly";
+    trackCheckoutStarted("pro", interval);
     try {
       const { url } = await createCheckoutSession(proInterval);
       if (url) window.location.href = url;
@@ -69,6 +77,7 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen py-20 lg:py-28">
+      <JsonLd data={softwareApplicationSchema()} />
       <div className="mx-auto max-w-6xl px-4 lg:px-8">
         <div className="mx-auto mb-14 max-w-2xl text-center">
           <p className="text-sm font-semibold uppercase tracking-wider text-primary">

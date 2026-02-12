@@ -32,7 +32,7 @@ export default async function TestIntroPage({ params }: TestIntroPageProps) {
           {tTest("backToStore")}
         </Link>
         <div className="text-center py-16">
-          <h1 className="text-2xl font-bold font-serif text-foreground">
+          <h1 className="text-2xl font-medium font-serif text-foreground">
             {product.title}
           </h1>
           <p className="mt-2 text-muted-foreground">{product.description}</p>

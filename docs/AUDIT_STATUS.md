@@ -12,7 +12,7 @@ Reference: `cursor-prompt-psychometric-tests.md` (audit criteria).
 - **Schema** – `psychometric_audit_schema.sql` and `guest_test_schema.sql` provide `item_responses` (with `response_time_ms`, `presented_order`), `scale_scores`, `type_assignments`, `validation_metrics`, `esoteric_profiles`, birth data columns, `is_valid`/`startedAt` on test results.
 - **AI Mirror** – System prompt includes all completed assessments (Big Five, type, Enneagram, Work Style, Life Path, Human Design, Chinese Zodiac, Mayan, Western/Vedic charts); framework differentiation and guardrails in prompts.
 - **Guest flow** – Test without account; pay then account creation; navigation gated until sign-up/purchase.
-- **Personality Type** – No “MBTI” in user-facing copy; type clarity index; character names (e.g. INTJ → “The Architect”); continuous scores shown with type.
+- **Personality Type** – No “MBTI” in user-facing copy; type clarity index; character names (e.g. INTJ → “The Mastermind”); continuous scores shown with type.
 - **Work Style** – Titled “Work Style Assessment”; workplace framing; circular/blend display.
 
 ## Deferred / Not yet done

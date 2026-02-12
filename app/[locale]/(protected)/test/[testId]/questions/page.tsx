@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef, useMemo, useEffect, use } from "react";
+import { useState, useCallback, useRef, useMemo, useEffect, useLayoutEffect, use } from "react";
 import { useRouter, Link } from "@/i18n/navigation";
 import { getProductById } from "@/lib/products";
 import { getTestDefinition } from "@/lib/tests";
@@ -17,6 +17,7 @@ import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Mail, ArrowLeft, ClipboardCheck, BarChart3, Rocket } from "lucide-react";
+import { trackAssessmentStarted, trackAssessmentCompleted } from "@/lib/analytics";
 
 const QUESTIONS_PER_PAGE_DEFAULT = 6;
 
@@ -54,6 +55,15 @@ export default function QuestionsPage({ params }: QuestionsPageProps) {
   const questionsPerPage =
     testDef?.questionsPerPage ?? QUESTIONS_PER_PAGE_DEFAULT;
   const rawQuestions = testDef?.questions ?? [];
+  const testStartTimeRef = useRef(Date.now());
+
+  // Track assessment started
+  useEffect(() => {
+    if (product && testDef) {
+      testStartTimeRef.current = Date.now();
+      trackAssessmentStarted(testId, product.title);
+    }
+  }, [testId]);
 
   // Shuffle questions client-side only to avoid hydration mismatch (Math.random
   // produces different results on server vs client).
@@ -213,6 +223,12 @@ export default function QuestionsPage({ params }: QuestionsPageProps) {
       if (result.guestId) {
         document.cookie = `vault_guest_id=${result.guestId}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
       }
+      // Track assessment completion
+      const durationSeconds = Math.round(
+        (Date.now() - testStartTimeRef.current) / 1000
+      );
+      trackAssessmentCompleted(testId, product?.title ?? testId, durationSeconds);
+
       const saveResult = await savePostTestInfo(testId, result.attemptId, {
         email: collectEmail.trim() || undefined,
         gender: collectGender.trim() || undefined,
@@ -250,10 +266,13 @@ export default function QuestionsPage({ params }: QuestionsPageProps) {
       behavior: "auto",
       block: "start",
     });
-    const t = setTimeout(() => {
-      questionRefs.current[0]?.focusFirstOption();
-    }, 150);
-    return () => clearTimeout(t);
+  }, [pageIndex, questionsOnPage.length]);
+
+  // Fallback: focus first question after layout settles (e.g. after shuffle) so keyboard works.
+  useLayoutEffect(() => {
+    if (questionsOnPage.length === 0) return;
+    const fallback = setTimeout(() => questionRefs.current[0]?.focusFirstOption(), 400);
+    return () => clearTimeout(fallback);
   }, [pageIndex, questionsOnPage.length]);
 
   if (!product || !testDef) {
@@ -288,7 +307,7 @@ export default function QuestionsPage({ params }: QuestionsPageProps) {
       </Link>
 
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold font-serif text-foreground tracking-tight sm:text-5xl">
+        <h1 className="text-4xl font-medium font-serif text-foreground tracking-tight sm:text-5xl">
           {tTest("freePersonalityTest")}
         </h1>
         <p className="mt-3 text-lg text-muted-foreground tracking-wide">
@@ -351,6 +370,7 @@ export default function QuestionsPage({ params }: QuestionsPageProps) {
               value={answers.get(q.id)}
               onChange={(value) => handleAnswer(q.id, value)}
               variant="inline"
+              autoFocus={i === 0}
             />
           </div>
         ))}
@@ -429,6 +449,10 @@ export default function QuestionsPage({ params }: QuestionsPageProps) {
         onSubmit={handleSubmit}
         submitLabel={t("seeResults")}
       />
+
+      {/* Extra breathing room so the last questions can scroll into view.
+          Without this, the footer blocks the scroll target after a selection. */}
+      <div className="h-[60vh]" aria-hidden="true" />
     </TestShell>
   );
 }

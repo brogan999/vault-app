@@ -5,19 +5,20 @@ import { getProductById } from "@/lib/products";
 import { getReportPriceDisplay } from "@/lib/reports";
 import { getTestResult } from "@/app/actions/tests";
 import { getSupabaseUser } from "@/lib/clerk/utils";
+import { getResultsContent } from "@/lib/results-content";
 import { TestShell } from "@/components/features/test/TestShell";
 import { FreeResults } from "@/components/features/test/FreeResults";
-import { PremiumUpgradeClient } from "./PremiumUpgradeClient";
 import { ExploreMoreTests } from "@/components/features/test/ExploreMoreTests";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, RotateCcw, Home, MessageCircle, Sparkles } from "lucide-react";
 import type { TestScores } from "@/lib/tests/types";
+import { ResultsPageClientWrapper } from "./ResultsPageClientWrapper";
 
 interface ResultsPageProps {
   params: Promise<{ testId: string; attemptId: string }>;
 }
 
-/** Normalize scores from DB (may be plain object; ensure shape so FreeResults never throws). */
+/** Normalize scores from DB (may be plain object; ensure shape so components never throw). */
 function normalizeScores(raw: unknown): TestScores {
   if (raw && typeof raw === "object" && !Array.isArray(raw)) {
     const o = raw as Record<string, unknown>;
@@ -45,7 +46,7 @@ function normalizeScores(raw: unknown): TestScores {
   return { dimensions: [] };
 }
 
-/** Normalize interpretation from DB so FreeResults never throws on missing keys. */
+/** Normalize interpretation from DB. */
 function normalizeInterpretation(raw: unknown): { summary: string; dimensionDetails: { dimensionId: string; text: string }[]; typeLabel?: string; tips?: string[] } | null {
   if (raw == null) return null;
   if (typeof raw !== "object" || Array.isArray(raw)) return null;
@@ -83,9 +84,50 @@ export default async function ResultsPage({ params }: ResultsPageProps) {
   const interpretation = normalizeInterpretation(result.interpretation);
   const isGuest = !user;
 
+  // Try to get extended results content for the rich layout
+  const resultsContent = getResultsContent(testId);
+  const extendedContent = resultsContent?.getContent(scores) ?? null;
+
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const shareUrl = `${baseUrl}/test/${testId}/results/${attemptId}`;
+
+  // If we have extended content, render the rich results layout
+  if (extendedContent) {
+    return (
+      <>
+        <ResultsPageClientWrapper
+          content={extendedContent}
+          scores={scores}
+          isPremium={result.isPremium}
+          attemptId={attemptId}
+          testId={testId}
+          testTitle={product.title}
+          price={reportPrice}
+          shareUrl={shareUrl}
+        />
+
+        {/* Guest sign-up prompt */}
+        {isGuest && (
+          <div className="mx-auto max-w-6xl px-4 pb-12 sm:px-6 lg:px-8">
+            <div className="rounded-2xl border border-primary/20 bg-primary/5 p-5 text-center">
+              <p className="font-semibold text-foreground">{tResults("guestBannerTitle")}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{tResults("guestBannerDescription")}</p>
+              <Button asChild size="sm" className="mt-4 gap-2 rounded-xl" variant="default">
+                <Link href="/sign-up">
+                  <Sparkles className="h-4 w-4" />
+                  {tResults("guestSignUpCta")}
+                </Link>
+              </Button>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  }
+
+  // Fallback: original simple layout for tests without extended content
   return (
     <TestShell>
-      {/* Back link — uses locale-aware Link so /store stays under current locale */}
       <Link
         href="/store"
         className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
@@ -94,7 +136,6 @@ export default async function ResultsPage({ params }: ResultsPageProps) {
         {t("backToStore")}
       </Link>
 
-      {/* Free results */}
       <FreeResults
         testTitle={product.title}
         scores={scores}
@@ -102,18 +143,21 @@ export default async function ResultsPage({ params }: ResultsPageProps) {
         gender={result.gender}
       />
 
-      {/* Premium upgrade CTA — prominent for conversion */}
       <div className="mt-8">
-        <PremiumUpgradeClient
-          testTitle={product.title}
-          price={reportPrice}
+        {/* Keep original PremiumUpgradeClient for fallback */}
+        <ResultsPageClientWrapper
+          content={null}
+          scores={scores}
           isPremium={result.isPremium}
           attemptId={attemptId}
           testId={testId}
+          testTitle={product.title}
+          price={reportPrice}
+          shareUrl={shareUrl}
+          fallbackMode
         />
       </div>
 
-      {/* Cross-sell: explore more tests */}
       <ExploreMoreTests
         excludeTestId={testId}
         heading={
@@ -125,7 +169,6 @@ export default async function ResultsPage({ params }: ResultsPageProps) {
         max={6}
       />
 
-      {/* Guest sign-up prompt — save results and unlock Chat/Mirror */}
       {isGuest && (
         <div className="mt-8 rounded-2xl border border-primary/20 bg-primary/5 p-5 text-center">
           <p className="font-semibold text-foreground">{tResults("guestBannerTitle")}</p>
@@ -139,7 +182,6 @@ export default async function ResultsPage({ params }: ResultsPageProps) {
         </div>
       )}
 
-      {/* Bottom actions */}
       <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
         <div className="flex flex-col items-center gap-1">
           <Link href="/chat">

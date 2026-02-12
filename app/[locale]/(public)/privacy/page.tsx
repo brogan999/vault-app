@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — The Vault",
+  title: "Privacy Policy — Anima",
   description:
-    "Learn how The Vault collects, uses, and protects your personal information.",
+    "Learn how Anima collects, uses, and protects your personal information.",
 };
 
 export default function PrivacyPage() {
@@ -13,9 +13,8 @@ export default function PrivacyPage() {
           Privacy Policy
         </h1>
         <p className="text-sm text-muted-foreground mb-10">
-          Last updated: February 7, 2026
+          Last updated: February 11, 2026
         </p>
-
         <div className="prose-legal space-y-8 text-foreground text-sm leading-relaxed">
           {/* 1 */}
           <section>
@@ -23,17 +22,15 @@ export default function PrivacyPage() {
               1. Introduction
             </h2>
             <p className="text-muted-foreground mb-3">
-              The Vault (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;the
-              App&rdquo;) is operated by The Vault, Inc., a Delaware C
-              Corporation based in California. We are committed to protecting your
+              Anima (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;the
+              App&rdquo;) is operated by Personality Co. We are committed to protecting your
               privacy. This Privacy Policy explains how we collect, use, disclose,
               and safeguard your information when you use our personality
               assessment and self-discovery platform.
             </p>
             <p className="text-muted-foreground">
               We comply with the California Consumer Privacy Act (CCPA), the
-              California Privacy Rights Act (CPRA), and other applicable U.S.
-              privacy laws.
+              California Privacy Rights Act (CPRA), the EU General Data Protection Regulation (GDPR), the UK GDPR, and other applicable privacy laws in the United States, European Union, United Kingdom, and elsewhere. Where required by law, we obtain your consent before using non-essential cookies or analytics.
             </p>
           </section>
 
@@ -149,11 +146,12 @@ export default function PrivacyPage() {
               App:
             </p>
             <ul className="list-disc pl-6 space-y-1 text-muted-foreground mb-3">
-              <li><strong>Supabase</strong> — database and authentication (United States)</li>
+              <li><strong>Supabase</strong> — database and storage (United States)</li>
               <li><strong>Vercel</strong> — application hosting (United States)</li>
               <li><strong>OpenAI</strong> — AI analysis and chat (United States)</li>
               <li><strong>Clerk</strong> — user authentication (United States)</li>
               <li><strong>Stripe</strong> — payment processing (United States)</li>
+              <li><strong>PostHog</strong> — product analytics (usage and feature events to improve the App; United States). Where required by law (e.g. EU/UK), we load analytics only after you consent. See our Cookie Policy for details.</li>
             </ul>
             <p className="text-muted-foreground">
               Each service provider processes data only as necessary to provide
@@ -251,22 +249,36 @@ export default function PrivacyPage() {
               </li>
             </ul>
             <p className="text-muted-foreground mb-3">
-              <strong>To exercise your rights:</strong> You can delete your
-              account and all associated data directly from the App settings. For
-              other requests, email us at{" "}
+              <strong>To exercise your rights:</strong> You can export your data from the App (Vault or account settings) and, where we have enabled it, delete your account and associated data from the App settings. For other requests (e.g. access, correction, deletion, or limit use of sensitive information), email us at{" "}
               <a
-                href="mailto:support@thevault.com"
+                href="mailto:support@theanima.ai"
                 className="text-primary underline underline-offset-2 hover:opacity-80"
               >
-                support@thevault.com
+                support@theanima.ai
               </a>
-              . We will verify your identity and respond within 45 days as
-              required by law.
+              . We will verify your identity and respond within 45 days as required by California law.
             </p>
             <p className="text-muted-foreground">
               <strong>Authorized agents:</strong> You may designate an authorized
               agent to make a request on your behalf. We may require verification
               of the agent&apos;s authority and your identity.
+            </p>
+          </section>
+
+          {/* 8.1 EU/UK GDPR */}
+          <section>
+            <h2 className="text-lg font-bold font-serif text-foreground mb-3">
+              Your Rights in the European Economic Area and United Kingdom (GDPR / UK GDPR)
+            </h2>
+            <p className="text-muted-foreground mb-2">
+              If you are in the EEA or UK, we process your personal data on the following bases: performance of our contract with you (account, assessments, vault, AI), consent (where we ask for it, e.g. optional analytics cookies), and our legitimate interests (security, fraud prevention, improving the App) where those interests are not overridden by your rights.
+            </p>
+            <p className="text-muted-foreground mb-2">
+              You have the right to: access your data; have inaccurate data rectified; request erasure (&ldquo;right to be forgotten&rdquo;); restrict processing; data portability (we provide export in the App); object to processing based on legitimate interests; withdraw consent where processing is based on consent; and lodge a complaint with a supervisory authority (e.g. in your country of residence).
+            </p>
+            <p className="text-muted-foreground">
+              To exercise these rights, use the in-app data export or account deletion where available, or contact us at{" "}
+              <a href="mailto:support@theanima.ai" className="text-primary underline underline-offset-2 hover:opacity-80">support@theanima.ai</a>. We will respond within one month. You may also contact your local data protection authority if you believe we have not complied with applicable law.
             </p>
           </section>
 
@@ -325,14 +337,13 @@ export default function PrivacyPage() {
               10. Cookies and Tracking
             </h2>
             <p className="text-muted-foreground mb-3">
-              We use essential cookies for authentication and session management.
-              These are strictly necessary for the App to function and cannot be
-              disabled.
+              We use essential cookies for authentication and session management (e.g. Clerk, Supabase, and our own session and guest identifiers). These are strictly necessary for the App to function and cannot be disabled.
+            </p>
+            <p className="text-muted-foreground mb-3">
+              We use optional analytics cookies (e.g. PostHog) to understand how the App is used and to improve it. In the European Economic Area, UK, and other jurisdictions that require consent for non-essential cookies, we only set these cookies after you accept them via our cookie banner. You can change your preference at any time via the cookie or preference link in the footer.
             </p>
             <p className="text-muted-foreground">
-              We do not use advertising cookies, third-party tracking pixels, or
-              cross-site tracking technologies. We do not participate in ad
-              networks or retargeting.
+              We do not use advertising cookies, third-party tracking pixels, or cross-site tracking for ads. We do not participate in ad networks or retargeting. For a full list of cookies and how to manage them, see our <a href="/cookies" className="text-primary underline underline-offset-2 hover:opacity-80">Cookie Policy</a>.
             </p>
           </section>
 
@@ -353,10 +364,10 @@ export default function PrivacyPage() {
               it. If you believe a child has provided us with personal
               information, please contact us at{" "}
               <a
-                href="mailto:support@thevault.com"
+                href="mailto:support@theanima.ai"
                 className="text-primary underline underline-offset-2 hover:opacity-80"
               >
-                support@thevault.com
+                support@theanima.ai
               </a>
               .
             </p>
@@ -378,13 +389,13 @@ export default function PrivacyPage() {
           {/* 13 */}
           <section>
             <h2 className="text-lg font-bold font-serif text-foreground mb-3">
-              13. International Users
+              13. International Users and Data Transfers
             </h2>
+            <p className="text-muted-foreground mb-3">
+              The App is operated from and hosted in the United States. If you access the App from outside the United States (including the European Economic Area or UK), your information will be transferred to, stored, and processed in the United States and possibly other countries where our service providers operate.
+            </p>
             <p className="text-muted-foreground">
-              The App is operated from and hosted in the United States. If you
-              access the App from outside the United States, please be aware that
-              your information will be transferred to, stored, and processed in
-              the United States. By using the App, you consent to this transfer.
+              For users in the EEA and UK, we rely on appropriate safeguards for such transfers (such as the EU Commission adequacy decisions, UK adequacy regulations, or standard contractual clauses where applicable). By using the App, you acknowledge this transfer. If you do not wish your data to be transferred in this way, please do not use the App or contact us to request deletion of your account and data.
             </p>
           </section>
 
@@ -412,14 +423,16 @@ export default function PrivacyPage() {
               your privacy rights, please contact us:
             </p>
             <p className="text-muted-foreground mb-3">
-              <strong>The Vault, Inc.</strong>
+              <strong>Personality Co</strong>
+              <br />
+              For our physical mailing address, please contact support@theanima.ai.
               <br />
               Email:{" "}
               <a
-                href="mailto:support@thevault.com"
+                href="mailto:support@theanima.ai"
                 className="text-primary underline underline-offset-2 hover:opacity-80"
               >
-                support@thevault.com
+                support@theanima.ai
               </a>
             </p>
             <p className="text-muted-foreground">

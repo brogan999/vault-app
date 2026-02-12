@@ -37,10 +37,12 @@ export function MirrorGrid({ profile: _profile, journals, stats, activity, testS
       </section>
 
       {/* Full snapshot of all tests (with category filter) */}
-      <TestsSnapshotSection snapshots={testSnapshots} />
+      <div className="border-t border-border pt-6">
+        <TestsSnapshotSection snapshots={testSnapshots} />
+      </div>
 
       {/* Voice / mood journal */}
-      <section aria-label="Journal">
+      <section className="border-t border-border pt-6" aria-label="Journal">
         <VoiceJournalWidget
           lastEntry={journals[0] as any}
           recentJournals={journals as any[]}
@@ -48,13 +50,13 @@ export function MirrorGrid({ profile: _profile, journals, stats, activity, testS
       </section>
 
       {/* Engagement heatmap (full width) */}
-      <section aria-label="Activity engagement">
+      <section className="border-t border-border pt-6" aria-label="Activity engagement">
         <EngagementGrid daily={activity.daily} />
       </section>
 
       {/* Two column grid: Mood Timeline + Growth Momentum */}
       <section
-        className="grid grid-cols-1 gap-6 lg:grid-cols-2"
+        className="grid grid-cols-1 gap-6 lg:grid-cols-2 border-t border-border pt-6"
         aria-label="Mood and growth"
       >
         <MoodTimeline moods={activity.moods} />

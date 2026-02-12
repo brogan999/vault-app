@@ -19,151 +19,9 @@ import {
   Sparkles,
   Star,
   Check,
-  Menu,
-  X,
 } from "lucide-react";
 import { ConsentDialog } from "@/components/features/consent/ConsentDialog";
-import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
-import { ThemePaletteSwitcher } from "@/components/landing/ThemePaletteSwitcher";
 import { HERO_TEST_ID } from "@/lib/products";
-
-/* ── Navbar ──────────────────────────────────────────────────────── */
-
-export function Navbar() {
-  const t = useTranslations("landing.navbar");
-  const tc = useTranslations("common");
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  const navLinks = [
-    { label: t("ourFramework"), href: "/our-framework" },
-    { label: t("features"), href: "#features" },
-    { label: t("testimonials"), href: "#testimonials" },
-    { label: t("pricing"), href: "#pricing" },
-  ];
-
-  return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-lg">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 lg:px-8">
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
-            <Archive className="h-5 w-5 text-primary-foreground" />
-          </div>
-          <span className="text-lg font-medium tracking-tight text-foreground font-serif">
-            {tc("theVault")}
-          </span>
-        </Link>
-
-        <nav
-          className="hidden items-center gap-8 md:flex"
-          aria-label="Main navigation"
-        >
-          {navLinks.map((link) =>
-            link.href.startsWith("#") ? (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {link.label}
-              </a>
-            ) : (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {link.label}
-              </Link>
-            )
-          )}
-        </nav>
-
-        <div className="hidden items-center gap-3 md:flex">
-          <ThemePaletteSwitcher />
-          <LanguageSwitcher className="rounded-xl" />
-          <Button
-            variant="ghost"
-            className="rounded-full text-sm font-medium"
-            asChild
-          >
-            <Link href="/sign-in">{t("logIn")}</Link>
-          </Button>
-          <Button className="rounded-full font-medium" asChild>
-            <Link href="/sign-up">{t("getStartedFree")}</Link>
-          </Button>
-        </div>
-
-        <button
-          type="button"
-          className="flex h-10 w-10 items-center justify-center rounded-xl text-foreground md:hidden"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label={mobileOpen ? t("closeMenu") : t("openMenu")}
-        >
-          {mobileOpen ? (
-            <X className="h-5 w-5" />
-          ) : (
-            <Menu className="h-5 w-5" />
-          )}
-        </button>
-      </div>
-
-      <div
-        className={cn(
-          "overflow-hidden border-t border-border bg-background transition-all duration-300 md:hidden",
-          mobileOpen ? "max-h-72 py-4" : "max-h-0 py-0"
-        )}
-      >
-        <nav className="flex flex-col gap-1 px-4">
-          {navLinks.map((link) =>
-            link.href.startsWith("#") ? (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-              >
-                {link.label}
-              </a>
-            ) : (
-              <Link
-                key={link.label}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-              >
-                {link.label}
-              </Link>
-            )
-          )}
-          <div className="mt-3 flex flex-col gap-2">
-            <div className="flex items-center justify-between rounded-xl border border-border px-3 py-2">
-              <span className="text-sm font-medium text-muted-foreground">
-                {t("language")}
-              </span>
-              <LanguageSwitcher className="rounded-xl" />
-            </div>
-            <div className="flex items-center justify-between rounded-xl border border-border px-3 py-2">
-              <span className="text-sm font-medium text-muted-foreground">
-                {t("themeAndColour")}
-              </span>
-              <ThemePaletteSwitcher />
-            </div>
-            <Button
-              variant="outline"
-              className="w-full rounded-full bg-transparent"
-              asChild
-            >
-              <Link href="/sign-in">{t("logIn")}</Link>
-            </Button>
-            <Button className="w-full rounded-full font-medium" asChild>
-              <Link href="/sign-up">{t("getStartedFree")}</Link>
-            </Button>
-          </div>
-        </nav>
-      </div>
-    </header>
-  );
-}
 
 /* ── Hero ─────────────────────────────────────────────────────────── */
 
@@ -189,9 +47,9 @@ function Hero() {
     <section className="py-20 lg:py-32">
       <div className="mx-auto max-w-6xl px-4 lg:px-8">
         <div>
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border px-4 py-1.5">
-            <Sparkles className="h-4 w-4 text-muted-foreground" />
-            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#328181]/30 bg-[#328181]/10 px-4 py-1.5">
+            <Sparkles className="h-4 w-4 text-[#328181]" />
+            <span className="text-xs font-medium uppercase tracking-wider text-[#328181]">
               {t("badge")}
             </span>
           </div>
@@ -314,8 +172,8 @@ function Features() {
               className="group border border-border rounded-2xl bg-transparent"
             >
               <CardContent className="p-6">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-muted">
-                  <feature.icon className="h-6 w-6 text-foreground" />
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#328181]/10">
+                  <feature.icon className="h-6 w-6 text-[#328181]" />
                 </div>
                 <h3 className="text-lg font-medium text-foreground font-serif">
                   {feature.title}
@@ -361,9 +219,9 @@ function PersonalityPreview() {
                 {trait.score}%
               </span>
             </div>
-            <div className="h-2.5 rounded-full bg-muted overflow-hidden">
+              <div className="h-2.5 rounded-full bg-muted overflow-hidden">
               <div
-                className="h-full rounded-full bg-foreground transition-all duration-700"
+                className="h-full rounded-full bg-[#328181] transition-all duration-700"
                 style={{ width: `${trait.score}%` }}
               />
             </div>
@@ -618,13 +476,13 @@ function Pricing() {
               className={cn(
                 "rounded-2xl bg-transparent",
                 plan.highlighted
-                  ? "border-2 border-primary relative"
+                  ? "border-2 border-[#328181] relative"
                   : "border border-border"
               )}
             >
               {plan.highlighted && (
                 <div className="absolute -top-3.5 left-6">
-                  <span className="rounded-full bg-primary px-4 py-1 text-xs font-medium text-primary-foreground">
+                  <span className="rounded-full bg-[#328181] px-4 py-1 text-xs font-medium text-white">
                     {t("recommended")}
                   </span>
                 </div>
@@ -654,7 +512,7 @@ function Pricing() {
                         className={cn(
                           "mt-0.5 h-4 w-4 shrink-0",
                           plan.highlighted
-                            ? "text-primary"
+                            ? "text-[#328181]"
                             : "text-muted-foreground"
                         )}
                       />
@@ -712,102 +570,6 @@ function FinalCta() {
         </div>
       </div>
     </section>
-  );
-}
-
-/* ── Footer ──────────────────────────────────────────────────────── */
-
-export function Footer() {
-  const t = useTranslations("landing.footer");
-  const tc = useTranslations("common");
-
-  const footerColumns = [
-    {
-      title: t("products"),
-      links: [
-        { label: t("premiumAssessments"), href: "/pricing" },
-        { label: t("aiChat"), href: "/sign-up" },
-        { label: t("voiceJournals"), href: "/sign-up" },
-        { label: t("testimonials"), href: "#testimonials" },
-      ],
-    },
-    {
-      title: t("resources"),
-      links: [
-        { label: t("personalityTest"), href: `/test/${HERO_TEST_ID}` },
-        { label: t("personalityTypes"), href: "#" },
-        { label: t("ourFramework"), href: "/our-framework" },
-      ],
-    },
-    {
-      title: t("help"),
-      links: [
-        { label: t("contactUs"), href: "/contact" },
-        { label: t("faq"), href: "/faq" },
-        { label: t("knowledgeBase"), href: "/knowledge-base" },
-        { label: t("privacyPolicy"), href: "/privacy" },
-        { label: t("termsAndConditions"), href: "/terms" },
-      ],
-    },
-  ];
-
-  return (
-    <footer className="border-t border-border">
-      <div className="mx-auto max-w-6xl px-4 py-12 lg:px-8 lg:py-16">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-          <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                <Archive className="h-4 w-4 text-primary-foreground" />
-              </div>
-              <span className="text-base font-medium text-foreground font-serif">
-                {tc("theVault")}
-              </span>
-            </Link>
-            <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-[220px]">
-              {t("tagline")}
-            </p>
-          </div>
-
-          {footerColumns.map((col) => (
-            <div key={col.title}>
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                {col.title}
-              </p>
-              <nav className="mt-3 flex flex-col gap-2.5">
-                {col.links.map((link) => (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
-          <p className="text-xs text-muted-foreground">{t("copyright")}</p>
-          <div className="flex items-center gap-6">
-            <Link
-              href="/terms"
-              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {t("termsAndConditions")}
-            </Link>
-            <Link
-              href="/privacy"
-              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {t("privacyPolicy")}
-            </Link>
-          </div>
-        </div>
-      </div>
-    </footer>
   );
 }
 

@@ -18,6 +18,7 @@ import { getDocumentDetail, getVaultStats, getVaultRecentActivity } from "@/app/
 import type { VaultStatsData } from "@/app/actions/vault";
 import type { VaultActivityItem } from "@/app/actions/vault";
 import { Link } from "@/i18n/navigation";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 /** File types where we open the original file directly instead of showing extracted text */
 function shouldOpenDirectly(type: string): boolean {
@@ -35,7 +36,7 @@ function DiscoverMoreCard({
   const pct = testsAvailable > 0 ? Math.round((testsCompleted / testsAvailable) * 100) : 0;
   return (
     <div className="rounded-2xl bg-primary p-6 text-primary-foreground">
-      <h3 className="text-lg font-bold font-serif">{t("discoverMore")}</h3>
+      <h3 className="text-lg font-medium font-serif">{t("discoverMore")}</h3>
       <p className="text-sm mt-2 leading-relaxed opacity-90">
         {t("assessmentProgress", { count: testsCompleted, total: testsAvailable })}
       </p>
@@ -46,7 +47,7 @@ function DiscoverMoreCard({
             style={{ width: `${pct}%` }}
           />
         </div>
-        <span className="text-xs font-bold">{pct}%</span>
+        <span className="text-xs font-medium">{pct}%</span>
       </div>
       <Link
         href="/store"
@@ -109,18 +110,11 @@ function VaultContent() {
 
   return (
     <>
-      {/* Header */}
-      <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground font-serif lg:text-3xl text-balance">
-            {t("title")}
-          </h1>
-          <p className="text-muted-foreground mt-1 leading-relaxed">
-            {t("description")}
-          </p>
-        </div>
-        <ExportDataButton />
-      </header>
+      <PageHeader
+        title={t("title")}
+        description={t("description")}
+        actions={<ExportDataButton />}
+      />
 
       {/* File Upload Zone */}
       <section className="mb-8" aria-label="File upload">
@@ -128,15 +122,12 @@ function VaultContent() {
       </section>
 
       {/* Files Browser */}
-      <section className="mb-10" aria-label="Your uploaded files">
+      <section className="mb-10 border-t border-border pt-6" aria-label="Your uploaded files">
         <FileTree onDocumentOpen={handleDocumentOpen} />
       </section>
 
-      {/* Divider */}
-      <hr className="border-border mb-8" />
-
       {/* Stats bar */}
-      <section className="mb-6" aria-label="Vault statistics">
+      <section className="mb-6 border-t border-border pt-8" aria-label="Vault statistics">
         <VaultStats data={vaultStats} />
       </section>
 
@@ -181,7 +172,7 @@ function VaultContent() {
 
       {/* Bottom section: Recent Activity + Discover CTA */}
       <section
-        className="grid grid-cols-1 gap-6 lg:grid-cols-3"
+        className="grid grid-cols-1 gap-6 lg:grid-cols-3 border-t border-border pt-8"
         aria-label="Activity and discovery"
       >
         <div className="lg:col-span-2">

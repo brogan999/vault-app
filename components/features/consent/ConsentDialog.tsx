@@ -107,7 +107,7 @@ export function ConsentDialog({
       >
         <div className="px-6 pt-6 pb-2">
           <DialogHeader className="text-left">
-            <DialogTitle className="text-xl font-bold text-foreground font-serif">
+            <DialogTitle className="text-xl font-medium text-foreground font-serif">
               Before you begin
             </DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground mt-1.5">

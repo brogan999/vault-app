@@ -1,4 +1,4 @@
-# The Vault
+# Anima
 
 A privacy-centric AI companion that integrates psychological data using Retrieval-Augmented Generation (RAG).
 
@@ -78,7 +78,7 @@ A privacy-centric AI companion that integrates psychological data using Retrieva
 
 ## Key Features
 
-- **The Vault**: Upload and manage psychological data (PDFs, audio, text)
+- **Anima**: Upload and manage psychological data (PDFs, audio, text)
 - **The Mirror**: Dashboard with widgets showing personality insights
 - **Chat**: AI-powered chat with RAG for personalized responses
 - **Voice Journaling**: Record and transcribe voice journals

@@ -2,19 +2,20 @@ import { Link } from "@/i18n/navigation";
 import { HERO_TEST_ID } from "@/lib/products";
 import { Globe } from "lucide-react";
 import type { Metadata } from "next";
+import { JsonLd, articleSchema } from "@/components/seo/json-ld";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Our Framework — How We Approach Personality",
+    title: "Our Framework — Anima",
     description:
-      "Learn how we combine psychometric science and symbolic traditions into one portrait. Big Five, Enneagram, astrology, Human Design, and more.",
+      "Why we're called Anima: psychometric science and symbolic traditions in one portrait. Big Five, Enneagram, astrology, Human Design, and more.",
   };
 }
 
 const SECTIONS = [
-  { id: "introduction", label: "Introduction" },
+  { id: "why-anima", label: "Why We're Called Anima" },
   { id: "problem", label: "The Problem With One Lens" },
-  { id: "what-we-offer", label: "What We Offer" },
+  { id: "what-anima-offers", label: "What Anima Offers" },
   { id: "psychometric", label: "The Psychometric Assessments" },
   { id: "esoteric", label: "The Esoteric Frameworks" },
   { id: "mirror", label: "The Mirror: AI-Powered Self-Conversation" },
@@ -23,25 +24,34 @@ const SECTIONS = [
   { id: "what-it-is", label: "What This Is — and What It Isn't" },
 ];
 
+const BASE_URL =
+  process.env.NEXT_PUBLIC_APP_URL || "https://theanima.ai";
+
 export default async function OurFrameworkPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 lg:px-8 lg:py-14">
+        <JsonLd
+          data={articleSchema({
+            headline: "Our Framework — Anima",
+            description:
+              "Why we're called Anima: psychometric science and symbolic traditions in one portrait. Big Five, Enneagram, astrology, Human Design, and more.",
+            url: `${BASE_URL}/our-framework`,
+            datePublished: "2026-02-07",
+            dateModified: "2026-02-11",
+          })}
+        />
         {/* Page title & intro */}
         <div className="mb-12 border-b border-border/60 pb-10">
           <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-            Core Theory
+            Core theory
           </p>
           <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-foreground font-serif sm:text-4xl">
             Our Framework
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            The first thing most people want to know after taking a personality
-            test is whether it&apos;s &quot;real.&quot; Can a handful of questions
-            actually capture who you are? It&apos;s a fair question — and our honest
-            answer is: no single test can. Not ours, not anyone&apos;s.
-          </p>
-          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            That&apos;s actually the whole point of what we&apos;ve built.
+            In the winter of 1913, Carl Jung did something that would have ended
+            most careers. He stopped treating patients — and walked into his own
+            unconscious. What he found there is why we&apos;re called Anima.
           </p>
         </div>
 
@@ -70,16 +80,67 @@ export default async function OurFrameworkPage() {
 
         {/* Main content */}
         <article className="space-y-16 text-foreground">
-          <section id="introduction" className="scroll-mt-24">
-            <p className="leading-relaxed text-muted-foreground">
-              For over a century, psychologists, philosophers, and ancient wisdom
-              traditions have been drawing maps of the human personality. Some of
-              those maps are backed by decades of peer-reviewed research. Others
-              are rooted in thousands of years of symbolic tradition. Each one
-              captures something true — and each one misses something, too.
+          <section id="why-anima" className="scroll-mt-24">
+            <h2 className="text-xl font-bold font-serif text-foreground sm:text-2xl">
+              Why We&apos;re Called Anima
+            </h2>
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              In the winter of 1913, Carl Jung — already one of the most
+              celebrated psychologists in the world — did something that would
+              have ended most careers. He stopped treating patients. He withdrew
+              from academic life. And he deliberately walked into his own
+              unconscious.
             </p>
             <p className="mt-4 leading-relaxed text-muted-foreground">
-              We decided to stop pretending that any one map is the territory.
+              For the next six years, Jung sat alone in his study in Küsnacht, on
+              the shores of Lake Zurich, and engaged in what he later called
+              &quot;the most important experiment of my life.&quot; He would quiet his
+              mind, let images arise, and then enter into dialogue with the
+              figures he encountered. He painted them. He carved them in stone. He
+              recorded every word.
+            </p>
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              What emerged from those years would reshape our understanding of the
+              human mind — the archetypes, the collective unconscious, the shadow,
+              the process of individuation. But before any of that, there was one
+              discovery that changed everything.
+            </p>
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              Jung found that deep beneath the surface of his conscious
+              personality — beneath the professional reputation, the intellectual
+              framework, the social mask — there existed an inner figure with its
+              own voice, its own knowledge, and its own way of seeing. He called
+              this figure the <em>anima</em>: the soul, the inner personality, the
+              animating force that connects the conscious mind to the vast unknown
+              within.
+            </p>
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              The anima, Jung realized, was not merely a concept. It was the
+              bridge. The part of yourself that knows what your conscious mind
+              hasn&apos;t figured out yet. The voice that speaks in dreams, in sudden
+              intuitions, in the feeling that there&apos;s something about you that no
+              single test, no single framework, no single label has ever fully
+              captured.
+            </p>
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              That&apos;s why we named this platform Anima.
+            </p>
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              Not because we think Jung had the final word on personality — he
+              didn&apos;t. But because he understood something that most personality
+              platforms still get wrong: <strong>you cannot know yourself through a
+              single lens.</strong> The conscious mind sees one thing. The
+              unconscious holds another. Empirical measurement captures a
+              pattern. Symbolic tradition captures a meaning. You need both. You
+              need many.
+            </p>
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              Jung spent those years in dialogue with his inner world because he
+              understood that self-knowledge isn&apos;t a result you receive.
+              It&apos;s a conversation you enter.
+            </p>
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              Anima is designed to be that conversation.
             </p>
           </section>
 
@@ -115,12 +176,12 @@ export default async function OurFrameworkPage() {
             </p>
           </section>
 
-          <section id="what-we-offer" className="scroll-mt-24">
+          <section id="what-anima-offers" className="scroll-mt-24">
             <h2 className="text-xl font-bold font-serif text-foreground sm:text-2xl">
-              What We Offer
+              What Anima Offers
             </h2>
             <p className="mt-4 leading-relaxed text-muted-foreground">
-              Our platform brings together ten distinct frameworks — four grounded
+              Anima brings together ten distinct frameworks — four grounded
               in modern psychometric science, and six drawn from the world&apos;s
               oldest traditions of self-understanding. Plus an AI companion that
               weaves them all together into a conversation about you.
@@ -177,7 +238,8 @@ export default async function OurFrameworkPage() {
                 <p className="mt-3 leading-relaxed text-muted-foreground">
                   The four-letter personality types — INTJ, ENFP, ISFJ, and the
                   rest — trace their lineage back to Carl Jung&apos;s theory of
-                  psychological types, later developed into one of the most
+                  psychological types, later developed by Katharine Briggs and
+                  Isabel Myers into the framework that has become one of the most
                   widely recognized personality models in the world.
                 </p>
                 <p className="mt-3 leading-relaxed text-muted-foreground">
@@ -286,7 +348,7 @@ export default async function OurFrameworkPage() {
             <div className="mt-10 space-y-10">
               <div>
                 <h3 className="text-lg font-bold font-serif text-foreground">
-                  Western astrology
+                  Western Astrology
                 </h3>
                 <p className="mt-3 leading-relaxed text-muted-foreground">
                   Your birth chart is a snapshot of the sky at the exact moment
@@ -307,7 +369,7 @@ export default async function OurFrameworkPage() {
 
               <div>
                 <h3 className="text-lg font-bold font-serif text-foreground">
-                  Vedic astrology (Jyotish)
+                  Vedic Astrology (Jyotish)
                 </h3>
                 <p className="mt-3 leading-relaxed text-muted-foreground">
                   India&apos;s ancient astrological tradition uses the sidereal zodiac
@@ -357,7 +419,7 @@ export default async function OurFrameworkPage() {
                   inner compass.
                 </p>
                 <p className="mt-3 leading-relaxed text-muted-foreground">
-                  Human Design is the newest framework on our platform and the one
+                  Human Design is the newest framework on Anima and the one
                   that provokes the strongest reactions — both from people who
                   find it uncannily accurate and from skeptics who question its
                   foundations. We present it because our users asked for it, and
@@ -436,6 +498,16 @@ export default async function OurFrameworkPage() {
               talks back — one that reflects not just your face, but the dozen
               different maps of who you are, all at once.
             </p>
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              Jung spent six years in conversation with his anima — his inner
+              personality — and it transformed his understanding of himself and
+              the human mind. You probably don&apos;t have six years. But you do have
+              something Jung never had: every framework, every assessment, every
+              insight, unified in one place, with an AI that remembers it all.
+            </p>
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              That&apos;s Anima. Your inner conversation, finally given a home.
+            </p>
           </section>
 
           <section id="philosophy" className="scroll-mt-24">
@@ -447,7 +519,7 @@ export default async function OurFrameworkPage() {
               clarity.
             </p>
             <p className="mt-4 leading-relaxed text-muted-foreground">
-              The psychometric assessments on this platform are built with
+              The psychometric assessments on Anima are built with
               genuine scientific rigor. We write validated question items,
               monitor internal consistency, run factor analyses, and track
               reliability. When we say a score is meaningful, we&apos;ve done the
@@ -468,7 +540,7 @@ export default async function OurFrameworkPage() {
             </p>
             <p className="mt-4 leading-relaxed text-muted-foreground">
               What we will never do is blur the line between them. Every result
-              on our platform is clearly labeled: you always know whether
+              on Anima is clearly labeled: you always know whether
               you&apos;re looking at a psychometric finding or a symbolic
               framework. We respect you enough to let you decide what resonates.
             </p>
@@ -504,6 +576,17 @@ export default async function OurFrameworkPage() {
               That&apos;s what we mean by multiple lenses. Not &quot;more is better&quot;
               — but different perspectives reveal different truths.
             </p>
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              Jung understood this better than anyone. He didn&apos;t just study
+              personality from the outside — he dove into his own psyche,
+              engaging with symbolic traditions, mythological patterns, and
+              empirical observation simultaneously. He knew that the rational
+              mind and the symbolic mind aren&apos;t enemies. They&apos;re partners. And
+              the richest self-knowledge comes from letting them work together.
+            </p>
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              That&apos;s the principle Anima is built on.
+            </p>
           </section>
 
           <section id="what-it-is" className="scroll-mt-24">
@@ -511,7 +594,7 @@ export default async function OurFrameworkPage() {
               What This Is — and What It Isn&apos;t
             </h2>
             <p className="mt-4 leading-relaxed text-muted-foreground">
-              This platform is a tool for self-discovery and personal growth.
+              Anima is a tool for self-discovery and personal growth.
               It&apos;s meant to inspire curiosity about who you are, compassion for
               how you&apos;re built, and practical insight into how you can live and
               work and love in ways that feel more like you.
@@ -527,8 +610,14 @@ export default async function OurFrameworkPage() {
               honesty and curiosity, can get you closer to understanding yourself
               than any single test ever could.
             </p>
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              Jung called the anima the bridge between the known and the unknown
+              within you. We built Anima to be that bridge — between science and
+              symbolism, between data and meaning, between who you think you are
+              and who you might discover yourself to be.
+            </p>
             <p className="mt-6 text-lg font-medium leading-relaxed text-foreground">
-              And that&apos;s a pretty good place to start.
+              That&apos;s a pretty good place to start.
             </p>
           </section>
         </article>

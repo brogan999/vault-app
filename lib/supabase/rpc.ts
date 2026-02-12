@@ -1,4 +1,4 @@
-import { createClient } from "./server";
+import { createAdminClient } from "./server";
 
 export async function matchEmbeddings(
   queryEmbedding: number[],
@@ -6,7 +6,7 @@ export async function matchEmbeddings(
   matchThreshold: number = 0.7,
   matchCount: number = 10
 ) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   
   const { data, error } = await supabase.rpc("match_embeddings", {
     query_embedding: queryEmbedding,
@@ -24,7 +24,7 @@ export async function matchEmbeddings(
 }
 
 export async function getDashboardStats(userId: string) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data, error } = await supabase.rpc("get_dashboard_stats", {
     user_id_param: userId,

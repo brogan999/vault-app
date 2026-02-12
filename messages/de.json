@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "The Vault — Erkenne dich selbst",
+    "title": "Anima — Erkenne dich selbst",
     "description": "Persönlichkeitstests, Sprachtagebücher, IQ-Bewertungen und eine KI, die deine Daten kennt. Alles in einem sicheren, privaten Vault."
   },
   "common": {
-    "theVault": "The Vault",
+    "theVault": "Anima",
     "loading": "Wird geladen...",
     "tryAgain": "Erneut versuchen",
     "goHome": "Zur Startseite",
@@ -51,7 +51,7 @@
       "disclaimer": "Keine Kreditkarte erforderlich. Dauert weniger als 10 Minuten."
     },
     "socialProof": {
-      "headline": "Warum The Vault",
+      "headline": "Warum Anima",
       "stat1Value": "10",
       "stat1Label": "Persönlichkeitsrahmen an einem Ort — Wissenschaft und Symbolik",
       "stat2Value": "Null",
@@ -160,7 +160,8 @@
       "knowledgeBase": "Wissensdatenbank",
       "privacyPolicy": "Datenschutzrichtlinie",
       "termsAndConditions": "Allgemeine Geschäftsbedingungen",
-      "copyright": "2024-2026 The Vault. Alle Rechte vorbehalten."
+      "cookiePolicy": "Cookie-Richtlinie",
+      "copyright": "2024-2026 Anima. Alle Rechte vorbehalten."
     },
     "storeNote": "Ebenfalls verfügbar: Einmalige Tiefenanalysen im Shop",
     "browseStore": "Shop durchstöbern"
@@ -235,7 +236,7 @@
     }
   },
   "vault": {
-    "title": "The Vault",
+    "title": "Anima",
     "description": "Lade deine psychologischen Daten hoch und verwalte sie",
     "testResults": "Testergebnisse",
     "collectionsTab": "Sammlungen",
@@ -284,7 +285,7 @@
     },
     "recentActivity": {
       "title": "Letzte Aktivität",
-      "subtitle": "Deine letzten Aktionen in The Vault",
+      "subtitle": "Deine letzten Aktionen in Anima",
       "empty": "Noch keine Aktivität. Schließe ein Assessment ab, um es hier zu sehen."
     },
     "collections": {
@@ -509,7 +510,7 @@
     "pageNotFoundDescription": "Die gesuchte Seite existiert nicht."
   },
   "share": {
-    "sharedFrom": "Geteilt von The Vault",
+    "sharedFrom": "Geteilt von Anima",
     "poweredBy": "Bereitgestellt von"
   },
   "test": {
@@ -524,6 +525,7 @@
       "knowledgeBase": "Wissensdatenbank",
       "privacyPolicy": "Datenschutz",
       "termsAndConditions": "AGB",
+      "cookiePolicy": "Cookie-Richtlinie",
       "logIn": "Anmelden"
     }
   }

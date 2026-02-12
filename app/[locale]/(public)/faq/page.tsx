@@ -1,9 +1,10 @@
 import { Link } from "@/i18n/navigation";
 import type { Metadata } from "next";
+import { JsonLd, faqPageSchema } from "@/components/seo/json-ld";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "FAQ — The Vault",
+    title: "FAQ — Anima",
     description:
       "Frequently asked questions about personality tests, The Mirror, esoteric frameworks, pricing, and your data.",
   };
@@ -41,7 +42,7 @@ const SECTIONS: FaqSection[] = [
     ],
   },
   {
-    heading: "The Psychometric Assessments",
+    heading: "The psychometric assessments",
     items: [
       {
         q: "How accurate are your personality tests?",
@@ -82,7 +83,7 @@ const SECTIONS: FaqSection[] = [
     ],
   },
   {
-    heading: "The Esoteric Frameworks",
+    heading: "The esoteric frameworks",
     items: [
       {
         q: "Do you actually believe in astrology?",
@@ -107,7 +108,7 @@ const SECTIONS: FaqSection[] = [
     ],
   },
   {
-    heading: "The Mirror (AI Chat)",
+    heading: "The Mirror (AI chat)",
     items: [
       {
         q: "What is The Mirror?",
@@ -128,7 +129,7 @@ const SECTIONS: FaqSection[] = [
     ],
   },
   {
-    heading: "Your Account & Data",
+    heading: "Your account & data",
     items: [
       {
         q: "What data do you collect?",
@@ -201,8 +202,14 @@ const SECTIONS: FaqSection[] = [
 /* ------------------------------------------------------------------ */
 
 export default async function FAQPage() {
+  // Build structured data from all FAQ items
+  const allFaqs = SECTIONS.flatMap((s) =>
+    s.items.map((item) => ({ question: item.q, answer: item.a }))
+  );
+
   return (
     <main className="mx-auto max-w-3xl px-4 py-12 lg:px-8 lg:py-16">
+        <JsonLd data={faqPageSchema(allFaqs)} />
         <h1 className="text-3xl font-extrabold font-serif text-foreground tracking-tight lg:text-4xl">
           Frequently Asked Questions
         </h1>

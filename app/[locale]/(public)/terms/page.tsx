@@ -2,9 +2,9 @@ import { Link } from "@/i18n/navigation";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — The Vault",
+  title: "Terms of Service — Anima",
   description:
-    "Read the Terms of Service for The Vault, the AI-powered personality assessment platform.",
+    "Read the Terms of Service for Anima, the AI-powered personality assessment platform.",
 };
 
 export default function TermsPage() {
@@ -14,9 +14,8 @@ export default function TermsPage() {
           Terms of Service
         </h1>
         <p className="text-sm text-muted-foreground mb-10">
-          Last updated: February 7, 2026
+          Last updated: February 11, 2026
         </p>
-
         <div className="prose-legal space-y-8 text-foreground text-sm leading-relaxed">
           {/* 1 */}
           <section>
@@ -24,12 +23,15 @@ export default function TermsPage() {
               1. Acceptance of Terms
             </h2>
             <p className="text-muted-foreground">
-              By accessing and using The Vault (&ldquo;the App&rdquo;), operated
-              by The Vault, Inc., a Delaware C Corporation (&ldquo;Company&rdquo;,
+              By accessing and using Anima (&ldquo;the App&rdquo;), operated
+              by Personality Co (&ldquo;Company&rdquo;,
               &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;), you
               agree to be bound by these Terms of Service (&ldquo;Terms&rdquo;).
               If you do not agree with any part of these Terms, please do not use
               the App.
+            </p>
+            <p className="text-muted-foreground mt-3 text-xs">
+              If you are a consumer in the European Union, United Kingdom, or another jurisdiction that grants mandatory consumer rights, nothing in these Terms affects those statutory rights (including the right to bring a claim in your country of residence where applicable).
             </p>
           </section>
 
@@ -39,7 +41,7 @@ export default function TermsPage() {
               2. Description of the Service
             </h2>
             <p className="text-muted-foreground mb-3">
-              The Vault is a consumer personality and self-discovery platform. The
+              Anima is a consumer personality and self-discovery platform. The
               App provides personality assessments (such as Big Five, MBTI,
               Enneagram, DISC), intelligence evaluations (IQ, Emotional
               Intelligence), strengths assessments, astrology-based reports (natal
@@ -52,7 +54,7 @@ export default function TermsPage() {
               Consumer Information Product
             </p>
             <p className="text-muted-foreground">
-              The Vault is a consumer information product for personal
+              Anima is a consumer information product for personal
               entertainment, self-reflection, and education. It is comparable to
               services like 16Personalities, genetic ancestry platforms, or
               fitness tracking applications. We provide data and interpretations
@@ -168,12 +170,12 @@ export default function TermsPage() {
               If you experience a technical issue preventing delivery, please
               contact us at{" "}
               <a
-                href="mailto:support@thevault.com"
+                href="mailto:support@theanima.ai"
                 className="text-primary underline underline-offset-2 hover:opacity-80"
               >
-                support@thevault.com
+                support@theanima.ai
               </a>
-              .
+              . If you are a consumer in the EEA or UK, your statutory rights (including any right to withdraw from a distance contract within the applicable period) remain unaffected.
             </p>
           </section>
 
@@ -203,7 +205,7 @@ export default function TermsPage() {
             <p className="text-muted-foreground mb-3">
               All content, features, and functionality of the App — including
               text, graphics, logos, assessments, algorithms, and AI models — are
-              owned by The Vault, Inc. or its licensors and are protected by
+              owned by Personality Co or its licensors and are protected by
               U.S. and international intellectual property laws.
             </p>
             <p className="text-muted-foreground">
@@ -240,7 +242,7 @@ export default function TermsPage() {
               11. Limitation of Liability
             </h2>
             <p className="text-muted-foreground mb-3">
-              TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE VAULT, INC.
+              TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, Personality Co
               AND ITS OFFICERS, DIRECTORS, EMPLOYEES, AND AGENTS SHALL NOT BE
               LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR
               PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS,
@@ -260,7 +262,7 @@ export default function TermsPage() {
               12. Indemnification
             </h2>
             <p className="text-muted-foreground mb-2">
-              You agree to indemnify, defend, and hold harmless The Vault, Inc.,
+              You agree to indemnify, defend, and hold harmless Personality Co,
               its officers, directors, employees, and agents from any claims,
               damages, losses, or expenses (including reasonable attorneys&apos;
               fees) arising from:
@@ -339,8 +341,8 @@ export default function TermsPage() {
             <p className="text-muted-foreground mb-3">
               <strong>Class Action Waiver:</strong> You agree to waive any right
               to participate in class action lawsuits, class-wide arbitration, or
-              any consolidated or representative proceedings against The Vault,
-              Inc. All claims must be brought in your individual capacity.
+              any consolidated or representative proceedings against Personality Co.
+              All claims must be brought in your individual capacity.
             </p>
             <p className="text-muted-foreground mb-3">
               <strong>Exceptions:</strong> This arbitration agreement does not
@@ -392,7 +394,7 @@ export default function TermsPage() {
             </h2>
             <p className="text-muted-foreground">
               These Terms, together with our Privacy Policy, constitute the entire
-              agreement between you and The Vault, Inc. regarding your use of the
+              agreement between you and Personality Co regarding your use of the
               App and supersede all prior agreements, understandings, and
               representations.
             </p>
@@ -408,14 +410,14 @@ export default function TermsPage() {
               us at:
             </p>
             <p className="text-muted-foreground">
-              <strong>The Vault, Inc.</strong>
+              <strong>Personality Co</strong>
               <br />
               Email:{" "}
               <a
-                href="mailto:support@thevault.com"
+                href="mailto:support@theanima.ai"
                 className="text-primary underline underline-offset-2 hover:opacity-80"
               >
-                support@thevault.com
+                support@theanima.ai
               </a>
             </p>
           </section>

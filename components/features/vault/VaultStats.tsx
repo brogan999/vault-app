@@ -39,7 +39,7 @@ export function VaultStats({ data }: VaultStatsProps) {
               <stat.icon className="h-5 w-5 text-foreground" />
             </div>
             <div>
-              <p className="text-xl font-bold font-serif text-foreground">
+              <p className="text-xl font-medium font-serif text-foreground">
                 {stat.value}
               </p>
               <p className="text-xs text-muted-foreground">{stat.label}</p>

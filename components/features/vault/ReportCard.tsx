@@ -82,7 +82,7 @@ export function ReportCard({ report }: { report: PremiumReportItem }) {
         {/* Main: result label */}
         <div className="mt-3 flex-1">
           {report.resultLabel && (
-            <p className="text-2xl md:text-3xl font-bold font-serif leading-tight text-white">
+            <p className="text-2xl md:text-3xl font-medium font-serif leading-tight text-white">
               {report.resultLabel}
             </p>
           )}

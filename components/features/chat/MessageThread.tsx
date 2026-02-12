@@ -90,7 +90,7 @@ export function MessageThread({
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mb-5">
             <Sparkles className="h-6 w-6 text-primary" />
           </div>
-          <h2 className="text-xl font-bold text-foreground font-serif text-balance text-center">
+          <h2 className="text-xl font-medium text-foreground font-serif text-balance text-center">
             {t("emptyTitle")}
           </h2>
           <p className="mt-2 max-w-sm text-center text-sm leading-relaxed text-muted-foreground">

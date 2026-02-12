@@ -21,6 +21,7 @@ import {
   updatePersonaPreference,
   updateBirthData,
 } from "@/app/actions/settings";
+import { deleteAccount } from "@/app/actions/delete-account";
 import {
   getCheckinPreferences,
   updateCheckinPreferences,
@@ -35,11 +36,20 @@ import {
 import { toast } from "sonner";
 import { UserButton, useClerk } from "@clerk/nextjs";
 import { Link } from "@/i18n/navigation";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { cn } from "@/lib/utils";
-import { Bot, Compass, Heart, Sun, Moon, CreditCard, MessageCircle, Package } from "lucide-react";
+import { Bot, Compass, Heart, Sun, Moon, CreditCard, MessageCircle, Package, Trash2 } from "lucide-react";
 import type { MessageCreditSummary } from "@/lib/credits";
 import { PlaceAutocomplete } from "@/components/features/settings/PlaceAutocomplete";
 import { getProductById } from "@/lib/products";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 function AccountSignOutButton() {
   const { signOut } = useClerk();
@@ -82,6 +92,9 @@ export default function SettingsPage() {
   const [creditSummary, setCreditSummary] = useState<MessageCreditSummary | null>(null);
   const [purchases, setPurchases] = useState<{ id: string; productName: string; amountPaid: number; createdAt: string; status: string }[]>([]);
   const [topUpLoading, setTopUpLoading] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteConfirmChecked, setDeleteConfirmChecked] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const personas = [
     { id: "balanced", label: t("aiPersona.balanced"), description: t("aiPersona.balancedDesc"), icon: Compass },
@@ -149,22 +162,14 @@ export default function SettingsPage() {
 
   return (
     <div className="max-w-[720px] mx-auto">
-      {/* Header */}
-      <header className="mb-8">
-        <h1 className="text-2xl font-bold text-foreground font-serif lg:text-3xl text-balance">
-          {t("title")}
-        </h1>
-        <p className="text-muted-foreground mt-1 leading-relaxed">
-          {t("description")}
-        </p>
-      </header>
+      <PageHeader title={t("title")} description={t("description")} />
 
       {/* Settings sections */}
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6 border-t border-border pt-8">
         {/* AI Persona */}
         <Card className="border-0 rounded-2xl">
           <CardHeader>
-            <CardTitle className="text-base font-bold font-serif">
+            <CardTitle className="text-base font-medium font-serif">
               {t("aiPersona.title")}
             </CardTitle>
             <CardDescription className="leading-relaxed">
@@ -204,7 +209,7 @@ export default function SettingsPage() {
         {/* Appearance */}
         <Card className="border-0 rounded-2xl">
           <CardHeader>
-            <CardTitle className="text-base font-bold font-serif">
+            <CardTitle className="text-base font-medium font-serif">
               {t("appearance.title")}
             </CardTitle>
             <CardDescription className="leading-relaxed">
@@ -256,7 +261,7 @@ export default function SettingsPage() {
         {/* Birth data (for esoteric frameworks) */}
         <Card className="border-0 rounded-2xl">
           <CardHeader>
-            <CardTitle className="text-base font-bold font-serif">
+            <CardTitle className="text-base font-medium font-serif">
               {t("birthData.title")}
             </CardTitle>
             <CardDescription className="leading-relaxed">
@@ -363,7 +368,7 @@ export default function SettingsPage() {
         {/* Billing & credits */}
         <Card className="border-0 rounded-2xl">
           <CardHeader>
-            <CardTitle className="text-base font-bold font-serif flex items-center gap-2">
+            <CardTitle className="text-base font-medium font-serif flex items-center gap-2">
               <CreditCard className="h-4 w-4" />
               Billing & usage
             </CardTitle>
@@ -387,8 +392,8 @@ export default function SettingsPage() {
                 </p>
               )}
               {subscriptionTier !== "pro" && (
-                <Button asChild size="sm" className="mt-2 rounded-xl">
-                  <Link href="/pricing">Upgrade to Pro</Link>
+                <Button asChild size="sm" variant="accent" className="mt-2 rounded-xl">
+                  <Link href="/pricing">Upgrade to pro</Link>
                 </Button>
               )}
             </div>
@@ -399,6 +404,7 @@ export default function SettingsPage() {
                   <MessageCircle className="h-4 w-4" />
                   Mirror messages
                 </p>
+                {/* Note: "Mirror" is a product name, kept capitalized */}
                 {creditSummary.plan === "free" ? (
                   <p className="text-xs text-muted-foreground mt-1">
                     {creditSummary.messagesRemainingToday ?? 0} remaining today (resets midnight UTC)
@@ -446,6 +452,7 @@ export default function SettingsPage() {
                   <Package className="h-4 w-4" />
                   Recent purchases
                 </p>
+                {/* Sentence case: "Recent purchases" is already correct */}
                 <ul className="space-y-1 text-xs text-muted-foreground">
                   {purchases.slice(0, 10).map((p) => (
                     <li key={p.id} className="flex justify-between">
@@ -462,7 +469,7 @@ export default function SettingsPage() {
         {/* Proactive Check-ins */}
         <Card className="border-0 rounded-2xl">
           <CardHeader>
-            <CardTitle className="text-base font-bold font-serif">
+            <CardTitle className="text-base font-medium font-serif">
               {t("checkins.title")}
             </CardTitle>
             <CardDescription className="leading-relaxed">
@@ -554,7 +561,7 @@ export default function SettingsPage() {
         {/* Account */}
         <Card className="border-0 rounded-2xl">
           <CardHeader>
-            <CardTitle className="text-base font-bold font-serif">
+            <CardTitle className="text-base font-medium font-serif">
               {t("account.title")}
             </CardTitle>
             <CardDescription className="leading-relaxed">
@@ -576,7 +583,84 @@ export default function SettingsPage() {
             <AccountSignOutButton />
           </CardContent>
         </Card>
+
+        {/* Delete account */}
+        <Card className="border-0 rounded-2xl border-destructive/30 bg-destructive/5">
+          <CardHeader>
+            <CardTitle className="text-base font-medium font-serif flex items-center gap-2 text-destructive">
+              <Trash2 className="h-4 w-4" />
+              {t("account.deleteAccount")}
+            </CardTitle>
+            <CardDescription className="leading-relaxed">
+              {t("account.deleteAccountDescription")}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button
+              variant="destructive"
+              size="sm"
+              className="rounded-xl"
+              onClick={() => setDeleteDialogOpen(true)}
+            >
+              {t("account.deleteAccountButton")}
+            </Button>
+          </CardContent>
+        </Card>
       </div>
+
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent showCloseButton={!deleteLoading}>
+          <DialogHeader>
+            <DialogTitle>{t("account.deleteAccountConfirmTitle")}</DialogTitle>
+            <DialogDescription>
+              {t("account.deleteAccountConfirmDescription")}
+            </DialogDescription>
+          </DialogHeader>
+          <label className="flex items-start gap-3 cursor-pointer group mt-4">
+            <input
+              type="checkbox"
+              checked={deleteConfirmChecked}
+              onChange={(e) => setDeleteConfirmChecked(e.target.checked)}
+              disabled={deleteLoading}
+              className="mt-1 rounded border-border"
+            />
+            <span className="text-sm text-muted-foreground">
+              {t("account.deleteAccountUnderstand")}
+            </span>
+          </label>
+          <DialogFooter className="gap-2 sm:gap-0 mt-6">
+            <Button
+              variant="outline"
+              onClick={() => setDeleteDialogOpen(false)}
+              disabled={deleteLoading}
+            >
+              {t("account.deleteAccountCancel")}
+            </Button>
+            <Button
+              variant="destructive"
+              disabled={!deleteConfirmChecked || deleteLoading}
+              onClick={async () => {
+                setDeleteLoading(true);
+                try {
+                  const result = await deleteAccount();
+                  if (result.success) {
+                    toast.success(t("account.deleteAccountSuccess"));
+                    window.location.href = "/";
+                    return;
+                  }
+                  toast.error(result.error || t("account.deleteAccountError"));
+                } catch {
+                  toast.error(t("account.deleteAccountError"));
+                } finally {
+                  setDeleteLoading(false);
+                }
+              }}
+            >
+              {deleteLoading ? "Deleting…" : t("account.deleteAccountButton")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/server";
 import { generateEmbeddings } from "./embeddings";
 import { matchEmbeddings } from "@/lib/supabase/rpc";
 
@@ -35,7 +35,7 @@ export async function retrieveContextByDocumentIds(
 ): Promise<RetrievedContext[]> {
   if (documentIds.length === 0) return [];
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("Embedding")
     .select("contentChunk, documentId")

@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "The Vault — Conheça a Si Mesmo Mais a Fundo",
+    "title": "Anima — Conheça a Si Mesmo Mais a Fundo",
     "description": "Testes de personalidade, diários de voz, avaliações de QI e uma IA que conhece seus dados. Tudo em um cofre seguro e privado."
   },
   "common": {
-    "theVault": "The Vault",
+    "theVault": "Anima",
     "loading": "Carregando...",
     "tryAgain": "Tentar novamente",
     "goHome": "Ir para o início",
@@ -51,7 +51,7 @@
       "disclaimer": "Sem necessidade de cartão de crédito. Leva menos de 10 minutos."
     },
     "socialProof": {
-      "headline": "Por que The Vault",
+      "headline": "Por que Anima",
       "stat1Value": "10",
       "stat1Label": "Dez frameworks de personalidade em um só lugar — ciência e simbolismo",
       "stat2Value": "Zero",
@@ -160,7 +160,7 @@
       "knowledgeBase": "Base de conhecimento",
       "privacyPolicy": "Política de Privacidade",
       "termsAndConditions": "Termos e Condições",
-      "copyright": "2024-2026 The Vault. Todos os direitos reservados."
+      "copyright": "2024-2026 Anima. Todos os direitos reservados."
     },
     "storeNote": "Também disponível: Análises aprofundadas avulsas na Loja",
     "browseStore": "Explorar a Loja"
@@ -235,7 +235,7 @@
     }
   },
   "vault": {
-    "title": "The Vault",
+    "title": "Anima",
     "description": "Envie e gerencie seus dados psicológicos",
     "testResults": "Resultados de Testes",
     "collectionsTab": "Coleções",
@@ -284,7 +284,7 @@
     },
     "recentActivity": {
       "title": "Atividade Recente",
-      "subtitle": "Suas últimas ações no The Vault",
+      "subtitle": "Suas últimas ações no Anima",
       "empty": "Nenhuma atividade ainda. Conclua uma avaliação para ver aqui."
     },
     "collections": {
@@ -509,7 +509,7 @@
     "pageNotFoundDescription": "A página que você está procurando não existe."
   },
   "share": {
-    "sharedFrom": "Compartilhado do The Vault",
+    "sharedFrom": "Compartilhado do Anima",
     "poweredBy": "Desenvolvido por"
   },
   "test": {

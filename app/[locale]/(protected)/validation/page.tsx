@@ -9,7 +9,7 @@ export default async function ValidationPage() {
     <div className="max-w-4xl mx-auto p-6">
       <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold font-serif text-foreground mb-2">
+          <h1 className="text-2xl font-medium font-serif text-foreground mb-2">
             Validation dashboard
           </h1>
           <p className="text-muted-foreground">

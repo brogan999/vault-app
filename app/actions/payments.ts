@@ -54,7 +54,7 @@ export async function createCheckoutSession(plan: "pro_monthly" | "pro_annual") 
   return { sessionId: session.id, url: session.url };
 }
 
-export type OneOffPurchaseType = "report" | "bundle" | "specialty_report" | "credit_pack";
+export type OneOffPurchaseType = "report" | "bundle" | "specialty_report" | "credit_pack" | "career_suite" | "pro_bundle";
 
 export interface OneOffPurchaseOptions {
   type: OneOffPurchaseType;

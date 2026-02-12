@@ -1,6 +1,6 @@
 # Step-by-step: Vercel production deploy + Clerk production mode
 
-Follow each part in order. Replace `your-project` with your actual Vercel project name so your live URL is `https://your-project.vercel.app`.
+Follow each part in order. For Anima, the production URL is **https://theanima.ai**. In the steps below, use `theanima.ai` (or your custom domain) where a live URL is needed; otherwise replace `your-project` with your Vercel project name so the default URL is `https://your-project.vercel.app`.
 
 ---
 

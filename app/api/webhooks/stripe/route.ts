@@ -249,6 +249,58 @@ export async function POST(req: NextRequest) {
               { onConflict: "user_id,framework" }
             );
           }
+        } else if (purchaseType === "career_suite" && productId) {
+          // OTO 1 — Career Advantage Suite
+          await supabase.from("user_purchases").insert({
+            user_id: userId,
+            product_type: "career_suite",
+            product_id: productId,
+            price_paid: amountTotal,
+            stripe_payment_id: paymentIntentId,
+          });
+          await supabase.from("user_reports").upsert(
+            {
+              user_id: userId,
+              framework: "career_suite",
+              unlocked_via: "purchase",
+              unlocked_at: new Date().toISOString(),
+            },
+            { onConflict: "user_id,framework" }
+          );
+        } else if (purchaseType === "pro_bundle" && productId) {
+          // OTO 2 — Pro Bundle (unlocks all 10 reports + career suite + pro_bundle flag)
+          const allFrameworks = [
+            ...getFrameworksForBundle("complete_10"),
+            "career_suite" as ReportFramework,
+          ];
+          await supabase.from("user_purchases").insert({
+            user_id: userId,
+            product_type: "pro_bundle",
+            product_id: productId,
+            price_paid: amountTotal,
+            stripe_payment_id: paymentIntentId,
+          });
+          for (const framework of allFrameworks) {
+            await supabase.from("user_reports").upsert(
+              {
+                user_id: userId,
+                framework,
+                unlocked_via: "pro_bundle",
+                unlocked_at: new Date().toISOString(),
+              },
+              { onConflict: "user_id,framework" }
+            );
+          }
+          // Also set the pro_bundle flag itself
+          await supabase.from("user_reports").upsert(
+            {
+              user_id: userId,
+              framework: "pro_bundle",
+              unlocked_via: "purchase",
+              unlocked_at: new Date().toISOString(),
+            },
+            { onConflict: "user_id,framework" }
+          );
         } else if (purchaseType === "specialty_report" && productId) {
           const framework = productId as ReportFramework;
           await supabase.from("user_purchases").insert({

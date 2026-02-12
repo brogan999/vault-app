@@ -6,6 +6,7 @@ import { Upload, FileText, X, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { uploadDocument } from "@/app/actions/upload";
 import { toast } from "sonner";
+import { trackDocumentUploaded } from "@/lib/analytics";
 
 interface UploadedFile {
   name: string;
@@ -39,6 +40,8 @@ export function DropZone() {
         const result = await uploadDocument(formData);
 
         if (result.success) {
+          const ext = file.name.split(".").pop() ?? "unknown";
+          trackDocumentUploaded(ext, file.size);
           setFiles((prev) =>
             prev.map((f) =>
               f.name === file.name && f.status === "uploading"

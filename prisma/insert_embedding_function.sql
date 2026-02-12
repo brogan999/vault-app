@@ -1,4 +1,8 @@
 -- Function to insert embeddings with proper vector type conversion
+-- Requires: SET search_path TO public, extensions; before running if vector
+-- extension has been moved to the extensions schema.
+SET search_path TO public, extensions;
+
 CREATE OR REPLACE FUNCTION insert_embedding(
   p_document_id text,
   p_user_id text,
@@ -7,6 +11,7 @@ CREATE OR REPLACE FUNCTION insert_embedding(
 )
 RETURNS void
 LANGUAGE plpgsql
+SET search_path TO public, extensions
 AS $$
 BEGIN
   INSERT INTO "Embedding" (
@@ -22,3 +27,5 @@ BEGIN
   );
 END;
 $$;
+
+RESET search_path;

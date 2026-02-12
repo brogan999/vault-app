@@ -1,5 +1,9 @@
 -- Vector similarity search function
 -- This function searches for similar embeddings using cosine similarity
+-- Requires: SET search_path TO public, extensions; before running if vector
+-- extension has been moved to the extensions schema.
+SET search_path TO public, extensions;
+
 CREATE OR REPLACE FUNCTION match_embeddings(
   query_embedding vector(1536),
   match_threshold float DEFAULT 0.7,
@@ -14,6 +18,7 @@ RETURNS TABLE (
   similarity float
 )
 LANGUAGE plpgsql
+SET search_path TO public, extensions
 AS $$
 BEGIN
   RETURN QUERY
@@ -24,7 +29,7 @@ BEGIN
     e."contentChunk",
     1 - (e.embedding <=> query_embedding) as similarity
   FROM "Embedding" e
-  WHERE 
+  WHERE
     (user_id_param IS NULL OR e."userId"::text = user_id_param)
     AND 1 - (e.embedding <=> query_embedding) > match_threshold
   ORDER BY e.embedding <=> query_embedding
@@ -36,6 +41,7 @@ $$;
 CREATE OR REPLACE FUNCTION get_dashboard_stats(user_id_param text)
 RETURNS json
 LANGUAGE plpgsql
+SET search_path TO public, extensions
 AS $$
 DECLARE
   result json;
@@ -46,7 +52,9 @@ BEGIN
     'totalChatSessions', (SELECT COUNT(*) FROM "chatSessions" WHERE "userId" = user_id_param::uuid),
     'hasProfile', EXISTS(SELECT 1 FROM "psychProfile" WHERE "userId" = user_id_param::uuid)
   ) INTO result;
-  
+
   RETURN result;
 END;
 $$;
+
+RESET search_path;

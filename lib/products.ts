@@ -496,15 +496,57 @@ export const categories = [
   { label: "Career", value: "career" },
 ];
 
-/** Number of tests shown as "available" in the vault (may be less than products.length). */
+/** Number of tests shown as "available" in Anima (may be less than products.length). */
 export const AVAILABLE_TEST_COUNT = 10;
 
 export function getProductById(id: string): Product | undefined {
   return products.find((p) => p.id === id);
 }
 
-/** Hero test: first test when user clicks "Take the Free Test" on the landing page (16p-style). */
+/** Hero test: first test when user clicks "Take the Free Test" on the landing page. */
 export const HERO_TEST_ID = "mbti";
 
-/** Single price for premium PDF report (same for every test, 16personalities-style). */
+/** Single price for premium PDF report (same for every test). */
 export const PREMIUM_REPORT_PRICE = "$29";
+
+/* ------------------------------------------------------------------ */
+/*  Post-purchase funnel products (OTO / upsell)                       */
+/* ------------------------------------------------------------------ */
+
+export interface FunnelProduct {
+  id: string;
+  title: string;
+  description: string;
+  /** Price in dollars for display */
+  displayPrice: string;
+  /** Price in cents for Stripe */
+  priceCents: number;
+  /** Env var name holding Stripe price ID */
+  stripePriceEnvKey: string;
+  /** Framework slug used in user_reports */
+  framework: string;
+}
+
+/** OTO 1 — Career Advantage Suite (shown immediately after report purchase). */
+export const CAREER_SUITE_PRODUCT: FunnelProduct = {
+  id: "career_suite",
+  title: "Career Advantage Suite",
+  description:
+    "The professional dimension of your personality — career matching, negotiation scripts, and workplace dynamics.",
+  displayPrice: "$29",
+  priceCents: 2900,
+  stripePriceEnvKey: "STRIPE_CAREER_SUITE_PRICE_ID",
+  framework: "career_suite",
+};
+
+/** OTO 2 — Pro Bundle (shown on results dashboard after report purchase). */
+export const PRO_BUNDLE_PRODUCT: FunnelProduct = {
+  id: "pro_bundle",
+  title: "Complete Portrait Pro Bundle",
+  description:
+    "All 10 premium reports, the Career Suite, and every future update — one price, lifetime access.",
+  displayPrice: "$99",
+  priceCents: 9900,
+  stripePriceEnvKey: "STRIPE_PRO_BUNDLE_PRICE_ID",
+  framework: "pro_bundle",
+};

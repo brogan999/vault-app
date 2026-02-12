@@ -4,14 +4,20 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
-import { Archive, Menu, X } from "lucide-react";
+import { Archive, ChevronDown, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { ThemePaletteSwitcher } from "@/components/landing/ThemePaletteSwitcher";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { HERO_TEST_ID } from "@/lib/products";
 
 /**
- * Header for public pages (Our Framework, Contact, FAQ, Knowledge Base, Privacy, Terms).
- * Includes full nav menu and matches landing chrome.
+ * Header for public pages. Includes Products and Resources dropdowns, theme/language, auth.
  */
 export function PublicHeader() {
   const tNav = useTranslations("landing.navbar");
@@ -19,7 +25,13 @@ export function PublicHeader() {
   const tc = useTranslations("common");
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const navLinks = [
+  const productsLinks = [
+    { label: tFooter("personalityTest"), href: `/test/${HERO_TEST_ID}` },
+    { label: tFooter("premiumAssessments"), href: "/pricing" },
+    { label: tFooter("aiChat"), href: "/sign-up" },
+  ];
+
+  const resourcesLinks = [
     { label: tNav("ourFramework"), href: "/our-framework" },
     { label: tFooter("knowledgeBase"), href: "/knowledge-base" },
   ];
@@ -40,15 +52,42 @@ export function PublicHeader() {
           className="hidden items-center gap-6 md:flex"
           aria-label="Main navigation"
         >
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </Link>
-          ))}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className="flex items-center gap-0.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {tFooter("products")}
+                <ChevronDown className="h-4 w-4" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-48">
+              {productsLinks.map((link) => (
+                <DropdownMenuItem key={link.href} asChild>
+                  <Link href={link.href}>{link.label}</Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className="flex items-center gap-0.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {tFooter("resources")}
+                <ChevronDown className="h-4 w-4" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-48">
+              {resourcesLinks.map((link) => (
+                <DropdownMenuItem key={link.href} asChild>
+                  <Link href={link.href}>{link.label}</Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
@@ -79,7 +118,23 @@ export function PublicHeader() {
         )}
       >
         <nav className="flex flex-col gap-1 px-4" aria-label="Main navigation">
-          {navLinks.map((link) => (
+          <p className="px-3 pt-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {tFooter("products")}
+          </p>
+          {productsLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setMobileOpen(false)}
+              className="rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            >
+              {link.label}
+            </Link>
+          ))}
+          <p className="px-3 pt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {tFooter("resources")}
+          </p>
+          {resourcesLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}

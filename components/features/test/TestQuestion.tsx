@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useImperativeHandle, useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef, useLayoutEffect } from "react";
 import { cn } from "@/lib/utils";
 import type { Question, QuestionOption } from "@/lib/tests/types";
 
@@ -14,10 +14,12 @@ interface TestQuestionProps {
   onChange: (value: number | string) => void;
   /** "inline" = horizontal bubbles (16p-style); "stacked" = vertical list. Default "inline" for likert. */
   variant?: "inline" | "stacked";
+  /** When true, focus this question on mount so the user can use the keyboard immediately. */
+  autoFocus?: boolean;
 }
 
 export const TestQuestion = forwardRef<TestQuestionRef | null, TestQuestionProps>(
-  function TestQuestion({ question, value, onChange, variant = "inline" }, ref) {
+  function TestQuestion({ question, value, onChange, variant = "inline", autoFocus }, ref) {
     switch (question.type) {
       case "likert-5":
       case "likert-7":
@@ -27,6 +29,7 @@ export const TestQuestion = forwardRef<TestQuestionRef | null, TestQuestionProps
             value={value}
             onChange={onChange}
             variant={variant}
+            autoFocus={autoFocus}
             ref={ref}
           />
         );
@@ -37,6 +40,7 @@ export const TestQuestion = forwardRef<TestQuestionRef | null, TestQuestionProps
             question={question}
             value={value}
             onChange={onChange}
+            autoFocus={autoFocus}
             ref={ref}
           />
         );
@@ -46,6 +50,7 @@ export const TestQuestion = forwardRef<TestQuestionRef | null, TestQuestionProps
             question={question}
             value={value}
             onChange={onChange}
+            autoFocus={autoFocus}
             ref={ref}
           />
         );
@@ -63,16 +68,33 @@ export const TestQuestion = forwardRef<TestQuestionRef | null, TestQuestionProps
 
 /* --- Likert Scale --- */
 
-const LikertQuestion = forwardRef<TestQuestionRef, TestQuestionProps & { variant?: "inline" | "stacked" }>(
-  function LikertQuestion({ question, value, onChange, variant = "inline" }, ref) {
+const LikertQuestion = forwardRef<TestQuestionRef, TestQuestionProps & { variant?: "inline" | "stacked"; autoFocus?: boolean }>(
+  function LikertQuestion({ question, value, onChange, variant = "inline", autoFocus }, ref) {
     const options = question.options ?? [];
     const firstOptionRef = useRef<HTMLButtonElement>(null);
+    const questionWrapperRef = useRef<HTMLDivElement>(null);
 
     useImperativeHandle(ref, () => ({
       focusFirstOption: () => {
-        firstOptionRef.current?.focus();
+        if (variant === "inline") {
+          questionWrapperRef.current?.focus();
+        } else {
+          firstOptionRef.current?.focus();
+        }
       },
-    }));
+    }), [variant]);
+
+    useLayoutEffect(() => {
+      if (!autoFocus) return;
+      const t = setTimeout(() => {
+        if (variant === "inline") {
+          questionWrapperRef.current?.focus();
+        } else {
+          firstOptionRef.current?.focus();
+        }
+      }, 50);
+      return () => clearTimeout(t);
+    }, [autoFocus, variant]);
 
     if (variant === "inline") {
       // 16p style: Agree (left) to Disagree (right); show options reversed so Strongly Agree is left
@@ -80,8 +102,22 @@ const LikertQuestion = forwardRef<TestQuestionRef, TestQuestionProps & { variant
       const leftLabel = options[options.length - 1]?.label ?? "Agree";
       const rightLabel = options[0]?.label ?? "Disagree";
       const n = reversed.length;
+      const handleKeyDown = (e: React.KeyboardEvent) => {
+        const num = parseInt(e.key, 10);
+        if (!Number.isNaN(num) && num >= 1 && num <= n) {
+          e.preventDefault();
+          onChange(reversed[num - 1].value);
+        }
+      };
       return (
-        <div className="space-y-5 min-w-0 overflow-hidden">
+        <div
+          ref={questionWrapperRef}
+          tabIndex={0}
+          role="group"
+          aria-label={question.text}
+          className="space-y-5 min-w-0 overflow-hidden rounded-xl px-2 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          onKeyDownCapture={handleKeyDown}
+        >
           <h2 className="text-xl font-semibold leading-relaxed text-foreground md:text-2xl">
             {question.text}
           </h2>
@@ -104,7 +140,7 @@ const LikertQuestion = forwardRef<TestQuestionRef, TestQuestionProps & { variant
                         : isNeutral
                           ? "border-muted-foreground/50 bg-muted text-foreground"
                           : "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-card hover:border-primary/40 hover:bg-muted/50";
+                    : "border-test-bubble-border bg-card hover:border-primary/40 hover:bg-muted/50";
                   const neutralIndex = Math.floor(n / 2);
                   const distanceFromCenter = Math.abs(i - neutralIndex);
                   const maxDistance = Math.floor(n / 2);
@@ -118,7 +154,7 @@ const LikertQuestion = forwardRef<TestQuestionRef, TestQuestionProps & { variant
                       aria-label={opt.label}
                       style={{ transform: `scale(${scale})` }}
                       className={cn(
-                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 transition-colors min-[400px]:h-10 min-[400px]:w-10 sm:h-11 sm:w-11 md:h-12 md:w-12",
+                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background min-[400px]:h-10 min-[400px]:w-10 sm:h-11 sm:w-11 md:h-12 md:w-12",
                         selectedStyle
                       )}
                     >
@@ -126,7 +162,11 @@ const LikertQuestion = forwardRef<TestQuestionRef, TestQuestionProps & { variant
                         <svg className="h-4 w-4 min-[400px]:h-5 min-[400px]:w-5 sm:h-5 sm:w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
-                      ) : null}
+                      ) : (
+                        <span className="text-sm font-medium tabular-nums min-[400px]:text-base sm:text-base md:text-lg">
+                          {i + 1}
+                        </span>
+                      )}
                     </button>
                   );
                 })}
@@ -135,13 +175,26 @@ const LikertQuestion = forwardRef<TestQuestionRef, TestQuestionProps & { variant
                 {rightLabel}
               </span>
             </div>
+            <p className="text-xs text-muted-foreground mt-0.5" aria-hidden="true">
+              Press 1–{n} to select
+            </p>
           </div>
         </div>
       );
     }
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      const num = parseInt(e.key, 10);
+      if (!Number.isNaN(num) && num >= 1 && num <= options.length) {
+        e.preventDefault();
+        onChange(options[num - 1].value);
+      }
+    };
     return (
-      <div className="space-y-6">
+      <div
+        className="space-y-6"
+        onKeyDownCapture={handleKeyDown}
+      >
         <h2 className="text-xl font-semibold leading-relaxed text-foreground md:text-2xl">
           {question.text}
         </h2>
@@ -184,7 +237,7 @@ const LikertOption = forwardRef<
       <span
         className={cn(
           "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
-          selected ? "border-primary bg-primary" : "border-muted-foreground/30"
+          selected ? "border-primary bg-primary" : "border-test-bubble-border"
         )}
       >
         {selected && (
@@ -199,15 +252,30 @@ const LikertOption = forwardRef<
 /* --- Multiple Choice --- */
 
 const MultipleChoiceQuestion = forwardRef<TestQuestionRef, TestQuestionProps>(
-  function MultipleChoiceQuestion({ question, value, onChange }, ref) {
+  function MultipleChoiceQuestion({ question, value, onChange, autoFocus }, ref) {
     const options = question.options ?? [];
     const firstOptionRef = useRef<HTMLButtonElement>(null);
     useImperativeHandle(ref, () => ({
       focusFirstOption: () => firstOptionRef.current?.focus(),
     }));
-
+    useLayoutEffect(() => {
+      if (autoFocus) {
+        const t = setTimeout(() => firstOptionRef.current?.focus(), 50);
+        return () => clearTimeout(t);
+      }
+    }, [autoFocus]);
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      const num = parseInt(e.key, 10);
+      if (!Number.isNaN(num) && num >= 1 && num <= options.length) {
+        e.preventDefault();
+        onChange(options[num - 1].value);
+      }
+    };
     return (
-      <div className="space-y-6">
+      <div
+        className="space-y-6"
+        onKeyDownCapture={handleKeyDown}
+      >
         <h2 className="text-xl font-semibold leading-relaxed text-foreground md:text-2xl">
           {question.text}
         </h2>
@@ -237,15 +305,30 @@ const MultipleChoiceQuestion = forwardRef<TestQuestionRef, TestQuestionProps>(
 /* --- Forced Choice (binary A/B) --- */
 
 const ForcedChoiceQuestion = forwardRef<TestQuestionRef, TestQuestionProps>(
-  function ForcedChoiceQuestion({ question, value, onChange }, ref) {
+  function ForcedChoiceQuestion({ question, value, onChange, autoFocus }, ref) {
     const options = question.options ?? [];
     const firstOptionRef = useRef<HTMLButtonElement>(null);
     useImperativeHandle(ref, () => ({
       focusFirstOption: () => firstOptionRef.current?.focus(),
     }));
-
+    useLayoutEffect(() => {
+      if (autoFocus) {
+        const t = setTimeout(() => firstOptionRef.current?.focus(), 50);
+        return () => clearTimeout(t);
+      }
+    }, [autoFocus]);
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      const num = parseInt(e.key, 10);
+      if (!Number.isNaN(num) && num >= 1 && num <= options.length) {
+        e.preventDefault();
+        onChange(options[num - 1].value);
+      }
+    };
     return (
-      <div className="space-y-6">
+      <div
+        className="space-y-6"
+        onKeyDownCapture={handleKeyDown}
+      >
         <h2 className="text-xl font-semibold leading-relaxed text-foreground md:text-2xl">
           {question.text}
         </h2>

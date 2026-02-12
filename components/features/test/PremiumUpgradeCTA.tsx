@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Crown, FileText, BarChart3, Lightbulb, Download, Check } from "lucide-react";
 import { toast } from "sonner";
+import { trackReportPurchased } from "@/lib/analytics";
 
 interface PremiumUpgradeCTAProps {
   testTitle: string;
@@ -26,6 +27,7 @@ export function PremiumUpgradeCTA({
   testTitle,
   price,
   isPremium,
+  attemptId,
   onPurchase,
   onDownload,
 }: PremiumUpgradeCTAProps) {
@@ -33,6 +35,7 @@ export function PremiumUpgradeCTA({
 
   const handlePurchase = async () => {
     setLoading(true);
+    trackReportPurchased("premium_report", attemptId);
     try {
       const result = await onPurchase();
       if (result?.url) {
@@ -109,7 +112,7 @@ export function PremiumUpgradeCTA({
         <div className="flex items-center justify-between pt-2">
           <div>
             {price ? (
-              <p className="text-2xl font-bold font-serif text-foreground">{price}</p>
+              <p className="text-2xl font-medium font-serif text-foreground">{price}</p>
             ) : (
               <p className="text-sm font-medium text-primary">Free</p>
             )}

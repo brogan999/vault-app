@@ -2,6 +2,8 @@ import { getSharedMessage } from "@/app/actions/feedback";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { Archive } from "lucide-react";
 
 export default async function SharedMessagePage({
   params,
@@ -11,6 +13,7 @@ export default async function SharedMessagePage({
   const { id } = await params;
   const shared = await getSharedMessage(id);
   const t = await getTranslations("share");
+  const tc = await getTranslations("common");
 
   if (!shared) {
     notFound();
@@ -23,9 +26,21 @@ export default async function SharedMessagePage({
   });
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-2xl mx-auto px-6 py-12">
-        {/* Header */}
+    <div className="min-h-screen flex flex-col bg-background">
+      <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-lg shrink-0">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 lg:px-8">
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
+              <Archive className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <span className="text-lg font-bold tracking-tight text-foreground font-serif">
+              {tc("theVault")}
+            </span>
+          </Link>
+        </div>
+      </header>
+      <div className="max-w-2xl mx-auto w-full flex-1 px-6 py-12">
+        {/* Content header */}
         <div className="mb-8 pb-6 border-b">
           <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
             {t("sharedFrom")}
@@ -51,9 +66,9 @@ export default async function SharedMessagePage({
         <div className="mt-10 pt-6 border-t text-center">
           <p className="text-xs text-muted-foreground">
             {t("poweredBy")}{" "}
-            <a href="/" className="underline hover:text-foreground">
-              The Vault
-            </a>
+            <Link href="/" className="underline hover:text-foreground">
+              {tc("theVault")}
+            </Link>
           </p>
         </div>
       </div>

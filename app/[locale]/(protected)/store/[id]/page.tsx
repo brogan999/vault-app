@@ -53,7 +53,7 @@ export default function ProductDetailPage({
   if (!product) {
     return (
       <div className="max-w-2xl mx-auto text-center py-20">
-        <h1 className="text-xl font-bold font-serif text-foreground">
+        <h1 className="text-xl font-medium font-serif text-foreground">
           {t("notFound")}
         </h1>
         <p className="text-sm text-muted-foreground mt-2">
@@ -133,7 +133,7 @@ export default function ProductDetailPage({
                   </Badge>
                 )}
               </div>
-              <h1 className="text-2xl font-bold text-foreground font-serif lg:text-3xl">
+              <h1 className="text-2xl font-medium text-foreground font-serif lg:text-3xl">
                 {product.title}
               </h1>
             </div>
@@ -270,7 +270,7 @@ export default function ProductDetailPage({
       {product.highlights && product.highlights.length > 0 && (
         <Card className="border-0 rounded-2xl mb-8">
           <CardContent className="p-6">
-            <h2 className="text-lg font-bold text-foreground font-serif mb-4 flex items-center gap-2">
+            <h2 className="text-lg font-medium text-foreground font-serif mb-4 flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" />
               {t("whatYoullDiscover")}
             </h2>

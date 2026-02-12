@@ -2,7 +2,7 @@
 
 import { Link } from "@/i18n/navigation";
 import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, ChevronRight, Crown } from "lucide-react";
+import { ChevronRight, Crown } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export interface TestResult {
@@ -45,7 +45,7 @@ export function TestResultCard({ result }: { result: TestResult }) {
 
           {/* Main result: big value + subtitle — same as Mirror hero layout */}
           <div className="mt-3 flex-1">
-            <p className="text-2xl md:text-3xl font-bold font-serif leading-tight text-white">
+            <p className="text-2xl md:text-3xl font-medium font-serif leading-tight text-white">
               {result.resultValue}
             </p>
             {(result.resultLabel && result.resultLabel !== result.resultValue) && (
@@ -55,28 +55,22 @@ export function TestResultCard({ result }: { result: TestResult }) {
             )}
           </div>
 
-          {/* Footer: date left, category/premium tags right — same as Mirror */}
-          <div className="mt-3 flex items-center justify-between gap-2">
-            <div className="flex items-center gap-1.5 text-[10px] text-white/70">
-              <Calendar className="h-3 w-3 shrink-0" />
-              <span>{result.date}</span>
-            </div>
-            <div className="flex flex-wrap items-center justify-end gap-1.5">
-              {result.isPremium && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-medium text-white">
-                  <Crown className="h-3 w-3" />
-                  Premium
-                </span>
-              )}
-              {result.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full px-2 py-0.5 text-[10px] font-medium bg-white/15 text-white"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+          {/* Footer: tags only (date removed per design) */}
+          <div className="mt-3 flex items-center justify-end gap-1.5">
+            {result.isPremium && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-medium text-white">
+                <Crown className="h-3 w-3" />
+                Premium
+              </span>
+            )}
+            {result.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full px-2 py-0.5 text-[10px] font-medium bg-[#328181]/30 text-[#328181]"
+              >
+                {tag}
+              </span>
+            ))}
           </div>
         </CardContent>
       </Card>

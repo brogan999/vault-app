@@ -41,7 +41,7 @@ export function ActiveContext({
         ) : (
           <div className="space-y-3">
             <p className="text-xs text-muted-foreground">
-              Upload personality tests, journal entries, or other data in the Vault, then attach them here so the AI can reference them.
+              Upload personality tests, journal entries, or other data in Anima, then attach them here so the AI can reference them.
             </p>
             {onAddDocument && (
               <Button

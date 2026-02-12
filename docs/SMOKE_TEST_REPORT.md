@@ -44,7 +44,7 @@ Auth behavior is correct: unauthenticated requests to protected routes are sent 
 
 All of the following were opened in the browser at http://localhost:3000:
 
-- **Public:** `/`, `/pricing`, `/sign-in`, `/sign-up`, `/privacy`, `/terms`, `/contact`, `/faq`, `/our-framework`, `/knowledge-base` — each loaded with the expected page title (e.g. "The Vault — Know Yourself Deeper" or "Knowledge Base — The Vault").
+- **Public:** `/`, `/pricing`, `/sign-in`, `/sign-up`, `/privacy`, `/terms`, `/contact`, `/faq`, `/our-framework`, `/knowledge-base` — each loaded with the expected page title (e.g. "Anima — Know Yourself Deeper" or "Knowledge Base — Anima").
 - **Protected:** `/mirror`, `/vault`, `/chat`, `/store`, `/settings` — when the browser had no session, behavior matched the curl results (redirect to sign-in or in-session content).
 - **Test intro:** `/test/mbti` — loads the MBTI test intro/questions UI.
 

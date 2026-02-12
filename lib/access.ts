@@ -30,3 +30,56 @@ export async function canAccessPremiumReport(
 export function getReportFramework(testId: string): ReportFramework | null {
   return testIdToFramework(testId);
 }
+
+/** Whether the user owns the Career Advantage Suite (OTO 1). */
+export async function hasCareerSuite(
+  supabase: SupabaseClient,
+  userId: string,
+): Promise<boolean> {
+  const { data } = await supabase
+    .from("user_reports")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("framework", "career_suite")
+    .limit(1)
+    .maybeSingle();
+  return !!data;
+}
+
+/** Whether the user owns the Pro Bundle (OTO 2 / complete_10). */
+export async function hasProBundle(
+  supabase: SupabaseClient,
+  userId: string,
+): Promise<boolean> {
+  const { data } = await supabase
+    .from("user_reports")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("framework", "pro_bundle")
+    .limit(1)
+    .maybeSingle();
+  return !!data;
+}
+
+/** Fetch all product ownership flags for the funnel in one shot. */
+export async function getFunnelOwnership(
+  supabase: SupabaseClient,
+  userId: string,
+  testId: string,
+  subscriptionTier: string,
+): Promise<{
+  hasBasicReport: boolean;
+  hasCareerSuite: boolean;
+  hasProBundle: boolean;
+}> {
+  const [basicReport, careerSuite, proBundle] = await Promise.all([
+    canAccessPremiumReport(supabase, userId, testId, subscriptionTier),
+    hasCareerSuite(supabase, userId),
+    hasProBundle(supabase, userId),
+  ]);
+  return {
+    hasBasicReport: basicReport,
+    hasCareerSuite: careerSuite,
+    hasProBundle: proBundle,
+  };
+}

@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, ChevronRight, Play } from "lucide-react";
+import { ChevronRight, Play } from "lucide-react";
 import { products, categories, getProductDisplayColors, getCategoryColorKey } from "@/lib/products";
 import { CANONICAL_TEN_IDS } from "@/lib/reports";
 import type { TestSnapshotItem } from "@/app/actions/mirror";
@@ -79,7 +79,7 @@ function TestSnapshotCard({
 
         {!isPlacements && !isDimensions && (
           <div className="mt-3 flex-1">
-            <p className="text-2xl md:text-3xl font-bold font-serif leading-tight text-white">
+            <p className="text-2xl md:text-3xl font-medium font-serif leading-tight text-white">
               {snapshot.primaryValue ?? snapshot.resultSummary ?? snapshot.typeLabel ?? "—"}
             </p>
             {snapshot.secondaryText && (
@@ -90,18 +90,7 @@ function TestSnapshotCard({
           </div>
         )}
 
-        {snapshot.completedAt && (
-          <div className={`mt-3 flex items-center gap-1.5 text-[10px] ${textMuted}`}>
-            <Calendar className="h-3 w-3" />
-            <span>
-              {new Date(snapshot.completedAt).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </span>
-          </div>
-        )}
+        {/* Date removed per design */}
       </CardContent>
     </Card>
   );
