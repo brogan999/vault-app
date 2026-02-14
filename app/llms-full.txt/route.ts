@@ -1,7 +1,7 @@
 const BASE_URL =
   process.env.NEXT_PUBLIC_APP_URL || "https://theanima.ai";
 
-const LLMS_FULL_TXT = `# Anima by Personality Co
+const LLMS_FULL_TXT = `# Anima by Bald Labs, Inc
 
 > Anima is a privacy-focused AI companion that uses psychological data with RAG (Retrieval-Augmented Generation) to deliver personalized personality insights, assessments, and AI-powered conversations. Users upload psychological data and receive AI-generated personality insights across ten different frameworks.
 

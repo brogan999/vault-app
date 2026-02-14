@@ -24,7 +24,7 @@ export default function TermsPage() {
             </h2>
             <p className="text-muted-foreground">
               By accessing and using Anima (&ldquo;the App&rdquo;), operated
-              by Personality Co (&ldquo;Company&rdquo;,
+              by Bald Labs, Inc (&ldquo;Company&rdquo;,
               &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;), you
               agree to be bound by these Terms of Service (&ldquo;Terms&rdquo;).
               If you do not agree with any part of these Terms, please do not use
@@ -205,7 +205,7 @@ export default function TermsPage() {
             <p className="text-muted-foreground mb-3">
               All content, features, and functionality of the App — including
               text, graphics, logos, assessments, algorithms, and AI models — are
-              owned by Personality Co or its licensors and are protected by
+              owned by Bald Labs, Inc or its licensors and are protected by
               U.S. and international intellectual property laws.
             </p>
             <p className="text-muted-foreground">
@@ -242,7 +242,7 @@ export default function TermsPage() {
               11. Limitation of Liability
             </h2>
             <p className="text-muted-foreground mb-3">
-              TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, Personality Co
+              TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, Bald Labs, Inc
               AND ITS OFFICERS, DIRECTORS, EMPLOYEES, AND AGENTS SHALL NOT BE
               LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR
               PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS,
@@ -262,7 +262,7 @@ export default function TermsPage() {
               12. Indemnification
             </h2>
             <p className="text-muted-foreground mb-2">
-              You agree to indemnify, defend, and hold harmless Personality Co,
+              You agree to indemnify, defend, and hold harmless Bald Labs, Inc,
               its officers, directors, employees, and agents from any claims,
               damages, losses, or expenses (including reasonable attorneys&apos;
               fees) arising from:
@@ -341,7 +341,7 @@ export default function TermsPage() {
             <p className="text-muted-foreground mb-3">
               <strong>Class Action Waiver:</strong> You agree to waive any right
               to participate in class action lawsuits, class-wide arbitration, or
-              any consolidated or representative proceedings against Personality Co.
+              any consolidated or representative proceedings against Bald Labs, Inc.
               All claims must be brought in your individual capacity.
             </p>
             <p className="text-muted-foreground mb-3">
@@ -394,7 +394,7 @@ export default function TermsPage() {
             </h2>
             <p className="text-muted-foreground">
               These Terms, together with our Privacy Policy, constitute the entire
-              agreement between you and Personality Co regarding your use of the
+              agreement between you and Bald Labs, Inc regarding your use of the
               App and supersede all prior agreements, understandings, and
               representations.
             </p>
@@ -410,7 +410,7 @@ export default function TermsPage() {
               us at:
             </p>
             <p className="text-muted-foreground">
-              <strong>Personality Co</strong>
+              <strong>Bald Labs, Inc</strong>
               <br />
               Email:{" "}
               <a

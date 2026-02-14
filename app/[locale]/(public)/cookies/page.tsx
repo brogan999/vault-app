@@ -123,7 +123,7 @@ export default function CookiesPage() {
             5. Contact
           </h2>
           <p className="text-muted-foreground">
-            Questions about cookies or this policy? Contact Personality Co at{" "}
+            Questions about cookies or this policy? Contact Bald Labs, Inc at{" "}
             <a href="mailto:support@theanima.ai" className="text-primary underline underline-offset-2 hover:opacity-80">support@theanima.ai</a>.
           </p>
         </section>

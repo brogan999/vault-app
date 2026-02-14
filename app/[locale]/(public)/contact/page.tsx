@@ -5,9 +5,9 @@ import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Contact Us — Anima",
+    title: "Contact Us — Bald Labs, Inc",
     description:
-      "Get in touch with our team for support, bug reports, partnerships, press, or research collaboration.",
+      "Get in touch with Bald Labs, Inc for support, bug reports, partnerships, press, or research collaboration.",
   };
 }
 
@@ -101,6 +101,9 @@ export default async function ContactPage() {
           Contact Us
         </h1>
         <p className="mt-2 text-lg text-muted-foreground leading-relaxed">
+          Bald Labs, Inc
+        </p>
+        <p className="mt-1 text-muted-foreground leading-relaxed">
           Get in Touch
         </p>
         <p className="mt-3 text-muted-foreground leading-relaxed max-w-2xl">
@@ -192,7 +195,7 @@ export default async function ContactPage() {
         <div className="mt-14 rounded-2xl border border-border/60 bg-card p-6 sm:p-8">
           <h3 className="text-lg font-semibold text-foreground">A Quick Note</h3>
           <p className="mt-2 text-muted-foreground leading-relaxed">
-            We&rsquo;re a small team that cares deeply about getting this right
+            Bald Labs, Inc is a small team that cares deeply about getting this right
             &mdash; both the science and the soul of it. We may not have a call
             center or a chatbot army, but we do have real humans who genuinely
             want to help.

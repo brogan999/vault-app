@@ -51,7 +51,7 @@ export async function generateMetadata({
       title,
       description,
       url: canonical,
-      siteName: "Anima by Personality Co",
+      siteName: "Anima by Bald Labs, Inc",
       type: "website",
       locale: locale.replace("-", "_"),
     },

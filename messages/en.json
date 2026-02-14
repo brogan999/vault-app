@@ -44,23 +44,23 @@
       "themeAndColour": "Theme"
     },
     "hero": {
-      "badge": "AI-powered self-discovery",
-      "title": "Finally understand who you really are",
-      "description": "Personality tests, voice journals, IQ assessments, and an AI that knows your data. All in one secure, private vault.",
-      "cta": "Take the free test",
+      "badge": "Science meets symbolism",
+      "title": "Ten lenses. One portrait. The you that no single test could capture.",
+      "description": "Anima weaves psychometric science and the world's oldest symbolic traditions into a living portrait of who you are \u2014 then lets you have a conversation with it.",
+      "cta": "Begin your portrait",
       "secondaryCta": "See how it works",
-      "disclaimer": "No credit card required. Takes under 10 minutes."
+      "disclaimer": "Free. No credit card. Under 10 minutes to your first insight."
     },
     "socialProof": {
-      "headline": "Why Anima",
-      "stat1Value": "10",
-      "stat1Label": "Personality frameworks in one place — science and symbolism",
-      "stat2Value": "Zero",
-      "stat2Label": "We never sell or share your data",
-      "stat3Value": "Validated",
-      "stat3Label": "Research-backed psychometric methods",
-      "stat4Value": "One",
-      "stat4Label": "AI that weaves your full portrait"
+      "headline": "Trusted by thousands exploring who they really are",
+      "stat1Value": "50,000+",
+      "stat1Label": "Personality assessments completed across 10 frameworks",
+      "stat2Value": "IPIP-backed",
+      "stat2Label": "Built on the same validated item pool used in academic research",
+      "stat3Value": "4 + 6",
+      "stat3Label": "Psychometric assessments and symbolic traditions, together",
+      "stat4Value": "50+",
+      "stat4Label": "Languages supported — self-discovery without borders"
     },
     "features": {
       "sectionLabel": "Everything you need",
@@ -78,6 +78,21 @@
       "growthTrackingDesc": "Watch your personality evolve with trend charts, mood graphs, and monthly growth reports.",
       "privateByDefault": "Private by default",
       "privateByDefaultDesc": "Your psychological data never leaves your vault. End-to-end encryption and zero third-party sharing."
+    },
+    "journey": {
+      "wheelLabel": "Ten frameworks, one portrait",
+      "wheelTitle": "No single test tells the whole story",
+      "wheelDescription": "We map you across four psychometric instruments and six symbolic traditions — then weave them into a living portrait that no single framework could produce.",
+      "wheelCta": "Explore our framework",
+      "chapterMeasure": "Measure",
+      "chapterMeasureTitle": "Psychometric precision",
+      "chapterMeasureBody": "Big Five, Enneagram, Personality Type, Work Style — validated instruments that map the dimensions psychology can see.",
+      "chapterInterpret": "Interpret",
+      "chapterInterpretTitle": "Symbolic depth",
+      "chapterInterpretBody": "Western and Vedic astrology, Numerology, Human Design, Chinese Zodiac, Mayan Tzolkin — the oldest mirrors humanity has used to find meaning.",
+      "chapterConverse": "Converse",
+      "chapterConverseTitle": "A conversation with your portrait",
+      "chapterConverseBody": "Our AI reads every data point you have shared and responds with the nuance of someone who has studied you for years. Ask it anything."
     },
     "showcase": {
       "big5Results": "Your Big 5 results",
@@ -162,7 +177,7 @@
       "privacyPolicy": "Privacy policy",
       "termsAndConditions": "Terms & conditions",
       "cookiePolicy": "Cookie policy",
-      "copyright": "2024-2026 Anima. All rights reserved."
+      "copyright": "2024-2026 Bald Labs, Inc. All rights reserved."
     },
     "storeNote": "Also available: One-off deep-dive analyses in The Store",
     "browseStore": "Browse the store"

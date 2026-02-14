@@ -13,7 +13,7 @@ export type PlaceSuggestion = {
 
 const NOMINATIM_URL = "https://nominatim.openstreetmap.org/search";
 // Nominatim requires a valid User-Agent; identify the app to avoid 403
-const USER_AGENT = "PersonalityCoBirthPlace/1.0 (https://personality.co)";
+const USER_AGENT = "BaldLabsBirthPlace/1.0 (https://theanima.ai)";
 
 export async function searchPlaces(query: string): Promise<PlaceSuggestion[]> {
   const trimmed = query.trim();

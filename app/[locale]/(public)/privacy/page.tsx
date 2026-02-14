@@ -23,7 +23,7 @@ export default function PrivacyPage() {
             </h2>
             <p className="text-muted-foreground mb-3">
               Anima (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;the
-              App&rdquo;) is operated by Personality Co. We are committed to protecting your
+              App&rdquo;) is operated by Bald Labs, Inc. We are committed to protecting your
               privacy. This Privacy Policy explains how we collect, use, disclose,
               and safeguard your information when you use our personality
               assessment and self-discovery platform.
@@ -423,7 +423,7 @@ export default function PrivacyPage() {
               your privacy rights, please contact us:
             </p>
             <p className="text-muted-foreground mb-3">
-              <strong>Personality Co</strong>
+              <strong>Bald Labs, Inc</strong>
               <br />
               For our physical mailing address, please contact support@theanima.ai.
               <br />

@@ -41,7 +41,7 @@ export function organizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Personality Co",
+    name: "Bald Labs, Inc",
     alternateName: "Anima",
     url: BASE_URL,
     logo: `${BASE_URL}/icon.png`,
@@ -61,13 +61,13 @@ export function websiteSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Anima by Personality Co",
+    name: "Anima by Bald Labs, Inc",
     url: BASE_URL,
     description:
       "Ten personality frameworks. One AI companion. A living portrait of who you are.",
     publisher: {
       "@type": "Organization",
-      name: "Personality Co",
+      name: "Bald Labs, Inc",
     },
   };
 }
@@ -86,7 +86,7 @@ export function webPageSchema(opts: {
     url: opts.url,
     publisher: {
       "@type": "Organization",
-      name: "Personality Co",
+      name: "Bald Labs, Inc",
     },
   };
 }
@@ -170,7 +170,7 @@ export function articleSchema(opts: {
     url: opts.url,
     publisher: {
       "@type": "Organization",
-      name: "Personality Co",
+      name: "Bald Labs, Inc",
       url: BASE_URL,
     },
     ...(opts.datePublished && { datePublished: opts.datePublished }),
