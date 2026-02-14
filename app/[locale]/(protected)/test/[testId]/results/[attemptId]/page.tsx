@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
-import { getProductById } from "@/lib/products";
+import { getProductById, getFrameworkKind } from "@/lib/products";
 import { getReportPriceDisplay } from "@/lib/reports";
 import { getTestResult } from "@/app/actions/tests";
 import { getSupabaseUser } from "@/lib/clerk/utils";
@@ -104,6 +104,7 @@ export default async function ResultsPage({ params }: ResultsPageProps) {
           testTitle={product.title}
           price={reportPrice}
           shareUrl={shareUrl}
+          frameworkKind={getFrameworkKind(product)}
         />
 
         {/* Guest sign-up prompt */}

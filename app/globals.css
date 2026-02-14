@@ -52,7 +52,7 @@
 /* Vault design system — minimalist, dark-first */
 :root {
   --font-sans: "Monument Grotesk Regular", "Helvetica Neue", Helvetica, sans-serif;
-  --font-serif: "Monument Grotesk Regular", "Helvetica Neue", Helvetica, sans-serif;
+  --font-serif: "Georgia", "Times New Roman", serif;
   --radius: 0.75rem;
   --background: #ffffff;
   --foreground: #171717;
@@ -86,25 +86,25 @@
   --sidebar-accent-foreground: #171717;
   --sidebar-border: #e5e5e5;
   --sidebar-ring: #525252;
-  /* Category */
-  --category-personality: #525252;
-  --category-personality-bg: #f5f5f5;
-  --category-intelligence: #525252;
-  --category-intelligence-bg: #f5f5f5;
-  --category-strengths: #525252;
-  --category-strengths-bg: #f5f5f5;
-  --category-wellness: #525252;
-  --category-wellness-bg: #f5f5f5;
-  --category-astrology: #525252;
-  --category-astrology-bg: #f5f5f5;
-  --category-career: #525252;
-  --category-career-bg: #f5f5f5;
-  --category-personality-card: #e5e5e5;
-  --category-intelligence-card: #e5e5e5;
-  --category-strengths-card: #e5e5e5;
-  --category-wellness-card: #e5e5e5;
-  --category-astrology-card: #e5e5e5;
-  --category-career-card: #e5e5e5;
+  /* Category — distinct colors for visual wayfinding */
+  --category-personality: #328181;
+  --category-personality-bg: #e8f4f4;
+  --category-intelligence: #93A2B6;
+  --category-intelligence-bg: #edf0f5;
+  --category-strengths: #315E36;
+  --category-strengths-bg: #e8f0e9;
+  --category-wellness: #818D59;
+  --category-wellness-bg: #f0f2e8;
+  --category-astrology: #C7A356;
+  --category-astrology-bg: #f8f2e4;
+  --category-career: #C97A30;
+  --category-career-bg: #f8efe4;
+  --category-personality-card: #d0e8e8;
+  --category-intelligence-card: #dce3ec;
+  --category-strengths-card: #d0e2d1;
+  --category-wellness-card: #e2e6d2;
+  --category-astrology-card: #f0e5cc;
+  --category-career-card: #f0dfcc;
   --test-bubble-border: #a3a3a3;
   /* Accent palette */
   --accent-green: #328181;
@@ -157,25 +157,25 @@
   --sidebar-accent-foreground: #EEECE8;
   --sidebar-border: rgba(255, 255, 255, 0.1);
   --sidebar-ring: #8F8E8B;
-  /* Category colors */
-  --category-personality: #8F8E8B;
-  --category-personality-bg: #181818;
-  --category-intelligence: #8F8E8B;
-  --category-intelligence-bg: #181818;
-  --category-strengths: #8F8E8B;
-  --category-strengths-bg: #181818;
-  --category-wellness: #8F8E8B;
-  --category-wellness-bg: #181818;
-  --category-astrology: #8F8E8B;
-  --category-astrology-bg: #181818;
-  --category-career: #8F8E8B;
-  --category-career-bg: #181818;
-  --category-personality-card: #181818;
-  --category-intelligence-card: #181818;
-  --category-strengths-card: #181818;
-  --category-wellness-card: #181818;
-  --category-astrology-card: #181818;
-  --category-career-card: #181818;
+  /* Category colors — distinct colors for visual wayfinding */
+  --category-personality: #5ab5b5;
+  --category-personality-bg: rgba(50, 129, 129, 0.12);
+  --category-intelligence: #a8b5c6;
+  --category-intelligence-bg: rgba(147, 162, 182, 0.12);
+  --category-strengths: #5a9a60;
+  --category-strengths-bg: rgba(49, 94, 54, 0.12);
+  --category-wellness: #a3ad7e;
+  --category-wellness-bg: rgba(129, 141, 89, 0.12);
+  --category-astrology: #d4b873;
+  --category-astrology-bg: rgba(199, 163, 86, 0.12);
+  --category-career: #d9944d;
+  --category-career-bg: rgba(201, 122, 48, 0.12);
+  --category-personality-card: rgba(50, 129, 129, 0.08);
+  --category-intelligence-card: rgba(147, 162, 182, 0.08);
+  --category-strengths-card: rgba(49, 94, 54, 0.08);
+  --category-wellness-card: rgba(129, 141, 89, 0.08);
+  --category-astrology-card: rgba(199, 163, 86, 0.08);
+  --category-career-card: rgba(201, 122, 48, 0.08);
   --test-bubble-border: rgba(255, 255, 255, 0.35);
   /* Accent palette */
   --accent-green: #328181;
@@ -202,7 +202,7 @@
   body {
     @apply bg-background text-foreground;
     font-size: 18px;
-    line-height: 20px;
+    line-height: 1.6;
     letter-spacing: -0.01em;
     font-weight: 400;
   }
@@ -214,7 +214,7 @@
 
 /* ChatGPT-style response typography */
 .chat-response {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   line-height: 1.75;
   color: var(--foreground);
 }

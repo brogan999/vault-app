@@ -486,6 +486,63 @@ export function getCategoryColorKey(categoryValue: string): string {
   return key ?? "personality";
 }
 
+/* ── Framework kind: psychometric vs. symbolic ─────────────────── */
+
+export type FrameworkKind = "psychometric" | "symbolic";
+
+/** Categories that belong to the psychometric (empirical / validated) family. */
+const PSYCHOMETRIC_CATEGORIES = new Set(["Personality", "Intelligence", "Strengths", "Career", "Wellness"]);
+
+/**
+ * Determine whether a product (test) belongs to the psychometric (science-backed)
+ * or symbolic (esoteric / traditional) family. This drives distinct visual treatments
+ * throughout the results pages.
+ */
+export function getFrameworkKind(productOrCategory: Product | string): FrameworkKind {
+  const cat = typeof productOrCategory === "string" ? productOrCategory : productOrCategory.category;
+  return PSYCHOMETRIC_CATEGORIES.has(cat) ? "psychometric" : "symbolic";
+}
+
+/**
+ * Visual identity tokens for a framework kind.
+ * Used by results components to apply distinct styling.
+ */
+export function getFrameworkVisualIdentity(kind: FrameworkKind) {
+  if (kind === "psychometric") {
+    return {
+      /** Accent colour (teal) */
+      accent: "var(--palette-teal)",
+      /** Lighter tinted background */
+      accentBg: "rgba(50, 129, 129, 0.06)",
+      /** Badge background */
+      badgeBg: "rgba(50, 129, 129, 0.1)",
+      /** Badge text colour */
+      badgeText: "var(--palette-teal)",
+      /** Section background (very subtle) */
+      sectionBg: "rgba(50, 129, 129, 0.03)",
+      /** Section border */
+      sectionBorder: "rgba(50, 129, 129, 0.12)",
+      /** Label */
+      label: "Psychometric",
+      /** Subtitle */
+      subtitle: "Empirically validated",
+      /** Section number pill class additions */
+      numberPillClass: "bg-[#328181] text-white",
+    };
+  }
+  return {
+    accent: "var(--palette-gold)",
+    accentBg: "rgba(199, 163, 86, 0.06)",
+    badgeBg: "rgba(199, 163, 86, 0.1)",
+    badgeText: "var(--palette-gold)",
+    sectionBg: "rgba(199, 163, 86, 0.03)",
+    sectionBorder: "rgba(199, 163, 86, 0.12)",
+    label: "Symbolic",
+    subtitle: "Traditional wisdom",
+    numberPillClass: "bg-[#C7A356] text-white",
+  };
+}
+
 export const categories = [
   { label: "All", value: "all" },
   { label: "Personality", value: "personality" },

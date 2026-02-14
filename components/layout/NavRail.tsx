@@ -96,7 +96,7 @@ export function NavRail() {
   ];
 
   return (
-    <aside className="fixed left-0 top-0 z-40 flex h-screen w-[72px] flex-col items-center justify-between border-r border-border bg-background py-6 lg:w-[220px]">
+    <aside className="fixed left-0 top-0 z-40 hidden h-screen w-[220px] flex-col items-center justify-between border-r border-border bg-background py-6 lg:flex">
       {/* Top: Logo + Nav */}
       <div className="flex flex-col items-center gap-8 lg:items-start lg:px-4">
         {/* Logo */}

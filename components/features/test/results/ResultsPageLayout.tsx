@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import type { TypeResultContent } from "@/lib/results-content/types";
-import { ResultsSidebar } from "./ResultsSidebar";
+import { ResultsSidebar, MobileResultsNav, ResultsSidebarProvider } from "./ResultsSidebar";
 
 interface ResultsPageLayoutProps {
   content: TypeResultContent;
@@ -16,7 +16,7 @@ interface ResultsPageLayoutProps {
 /**
  * Two-column layout for the results page.
  * Desktop: ~70% main content (left) + ~30% sticky sidebar (right).
- * Mobile: Full-width single column, sidebar hidden.
+ * Mobile: Full-width single column with sticky horizontal section nav.
  */
 export function ResultsPageLayout({
   content,
@@ -37,22 +37,31 @@ export function ResultsPageLayout({
   ];
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
-      <div className="lg:grid lg:grid-cols-[1fr_280px] lg:gap-8 xl:grid-cols-[1fr_300px]">
-        {/* Main content column */}
-        <div className="min-w-0 space-y-8">{children}</div>
-
-        {/* Sidebar */}
-        <ResultsSidebar
-          typeName={content.typeName}
-          typeCode={content.typeCode}
+    <ResultsSidebarProvider sections={sidebarSections}>
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+        {/* Mobile: sticky horizontal tab bar (above grid) */}
+        <MobileResultsNav
           sections={sidebarSections}
           isPremium={isPremium}
-          shareUrl={shareUrl}
-          shareTitle={shareTitle}
           onUnlock={onUnlock}
         />
+
+        <div className="lg:grid lg:grid-cols-[1fr_280px] lg:gap-8 xl:grid-cols-[1fr_300px]">
+          {/* Main content column */}
+          <div className="min-w-0 space-y-8">{children}</div>
+
+          {/* Desktop: sidebar (right column) */}
+          <ResultsSidebar
+            typeName={content.typeName}
+            typeCode={content.typeCode}
+            sections={sidebarSections}
+            isPremium={isPremium}
+            shareUrl={shareUrl}
+            shareTitle={shareTitle}
+            onUnlock={onUnlock}
+          />
+        </div>
       </div>
-    </div>
+    </ResultsSidebarProvider>
   );
 }

@@ -1,10 +1,16 @@
-import { JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono, Playfair_Display } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { CrispChat } from "@/components/providers/crisp-chat";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const playfairDisplay = Playfair_Display({
+  variable: "--font-serif",
   subsets: ["latin"],
   display: "swap",
 });
@@ -67,7 +73,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body
-        className={`${jetbrainsMono.variable} font-sans antialiased`}
+        className={`${jetbrainsMono.variable} ${playfairDisplay.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
         {children}

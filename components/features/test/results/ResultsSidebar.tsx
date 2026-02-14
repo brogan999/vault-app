@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, createContext, useContext, useMemo, type ReactNode } from "react";
 import { Lock, Share2, Mail, Users } from "lucide-react";
+
+/* ── Shared types ─────────────────────────────────────────────── */
 
 interface SidebarSection {
   id: string;
@@ -19,18 +21,22 @@ interface ResultsSidebarProps {
   onUnlock: () => void;
 }
 
-export function ResultsSidebar({
-  typeName,
-  typeCode,
+/* ── Shared context for intersection observer state ────────────── */
+
+const ActiveSectionContext = createContext<{
+  activeId: string;
+  handleScrollTo: (id: string) => void;
+}>({ activeId: "", handleScrollTo: () => {} });
+
+export function ResultsSidebarProvider({
   sections,
-  isPremium,
-  shareUrl,
-  shareTitle,
-  onUnlock,
-}: ResultsSidebarProps) {
+  children,
+}: {
+  sections: SidebarSection[];
+  children: ReactNode;
+}) {
   const [activeId, setActiveId] = useState<string>("");
 
-  // Use IntersectionObserver to track which section is in the viewport
   useEffect(() => {
     const ids = sections.map((s) => s.id);
     const elements = ids
@@ -41,7 +47,6 @@ export function ResultsSidebar({
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // Find the first visible section
         for (const entry of entries) {
           if (entry.isIntersecting) {
             setActiveId(entry.target.id);
@@ -62,6 +67,98 @@ export function ResultsSidebar({
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
+
+  const value = useMemo(() => ({ activeId, handleScrollTo }), [activeId]);
+
+  return (
+    <ActiveSectionContext.Provider value={value}>
+      {children}
+    </ActiveSectionContext.Provider>
+  );
+}
+
+/* ── Mobile sticky horizontal tab bar ─────────────────────────── */
+
+export function MobileResultsNav({
+  sections,
+  isPremium,
+  onUnlock,
+}: {
+  sections: SidebarSection[];
+  isPremium: boolean;
+  onUnlock: () => void;
+}) {
+  const { activeId, handleScrollTo } = useContext(ActiveSectionContext);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const activeRef = useRef<HTMLButtonElement>(null);
+
+  // Auto-scroll the active tab into view
+  useEffect(() => {
+    if (activeRef.current && scrollRef.current) {
+      const container = scrollRef.current;
+      const el = activeRef.current;
+      const left = el.offsetLeft - container.offsetWidth / 2 + el.offsetWidth / 2;
+      container.scrollTo({ left, behavior: "smooth" });
+    }
+  }, [activeId]);
+
+  return (
+    <div className="sticky top-0 z-30 -mx-4 border-b border-border/60 bg-background/90 backdrop-blur-md sm:-mx-6 lg:hidden">
+      <div
+        ref={scrollRef}
+        className="flex gap-1 overflow-x-auto px-4 py-2 sm:px-6"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
+        {sections.map((section) => {
+          const isActive = activeId === section.id;
+          return (
+            <button
+              key={section.id}
+              ref={isActive ? activeRef : undefined}
+              type="button"
+              onClick={() => handleScrollTo(section.id)}
+              className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium whitespace-nowrap transition-colors ${
+                isActive
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
+              }`}
+            >
+              <span className="font-bold">{section.number}</span>
+              {section.title}
+            </button>
+          );
+        })}
+
+        {!isPremium && (
+          <button
+            type="button"
+            onClick={() => {
+              onUnlock();
+              handleScrollTo("unlock-full-results");
+            }}
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary/10 px-3.5 py-1.5 text-xs font-semibold text-primary whitespace-nowrap transition-colors hover:bg-primary/20"
+          >
+            <Lock className="h-3 w-3" />
+            Full report
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ── Desktop sidebar ──────────────────────────────────────────── */
+
+export function ResultsSidebar({
+  typeName,
+  typeCode,
+  sections,
+  isPremium,
+  shareUrl,
+  shareTitle,
+  onUnlock,
+}: ResultsSidebarProps) {
+  const { activeId, handleScrollTo } = useContext(ActiveSectionContext);
 
   const encodedUrl = encodeURIComponent(shareUrl);
   const encodedTitle = encodeURIComponent(shareTitle);

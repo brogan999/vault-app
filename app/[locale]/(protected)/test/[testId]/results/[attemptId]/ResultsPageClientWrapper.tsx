@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import type { TestScores } from "@/lib/tests/types";
 import type { TypeResultContent } from "@/lib/results-content/types";
+import type { FrameworkKind } from "@/lib/products";
 import { purchasePremiumReport, submitAccuracyRating } from "@/app/actions/tests";
 import { ResultsPageClient } from "@/components/features/test/results/ResultsPageClient";
 import { PremiumUpgradeCTA } from "@/components/features/test/PremiumUpgradeCTA";
@@ -16,6 +17,8 @@ interface ResultsPageClientWrapperProps {
   testTitle: string;
   price: string;
   shareUrl: string;
+  /** Psychometric or symbolic — drives distinct visual identity */
+  frameworkKind?: FrameworkKind;
   /** If true, render the original PremiumUpgradeCTA for non-extended tests */
   fallbackMode?: boolean;
 }
@@ -29,6 +32,7 @@ export function ResultsPageClientWrapper({
   testTitle,
   price,
   shareUrl,
+  frameworkKind,
   fallbackMode,
 }: ResultsPageClientWrapperProps) {
   const router = useRouter();
@@ -87,6 +91,7 @@ export function ResultsPageClientWrapper({
       testTitle={testTitle}
       price={price}
       shareUrl={shareUrl}
+      frameworkKind={frameworkKind}
       onPurchase={handlePurchase}
       onRate={handleRate}
     />

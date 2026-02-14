@@ -3,6 +3,9 @@
 import { useCallback } from "react";
 import type { TestScores, DimensionScore } from "@/lib/tests/types";
 import type { TypeResultContent } from "@/lib/results-content/types";
+import type { FrameworkKind } from "@/lib/products";
+import { getFrameworkVisualIdentity } from "@/lib/products";
+import { cn } from "@/lib/utils";
 import { ResultsPageLayout } from "./ResultsPageLayout";
 import { TypeRevealHero } from "./TypeRevealHero";
 import { TypeDescription } from "./TypeDescription";
@@ -24,6 +27,8 @@ interface ResultsPageClientProps {
   testTitle: string;
   price: string;
   shareUrl: string;
+  /** Psychometric or symbolic — drives distinct visual identity */
+  frameworkKind?: FrameworkKind;
   onPurchase: () => Promise<{ url?: string | null } | void>;
   onRate: (rating: number) => Promise<void>;
 }
@@ -35,6 +40,7 @@ export function ResultsPageClient({
   testTitle,
   price,
   shareUrl,
+  frameworkKind,
   onPurchase,
   onRate,
 }: ResultsPageClientProps) {
@@ -67,6 +73,7 @@ export function ResultsPageClient({
         typeCode={content.typeCode}
         heroColor={content.heroColor}
         heroImage={content.heroImage}
+        frameworkKind={frameworkKind}
       />
 
       {/* ---- Description ---- */}
@@ -76,7 +83,14 @@ export function ResultsPageClient({
       {displayDimensions.length > 0 && (
         <section id="personality-traits" className="scroll-mt-24 space-y-4">
           <div className="flex items-center gap-3">
-            <span className="flex h-7 min-w-7 items-center justify-center rounded-md bg-primary px-2 text-xs font-bold text-primary-foreground">
+            <span
+              className={cn(
+                "flex h-7 min-w-7 items-center justify-center rounded-md px-2 text-xs font-bold",
+                frameworkKind
+                  ? getFrameworkVisualIdentity(frameworkKind).numberPillClass
+                  : "bg-primary text-primary-foreground"
+              )}
+            >
               1
             </span>
             <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
@@ -100,6 +114,7 @@ export function ResultsPageClient({
           id={section.id}
           number={section.number}
           title={section.title}
+          frameworkKind={frameworkKind}
         >
           {/* Section description */}
           <TypeDescription paragraphs={section.description} />

@@ -3,6 +3,7 @@ import { HERO_TEST_ID } from "@/lib/products";
 import { Globe } from "lucide-react";
 import type { Metadata } from "next";
 import { JsonLd, articleSchema } from "@/components/seo/json-ld";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -80,6 +81,7 @@ export default async function OurFrameworkPage() {
 
         {/* Main content */}
         <article className="space-y-16 text-foreground">
+          <ScrollReveal>
           <section id="why-anima" className="scroll-mt-24">
             <h2 className="text-xl font-bold font-serif text-foreground sm:text-2xl">
               Why We&apos;re Called Anima
@@ -125,6 +127,18 @@ export default async function OurFrameworkPage() {
             <p className="mt-4 leading-relaxed text-muted-foreground">
               That&apos;s why we named this platform Anima.
             </p>
+
+            {/* Pull quote */}
+            <blockquote className="my-8 border-l-4 border-[#328181] bg-[#328181]/5 py-5 pr-6 pl-6 rounded-r-xl dark:bg-[#328181]/10">
+              <p className="text-lg font-medium leading-relaxed text-foreground font-serif italic">
+                &ldquo;You cannot know yourself through a single lens.&rdquo;
+              </p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                The conscious mind sees one thing. The unconscious holds another.
+                Empirical measurement captures a pattern. Symbolic tradition captures a meaning.
+              </p>
+            </blockquote>
+
             <p className="mt-4 leading-relaxed text-muted-foreground">
               Not because we think Jung had the final word on personality — he
               didn&apos;t. But because he understood something that most personality
@@ -143,7 +157,9 @@ export default async function OurFrameworkPage() {
               Anima is designed to be that conversation.
             </p>
           </section>
+          </ScrollReveal>
 
+          <ScrollReveal>
           <section id="problem" className="scroll-mt-24">
             <h2 className="text-xl font-bold font-serif text-foreground sm:text-2xl">
               The Problem With One Lens
@@ -175,7 +191,9 @@ export default async function OurFrameworkPage() {
               That&apos;s the experience we set out to create.
             </p>
           </section>
+          </ScrollReveal>
 
+          <ScrollReveal>
           <section id="what-anima-offers" className="scroll-mt-24">
             <h2 className="text-xl font-bold font-serif text-foreground sm:text-2xl">
               What Anima Offers
@@ -186,8 +204,38 @@ export default async function OurFrameworkPage() {
               oldest traditions of self-understanding. Plus an AI companion that
               weaves them all together into a conversation about you.
             </p>
-          </section>
 
+            {/* Framework overview callout */}
+            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="rounded-xl border border-border/60 bg-card/50 p-5">
+                <p className="text-xs font-bold uppercase tracking-widest text-[#328181] mb-2">
+                  Psychometric science
+                </p>
+                <ul className="space-y-1.5 text-sm text-muted-foreground">
+                  <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#328181] shrink-0" />Big Five (OCEAN)</li>
+                  <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#328181] shrink-0" />Personality Type (16 types)</li>
+                  <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#328181] shrink-0" />Enneagram</li>
+                  <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#328181] shrink-0" />Work Style Profile</li>
+                </ul>
+              </div>
+              <div className="rounded-xl border border-border/60 bg-card/50 p-5">
+                <p className="text-xs font-bold uppercase tracking-widest text-[#C7A356] mb-2">
+                  Symbolic traditions
+                </p>
+                <ul className="space-y-1.5 text-sm text-muted-foreground">
+                  <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#C7A356] shrink-0" />Western Astrology</li>
+                  <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#C7A356] shrink-0" />Vedic Astrology (Jyotish)</li>
+                  <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#C7A356] shrink-0" />Numerology</li>
+                  <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#C7A356] shrink-0" />Human Design</li>
+                  <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#C7A356] shrink-0" />Chinese Zodiac</li>
+                  <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#C7A356] shrink-0" />Mayan Astrology (Tzolkin)</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+          </ScrollReveal>
+
+          <ScrollReveal>
           <section id="psychometric" className="scroll-mt-24">
             <h2 className="text-xl font-bold font-serif text-foreground sm:text-2xl">
               The Psychometric Assessments
@@ -316,7 +364,18 @@ export default async function OurFrameworkPage() {
               </div>
             </div>
           </section>
+          </ScrollReveal>
 
+          {/* Visual transition divider */}
+          <div className="flex items-center gap-4" aria-hidden="true">
+            <div className="h-px flex-1 bg-gradient-to-r from-[#328181]/40 to-transparent" />
+            <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground/50">
+              From measurement to meaning
+            </span>
+            <div className="h-px flex-1 bg-gradient-to-l from-[#C7A356]/40 to-transparent" />
+          </div>
+
+          <ScrollReveal>
           <section id="esoteric" className="scroll-mt-24">
             <h2 className="text-xl font-bold font-serif text-foreground sm:text-2xl">
               The Esoteric Frameworks
@@ -470,7 +529,9 @@ export default async function OurFrameworkPage() {
               </div>
             </div>
           </section>
+          </ScrollReveal>
 
+          <ScrollReveal>
           <section id="mirror" className="scroll-mt-24">
             <h2 className="text-xl font-bold font-serif text-foreground sm:text-2xl">
               The Mirror: AI-Powered Self-Conversation
@@ -509,7 +570,9 @@ export default async function OurFrameworkPage() {
               That&apos;s Anima. Your inner conversation, finally given a home.
             </p>
           </section>
+          </ScrollReveal>
 
+          <ScrollReveal>
           <section id="philosophy" className="scroll-mt-24">
             <h2 className="text-xl font-bold font-serif text-foreground sm:text-2xl">
               Our Philosophy on Evidence
@@ -534,6 +597,13 @@ export default async function OurFrameworkPage() {
               we present them as what they are: powerful symbolic frameworks for
               self-reflection.
             </p>
+            {/* Pull quote */}
+            <blockquote className="my-8 border-l-4 border-[#C7A356] bg-[#C7A356]/5 py-5 pr-6 pl-6 rounded-r-xl dark:bg-[#C7A356]/10">
+              <p className="text-lg font-medium leading-relaxed text-foreground font-serif italic">
+                &ldquo;A thermometer and a poem can both tell you something true about a winter morning.&rdquo;
+              </p>
+            </blockquote>
+
             <p className="mt-4 leading-relaxed text-muted-foreground">
               We believe both kinds of knowing have value. A thermometer and a
               poem can both tell you something true about a winter morning.
@@ -545,7 +615,9 @@ export default async function OurFrameworkPage() {
               framework. We respect you enough to let you decide what resonates.
             </p>
           </section>
+          </ScrollReveal>
 
+          <ScrollReveal>
           <section id="why-multiple" className="scroll-mt-24">
             <h2 className="text-xl font-bold font-serif text-foreground sm:text-2xl">
               Why Multiple Lenses Matter
@@ -572,6 +644,14 @@ export default async function OurFrameworkPage() {
               Same person. Same trait. Four completely different angles of
               understanding. Each one making the others richer.
             </p>
+
+            {/* Pull quote */}
+            <blockquote className="my-8 border-l-4 border-primary/30 bg-muted/40 py-5 pr-6 pl-6 rounded-r-xl">
+              <p className="text-lg font-medium leading-relaxed text-foreground font-serif italic">
+                Different perspectives reveal different truths.
+              </p>
+            </blockquote>
+
             <p className="mt-4 leading-relaxed text-muted-foreground">
               That&apos;s what we mean by multiple lenses. Not &quot;more is better&quot;
               — but different perspectives reveal different truths.
@@ -588,7 +668,9 @@ export default async function OurFrameworkPage() {
               That&apos;s the principle Anima is built on.
             </p>
           </section>
+          </ScrollReveal>
 
+          <ScrollReveal>
           <section id="what-it-is" className="scroll-mt-24">
             <h2 className="text-xl font-bold font-serif text-foreground sm:text-2xl">
               What This Is — and What It Isn&apos;t
@@ -620,6 +702,7 @@ export default async function OurFrameworkPage() {
               That&apos;s a pretty good place to start.
             </p>
           </section>
+          </ScrollReveal>
         </article>
 
         {/* Bottom CTA */}

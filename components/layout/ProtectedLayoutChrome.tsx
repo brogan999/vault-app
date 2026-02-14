@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { NavRail } from "@/components/layout/NavRail";
+import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { MainStage } from "@/components/layout/MainStage";
 import { TestHeader } from "@/components/layout/TestHeader";
 import { AppFooter } from "@/components/layout/AppFooter";
@@ -43,12 +44,13 @@ export function ProtectedLayoutChrome({
     return (
       <div className="flex h-screen">
         <NavRail />
-        <div className="flex flex-1 flex-col min-w-0 ml-[220px] max-lg:ml-[72px] min-h-0">
-          <main className="flex-1 flex flex-col min-h-0 overflow-hidden bg-background">
+        <div className="flex flex-1 flex-col min-w-0 lg:ml-[220px] min-h-0">
+          <main className="flex-1 flex flex-col min-h-0 overflow-hidden bg-background pb-16 lg:pb-0">
             {children}
           </main>
           <AppFooter />
         </div>
+        <MobileBottomNav />
       </div>
     );
   }
@@ -60,6 +62,7 @@ export function ProtectedLayoutChrome({
         <div className="flex flex-1 flex-col min-w-0">
           <MainStage footer={<AppFooter />}>{children}</MainStage>
         </div>
+        <MobileBottomNav />
       </div>
     );
   }

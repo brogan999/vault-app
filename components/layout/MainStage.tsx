@@ -15,12 +15,11 @@ export function MainStage({ children, className, footer }: MainStageProps) {
     <main
       className={cn(
         "flex-1 overflow-y-auto bg-background",
-        "ml-[220px]",
-        "max-lg:ml-[72px]",
+        "lg:ml-[220px]",
         className
       )}
     >
-      <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-[1200px] mx-auto">
+      <div className="px-4 py-6 pb-24 lg:px-8 lg:py-8 lg:pb-8 max-w-[1200px] mx-auto">
         {children}
       </div>
       {footer}
