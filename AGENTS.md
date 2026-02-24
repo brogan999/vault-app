@@ -42,3 +42,11 @@ There is no test runner configured (no Jest, Vitest, Playwright, or Cypress). Th
 ### Prisma
 
 Prisma 7.x uses `prisma.config.ts` which reads `DATABASE_URL` from `.env.local`. Running `npx prisma generate` only needs the env var set (no live database connection required). The actual database is PostgreSQL with pgvector on Supabase.
+
+### Clerk dev mode sign-up
+
+In Clerk development mode, email verification uses the code `424242`. New user sign-up redirects to `/mirror` (the dashboard). A consent modal ("Before you begin") appears on first visit for new users.
+
+### Running the dev server
+
+`npm run dev` starts on port 3000. The app uses `proxy.ts` as Next.js 16 middleware (Clerk auth + next-intl i18n). All routes except public ones (landing, pricing, FAQ, our-framework, terms, privacy, contact, knowledge-base, sign-in, sign-up, test) require Clerk authentication. The middleware redirects unauthenticated users to `/sign-in`.
