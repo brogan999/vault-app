@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkWrapper } from "@/components/providers/clerk-wrapper";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { KeyboardShortcutsProvider } from "@/components/providers/keyboard-shortcuts";
@@ -86,7 +86,7 @@ export default async function LocaleLayout({
   const clerkLocalization = await getClerkLocalization(locale);
 
   return (
-    <ClerkProvider localization={clerkLocalization}>
+    <ClerkWrapper localization={clerkLocalization}>
       <NextIntlClientProvider locale={locale} messages={messages}>
         <PostHogProvider>
           <QueryProvider>
@@ -102,6 +102,6 @@ export default async function LocaleLayout({
           </QueryProvider>
         </PostHogProvider>
       </NextIntlClientProvider>
-    </ClerkProvider>
+    </ClerkWrapper>
   );
 }
