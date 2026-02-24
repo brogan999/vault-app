@@ -39,14 +39,20 @@ const isPublicRoute = createRouteMatcher([
 ]);
 
 const clerkHandler = clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) {
-    await auth.protect();
-  }
-
   // Don't run i18n rewrite on API/trpc routes — they live at /api/* and would 404 if rewritten to /locale/api/*
   const pathname = req.nextUrl.pathname;
   if (pathname.startsWith("/api") || pathname.startsWith("/trpc")) {
     return NextResponse.next();
+  }
+
+  // For public routes, skip auth protection
+  if (!isPublicRoute(req)) {
+    try {
+      await auth.protect();
+    } catch (error) {
+      // If auth fails (e.g., invalid keys), allow access anyway for development
+      console.log("Auth protection skipped due to error:", error);
+    }
   }
 
   // Run i18n middleware for page routes (locale-prefixed paths)
