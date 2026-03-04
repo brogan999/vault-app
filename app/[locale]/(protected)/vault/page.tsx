@@ -133,7 +133,7 @@ function VaultContent() {
 
       {/* Tabbed content */}
       <Tabs defaultValue="results" className="mb-6">
-        <TabsList className="rounded-xl bg-muted/60 p-1 h-auto">
+        <TabsList className="rounded-xl bg-muted p-1 h-auto">
           <TabsTrigger
             value="results"
             className="rounded-lg px-4 py-2 text-sm font-semibold data-[state=active]:bg-card data-[state=active]:text-foreground"

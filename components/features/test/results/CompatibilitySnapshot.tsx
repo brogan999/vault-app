@@ -100,7 +100,7 @@ export function CompatibilitySnapshot({
         {/* Lock overlay */}
         {!isPremium && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative w-full max-w-md rounded-xl border-2 border-dashed border-primary/30 bg-white/95 px-6 py-5 text-center shadow-lg backdrop-blur-sm dark:border-primary/20 dark:bg-card/95">
+            <div className="relative w-full max-w-md rounded-xl border-2 border-dashed border-primary/30 bg-white/95 px-6 py-5 text-center shadow-lg backdrop-blur-sm">
               <div className="absolute -top-3 right-4">
                 <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
                   <Lock className="h-3 w-3" />

@@ -12,7 +12,7 @@ export function EmailCompareActions({ shareUrl, shareTitle }: EmailCompareAction
   const encodedTitle = encodeURIComponent(shareTitle);
 
   return (
-    <div className="mt-6 flex flex-col items-center justify-between gap-3 rounded-xl border border-border/40 bg-card px-5 py-3 dark:border-border/20 sm:flex-row">
+    <div className="mt-6 flex flex-col items-center justify-between gap-3 rounded-xl border border-border/40 bg-card px-5 py-3 sm:flex-row">
       <p className="text-sm font-medium text-muted-foreground">
         Share your results
       </p>

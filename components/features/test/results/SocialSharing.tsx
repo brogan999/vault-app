@@ -38,7 +38,7 @@ export function SocialSharing({ shareUrl, shareTitle, shareText }: SocialSharing
       label: "Share on Facebook",
       href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
       icon: <Facebook className="h-5 w-5" />,
-      color: "text-blue-600 dark:text-blue-400",
+      color: "text-blue-600",
     },
     {
       label: "Share on X",
@@ -50,7 +50,7 @@ export function SocialSharing({ shareUrl, shareTitle, shareText }: SocialSharing
       label: "Share on Pinterest",
       href: `https://pinterest.com/pin/create/button/?url=${encodedUrl}&description=${encodedText}`,
       icon: <PinterestIcon className="h-5 w-5" />,
-      color: "text-red-500 dark:text-red-400",
+      color: "text-red-500",
     },
     {
       label: "Email results",
@@ -88,7 +88,7 @@ export function SocialSharing({ shareUrl, shareTitle, shareText }: SocialSharing
       </div>
 
       {showQr && (
-        <div className="mx-auto mt-4 w-fit rounded-xl border border-border/40 bg-white p-4 dark:bg-card">
+        <div className="mx-auto mt-4 w-fit rounded-xl border border-border/40 bg-white p-4">
           {/* Simple QR placeholder - can be replaced with a real QR library */}
           <div className="flex h-32 w-32 items-center justify-center bg-muted/20 text-xs text-muted-foreground">
             QR Code

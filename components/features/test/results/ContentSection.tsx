@@ -44,7 +44,7 @@ export function ContentSection({ id, number, title, children, sectionImage, fram
       className={cn(
         "scroll-mt-24 rounded-2xl px-5 py-8 sm:px-8 md:px-10 transition-all duration-600 will-change-transform",
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
-        !vi && "bg-muted/30 dark:bg-muted/10"
+        !vi && "bg-muted/30"
       )}
       style={{
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",

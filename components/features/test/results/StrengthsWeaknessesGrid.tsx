@@ -15,8 +15,8 @@ export function StrengthsWeaknessesGrid({ title, items, variant }: StrengthsWeak
   const isStrengths = variant === "strengths";
   const Icon = isStrengths ? CheckCircle2 : AlertCircle;
   const iconClass = isStrengths
-    ? "text-emerald-500 dark:text-emerald-400"
-    : "text-amber-500 dark:text-amber-400";
+    ? "text-emerald-500"
+    : "text-amber-500";
 
   return (
     <div className="mt-8">

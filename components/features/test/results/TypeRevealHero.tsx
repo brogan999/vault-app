@@ -70,7 +70,7 @@ export function TypeRevealHero({ typeName, typeCode, heroColor, heroImage, frame
 
           <p
             className={cn(
-              "text-sm font-medium text-white/80 dark:text-white/70 transition-all duration-500",
+              "text-sm font-medium text-white/80 transition-all duration-500",
               revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
             )}
             style={{ transitionDelay: "300ms" }}
@@ -88,7 +88,7 @@ export function TypeRevealHero({ typeName, typeCode, heroColor, heroImage, frame
           </h1>
           <p
             className={cn(
-              "mt-2 text-lg font-semibold text-white/90 dark:text-white/80 transition-all duration-500",
+              "mt-2 text-lg font-semibold text-white/90 transition-all duration-500",
               revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
             )}
             style={{ transitionDelay: "600ms" }}

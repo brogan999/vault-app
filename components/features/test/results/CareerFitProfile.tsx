@@ -47,7 +47,7 @@ export function CareerFitProfile({
       <div className="relative">
         <div className={isPremium ? "" : "pointer-events-none select-none blur-[6px]"}>
           {/* Environment Preference Bars */}
-          <div className="space-y-4 rounded-2xl border border-border/40 bg-card p-5 dark:border-border/20">
+          <div className="space-y-4 rounded-2xl border border-border/40 bg-card p-5">
             {environmentPrefs.map((pref, idx) => {
               const pct = Math.round(pref.score);
               return (
@@ -70,7 +70,7 @@ export function CareerFitProfile({
                       {pct}%
                     </span>
                   </div>
-                  <div className="relative h-2 w-full overflow-hidden rounded-full bg-muted/40 dark:bg-muted/20">
+                  <div className="relative h-2 w-full overflow-hidden rounded-full bg-muted/40">
                     <div
                       className="absolute inset-y-0 left-0 rounded-full transition-all ease-out"
                       style={{
@@ -121,7 +121,7 @@ export function CareerFitProfile({
         {/* Lock overlay */}
         {!isPremium && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative w-full max-w-md rounded-xl border-2 border-dashed border-primary/30 bg-white/95 px-6 py-5 text-center shadow-lg backdrop-blur-sm dark:border-primary/20 dark:bg-card/95">
+            <div className="relative w-full max-w-md rounded-xl border-2 border-dashed border-primary/30 bg-white/95 px-6 py-5 text-center shadow-lg backdrop-blur-sm">
               <div className="absolute -top-3 right-4">
                 <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
                   <Lock className="h-3 w-3" />

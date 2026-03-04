@@ -124,7 +124,7 @@ export function MobileResultsNav({
               className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium whitespace-nowrap transition-colors ${
                 isActive
                   ? "bg-primary text-primary-foreground"
-                  : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
+                  : "bg-muted text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
               {isLocked && <Lock className="h-2.5 w-2.5" />}
@@ -173,7 +173,7 @@ export function ResultsSidebar({
     <aside className="hidden lg:block">
       <div className="sticky top-24 w-full space-y-5">
         {/* Type badge */}
-        <div className="flex items-center gap-3 rounded-xl border border-border/40 bg-card px-4 py-3 dark:border-border/20">
+        <div className="flex items-center gap-3 rounded-xl border border-border/40 bg-card px-4 py-3">
           {avatarImage ? (
             <InlineSvg
               src={avatarImage}
@@ -183,19 +183,19 @@ export function ResultsSidebar({
               className="h-10 w-10 rounded-lg text-foreground [&>svg]:h-full [&>svg]:w-full"
             />
           ) : (
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/15 text-lg font-bold text-primary dark:bg-primary/20">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/15 text-lg font-bold text-primary">
               {typeName.charAt(0)}
             </div>
           )}
           <div>
             <p className="text-xs text-muted-foreground">You are:</p>
             <p className="font-bold text-foreground">{typeName}</p>
-            <p className="text-xs font-medium text-primary dark:text-primary/80">{typeCode}</p>
+            <p className="text-xs font-medium text-primary">{typeCode}</p>
           </div>
         </div>
 
         {/* Section navigation */}
-        <div className="rounded-xl border border-border/40 bg-card px-4 py-4 dark:border-border/20">
+        <div className="rounded-xl border border-border/40 bg-card px-4 py-4">
           <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
             Sections
           </p>
@@ -210,7 +210,7 @@ export function ResultsSidebar({
                   onClick={() => handleScrollTo(section.id)}
                   className={`flex w-full items-center gap-1.5 rounded-lg px-3 py-2 text-left text-sm transition-colors ${
                     isActive
-                      ? "border-l-2 border-primary bg-primary/10 font-semibold text-primary dark:bg-primary/15"
+                      ? "border-l-2 border-primary bg-primary/10 font-semibold text-primary"
                       : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                   }`}
                 >
@@ -228,7 +228,7 @@ export function ResultsSidebar({
                   onUnlock();
                   handleScrollTo("unlock-full-results");
                 }}
-                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-semibold text-primary transition-colors hover:bg-primary/10 dark:hover:bg-primary/15"
+                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-semibold text-primary transition-colors hover:bg-primary/10"
               >
                 <Lock className="h-3.5 w-3.5" />
                 Get the full report

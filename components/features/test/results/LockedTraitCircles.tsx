@@ -4,10 +4,10 @@ import { Lock } from "lucide-react";
 import type { InfluentialTrait } from "@/lib/results-content/types";
 
 const CIRCLE_COLORS: Record<InfluentialTrait["color"], string> = {
-  blue: "border-blue-400 dark:border-blue-500",
-  gold: "border-violet-400 dark:border-violet-500",
-  green: "border-emerald-500 dark:border-emerald-600",
-  purple: "border-purple-400 dark:border-purple-500",
+  blue: "border-blue-400",
+  gold: "border-violet-400",
+  green: "border-emerald-500",
+  purple: "border-purple-400",
 };
 
 interface LockedTraitCirclesProps {
@@ -24,7 +24,7 @@ export function LockedTraitCircles({ title, traits, onUnlock, isPremium }: Locke
     <div className="mt-8">
       <h3 className="mb-4 text-xl font-bold text-foreground">{title}</h3>
 
-      <div className="rounded-2xl border border-border/40 bg-card p-6 dark:border-border/20">
+      <div className="rounded-2xl border border-border/40 bg-card p-6">
         {/* Trait circles */}
         <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
           {traits.map((trait) => (
@@ -45,7 +45,7 @@ export function LockedTraitCircles({ title, traits, onUnlock, isPremium }: Locke
 
         {/* Unlock card — dashed border card with lock badge */}
         {!isPremium && (
-          <div className="relative mt-6 rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 px-6 py-5 text-center dark:border-primary/20 dark:bg-primary/5">
+          <div className="relative mt-6 rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 px-6 py-5 text-center">
             <div className="absolute -top-3 right-4">
               <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
                 <Lock className="h-3 w-3" />

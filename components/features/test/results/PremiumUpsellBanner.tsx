@@ -40,10 +40,10 @@ export function PremiumUpsellBanner({
   return (
     <section
       id="unlock-full-results"
-      className="scroll-mt-24 overflow-hidden rounded-2xl bg-primary/5 px-6 py-10 text-center dark:bg-primary/10 sm:px-10 sm:py-14"
+      className="scroll-mt-24 overflow-hidden rounded-2xl bg-primary/5 px-6 py-10 text-center sm:px-10 sm:py-14"
     >
       {/* Badge */}
-      <span className="inline-block rounded-full bg-primary/15 px-4 py-1 text-xs font-bold uppercase tracking-wider text-primary dark:bg-primary/20">
+      <span className="inline-block rounded-full bg-primary/15 px-4 py-1 text-xs font-bold uppercase tracking-wider text-primary">
         Full Report
       </span>
 
@@ -58,7 +58,7 @@ export function PremiumUpsellBanner({
           (title) => (
             <div
               key={title}
-              className="flex items-center gap-2 rounded-lg bg-primary/10 px-3 py-2.5 dark:bg-primary/15"
+              className="flex items-center gap-2 rounded-lg bg-primary/10 px-3 py-2.5"
             >
               <Lock className="h-3.5 w-3.5 flex-shrink-0 text-primary/60" />
               <span className="text-xs font-medium text-foreground">{title}</span>

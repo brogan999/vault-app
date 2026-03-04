@@ -66,7 +66,7 @@ export function CognitivePortrait({ cards, typeCode }: CognitivePortraitProps) {
           </p>
           {/* Compact score bar (4px height) */}
           <div className="mt-3">
-            <div className="relative h-1 w-full overflow-hidden rounded-full bg-muted/40 dark:bg-muted/20">
+            <div className="relative h-1 w-full overflow-hidden rounded-full bg-muted/40">
               <div
                 className="absolute inset-y-0 left-0 rounded-full transition-all ease-out"
                 style={{

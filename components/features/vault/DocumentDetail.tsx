@@ -93,10 +93,10 @@ export function DocumentDetail({ documentId, onClose }: DocumentDetailProps) {
                   <span
                     className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${
                       doc.status === "completed"
-                        ? "bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300"
+                        ? "bg-green-100 text-green-800"
                         : doc.status === "processing"
-                          ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300"
-                          : "bg-gray-100 text-gray-800 dark:bg-gray-900/50 dark:text-gray-300"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : "bg-gray-100 text-gray-800"
                     }`}
                   >
                     {doc.status}

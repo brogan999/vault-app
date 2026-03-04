@@ -31,7 +31,7 @@ export function DimensionBars({ dimensions, config }: DimensionBarsProps) {
   }, []);
 
   return (
-    <div ref={ref} className="space-y-5 rounded-2xl border border-border/40 bg-card p-5 dark:border-border/20">
+    <div ref={ref} className="space-y-5 rounded-2xl border border-border/40 bg-card p-5">
       {dimensions.map((dim, idx) => {
         const cfg = config?.find((c) => c.dimensionId === dim.dimensionId);
         const barColor = cfg?.barColor ?? DEFAULT_COLORS[idx % DEFAULT_COLORS.length];
@@ -61,7 +61,7 @@ export function DimensionBars({ dimensions, config }: DimensionBarsProps) {
             </div>
 
             {/* Bar */}
-            <div className="relative h-3 w-full overflow-hidden rounded-full bg-muted/40 dark:bg-muted/20">
+            <div className="relative h-3 w-full overflow-hidden rounded-full bg-muted/40">
               <div
                 className="absolute inset-y-0 left-0 rounded-full transition-all ease-out"
                 style={{
