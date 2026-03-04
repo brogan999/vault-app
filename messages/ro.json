@@ -167,7 +167,7 @@
       "proFeature7": "10GB Vault, verificări proactive",
       "proFeature8": "Tablou de bord între cadre, exportă toate datele",
       "proCta": "Începe perioada de probă gratuită de 7 zile",
-      "premiumReportsBlurb": "Rapoarte premium: cumpără rapoarte individuale fără abonament, de la $9.99.",
+      "premiumReportsBlurb": "Rapoarte premium: cumpără rapoarte individuale fără abonament, de la $19.99.",
       "topUpsBlurb": "Utilizatorii Pro pot cumpăra mesaje Mirror suplimentare: 50 pentru $2.99, 100 pentru $4.99, 250 pentru $9.99."
     },
     "finalCta": {
@@ -541,7 +541,7 @@
     },
     "birthData": {
       "title": "Date de naștere",
-      "description": "Folosite o singură dată pentru astrologie, numerologie, Human Design și Zodiacul chinezesc. Ora poate fi \u201Enecunoscută\u201D dacă nu o știi.",
+      "description": "Folosite o singură dată pentru astrologie, numerologie, Human Design și Zodiacul chinezesc. Ora poate fi „necunoscută” dacă nu o știi.",
       "date": "Data nașterii",
       "time": "Ora nașterii",
       "timeUnknown": "Nu știu ora nașterii mele",

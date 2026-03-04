@@ -162,7 +162,7 @@ const SECTIONS: FaqSection[] = [
       },
       {
         q: "What are premium reports?",
-        a: "After taking any assessment, you can purchase a one-time premium report that goes much deeper — full facet breakdowns, wings, full chart, etc. Individual reports range from $9.99 to $19.99. Bundles: All 4 Psychometric $39.99, All 6 Esoteric $69.99, The Complete Portrait (all 10) $99.99. We also offer specialty reports: Career Compass ($29.99), Relationship Blueprint ($29.99), and Annual Self Portrait ($19.99). Reports are yours to keep forever.",
+        a: "After taking any assessment, you can purchase a one-time premium report that goes much deeper — full facet breakdowns, wings, full chart, etc. Individual reports are $19.99 each. Bundles: All 4 Psychometric $39.99, All 6 Esoteric $69.99, The Complete Portrait (all 10) $99.99. We also offer specialty reports: Career Compass ($29.99), Relationship Blueprint ($29.99), and Annual Self Portrait ($19.99). Reports are yours to keep forever.",
       },
       {
         q: "What does Pro include?",

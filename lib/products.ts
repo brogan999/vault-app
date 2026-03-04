@@ -98,7 +98,7 @@ export const products: Product[] = [
     icon: Lightbulb,
     color: "#d97706",
     bgColor: "rgba(217, 119, 6, 0.08)",
-    price: "$12.99",
+    price: "$19.99",
     duration: "30 min",
     rating: 4.7,
     taken: 31500,
@@ -145,8 +145,7 @@ export const products: Product[] = [
     icon: Stars,
     color: "#059669",
     bgColor: "rgba(5, 150, 105, 0.08)",
-    price: "$7.99",
-    originalPrice: "$11.99",
+    price: "$19.99",
     duration: "15 min",
     rating: 4.8,
     taken: 53600,
@@ -302,7 +301,7 @@ export const products: Product[] = [
     icon: Compass,
     color: "#2563eb",
     bgColor: "rgba(37, 99, 235, 0.08)",
-    price: "$14.99",
+    price: "$19.99",
     duration: "25 min",
     rating: 4.7,
     taken: 19200,
@@ -349,7 +348,7 @@ export const products: Product[] = [
     icon: Waves,
     color: "#ec4899",
     bgColor: "rgba(236, 72, 153, 0.08)",
-    price: "$6.99",
+    price: "$19.99",
     duration: "10 min",
     rating: 4.8,
     taken: 38700,
@@ -419,7 +418,7 @@ export const products: Product[] = [
     icon: Flame,
     color: "#ea580c",
     bgColor: "rgba(234, 88, 12, 0.08)",
-    price: "$8.99",
+    price: "$19.99",
     duration: "12 min",
     rating: 4.5,
     taken: 15800,
@@ -442,7 +441,7 @@ export const products: Product[] = [
     icon: Zap,
     color: "#4f46e5",
     bgColor: "rgba(79, 70, 229, 0.08)",
-    price: "$5.99",
+    price: "$19.99",
     duration: "10 min",
     rating: 4.6,
     taken: 18900,
@@ -564,7 +563,7 @@ export function getProductById(id: string): Product | undefined {
 export const HERO_TEST_ID = "mbti";
 
 /** Single price for premium PDF report (same for every test). */
-export const PREMIUM_REPORT_PRICE = "$29";
+export const PREMIUM_REPORT_PRICE = "$19.99";
 
 /* ------------------------------------------------------------------ */
 /*  Post-purchase funnel products (OTO / upsell)                       */

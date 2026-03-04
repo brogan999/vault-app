@@ -167,7 +167,7 @@
       "proFeature7": "10GB Vault, proaktivne provjere",
       "proFeature8": "Nadzorna ploča svih okvira, izvoz svih podataka",
       "proCta": "Započnite 7-dnevno besplatno probno razdoblje",
-      "premiumReportsBlurb": "Premium izvješća: kupite pojedinačna izvješća bez pretplate, od $9.99.",
+      "premiumReportsBlurb": "Premium izvješća: kupite pojedinačna izvješća bez pretplate, od $19.99.",
       "topUpsBlurb": "Pro korisnici mogu kupiti dodatne Mirror poruke: 50 za $2.99, 100 za $4.99, 250 za $9.99."
     },
     "finalCta": {
@@ -541,7 +541,7 @@
     },
     "birthData": {
       "title": "Podaci o rođenju",
-      "description": "Koriste se jednom za astrologiju, numerologiju, Human Design i Kineski zodijak. Vrijeme može biti \u201Enepoznato\u201D ako ga ne znate.",
+      "description": "Koriste se jednom za astrologiju, numerologiju, Human Design i Kineski zodijak. Vrijeme može biti „nepoznato” ako ga ne znate.",
       "date": "Datum rođenja",
       "time": "Vrijeme rođenja",
       "timeUnknown": "Ne znam svoje vrijeme rođenja",

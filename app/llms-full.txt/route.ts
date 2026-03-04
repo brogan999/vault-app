@@ -102,7 +102,7 @@ Q: What does Pro include?
 A: Everything in Free plus all premium reports (current and future), 300 Mirror messages per month, voice journaling with AI analysis, custom AI persona settings, unlimited journal entries, growth trend reports, 10GB Vault storage, proactive AI check-ins, cross-framework synthesis dashboard, and full data export. Pro is $14.99/month or $119.99/year (save 33%).
 
 Q: What are premium reports?
-A: Deep-dive reports with full facet breakdowns, wings, full charts, etc. Individual reports range from $9.99 to $19.99. Bundles available: All 4 Psychometric $39.99, All 6 Esoteric $69.99, The Complete Portrait (all 10) $99.99.
+A: Deep-dive reports with full facet breakdowns, wings, full charts, etc. Individual reports are $19.99 each. Bundles available: All 4 Psychometric $39.99, All 6 Esoteric $69.99, The Complete Portrait (all 10) $99.99.
 
 ### Your Account and Data
 

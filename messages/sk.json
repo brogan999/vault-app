@@ -167,7 +167,7 @@
       "proFeature7": "10 GB vo Vault, proaktívne check-iny",
       "proFeature8": "Dashboard naprieč metodológiami, export všetkých dát",
       "proCta": "Začať 7-dňové skúšobné obdobie zadarmo",
-      "premiumReportsBlurb": "Prémiové reporty: kúpte si jednotlivé reporty bez predplatného, od $9.99.",
+      "premiumReportsBlurb": "Prémiové reporty: kúpte si jednotlivé reporty bez predplatného, od $19.99.",
       "topUpsBlurb": "Používatelia Pro si môžu dokúpiť správy Mirror: 50 za $2.99, 100 za $4.99, 250 za $9.99."
     },
     "finalCta": {
@@ -541,7 +541,7 @@
     },
     "birthData": {
       "title": "Údaje o narodení",
-      "description": "Použije sa raz pre astrológiu, numerológiu, Human Design a čínsky zverokruh. Čas môže byť \u201Eneznámy\u201D, ak ho nepoznáte.",
+      "description": "Použije sa raz pre astrológiu, numerológiu, Human Design a čínsky zverokruh. Čas môže byť „neznámy”, ak ho nepoznáte.",
       "date": "Dátum narodenia",
       "time": "Čas narodenia",
       "timeUnknown": "Nepoznám svoj čas narodenia",

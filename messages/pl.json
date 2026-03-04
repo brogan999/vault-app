@@ -167,7 +167,7 @@
       "proFeature7": "10 GB w Vault, proaktywne check-iny",
       "proFeature8": "Panel wielu metodologii, eksport wszystkich danych",
       "proCta": "Rozpocznij 7-dniowy bezpłatny okres próbny",
-      "premiumReportsBlurb": "Raporty premium: kup pojedyncze raporty bez subskrypcji, od $9.99.",
+      "premiumReportsBlurb": "Raporty premium: kup pojedyncze raporty bez subskrypcji, od $19.99.",
       "topUpsBlurb": "Użytkownicy Pro mogą dokupić dodatkowe wiadomości Mirror: 50 za $2.99, 100 za $4.99, 250 za $9.99."
     },
     "finalCta": {
@@ -541,7 +541,7 @@
     },
     "birthData": {
       "title": "Dane urodzenia",
-      "description": "Używane jednorazowo do astrologii, numerologii, Human Design i chińskiego zodiaku. Godzina może być \u201Enieznana\u201D, jeśli jej nie znasz.",
+      "description": "Używane jednorazowo do astrologii, numerologii, Human Design i chińskiego zodiaku. Godzina może być „nieznana”, jeśli jej nie znasz.",
       "date": "Data urodzenia",
       "time": "Godzina urodzenia",
       "timeUnknown": "Nie znam swojej godziny urodzenia",

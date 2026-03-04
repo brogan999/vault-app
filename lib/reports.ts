@@ -108,18 +108,18 @@ export const CANONICAL_TEN_IDS = [
 
 /** Display price for each report (for UI). */
 export const REPORT_DISPLAY_PRICES: Record<string, string> = {
-  big5: "$9.99",
-  mbti: "$14.99",
-  enneagram: "$14.99",
-  disc: "$9.99",
+  big5: "$19.99",
+  mbti: "$19.99",
+  enneagram: "$19.99",
+  disc: "$19.99",
   "birth-chart": "$19.99",
   vedic: "$19.99",
   "human-design": "$19.99",
-  "life-path": "$9.99",
-  "chinese-zodiac": "$9.99",
-  mayan: "$9.99",
+  "life-path": "$19.99",
+  "chinese-zodiac": "$19.99",
+  mayan: "$19.99",
 };
 
 export function getReportPriceDisplay(testId: string): string {
-  return REPORT_DISPLAY_PRICES[testId] ?? "$9.99";
+  return REPORT_DISPLAY_PRICES[testId] ?? "$19.99";
 }

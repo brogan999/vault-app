@@ -29,7 +29,7 @@ export default function BundlePage() {
     CANONICAL_TEN_IDS.includes(p.id as (typeof CANONICAL_TEN_IDS)[number])
   );
   const totalValue = bundleProducts.reduce((sum, p) => {
-    const price = REPORT_DISPLAY_PRICES[p.id] ?? "$9.99";
+    const price = REPORT_DISPLAY_PRICES[p.id] ?? "$19.99";
     const num = parseFloat(price.replace("$", ""));
     return sum + (isNaN(num) ? 0 : num);
   }, 0);
