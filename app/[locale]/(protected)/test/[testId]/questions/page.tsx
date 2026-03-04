@@ -183,7 +183,7 @@ export default function QuestionsPage({ params }: QuestionsPageProps) {
         });
         requestAnimationFrame(() => {
           setTimeout(() => {
-            nextButtonRef.current?.focus();
+            nextButtonRef.current?.focus({ preventScroll: true });
           }, 100);
         });
       }

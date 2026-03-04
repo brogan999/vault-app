@@ -77,9 +77,9 @@ const LikertQuestion = forwardRef<TestQuestionRef, TestQuestionProps & { variant
     useImperativeHandle(ref, () => ({
       focusFirstOption: () => {
         if (variant === "inline") {
-          questionWrapperRef.current?.focus();
+          questionWrapperRef.current?.focus({ preventScroll: true });
         } else {
-          firstOptionRef.current?.focus();
+          firstOptionRef.current?.focus({ preventScroll: true });
         }
       },
     }), [variant]);
@@ -88,9 +88,9 @@ const LikertQuestion = forwardRef<TestQuestionRef, TestQuestionProps & { variant
       if (!autoFocus) return;
       const t = setTimeout(() => {
         if (variant === "inline") {
-          questionWrapperRef.current?.focus();
+          questionWrapperRef.current?.focus({ preventScroll: true });
         } else {
-          firstOptionRef.current?.focus();
+          firstOptionRef.current?.focus({ preventScroll: true });
         }
       }, 50);
       return () => clearTimeout(t);
@@ -256,11 +256,11 @@ const MultipleChoiceQuestion = forwardRef<TestQuestionRef, TestQuestionProps>(
     const options = question.options ?? [];
     const firstOptionRef = useRef<HTMLButtonElement>(null);
     useImperativeHandle(ref, () => ({
-      focusFirstOption: () => firstOptionRef.current?.focus(),
+      focusFirstOption: () => firstOptionRef.current?.focus({ preventScroll: true }),
     }));
     useLayoutEffect(() => {
       if (autoFocus) {
-        const t = setTimeout(() => firstOptionRef.current?.focus(), 50);
+        const t = setTimeout(() => firstOptionRef.current?.focus({ preventScroll: true }), 50);
         return () => clearTimeout(t);
       }
     }, [autoFocus]);
@@ -309,11 +309,11 @@ const ForcedChoiceQuestion = forwardRef<TestQuestionRef, TestQuestionProps>(
     const options = question.options ?? [];
     const firstOptionRef = useRef<HTMLButtonElement>(null);
     useImperativeHandle(ref, () => ({
-      focusFirstOption: () => firstOptionRef.current?.focus(),
+      focusFirstOption: () => firstOptionRef.current?.focus({ preventScroll: true }),
     }));
     useLayoutEffect(() => {
       if (autoFocus) {
-        const t = setTimeout(() => firstOptionRef.current?.focus(), 50);
+        const t = setTimeout(() => firstOptionRef.current?.focus({ preventScroll: true }), 50);
         return () => clearTimeout(t);
       }
     }, [autoFocus]);
