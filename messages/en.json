@@ -1,4 +1,19 @@
 {
+  "categories": {
+    "all": "All",
+    "personality": "Personality",
+    "intelligence": "Intelligence",
+    "strengths": "Strengths",
+    "wellness": "Wellness",
+    "astrology": "Astrology",
+    "career": "Career"
+  },
+  "consent": {
+    "message": "We use essential cookies to run the app and optional analytics (PostHog) to improve the product. In the EEA and UK we only enable analytics if you accept.",
+    "cookiePolicy": "Cookie Policy",
+    "essentialOnly": "Essential only",
+    "acceptAll": "Accept all"
+  },
   "metadata": {
     "title": "Anima — Know yourself deeper",
     "description": "Personality tests, voice journals, IQ assessments, and an AI that knows your data. All in one secure, private vault."
@@ -14,6 +29,7 @@
     "completed": "completed",
     "error": "error",
     "processing": "processing",
+    "retry": "Retry",
     "free": "Free",
     "popular": "Popular",
     "purchased": "Purchased",
@@ -49,7 +65,8 @@
       "description": "Anima weaves psychometric science and the world's oldest symbolic traditions into a living portrait of who you are \u2014 then lets you have a conversation with it.",
       "cta": "Begin your portrait",
       "secondaryCta": "See how it works",
-      "disclaimer": "Free. No credit card. Under 10 minutes to your first insight."
+      "disclaimer": "Free. No credit card. Under 10 minutes to your first insight.",
+      "jungQuote": "Named for Jung's discovery of the inner personality — the bridge between what you know about yourself and what you haven't figured out yet."
     },
     "socialProof": {
       "headline": "Trusted by thousands exploring who they really are",
@@ -178,6 +195,15 @@
       "termsAndConditions": "Terms & conditions",
       "cookiePolicy": "Cookie policy",
       "copyright": "2024-2026 Bald Labs, Inc. All rights reserved."
+    },
+    "methodology": {
+      "headline": "Built on established methodologies",
+      "ipipDesc": "International Personality Item Pool",
+      "bigFiveDesc": "Gold-standard trait model",
+      "swissEphemerisDesc": "Astronomical precision",
+      "enneagramDesc": "Motivational framework",
+      "humanDesignDesc": "Modern synthesis",
+      "vedicDesc": "Sidereal astrology"
     },
     "storeNote": "Also available: One-off deep-dive analyses in The Store",
     "browseStore": "Browse the store"

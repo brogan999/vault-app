@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Archive, ChevronDown, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
-import { ThemePaletteSwitcher } from "@/components/landing/ThemePaletteSwitcher";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -91,7 +90,6 @@ export function PublicHeader() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <ThemePaletteSwitcher />
           <LanguageSwitcher className="rounded-xl" />
           <Button variant="ghost" className="rounded-xl text-sm font-medium" asChild>
             <Link href="/sign-in">{tNav("logIn")}</Link>
@@ -150,12 +148,6 @@ export function PublicHeader() {
                 {tNav("language")}
               </span>
               <LanguageSwitcher className="rounded-xl" />
-            </div>
-            <div className="flex items-center justify-between rounded-xl border border-border/60 px-3 py-2">
-              <span className="text-sm font-medium text-muted-foreground">
-                {tNav("themeAndColour")}
-              </span>
-              <ThemePaletteSwitcher />
             </div>
             <Button variant="outline" className="w-full rounded-xl bg-transparent" asChild>
               <Link href="/sign-in">{tNav("logIn")}</Link>

@@ -4,58 +4,19 @@ import { createAdminClient } from "@/lib/supabase/server";
 import { getSupabaseUser } from "@/lib/clerk/utils";
 import { processDocument } from "@/lib/ai/processing";
 import { revalidatePath } from "next/cache";
-
-const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB
-const ALLOWED_EXTENSIONS = new Set([
-  "pdf", "txt", "md", "mp3", "wav", "m4a", "ogg",
-  "jpg", "jpeg", "png", "gif", "webp",
-]);
-
-type UploadCategory = "personality" | "intelligence" | "strengths" | "wellness" | "astrology" | "career" | "journal";
-
-/** Infer a document category from its file name using keyword matching. */
-function inferCategory(fileName: string): UploadCategory {
-  const name = fileName.toLowerCase();
-
-  const astrology = [
-    "astrology", "zodiac", "birth chart", "birthchart", "vedic",
-    "numerology", "life path", "lifepath", "mayan", "human design",
-    "humandesign", "horoscope", "natal", "esoteric", "chinese zodiac",
-  ];
-  const intelligence = [
-    "iq", "intelligence", "cognitive", "aptitude", "emotional intelligence",
-    "eq ", "focus profile",
-  ];
-  const strengths = [
-    "strengths", "strengthsfinder", "clifton", "gallup", "via character",
-    "via strengths", "character strengths",
-  ];
-  const wellness = [
-    "wellness", "stress", "resilience", "burnout", "wellbeing",
-    "well-being", "health",
-  ];
-  const career = [
-    "career", "career compass", "vocational", "occupational",
-  ];
-  const journal = [
-    "journal", "diary", "mood", "reflection", "daily log",
-  ];
-
-  if (astrology.some((k) => name.includes(k))) return "astrology";
-  if (strengths.some((k) => name.includes(k))) return "strengths";
-  if (intelligence.some((k) => name.includes(k))) return "intelligence";
-  if (wellness.some((k) => name.includes(k))) return "wellness";
-  if (career.some((k) => name.includes(k))) return "career";
-  if (journal.some((k) => name.includes(k))) return "journal";
-
-  return "personality"; // default for personality tests and general uploads
-}
+import { checkActionRateLimit } from "@/lib/rate-limit";
+import { inferCategory, MAX_FILE_SIZE_BYTES, ALLOWED_EXTENSIONS } from "@/lib/upload-validation";
 
 export async function uploadDocument(formData: FormData): Promise<{ success: true; documentId: string } | { success: false; error: string }> {
   try {
     const user = await getSupabaseUser();
     if (!user) {
       return { success: false, error: "Unauthorized" };
+    }
+
+    const rl = await checkActionRateLimit(user.id, "rl:upload", 10, "1 m");
+    if (!rl.success) {
+      return { success: false, error: rl.error };
     }
 
     const file = formData.get("file") as File;

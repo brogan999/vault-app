@@ -373,7 +373,8 @@ export async function sendMessage(
     .eq("userId", user.id)
     .order("completedAt", { ascending: false });
 
-  const latestByTest = new Map<string, { scores: any; interpretation: any }>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const latestByTest = new Map<string, { scores: Record<string, any>; interpretation: Record<string, any> }>();
   for (const row of testResults ?? []) {
     if (!latestByTest.has(row.testId)) {
       latestByTest.set(row.testId, { scores: row.scores, interpretation: row.interpretation });
@@ -386,6 +387,7 @@ export async function sendMessage(
     .eq("userId", user.id)
     .order("computed_at", { ascending: false });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const latestEsoteric = new Map<string, any>();
   for (const row of esotericProfiles ?? []) {
     if (!latestEsoteric.has(row.framework)) {

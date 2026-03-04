@@ -1,9 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/server";
+import { z } from "zod";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const GOOGLE_REDIRECT_URI = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/api/integrations/google/callback`;
+
+const StateSchema = z.object({
+  clerkUserId: z.string().min(1),
+  provider: z.enum(["google_drive", "google_calendar", "google_all"]),
+});
 
 export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get("code");
@@ -20,12 +26,13 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(`${baseUrl}/vault?integration_error=not_configured`);
   }
 
-  let state: { clerkUserId: string; provider: string };
+  let parsed: z.infer<typeof StateSchema>;
   try {
-    state = JSON.parse(stateRaw);
+    parsed = StateSchema.parse(JSON.parse(stateRaw));
   } catch {
     return NextResponse.redirect(`${baseUrl}/vault?integration_error=invalid_state`);
   }
+  const state = parsed;
 
   // Exchange code for tokens
   const tokenRes = await fetch("https://oauth2.googleapis.com/token", {

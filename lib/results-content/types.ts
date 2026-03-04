@@ -26,6 +26,12 @@ export interface TypeResultContent {
   /* ---- Free description ---- */
   /** Paragraphs shown below the hero (free / always visible) */
   description: string[];
+  /** InsightCallout text shown below the description (MBTI-specific) */
+  descriptionInsight?: string;
+
+  /* ---- Cognitive Portrait (MBTI-specific, free) ---- */
+  /** Four dimension cards mapping E/I, S/N, T/F, J/P to user-friendly labels */
+  cognitivePortrait?: CognitiveCard[];
 
   /* ---- Dimension bar config ---- */
   /** Optional overrides for how dimension bars are rendered (bipolar labels, colours). */
@@ -34,8 +40,9 @@ export interface TypeResultContent {
   /* ---- Numbered sections (Career, Growth, Relationships, etc.) ---- */
   sections: ResultSection[];
 
-  /* ---- Famous people ---- */
-  famousPeople: FamousPerson[];
+  /* ---- Premium sections (MBTI-specific, gated) ---- */
+  /** Bundle of premium content sections (cognitive stack, stress, career, growth) */
+  premiumSections?: PremiumSections;
 }
 
 /** Configuration for a single dimension bar (bipolar slider style). */
@@ -74,6 +81,16 @@ export interface ResultSection {
   /* ---- Premium / locked subsections ---- */
   influentialTraits: InfluentialTrait[];
   lockedSubsections: LockedSubsection[];
+
+  /* ---- Insight callout (optional) ---- */
+  /** InsightCallout text for this section */
+  insight?: string;
+  /** Visual variant for the insight callout */
+  insightVariant?: "info" | "warning" | "growth";
+
+  /* ---- Compatibility (optional, relationships section) ---- */
+  /** Compatibility tier data for the relationships section */
+  compatibility?: CompatibilitySnapshot;
 }
 
 /** A single strength or weakness item. */
@@ -98,9 +115,118 @@ export interface LockedSubsection {
   items: TraitItem[];
 }
 
-/** A famous person card for the carousel. */
-export interface FamousPerson {
+/* ------------------------------------------------------------------ */
+/*  Cognitive Portrait                                                 */
+/* ------------------------------------------------------------------ */
+
+/** One of the four dimension cards in the Cognitive Portrait section. */
+export interface CognitiveCard {
+  /** Human-readable dimension label (e.g. "How You Recharge") */
+  dimension: string;
+  /** Mode label derived from the dominant pole (e.g. "Inner World") */
+  mode: string;
+  /** 0-100 dimension score shown as bar position */
+  score: number;
+  /** Hex accent colour for the card */
+  accentColor: string;
+  /** Per-type static description of this dimension */
+  description: string;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Cognitive Function Stack (premium)                                 */
+/* ------------------------------------------------------------------ */
+
+/** A scored cognitive function in the user's Jungian stack. */
+export interface CognitiveFunction {
+  position: "Dominant" | "Auxiliary" | "Tertiary" | "Inferior";
+  /** Two-letter code (e.g. "Ni", "Te") */
+  code: string;
+  /** Full name (e.g. "Introverted Intuition") */
   name: string;
-  /** Optional image/avatar path */
-  image?: string;
+  /** 0-100 computed score */
+  score: number;
+  /** Brief role label (e.g. "Your primary lens. Always running.") */
+  roleDescription: string;
+  /** Per-type static prose explaining this function */
+  description: string;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Stress & Flow (premium)                                            */
+/* ------------------------------------------------------------------ */
+
+export interface StressStage {
+  stage: number;
+  label: string;
+  description: string;
+}
+
+export interface StressFlow {
+  stressStages: StressStage[];
+  stressRecovery: string;
+  flowTriggers: string[];
+  flowDescription: string;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Career Alignment (premium)                                         */
+/* ------------------------------------------------------------------ */
+
+/** A single environment-preference bar (factor + computed score). */
+export interface EnvironmentPref {
+  factor: string;
+  score: number;
+}
+
+export interface CareerAlignment {
+  naturalFits: string[];
+  likelyDrains: string[];
+  careerWarning: string;
+  /** Computed at render-time from dimension scores + type-specific baselines */
+  environmentPrefs?: EnvironmentPref[];
+}
+
+/* ------------------------------------------------------------------ */
+/*  Growth Path (premium)                                              */
+/* ------------------------------------------------------------------ */
+
+export interface GrowthArea {
+  title: string;
+  description: string;
+}
+
+export interface GrowthPath {
+  intro: string;
+  areas: GrowthArea[];
+}
+
+/* ------------------------------------------------------------------ */
+/*  Compatibility                                                      */
+/* ------------------------------------------------------------------ */
+
+/** A single type pairing in a compatibility tier. */
+export interface CompatType {
+  code: string;
+  name: string;
+  reason: string;
+}
+
+/** Compatibility tiers shown in the Relationships section. */
+export interface CompatibilitySnapshot {
+  naturalAllies: CompatType[];
+  growthPartners: CompatType[];
+  challengingPairs: CompatType[];
+}
+
+/* ------------------------------------------------------------------ */
+/*  Premium sections bundle                                            */
+/* ------------------------------------------------------------------ */
+
+/** All gated premium content, rendered blurred for free users. */
+export interface PremiumSections {
+  cognitiveStack: CognitiveFunction[];
+  stressFlow: StressFlow;
+  careerAlignment: CareerAlignment;
+  growthPath: GrowthPath;
 }

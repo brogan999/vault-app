@@ -13,6 +13,7 @@ interface MainStageProps {
 export function MainStage({ children, className, footer }: MainStageProps) {
   return (
     <main
+      id="main-content"
       className={cn(
         "flex-1 overflow-y-auto bg-background",
         "lg:ml-[220px]",

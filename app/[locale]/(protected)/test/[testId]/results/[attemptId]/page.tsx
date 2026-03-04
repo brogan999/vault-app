@@ -5,6 +5,8 @@ import { getProductById, getFrameworkKind } from "@/lib/products";
 import { getReportPriceDisplay } from "@/lib/reports";
 import { getTestResult } from "@/app/actions/tests";
 import { getSupabaseUser } from "@/lib/clerk/utils";
+import { createAdminClient } from "@/lib/supabase/server";
+import { canAccessPremiumReport } from "@/lib/access";
 import { getResultsContent } from "@/lib/results-content";
 import { TestShell } from "@/components/features/test/TestShell";
 import { FreeResults } from "@/components/features/test/FreeResults";
@@ -80,6 +82,24 @@ export default async function ResultsPage({ params }: ResultsPageProps) {
     notFound();
   }
 
+  // Fallback: if the row isn't marked premium yet but the user has paid
+  // (user_reports / Pro subscription), upgrade it on the fly so the full
+  // report renders immediately — no webhook dependency.
+  let isPremium = result.isPremium;
+  if (!isPremium && user) {
+    const supabase = createAdminClient();
+    const tier = user.subscriptionTier ?? "free";
+    const hasAccess = await canAccessPremiumReport(supabase, user.id, testId, tier);
+    if (hasAccess) {
+      isPremium = true;
+      await supabase
+        .from("testResults")
+        .update({ isPremium: true })
+        .eq("id", attemptId)
+        .eq("userId", user.id);
+    }
+  }
+
   const scores = normalizeScores(result.scores);
   const interpretation = normalizeInterpretation(result.interpretation);
   const isGuest = !user;
@@ -98,7 +118,7 @@ export default async function ResultsPage({ params }: ResultsPageProps) {
         <ResultsPageClientWrapper
           content={extendedContent}
           scores={scores}
-          isPremium={result.isPremium}
+          isPremium={isPremium}
           attemptId={attemptId}
           testId={testId}
           testTitle={product.title}
@@ -149,7 +169,7 @@ export default async function ResultsPage({ params }: ResultsPageProps) {
         <ResultsPageClientWrapper
           content={null}
           scores={scores}
-          isPremium={result.isPremium}
+          isPremium={isPremium}
           attemptId={attemptId}
           testId={testId}
           testTitle={product.title}

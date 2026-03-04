@@ -3,7 +3,6 @@ import type {
   ResultsPageContent,
   TypeResultContent,
   ResultSection,
-  FamousPerson,
   DimensionBarConfig,
   InfluentialTrait,
   LockedSubsection,
@@ -26,14 +25,15 @@ export interface GenericTestContentConfig {
   /** Function to build description paragraphs */
   getDescription: (scores: TestScores) => string[];
 
+  /** Optional hero image path (e.g. "/icons/disc/d.svg") */
+  getHeroImage?: (scores: TestScores) => string | undefined;
+
   /** Optional dimension bar config */
   dimensionBarConfig?: DimensionBarConfig[];
 
   /** Section definitions – these are score-aware */
   getSections: (scores: TestScores) => ResultSection[];
 
-  /** Famous people to display */
-  famousPeople: FamousPerson[];
 }
 
 export function createGenericResultsContent(config: GenericTestContentConfig): ResultsPageContent {
@@ -44,10 +44,10 @@ export function createGenericResultsContent(config: GenericTestContentConfig): R
         typeName: config.getTypeName(scores),
         typeCode: config.getTypeCode(scores),
         heroColor: config.heroColor,
+        heroImage: config.getHeroImage?.(scores),
         description: config.getDescription(scores),
         dimensionBarConfig: config.dimensionBarConfig,
         sections: config.getSections(scores),
-        famousPeople: config.famousPeople,
       };
     },
   };
@@ -62,6 +62,7 @@ export function standardSection(opts: {
   number: number;
   title: string;
   description: string[];
+  sectionImage?: string;
   strengths: TraitItem[];
   weaknesses: TraitItem[];
   influentialTraits?: InfluentialTrait[];
@@ -72,6 +73,7 @@ export function standardSection(opts: {
     number: opts.number,
     title: opts.title,
     description: opts.description,
+    sectionImage: opts.sectionImage,
     strengths: opts.strengths,
     weaknesses: opts.weaknesses,
     influentialTraits: opts.influentialTraits ?? [

@@ -57,6 +57,15 @@ export async function GET(
     );
   }
 
+  // Auto-upgrade the flag so future checks are instant
+  if (!result.isPremium && user) {
+    await supabase
+      .from("testResults")
+      .update({ isPremium: true })
+      .eq("id", attemptId)
+      .eq("userId", user.id);
+  }
+
   const product = getProductById(result.testId);
   const testTitle = product?.title ?? result.testId;
 

@@ -3,7 +3,7 @@
 // ============================================================================
 // Every personality type's name, color, prompts, and scene descriptions live
 // here. Import from this file whenever you need character data anywhere in the
-// app. Matches the "Miniature Worlds" Brand & Style Guide.
+// app. All prompts target the SVG line-art style used across the icon system.
 // ============================================================================
 
 export type TypeCode =
@@ -50,27 +50,22 @@ export interface Character {
   accentHex: string;
   /** One-sentence essence / tagline */
   essence: string;
-  /** Description of the character's miniature diorama world */
-  dioramaDescription: string;
-  /** Full Midjourney character prompt (appended after the master prompt) */
+  /** Line-art character description prompt */
   characterPrompt: string;
   /** Scene-specific prompts for article illustrations */
   scenePrompts: Record<SceneType, string>;
 }
 
 // ---------------------------------------------------------------------------
-// Master Style Prompt — prepended to EVERY Midjourney generation
+// Style Directives — appended to prompts for visual consistency
 // ---------------------------------------------------------------------------
 
-export const MASTER_PROMPT =
-  "Miniature diorama scene rendered in a warm claymation style. Soft, tactile textures " +
-  "like sculpted clay and painted wood. Warm golden-hour lighting with soft shadows. " +
-  "Slightly tilt-shifted perspective looking into a detailed miniature world. Character " +
-  "has gently stylized proportions — slightly oversized head, soft rounded features, " +
-  "warm expressive eyes, simple but charming clothing. Rich but slightly muted color " +
-  "palette with pops of one signature accent color. Cozy, handcrafted feeling like a " +
-  "Wes Anderson set crossed with a Laika stop-motion film. No text, no watermarks. " +
-  "Shallow depth of field with the character in sharp focus.";
+export const STYLE_DIRECTIVES = {
+  /** For scene-based illustrations (career, growth, relationships, strengths, reveal) */
+  scene: "clean black linework on white background, single consistent stroke weight, editorial illustration style",
+  /** For avatar/profile icons (small, circular, badge-like) */
+  avatar: "contained within a circle, single stroke weight, black on white, minimalist line art",
+} as const;
 
 // ---------------------------------------------------------------------------
 // Asset-type modifiers — appended after the character prompt
@@ -78,23 +73,19 @@ export const MASTER_PROMPT =
 
 export const ASSET_MODIFIERS: Record<AssetType, { suffix: string; ar: string }> = {
   portrait: {
-    suffix: "Single character standing full body portrait, centered, characteristic pose and outfit.",
+    suffix: "Single character full body portrait, centered, clean linework.",
     ar: "3:4",
   },
   reveal: {
-    suffix:
-      "Dramatic reveal composition, character in their world looking toward viewer, " +
-      "warm dramatic lighting as if a curtain just opened, cinematic depth, slightly " +
-      "more vivid colors than usual.",
+    suffix: "Wide composition, character in their environment facing the viewer, bold framing.",
     ar: "16:9",
   },
   avatar: {
-    suffix: "Close-up portrait, head and shoulders, warm friendly expression, simple soft background.",
+    suffix: "Minimalist portrait icon, head and shoulders, contained within a circle.",
     ar: "1:1",
   },
   "hero-banner": {
-    suffix:
-      "Wide panoramic composition, 2-3 smaller supporting figures of similar style visible in the background.",
+    suffix: "Wide panoramic composition with 2-3 supporting elements in the background.",
     ar: "32:9",
   },
   strengths: { suffix: "", ar: "16:10" },
@@ -104,7 +95,7 @@ export const ASSET_MODIFIERS: Record<AssetType, { suffix: string; ar: string }> 
   career: { suffix: "", ar: "16:10" },
   workplace: { suffix: "", ar: "16:10" },
   growth: { suffix: "", ar: "16:10" },
-  "social-card": { suffix: "", ar: "1200x630" }, // composited in Figma, not AI-generated
+  "social-card": { suffix: "", ar: "1200x630" },
 };
 
 // ---------------------------------------------------------------------------
@@ -121,37 +112,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Midnight Blue",
     accentHex: "#1B2A4A",
     essence: "Sees the whole map before anyone else. Plans ten moves ahead.",
-    dioramaDescription:
-      "A candlelit study filled with star charts, blueprints, and a brass telescope pointed at something no one else has noticed yet.",
     characterPrompt:
-      "A thoughtful figure in a navy coat stands in a candlelit study. Star charts and " +
-      "hand-drawn maps cover every wall. A brass telescope points out a circular window " +
-      "toward a night sky. Stacked leather journals, an inkwell, compass, and celestial " +
-      "globe on the desk. Accent color: deep midnight blue. The mood is focused, quiet, " +
-      "and vast — like the figure sees something far beyond the room.",
+      "Line art illustration of a solitary figure standing before a wall of architectural blueprints and strategic diagrams, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, cerebral and commanding",
     scenePrompts: {
       strengths:
-        "The figure in the navy coat stands before a massive strategic map, confidently pointing to a " +
-        "route no one else has seen. Colleagues look on with respect. A moment of quiet mastery and " +
-        "strategic brilliance.",
+        "Line art illustration of hands arranging a complex architectural model with precise tools laid out methodically on a drafting table, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, masterful and strategic",
       relationships:
-        "The figure in the navy coat sharing a quiet evening with a partner by a fireplace, both reading — " +
-        "comfortable silence, deep connection without words. Star charts on the wall, two mugs of tea.",
+        "Line art illustration of two people in deep conversation across a table with a chess board between them, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, thoughtful and selective",
       friendships:
-        "The figure in the navy coat sitting across a chessboard from a close friend in a candlelit study, " +
-        "deep in thought. A small gathering of 2-3 people, intellectual warmth rather than loud socializing.",
+        "Line art illustration of two figures studying a large star chart together in a quiet library alcove, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, intellectual and reserved",
       parenthood:
-        "The figure in the navy coat kneeling beside a child, both looking through the brass telescope at " +
-        "the night sky. Teaching with quiet patience, sharing the wonder of discovery.",
+        "Line art illustration of a person guiding a child through a telescope pointed at the night sky with constellations mapped above, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, patient and visionary",
       career:
-        "The figure in the navy coat in a sleek strategy room, blueprints and data visualizations on the " +
-        "walls, confidently directing a project with calm authority. A sense of long-term vision.",
+        "Line art illustration of a person reviewing complex diagrams on a large planning board with chess pieces on the desk beside them, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, analytical and precise",
       workplace:
-        "The figure in the navy coat in a meeting room, calmly presenting a plan while colleagues lean in. " +
-        "The whiteboard behind them shows a complex but elegant strategy. Quiet command.",
+        "Line art illustration of a person presenting a structured flowchart to attentive colleagues in a minimal meeting room, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, authoritative and clear",
       growth:
-        "The figure in the navy coat standing at the edge of their study, looking out a large window at a " +
-        "vast landscape stretching to the horizon. Dawn light. Sense of vast possibility and next chapters.",
+        "Line art illustration of a person sitting in quiet contemplation in a minimal space with a single plant growing through geometric scaffolding, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, introspective and evolving",
     },
   },
 
@@ -162,37 +147,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Deep Teal",
     accentHex: "#1A6B5C",
     essence: "Endlessly combining ideas to see what happens.",
-    dioramaDescription:
-      "A cluttered workshop where half-finished experiments glow in jars, surrounded by scribbled notebooks and an overflowing chalkboard.",
     characterPrompt:
-      "A curious figure in round spectacles and a rumpled linen shirt stands in a cluttered " +
-      "workshop. Glass jars glow with strange liquids in amber, teal, and violet. An " +
-      "overflowing chalkboard covered in equations and diagrams fills the back wall. Open " +
-      "notebooks everywhere, a magnifying glass, crystals, and half-assembled brass " +
-      "instruments scattered across the workbench. Accent color: deep teal. The mood is " +
-      "absorbed, eccentric, brilliant.",
+      "Line art illustration of a figure surrounded by open books and floating geometric shapes in an abstract study, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, curious and absorbed",
     scenePrompts: {
       strengths:
-        "The figure in spectacles standing before a completed chalkboard full of elegant equations, " +
-        "a moment of breakthrough. Colleagues gathered behind, impressed by the solution no one else could find.",
+        "Line art illustration of a person standing before a chalkboard covered in elegant interconnected equations and diagrams, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, brilliant and unconventional",
       relationships:
-        "The figure in spectacles and a partner sitting together on a window seat, sharing a book of " +
-        "puzzles, pointing at something curious. Quiet intellectual intimacy, warmth in shared discovery.",
+        "Line art illustration of two people sitting on opposite ends of a long table sharing a single book of puzzles between them, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, quiet and intellectually intimate",
       friendships:
-        "The figure in spectacles in a cozy workshop, surrounded by 2-3 friends examining a strange " +
-        "glowing contraption together. Laughter and curiosity, the joy of shared exploration.",
+        "Line art illustration of two figures debating over a table covered in scattered papers and a half-built mechanical model, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, playful and theoretical",
       parenthood:
-        "The figure in spectacles helping a child build a small glowing experiment on the workbench, " +
-        "both wide-eyed with wonder. Notebooks and jars around them, learning through play.",
+        "Line art illustration of a parent and child building a complex geometric structure from simple shapes on the floor, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, patient and exploratory",
       career:
-        "The figure in spectacles in a research lab, surrounded by instruments and equations, deep in " +
-        "focused work. A sense of pure intellectual flow and discovery.",
+        "Line art illustration of a person at a workbench surrounded by instruments and a notebook of sketched hypotheses, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, focused and inventive",
       workplace:
-        "The figure in spectacles at a whiteboard covered in diagrams, explaining a concept to curious " +
-        "colleagues. The room is attentive. Quiet authority through ideas.",
+        "Line art illustration of a person drawing a conceptual diagram on a whiteboard while a colleague watches with interest, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, insightful and understated",
       growth:
-        "The figure in spectacles stepping out of their cluttered workshop into bright sunlight, looking " +
-        "at a vast open landscape with curiosity. New horizons beyond the familiar walls.",
+        "Line art illustration of a person stepping through a doorway from a cluttered room into a wide open landscape of rolling hills, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, expansive and searching",
     },
   },
 
@@ -203,36 +182,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Rich Burgundy",
     accentHex: "#6B1D2A",
     essence: "Knows where the ship is going and exactly how to get there.",
-    dioramaDescription:
-      "The bridge of a vessel — maps spread across a table, crew waiting for orders, horizon visible through the window.",
     characterPrompt:
-      "A commanding figure in a tailored coat stands at the helm of a ship's bridge. Large " +
-      "windows reveal open ocean at sunrise. Navigation maps are spread across a wooden " +
-      "table. A brass ship's wheel, barometer, and signal flags decorate the space. The " +
-      "figure's posture is confident, one hand on the table, looking toward the horizon. " +
-      "Accent color: rich burgundy. The mood is decisive, powerful, forward-looking.",
+      "Line art illustration of a confident figure standing at the helm of a ship with navigation maps spread on the table beside them, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, decisive and powerful",
     scenePrompts: {
       strengths:
-        "The figure in the tailored coat standing at the ship's helm during a storm, calm and decisive, " +
-        "crew rallying behind them. A moment of leadership under pressure, commanding respect.",
+        "Line art illustration of a person standing at a podium before a large organizational chart radiating outward like a tree, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, commanding and visionary",
       relationships:
-        "The figure in the tailored coat and a partner standing together at the ship's bow at sunset, " +
-        "looking forward together. Shared ambition and deep partnership, wind in their hair.",
+        "Line art illustration of two people standing shoulder to shoulder at a ship's bow looking toward the horizon together, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, ambitious and united",
       friendships:
-        "The figure in the tailored coat hosting a dinner at the captain's table, 2-3 friends laughing " +
-        "and toasting. Warm authority, genuine camaraderie, maps spread between wine glasses.",
+        "Line art illustration of a figure raising a glass at the head of a long dinner table with two companions in lively discussion, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, warm and authoritative",
       parenthood:
-        "The figure in the tailored coat teaching a child to steer the ship's wheel, both looking at " +
-        "the horizon with determination. Passing on confidence and vision.",
+        "Line art illustration of a person handing a compass to a child standing on a hilltop with paths branching out below, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, guiding and empowering",
       career:
-        "The figure in the tailored coat in a grand strategy room, directing a fleet on a massive map " +
-        "table. Officers await orders. Total command and long-range vision.",
+        "Line art illustration of a person directing strategy on a large wall-mounted map with pins and connecting lines, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, bold and methodical",
       workplace:
-        "The figure in the tailored coat leading a meeting at a polished table, colleagues leaning in, " +
-        "charts and plans on the wall. Decisive leadership, everyone aligned.",
+        "Line art illustration of a person leading a meeting at a long table with colleagues leaning in attentively, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, decisive and structured",
       growth:
-        "The figure in the tailored coat standing alone on deck at dawn, looking at new uncharted waters " +
-        "on the horizon. The fleet behind them, a new chapter beginning.",
+        "Line art illustration of a person standing at the edge of a cliff surveying a vast uncharted valley below at dawn, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, reflective and forward-looking",
     },
   },
 
@@ -243,36 +217,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Electric Amber",
     accentHex: "#D4880F",
     essence: "Builds things nobody asked for that everyone ends up needing.",
-    dioramaDescription:
-      "A chaotic garage-workshop bursting with contraptions, half-assembled machines, and a grinning figure holding up their latest creation.",
     characterPrompt:
-      "An animated figure in rolled-up sleeves and a leather apron stands in a chaotic " +
-      "garage-workshop, proudly holding up a glowing contraption. Half-finished machines, " +
-      "gears, springs, colored wires, and blueprints fill every surface. A small robot " +
-      "assistant hands them a wrench. Sparks fly from a welding project in the corner. " +
-      "Accent color: electric amber. The mood is playful, brilliant, slightly chaotic.",
+      "Line art illustration of an animated figure in a workshop holding up a glowing lightbulb contraption surrounded by half-built inventions, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, playful and brilliant",
     scenePrompts: {
       strengths:
-        "The figure in rolled-up sleeves proudly unveiling a brilliant invention to an astonished crowd. " +
-        "Sparks and lights, a moment of chaotic genius. Everyone amazed.",
+        "Line art illustration of a person unveiling a complex Rube Goldberg machine to an astonished small audience, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, inventive and charismatic",
       relationships:
-        "The figure in rolled-up sleeves and a partner building something together in the workshop, " +
-        "laughing, covered in grease. Playful partnership, shared creative spark.",
+        "Line art illustration of two people collaborating on a whiteboard covered in wild interconnected sketches and arrows, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, spontaneous and electric",
       friendships:
-        "The figure in rolled-up sleeves in a garage with 2-3 friends, everyone working on different " +
-        "wild projects, debating ideas loudly. Creative chaos, intellectual joy.",
+        "Line art illustration of a figure juggling three different objects while two friends watch and laugh in a cluttered studio, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, witty and energetic",
       parenthood:
-        "The figure in rolled-up sleeves and a child building a small robot together, the child's eyes " +
-        "wide with excitement. Tools and parts everywhere, learning through creation.",
+        "Line art illustration of a parent and child launching a handmade paper airplane from a rooftop with the city skyline beyond, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, inventive and joyful",
       career:
-        "The figure in rolled-up sleeves in a startup lab, pitching a wild idea with blueprints and " +
-        "prototypes covering every surface. Investors leaning in, captivated.",
+        "Line art illustration of a person pitching an idea with animated gestures before a wall of sketched prototypes and diagrams, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, persuasive and visionary",
       workplace:
-        "The figure in rolled-up sleeves brainstorming on a whiteboard covered in wild diagrams, " +
-        "colleagues energized and debating. The room buzzes with creative energy.",
+        "Line art illustration of a person rapidly sketching on a whiteboard while colleagues call out suggestions around a table, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, dynamic and collaborative",
       growth:
-        "The figure in rolled-up sleeves standing at the workshop door, looking out at a vast landscape " +
-        "of possibilities. One finished invention in hand, a hundred more ideas ahead.",
+        "Line art illustration of a person standing at a crossroads of many diverging paths each marked with a different symbol, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, restless and curious",
     },
   },
 
@@ -285,36 +254,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Soft Amethyst",
     accentHex: "#7B5EA7",
     essence: "Understands people at a depth that can feel almost uncanny.",
-    dioramaDescription:
-      "A quiet garden with a reflecting pool, lanterns glowing softly, a figure sitting in thought among ancient trees.",
     characterPrompt:
-      "A serene figure in flowing robes sits beside a still reflecting pool in an ancient " +
-      "walled garden. Paper lanterns glow softly in twisted old trees. Moss covers stone " +
-      "paths. A journal lies open beside them. Koi fish are visible in the clear water. " +
-      "Moonlight filters through branches. Accent color: soft amethyst purple. The mood " +
-      "is deep, peaceful, knowing — like the figure hears something others cannot.",
+      "Line art illustration of a serene figure sitting beside a still reflecting pool in a walled garden with paper lanterns in the trees, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, deep and perceptive",
     scenePrompts: {
       strengths:
-        "The serene figure in flowing robes counseling someone beside the reflecting pool, the other " +
-        "person visibly moved. Deep understanding, quiet wisdom. Lanterns glow around them.",
+        "Line art illustration of a person gently holding a glowing lantern that illuminates a dark winding path for another figure walking ahead, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, wise and guiding",
       relationships:
-        "The serene figure in flowing robes and a partner walking hand in hand through the moonlit " +
-        "garden. Deep connection, gentle closeness, paper lanterns lighting the stone path.",
+        "Line art illustration of two people walking hand in hand through a moonlit garden archway covered in climbing vines, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, intimate and soulful",
       friendships:
-        "The serene figure in flowing robes in the garden with 2-3 close friends, sitting in a circle " +
-        "sharing stories. Intimate, meaningful conversation. Lanterns and moonlight.",
+        "Line art illustration of two figures sitting in a circle of paper lanterns sharing a quiet meaningful conversation, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, rare and deep",
       parenthood:
-        "The serene figure in flowing robes sitting with a child beside the reflecting pool, teaching " +
-        "them to observe the koi fish. Gentle wisdom, patient nurturing.",
+        "Line art illustration of a person kneeling beside a child at the edge of a pond watching ripples spread from a dropped stone, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, gentle and insightful",
       career:
-        "The serene figure in flowing robes in a peaceful counseling room filled with plants and soft " +
-        "light. Guiding someone through a difficult moment with deep empathy.",
+        "Line art illustration of a person in a peaceful counseling room with two chairs facing each other and a single flowering branch in a vase, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, empathetic and purposeful",
       workplace:
-        "The serene figure in flowing robes mediating between colleagues in a meeting, everyone calming " +
-        "down. A quiet authority born from deep understanding of each person.",
+        "Line art illustration of a person mediating between two colleagues with open hands at a round table, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, harmonizing and calm",
       growth:
-        "The serene figure in flowing robes standing at the garden gate, looking out at a vast sunrise " +
-        "beyond the ancient walls. A sense of expanding purpose and new understanding.",
+        "Line art illustration of a person standing at an open garden gate looking out at a vast sunrise over distant mountains, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, awakening and expansive",
     },
   },
 
@@ -325,36 +289,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Dusty Rose",
     accentHex: "#C48B8B",
     essence: "Lives in a rich inner world and wants reality to match it.",
-    dioramaDescription:
-      "A cozy attic room with rain on the window, walls covered in paintings and poetry, a cat curled on a stack of books.",
     characterPrompt:
-      "A gentle figure in an oversized sweater sits in a cozy attic room. Rain streams " +
-      "down a round window. The walls are covered in watercolor paintings and pinned poems. " +
-      "A sleeping cat curls on a stack of well-loved books. A mug of tea steams on the " +
-      "windowsill. Fairy lights are strung along the ceiling beams. A half-written letter " +
-      "sits on the desk. Accent color: dusty rose. The mood is tender, imaginative, intimate.",
+      "Line art illustration of a gentle figure curled up in an attic window seat with an open journal and a sleeping cat beside stacked books, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, tender and imaginative",
     scenePrompts: {
       strengths:
-        "The gentle figure in the oversized sweater reading their poetry aloud to a small audience, " +
-        "everyone deeply moved. A moment of authentic creative expression touching hearts.",
+        "Line art illustration of a person reading poetry aloud from an open book with delicate flowers growing from the pages, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, authentic and moving",
       relationships:
-        "The gentle figure in the oversized sweater and a partner curled up together in the attic room, " +
-        "reading side by side. Rain on the window, two mugs of tea, the cat between them.",
+        "Line art illustration of two people sitting side by side on a window seat sharing one open book between them while rain falls outside, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, quiet and devoted",
       friendships:
-        "The gentle figure in the oversized sweater in a cozy bookshop with 2-3 friends, sharing " +
-        "favorite books and quiet laughter. Warm, intimate, deeply connected.",
+        "Line art illustration of two figures browsing together in a cozy bookshop with tall shelves and a ladder, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, gentle and loyal",
       parenthood:
-        "The gentle figure in the oversized sweater reading a storybook to a child in the attic room, " +
-        "fairy lights glowing, the cat nearby. Nurturing imagination and wonder.",
+        "Line art illustration of a person reading a storybook to a child under a blanket fort made of draped fabric and fairy lights, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, nurturing and whimsical",
       career:
-        "The gentle figure in the oversized sweater at a desk covered in manuscripts and watercolors, " +
-        "lost in creative flow. A published book on the shelf. Quiet artistic fulfillment.",
+        "Line art illustration of a person at a writing desk surrounded by pinned poems and watercolor sketches on the wall, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, creative and sincere",
       workplace:
-        "The gentle figure in the oversized sweater offering thoughtful feedback to a colleague in a " +
-        "cozy office. Bringing warmth and meaning to the work environment.",
+        "Line art illustration of a person offering a handwritten note of encouragement to a colleague across a shared desk, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, thoughtful and compassionate",
       growth:
-        "The gentle figure in the oversized sweater stepping outside the attic into a sunlit garden, " +
-        "sketchbook in hand. The rain has stopped. A new chapter of creative courage.",
+        "Line art illustration of a person stepping outside from a cozy room into a sunlit meadow with a sketchbook under their arm, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, brave and hopeful",
     },
   },
 
@@ -365,36 +324,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Warm Gold",
     accentHex: "#C9982E",
     essence: "Lights the way for others and makes everyone feel seen.",
-    dioramaDescription:
-      "A warm town square at dusk, lanterns strung between buildings, a figure at the center of a gathering crowd.",
     characterPrompt:
-      "A warm, radiant figure stands at the center of a twilight town square. Paper lanterns " +
-      "and string lights glow between charming buildings. A small crowd gathers around them, " +
-      "faces lit up. The figure's arms are open in a welcoming gesture. Flower boxes on " +
-      "windowsills, cobblestone ground, a fountain in the background. Accent color: warm " +
-      "gold. The mood is magnetic, generous, luminous.",
+      "Line art illustration of a radiant figure standing at the center of a town square with open arms and string lights overhead, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, magnetic and generous",
     scenePrompts: {
       strengths:
-        "The radiant figure in the town square inspiring a crowd with open arms, faces lit up with " +
-        "hope. Lanterns glow brighter. A natural leader lifting everyone around them.",
+        "Line art illustration of a person standing on a small stage with arms open while a seated audience leans in with inspired expressions, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, uplifting and charismatic",
       relationships:
-        "The radiant figure and a partner dancing slowly in the lantern-lit town square, alone after " +
-        "the crowd has gone. Warm gold light, deep romantic connection.",
+        "Line art illustration of two people dancing together under a canopy of string lights in an empty courtyard, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, romantic and attentive",
       friendships:
-        "The radiant figure hosting a lively gathering in the town square, 2-3 friends laughing and " +
-        "sharing stories around a fountain. Warmth, connection, everyone feels welcome.",
+        "Line art illustration of a person at the center of a small group gathered around a fountain sharing stories and laughter, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, warm and inclusive",
       parenthood:
-        "The radiant figure walking through the town square holding a child's hand, pointing out the " +
-        "lanterns and flowers. Teaching through wonder and care.",
+        "Line art illustration of a person walking with a child through a garden pointing out blooming flowers along the path, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, caring and encouraging",
       career:
-        "The radiant figure leading a community meeting in the town hall, everyone engaged and " +
-        "energized. Charts and plans on the wall, collaborative leadership.",
+        "Line art illustration of a person leading a collaborative meeting with a vision board on the wall and colleagues contributing ideas, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, inspiring and organized",
       workplace:
-        "The radiant figure mentoring a younger colleague in a warm office, both leaning over plans " +
-        "together. Supportive guidance, genuine investment in others' growth.",
+        "Line art illustration of a person mentoring a younger colleague over shared plans at a desk with encouraging gestures, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, supportive and invested",
       growth:
-        "The radiant figure standing at the edge of the town square, looking down a sunlit road " +
-        "leading to new communities. Dawn light, a sense of expanding influence.",
+        "Line art illustration of a person standing at the edge of a town square looking down a sunlit road that leads to new communities, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, purposeful and expansive",
     },
   },
 
@@ -405,36 +359,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Coral Orange",
     accentHex: "#D4693C",
     essence: "Ignites every room with curiosity and infectious energy.",
-    dioramaDescription:
-      "An open-air market bursting with color — the figure is mid-conversation, juggling three different ideas, a trail of inspired people behind them.",
     characterPrompt:
-      "An energetic figure in colorful layered clothing moves through a bustling open-air " +
-      "market. Vibrant market stalls with fabrics, fruits, and flowers surround them. They're " +
-      "mid-conversation with a vendor, gesturing excitedly, a trail of curious onlookers " +
-      "behind them. Bunting and kites flutter above. A small dog follows at their heels. " +
-      "Accent color: bright coral-orange. The mood is alive, curious, magnetic, joyful.",
+      "Line art illustration of an energetic figure mid-stride through a bustling open-air market with kites and bunting overhead, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, alive and curious",
     scenePrompts: {
       strengths:
-        "The energetic figure in colorful clothing leading a group through the market, everyone " +
-        "captivated by their enthusiasm. Ideas sparking everywhere, pure creative magnetism.",
+        "Line art illustration of a person surrounded by floating lightbulbs and sparks of energy radiating outward in all directions, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, magnetic and creative",
       relationships:
-        "The energetic figure in colorful clothing and a partner exploring the market together, " +
-        "sharing bites of food and laughing. Spontaneous joy, adventurous love.",
+        "Line art illustration of two people exploring a winding market street together sharing bites of food and pointing at discoveries, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, adventurous and joyful",
       friendships:
-        "The energetic figure in colorful clothing in the middle of a lively group of 2-3 friends " +
-        "at the market, everyone talking and laughing at once. Pure social electricity.",
+        "Line art illustration of a figure at the center of a lively small group all talking and gesturing at once in an outdoor cafe, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, social and electric",
       parenthood:
-        "The energetic figure in colorful clothing with a child on their shoulders at the market, " +
-        "both pointing at colorful kites and stalls. Infectious joy, adventurous parenting.",
+        "Line art illustration of a person with a child on their shoulders both reaching up to catch a kite string in a breezy open field, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, playful and free",
       career:
-        "The energetic figure in colorful clothing pitching an idea to a group in a creative studio, " +
-        "mood boards and sketches everywhere. The room is buzzing with possibility.",
+        "Line art illustration of a person pitching an idea with animated gestures in front of a wall covered in colorful sticky notes and sketches, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, enthusiastic and inventive",
       workplace:
-        "The energetic figure in colorful clothing leading a brainstorm, sticky notes covering every " +
-        "surface, colleagues energized and contributing. Creative chaos that works.",
+        "Line art illustration of a person leading a brainstorm with sticky notes flying onto every surface while colleagues contribute eagerly, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, dynamic and collaborative",
       growth:
-        "The energetic figure in colorful clothing standing at the edge of the market, looking at a " +
-        "new path leading into unexplored territory. The dog beside them, ready for the next adventure.",
+        "Line art illustration of a person standing at the edge of a market looking at a forking path with symbols of different possibilities, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, restless and optimistic",
     },
   },
 
@@ -447,36 +396,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Warm Bronze",
     accentHex: "#8B6F3C",
     essence: "The one who makes sure nothing falls apart.",
-    dioramaDescription:
-      "A beautifully organized clocktower interior — every gear in place, a logbook open, tools hung precisely on the wall.",
     characterPrompt:
-      "A steady, composed figure in a buttoned vest stands inside a beautifully maintained " +
-      "clocktower. Massive brass gears turn smoothly behind them. A leather-bound logbook " +
-      "lies open on a wooden desk. Tools hang in perfect rows on a pegboard. Every surface " +
-      "is clean and purposeful. Light streams through the clock face window. Accent color: " +
-      "warm bronze. The mood is reliable, precise, quietly proud.",
+      "Line art illustration of a composed figure standing inside a clocktower with large gears turning behind them and a logbook open on the desk, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, reliable and precise",
     scenePrompts: {
       strengths:
-        "The composed figure in the vest checking the clocktower mechanisms, every gear turning " +
-        "perfectly. A moment of quiet pride in flawless execution and meticulous care.",
+        "Line art illustration of a person inspecting a perfectly running clockwork mechanism with every gear aligned and turning smoothly, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, meticulous and proud",
       relationships:
-        "The composed figure in the vest and a partner sitting together at the desk in the clocktower, " +
-        "sharing tea and comfortable silence. Steady devotion, reliability as love.",
+        "Line art illustration of two people sitting quietly together at a sturdy wooden desk sharing tea and comfortable silence, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, steady and devoted",
       friendships:
-        "The composed figure in the vest showing 2-3 friends the clocktower mechanisms, explaining each " +
-        "gear with pride. Small gathering, deep appreciation for craftsmanship.",
+        "Line art illustration of a person showing a detailed scale model to a friend with careful pride in a tidy workshop, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, dependable and genuine",
       parenthood:
-        "The composed figure in the vest teaching a child to wind the clock, both focused and patient. " +
-        "Passing on discipline and care through hands-on instruction.",
+        "Line art illustration of a person teaching a child to wind a clock mechanism with patient hands and focused attention, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, patient and disciplined",
       career:
-        "The composed figure in the vest in a well-organized office, filing systems perfect, a project " +
-        "completed ahead of schedule on the desk. Quiet competence.",
+        "Line art illustration of a person at a well-organized desk with neatly filed folders and a completed checklist, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, competent and thorough",
       workplace:
-        "The composed figure in the vest reviewing a project plan with colleagues, pointing out details " +
-        "others missed. Everyone trusts their thoroughness. Calm authority.",
+        "Line art illustration of a person reviewing a project timeline chart on a wall while colleagues take notes behind them, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, trustworthy and methodical",
       growth:
-        "The composed figure in the vest standing at the top of the clocktower, looking out over the " +
-        "town at sunrise. Everything running smoothly below, new possibilities above.",
+        "Line art illustration of a person standing at the top of a clocktower looking through an open window at a sunrise over the rooftops, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, grounded and hopeful",
     },
   },
 
@@ -487,36 +431,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Sage Green",
     accentHex: "#6B8F5E",
     essence: "Quietly holds everything and everyone together.",
-    dioramaDescription:
-      "A warm kitchen with bread rising on the counter, herbs drying from the ceiling, a handwritten recipe passed down through generations.",
     characterPrompt:
-      "A kind figure in a flour-dusted apron stands in a warm farmhouse kitchen. Bread is " +
-      "rising on the counter. Dried herbs and lavender hang from ceiling beams. A handwritten " +
-      "recipe card is propped up by a ceramic bowl. Copper pots gleam on the stove. A window " +
-      "looks out onto a vegetable garden. A child's drawing is pinned to the wall. Accent " +
-      "color: sage green. The mood is nurturing, steady, deeply caring.",
+      "Line art illustration of a kind figure in a warm kitchen with bread rising on the counter and herbs hanging from the ceiling, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, nurturing and steady",
     scenePrompts: {
       strengths:
-        "The kind figure in the apron serving a beautifully prepared meal to a grateful family. " +
-        "Everything perfect and warm. A moment of quiet service that holds everyone together.",
+        "Line art illustration of hands carefully arranging a lovingly prepared meal on a table set for a family gathering, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, devoted and selfless",
       relationships:
-        "The kind figure in the apron and a partner cooking together in the farmhouse kitchen, " +
-        "laughing over a shared recipe. Flour everywhere, warmth and comfort.",
+        "Line art illustration of two people cooking together in a cozy kitchen with a handwritten recipe card propped on the counter, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, warm and partnered",
       friendships:
-        "The kind figure in the apron hosting 2-3 friends for tea in the kitchen, homemade treats " +
-        "on the table. Warm conversation, genuine care for each person.",
+        "Line art illustration of a person pouring tea for a friend at a small kitchen table with homemade treats between them, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, caring and sincere",
       parenthood:
-        "The kind figure in the apron baking with a child, both covered in flour, the child standing " +
-        "on a stool to reach the counter. Joy in nurturing the next generation.",
+        "Line art illustration of a person and child baking together at a flour-dusted counter with the child standing on a step stool, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, tender and protective",
       career:
-        "The kind figure in the apron in a warm office or clinic, helping someone with patient care " +
-        "and attention. Files organized, a comforting environment they've created.",
+        "Line art illustration of a person tending to a patient in a warm clinic room with organized shelves and gentle lighting, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, compassionate and reliable",
       workplace:
-        "The kind figure in the apron bringing homemade treats to a team meeting, colleagues smiling. " +
-        "Creating warmth and connection in the workplace through small acts.",
+        "Line art illustration of a person quietly organizing a shared workspace with care while a colleague works nearby, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, supportive and consistent",
       growth:
-        "The kind figure in the apron standing at the kitchen window, looking at a garden in full bloom " +
-        "that they planted themselves. Morning light, a sense of legacy.",
+        "Line art illustration of a person standing at a kitchen window looking at a garden in full bloom that they tended themselves, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, fulfilled and blossoming",
     },
   },
 
@@ -527,36 +466,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Forest Green",
     accentHex: "#2D5F3E",
     essence: "Keeps the world running and running well.",
-    dioramaDescription:
-      "A bustling town hall — schedules on the wall, a figure directing tasks with calm authority, everything in its right place.",
     characterPrompt:
-      "An organized figure in a smart waistcoat stands in a sunlit town hall office. A large " +
-      "scheduling board covers one wall, color-coded and precise. Filing cabinets, a wooden " +
-      "desk with neatly stacked papers, a brass desk lamp. The figure holds a clipboard and " +
-      "pen, mid-check on a list. A window shows a thriving town outside. Accent color: " +
-      "forest green. The mood is competent, structured, proud of the order they've created.",
+      "Line art illustration of an organized figure standing in a town hall office with a scheduling board on the wall and stacked papers on the desk, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, competent and structured",
     scenePrompts: {
       strengths:
-        "The organized figure in the waistcoat reviewing a completed project board — every task done, " +
-        "every deadline met. Colleagues applauding. Pride in systems that work.",
+        "Line art illustration of a person checking off the final item on a large wall-mounted task board with every row completed, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, accomplished and systematic",
       relationships:
-        "The organized figure in the waistcoat and a partner reviewing plans together at the desk, " +
-        "building something as a team. Shared goals, mutual respect.",
+        "Line art illustration of two people reviewing building plans together at a shared desk with mutual respect and focus, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, partnered and goal-oriented",
       friendships:
-        "The organized figure in the waistcoat at a well-planned dinner party, 2-3 friends toasting. " +
-        "Everything runs smoothly, everyone comfortable. Hosting done right.",
+        "Line art illustration of a person hosting a well-set dinner table with two friends raising glasses in a toast, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, generous and organized",
       parenthood:
-        "The organized figure in the waistcoat helping a child with a project at the desk, teaching " +
-        "them to organize and plan. Structured guidance, steady encouragement.",
+        "Line art illustration of a person helping a child organize a project on a desk with labeled folders and a clear plan, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, guiding and structured",
       career:
-        "The organized figure in the waistcoat overseeing a thriving operation from the town hall, " +
-        "maps and schedules covering the walls. Everything running on time.",
+        "Line art illustration of a person overseeing a large operational map with interconnected systems and timelines on the wall, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, commanding and efficient",
       workplace:
-        "The organized figure in the waistcoat leading a team meeting, clipboard in hand, everyone " +
-        "aligned on the plan. Clear direction, no wasted effort.",
+        "Line art illustration of a person leading a team meeting at the head of a table with a clear agenda written on a board behind them, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, direct and respected",
       growth:
-        "The organized figure in the waistcoat standing at the town hall door, looking at the thriving " +
-        "town they helped build. Sunset light, a sense of lasting accomplishment.",
+        "Line art illustration of a person standing at the door of a town hall looking out at a thriving community they helped build, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, proud and evolving",
     },
   },
 
@@ -567,36 +501,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Sunflower Yellow",
     accentHex: "#D4A832",
     essence: "Connects people and builds community thread by thread.",
-    dioramaDescription:
-      "A lively village gathering — a long table set for a feast, the figure welcoming guests, flowers and bunting everywhere.",
     characterPrompt:
-      "A beaming figure sets the final plate at a long outdoor feast table. The table stretches " +
-      "through a sun-dappled village courtyard. Flowers in mason jars, handmade bunting, " +
-      "mismatched charming chairs. Neighbors are arriving through a garden gate. A pie cools " +
-      "on the windowsill of a nearby cottage. The figure waves someone over warmly. Accent " +
-      "color: sunflower yellow. The mood is welcoming, abundant, deeply connected.",
+      "Line art illustration of a beaming figure setting a long outdoor feast table in a sun-dappled courtyard with flowers in mason jars, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, welcoming and abundant",
     scenePrompts: {
       strengths:
-        "The beaming figure welcoming the entire village to the feast table, every seat filled, " +
-        "everyone happy. A moment of community perfectly orchestrated through warmth.",
+        "Line art illustration of a person placing the final centerpiece on a long table with every seat filled and guests arriving through a gate, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, hospitable and connected",
       relationships:
-        "The beaming figure and a partner setting the feast table together, exchanging loving glances. " +
-        "Teamwork in care, building a life of shared warmth.",
+        "Line art illustration of two people setting a beautiful table together exchanging warm glances across the flowers and plates, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, loving and cooperative",
       friendships:
-        "The beaming figure surrounded by 2-3 friends at the feast table, laughing and sharing dishes. " +
-        "The heart of every gathering, genuine joy in connection.",
+        "Line art illustration of a person at the center of a small group of friends sharing dishes around an outdoor table with bunting above, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, joyful and inclusive",
       parenthood:
-        "The beaming figure helping a child arrange flowers on the feast table, teaching them about " +
-        "welcoming others. Passing on the gift of community.",
+        "Line art illustration of a person teaching a child to arrange flowers in a vase at a garden table with care and patience, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, gentle and community-minded",
       career:
-        "The beaming figure organizing a community event from a cheerful office, plans and guest lists " +
-        "on the desk. Natural talent for bringing people together.",
+        "Line art illustration of a person coordinating a community event from a desk covered in guest lists and seating charts, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, organized and people-focused",
       workplace:
-        "The beaming figure organizing a team celebration, colleagues surprised and delighted. " +
-        "Building morale and connection through thoughtful gestures.",
+        "Line art illustration of a person surprising colleagues with a celebration at the office with handmade decorations and treats, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, thoughtful and morale-building",
       growth:
-        "The beaming figure standing at the garden gate, looking at a wider world beyond the village. " +
-        "The feast table full behind them, new communities to connect ahead.",
+        "Line art illustration of a person standing at a garden gate looking beyond the courtyard toward a wider world of new communities, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, open and expanding",
     },
   },
 
@@ -609,36 +538,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Slate Grey-Blue",
     accentHex: "#4A6274",
     essence: "Quiet, capable, and completely self-reliant.",
-    dioramaDescription:
-      "A mountain cabin workshop — a figure repairing something mechanical, tools laid out with precision, a motorcycle parked outside.",
     characterPrompt:
-      "A quiet, capable figure in a worn leather jacket stands in a mountain cabin workshop. " +
-      "A motorcycle is partially disassembled on a workbench, parts organized methodically. " +
-      "Hand tools and a knife are arranged precisely. A window shows pine forest and snow-capped " +
-      "peaks. A camping pack sits ready by the door. A dog rests nearby. Accent color: " +
-      "slate grey-blue. The mood is independent, skilled, calm under any circumstance.",
+      "Line art illustration of a quiet capable figure in a mountain cabin workshop with a disassembled motorcycle on the workbench and tools organized on the wall, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, independent and skilled",
     scenePrompts: {
       strengths:
-        "The capable figure in the leather jacket calmly fixing a complex engine, every tool in the " +
-        "right place. A moment of total competence and focused mastery.",
+        "Line art illustration of hands calmly reassembling a complex engine with every tool precisely positioned on the workbench, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, competent and focused",
       relationships:
-        "The capable figure in the leather jacket and a partner sitting on the cabin porch, looking " +
-        "at the mountains. Comfortable silence, the dog between them. Quiet devotion.",
+        "Line art illustration of two people sitting on a cabin porch looking at distant mountains in comfortable silence with a dog nearby, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, quiet and loyal",
       friendships:
-        "The capable figure in the leather jacket and 2-3 friends working on motorcycles in the cabin " +
-        "workshop, sharing tools and few words. Companionship through shared skill.",
+        "Line art illustration of two figures working side by side on separate mechanical projects in a shared workshop exchanging few words, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, independent and bonded",
       parenthood:
-        "The capable figure in the leather jacket teaching a child to use tools at the workbench, " +
-        "both focused. Hands-on learning, quiet patience, practical wisdom.",
+        "Line art illustration of a person handing a child a wrench at a workbench both focused on a small project together, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, practical and patient",
       career:
-        "The capable figure in the leather jacket in a professional workshop, solving a mechanical " +
-        "problem others couldn't. Independent, trusted, essential.",
+        "Line art illustration of a person troubleshooting a complex mechanical system with calm precision while others watch and learn, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, essential and self-reliant",
       workplace:
-        "The capable figure in the leather jacket troubleshooting a system while colleagues watch, " +
-        "learning from their calm expertise. Quiet authority through skill.",
+        "Line art illustration of a person diagnosing a technical problem at a panel while a colleague observes their methodical approach, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, resourceful and calm",
       growth:
-        "The capable figure in the leather jacket on the motorcycle, parked at a mountain overlook, " +
-        "looking at a road winding into new territory. The dog in the sidecar.",
+        "Line art illustration of a person on a motorcycle parked at a mountain overlook looking at a road winding into unknown territory, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, free and searching",
     },
   },
 
@@ -649,36 +573,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Warm Ochre",
     accentHex: "#B8863A",
     essence: "Follows beauty wherever it leads.",
-    dioramaDescription:
-      "A sunlit forest clearing with an easel, wildflowers, and a half-finished painting that captures something the camera never could.",
     characterPrompt:
-      "A free-spirited figure in paint-stained clothes stands before an easel in a sunlit " +
-      "forest clearing. The half-finished canvas captures the light in a way the eye alone " +
-      "cannot. Wildflowers bloom around their bare feet. A guitar leans against a tree trunk. " +
-      "Butterflies drift through dappled light. A winding path disappears into the trees " +
-      "behind them. Accent color: warm ochre. The mood is present, artistic, quietly alive.",
+      "Line art illustration of a free-spirited figure painting at an easel in a sunlit forest clearing with wildflowers at their feet, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, present and artistic",
     scenePrompts: {
       strengths:
-        "The free-spirited figure in paint-stained clothes completing a stunning painting in the " +
-        "forest clearing. Colors alive, nature responding. Pure artistic expression.",
+        "Line art illustration of a person completing a bold painting on a large canvas in an outdoor clearing with nature responding around them, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, expressive and authentic",
       relationships:
-        "The free-spirited figure in paint-stained clothes painting a partner's portrait in the " +
-        "clearing, both smiling softly. Intimate creative connection, beauty as love language.",
+        "Line art illustration of a person sketching a portrait of someone sitting across from them in a quiet sunlit meadow, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, intimate and creative",
       friendships:
-        "The free-spirited figure in paint-stained clothes and 2-3 friends making art together in " +
-        "the clearing. Music, painting, wildflowers. Creative companionship in nature.",
+        "Line art illustration of two figures making art side by side in a forest clearing with a guitar leaning against a tree nearby, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, free and connected",
       parenthood:
-        "The free-spirited figure in paint-stained clothes and a child finger-painting together in " +
-        "the clearing, wildflowers around them. Nurturing creativity, joy in the moment.",
+        "Line art illustration of a person and child finger-painting together on the ground surrounded by wildflowers and scattered art supplies, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, joyful and present",
       career:
-        "The free-spirited figure in paint-stained clothes at a gallery showing, their paintings on " +
-        "the walls, visitors moved by the work. Quiet pride in authentic expression.",
+        "Line art illustration of a person standing before their artwork displayed on simple gallery walls with a viewer contemplating the work, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, proud and quietly fulfilled",
       workplace:
-        "The free-spirited figure in paint-stained clothes designing something beautiful at a studio " +
-        "desk, bringing warmth and artistry to a creative team.",
+        "Line art illustration of a person designing something beautiful at a studio desk with fabric swatches and sketches pinned to a board, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, artistic and detail-oriented",
       growth:
-        "The free-spirited figure in paint-stained clothes walking down the winding path beyond the " +
-        "clearing, guitar on their back, canvas under their arm. New landscapes to paint.",
+        "Line art illustration of a person walking down a winding forest path with a canvas roll under their arm heading toward a distant clearing, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, adventurous and open",
     },
   },
 
@@ -689,36 +608,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Burnt Sienna",
     accentHex: "#A0422A",
     essence: "Acts first, explains later, and somehow it always works out.",
-    dioramaDescription:
-      "A rooftop scene at golden hour — the figure mid-leap between buildings, city sprawling below, grinning.",
     characterPrompt:
-      "A confident, grinning figure in a leather jacket and boots stands on a city rooftop " +
-      "at golden hour. The city sprawls below in warm light. They lean casually against a " +
-      "railing, wind catching their hair. A skateboard or climbing rope is nearby. The figure " +
-      "looks like they just landed from a jump — or are about to make one. A bird of prey " +
-      "circles overhead. Accent color: burnt sienna-red. The mood is bold, alive, fearless.",
+      "Line art illustration of a confident figure standing on a city rooftop at sunset leaning against a railing with the skyline sprawling below, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, bold and fearless",
     scenePrompts: {
       strengths:
-        "The grinning figure in the leather jacket mid-action on the rooftop, pulling off something " +
-        "daring while others watch in amazement. Pure confidence and split-second brilliance.",
+        "Line art illustration of a person mid-leap between rooftop ledges with the city far below radiating confidence and precision, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, daring and quick",
       relationships:
-        "The grinning figure in the leather jacket and a partner on the rooftop at sunset, sharing an " +
-        "adrenaline-filled moment. Spontaneous romance, living fully together.",
+        "Line art illustration of two people standing together on a rooftop watching a sunset with wind catching their hair, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, spontaneous and passionate",
       friendships:
-        "The grinning figure in the leather jacket with 2-3 friends on the rooftop, skateboarding or " +
-        "climbing, high-fiving. Action-packed friendship, shared thrills.",
+        "Line art illustration of a figure high-fiving a friend on a rooftop with skateboards at their feet and the city skyline behind, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, thrilling and loyal",
       parenthood:
-        "The grinning figure in the leather jacket teaching a child to skateboard on the rooftop, " +
-        "both laughing. Fearless encouragement, learning through doing.",
+        "Line art illustration of a person steadying a child on a skateboard in a park with encouraging body language, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, fearless and fun",
       career:
-        "The grinning figure in the leather jacket closing a deal in a fast-paced environment, " +
-        "thinking on their feet. Natural charisma and quick decisive action.",
+        "Line art illustration of a person closing a handshake deal in a fast-paced environment with charts and momentum symbols around them, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, decisive and charismatic",
       workplace:
-        "The grinning figure in the leather jacket leading a team through a crisis with calm " +
-        "confidence, everyone following their lead. Thriving under pressure.",
+        "Line art illustration of a person calmly directing a team through a crisis with confident gestures and a whiteboard of rapid solutions, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, cool and action-oriented",
       growth:
-        "The grinning figure in the leather jacket standing on the highest rooftop, looking at a " +
-        "new city on the horizon. Ready for the next challenge, always moving forward.",
+        "Line art illustration of a person standing on the tallest rooftop looking at a new city on the distant horizon with open arms, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, restless and ambitious",
     },
   },
 
@@ -729,36 +643,31 @@ export const CHARACTERS: Record<TypeCode, Character> = {
     accentColor: "Night Bordeaux",
     accentHex: "#5F1919",
     essence: "Makes ordinary moments feel like celebrations.",
-    dioramaDescription:
-      "A street performance scene — music, dancing, an audience clapping, fairy lights strung above, pure joy radiating from the center.",
     characterPrompt:
-      "A vibrant, magnetic figure stands at the center of a twilight street performance. " +
-      "Fairy lights and paper lanterns glow overhead. Musicians play around them. A small " +
-      "crowd claps and dances. Confetti drifts through warm air. The figure is mid-dance, " +
-      "arms outstretched, radiating pure joy. Flower petals scatter at their feet. Accent " +
-      "color: magenta-pink. The mood is electric, joyful, irresistible, alive.",
+      "Line art illustration of a vibrant figure mid-dance at a twilight street performance with fairy lights and paper lanterns overhead, " +
+      "clean black linework on white background, single consistent stroke weight, editorial illustration style, electric and joyful",
     scenePrompts: {
       strengths:
-        "The vibrant figure mid-dance at the street performance, the entire crowd swept up in their " +
-        "energy. Confetti and lights, a moment of pure magnetic joy.",
+        "Line art illustration of a person performing on a small stage with arms outstretched and a captivated audience swaying below, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, magnetic and alive",
       relationships:
-        "The vibrant figure and a partner dancing together in the lantern-lit street, lost in each " +
-        "other. Music swelling, flower petals falling. Romance as celebration.",
+        "Line art illustration of two people dancing together under string lights in an empty cobblestone street at night, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, romantic and spontaneous",
       friendships:
-        "The vibrant figure at the center of a group of 2-3 friends, all dancing and laughing in " +
-        "the street. Fairy lights, music, pure shared joy and spontaneity.",
+        "Line art illustration of a figure at the center of a small dancing group on a lantern-lit street with music notes drifting in the air, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, joyful and infectious",
       parenthood:
-        "The vibrant figure dancing with a child in the lantern-lit street, both laughing and " +
-        "spinning. Music playing, the crowd smiling. Joy as a way of parenting.",
+        "Line art illustration of a person spinning a laughing child in a dance on a lantern-lit path with petals floating around them, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, playful and loving",
       career:
-        "The vibrant figure performing on a proper stage, spotlight on them, audience captivated. " +
-        "Natural talent meeting opportunity. The crowd on their feet.",
+        "Line art illustration of a person performing under a spotlight on a proper stage with the audience on their feet applauding, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, talented and radiant",
       workplace:
-        "The vibrant figure energizing a team meeting with enthusiasm, colleagues smiling and " +
-        "re-engaged. Bringing life and warmth to every environment.",
+        "Line art illustration of a person energizing a meeting room with animated storytelling while colleagues smile and lean forward, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, warm and engaging",
       growth:
-        "The vibrant figure standing at the edge of the performance space, looking down a new street " +
-        "lit with unfamiliar lanterns. New stages, new audiences, new joy ahead.",
+        "Line art illustration of a person standing at the end of a performance street looking down a new path lit by unfamiliar lanterns, " +
+        "clean black linework on white background, single consistent stroke weight, editorial illustration style, curious and unstoppable",
     },
   },
 };
@@ -792,11 +701,11 @@ export function getAccentHex(code: TypeCode): string {
 
 /**
  * Resolve the public asset path for a character image.
- * Returns e.g. "/characters/intj/intj-portrait.png"
+ * Returns e.g. "/characters/intj/intj-portrait.svg"
  */
 export function getCharacterAssetPath(code: TypeCode, asset: AssetType): string {
   const lower = code.toLowerCase();
-  return `/characters/${lower}/${lower}-${asset}.png`;
+  return `/characters/${lower}/${lower}-${asset}.svg`;
 }
 
 /**

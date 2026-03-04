@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, createContext, useContext, useMemo, type ReactNode } from "react";
 import { Lock, Share2, Mail, Users } from "lucide-react";
+import { InlineSvg } from "@/components/InlineSvg";
 
 /* ── Shared types ─────────────────────────────────────────────── */
 
@@ -9,6 +10,7 @@ interface SidebarSection {
   id: string;
   number: number;
   title: string;
+  locked?: boolean;
 }
 
 interface ResultsSidebarProps {
@@ -19,6 +21,7 @@ interface ResultsSidebarProps {
   shareUrl: string;
   shareTitle: string;
   onUnlock: () => void;
+  avatarImage?: string;
 }
 
 /* ── Shared context for intersection observer state ────────────── */
@@ -111,6 +114,7 @@ export function MobileResultsNav({
       >
         {sections.map((section) => {
           const isActive = activeId === section.id;
+          const isLocked = section.locked && !isPremium;
           return (
             <button
               key={section.id}
@@ -123,6 +127,7 @@ export function MobileResultsNav({
                   : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
+              {isLocked && <Lock className="h-2.5 w-2.5" />}
               <span className="font-bold">{section.number}</span>
               {section.title}
             </button>
@@ -157,6 +162,7 @@ export function ResultsSidebar({
   shareUrl,
   shareTitle,
   onUnlock,
+  avatarImage,
 }: ResultsSidebarProps) {
   const { activeId, handleScrollTo } = useContext(ActiveSectionContext);
 
@@ -168,9 +174,19 @@ export function ResultsSidebar({
       <div className="sticky top-24 w-full space-y-5">
         {/* Type badge */}
         <div className="flex items-center gap-3 rounded-xl border border-border/40 bg-card px-4 py-3 dark:border-border/20">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/15 text-lg font-bold text-primary dark:bg-primary/20">
-            {typeName.charAt(0)}
-          </div>
+          {avatarImage ? (
+            <InlineSvg
+              src={avatarImage}
+              alt={typeName}
+              width={40}
+              height={40}
+              className="h-10 w-10 rounded-lg text-foreground [&>svg]:h-full [&>svg]:w-full"
+            />
+          ) : (
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/15 text-lg font-bold text-primary dark:bg-primary/20">
+              {typeName.charAt(0)}
+            </div>
+          )}
           <div>
             <p className="text-xs text-muted-foreground">You are:</p>
             <p className="font-bold text-foreground">{typeName}</p>
@@ -186,18 +202,20 @@ export function ResultsSidebar({
           <nav className="space-y-1">
             {sections.map((section) => {
               const isActive = activeId === section.id;
+              const isLocked = section.locked && !isPremium;
               return (
                 <button
                   key={section.id}
                   type="button"
                   onClick={() => handleScrollTo(section.id)}
-                  className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition-colors ${
+                  className={`flex w-full items-center gap-1.5 rounded-lg px-3 py-2 text-left text-sm transition-colors ${
                     isActive
                       ? "border-l-2 border-primary bg-primary/10 font-semibold text-primary dark:bg-primary/15"
                       : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                   }`}
                 >
-                  {section.number}. {section.title}
+                  {isLocked && <Lock className="h-3 w-3 flex-shrink-0 text-muted-foreground/60" />}
+                  <span>{section.number}. {section.title}</span>
                 </button>
               );
             })}

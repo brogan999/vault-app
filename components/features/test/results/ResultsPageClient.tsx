@@ -11,13 +11,17 @@ import { TypeRevealHero } from "./TypeRevealHero";
 import { TypeDescription } from "./TypeDescription";
 import { DimensionBars } from "./DimensionBars";
 import { ContentSection } from "./ContentSection";
+import { InsightCallout } from "./InsightCallout";
+import { CognitivePortrait } from "./CognitivePortrait";
+import { CompatibilitySnapshot } from "./CompatibilitySnapshot";
+import { CognitiveFunctionStack } from "./CognitiveFunctionStack";
+import { StressFlowDiagram } from "./StressFlowDiagram";
+import { CareerFitProfile } from "./CareerFitProfile";
 import { StrengthsWeaknessesGrid } from "./StrengthsWeaknessesGrid";
-import { LockedTraitCircles } from "./LockedTraitCircles";
 import { LockedContentOverlay } from "./LockedContentOverlay";
 import { PremiumUpsellBanner } from "./PremiumUpsellBanner";
 import { AccuracyRating } from "./AccuracyRating";
 import { SocialSharing } from "./SocialSharing";
-import { FamousPeopleCarousel } from "./FamousPeopleCarousel";
 import { EmailCompareActions } from "./EmailCompareActions";
 
 interface ResultsPageClientProps {
@@ -59,6 +63,28 @@ export function ResultsPageClient({
   const shareTitle = `I'm ${content.typeName} (${content.typeCode}) — ${testTitle}`;
   const shareText = `I just discovered I'm ${content.typeName} (${content.typeCode}). Find out your type too!`;
 
+  const premium = content.premiumSections;
+  const hasPremiumSections = !!premium;
+
+  const hasDimensions = displayDimensions.length > 0;
+  const hasCogPortrait = !!(content.cognitivePortrait && content.cognitivePortrait.length > 0);
+  const hasCogStack = !!(premium?.cognitiveStack && premium.cognitiveStack.length > 0);
+  const hasStressFlow = !!premium?.stressFlow;
+  const hasCareer = !!premium?.careerAlignment;
+  const hasGrowth = !!(premium?.growthPath && premium.growthPath.areas.length > 0);
+
+  // Build a numbering map so every rendered section gets a sequential number.
+  const sectionIds: string[] = [];
+  if (hasDimensions) sectionIds.push("personality-traits");
+  if (hasCogPortrait) sectionIds.push("cognitive-portrait");
+  for (const s of content.sections) sectionIds.push(s.id);
+  if (hasCogStack) sectionIds.push("cognitive-stack");
+  if (hasStressFlow) sectionIds.push("stress-flow");
+  if (hasCareer) sectionIds.push("career-alignment");
+  if (hasGrowth) sectionIds.push("growth-path");
+
+  const sn = (id: string) => sectionIds.indexOf(id) + 1;
+
   return (
     <ResultsPageLayout
       content={content}
@@ -66,6 +92,7 @@ export function ResultsPageClient({
       shareUrl={shareUrl}
       shareTitle={shareTitle}
       onUnlock={handleUnlock}
+      hasPremiumSections={hasPremiumSections}
     >
       {/* ---- Hero ---- */}
       <TypeRevealHero
@@ -79,8 +106,12 @@ export function ResultsPageClient({
       {/* ---- Description ---- */}
       <TypeDescription paragraphs={content.description} />
 
-      {/* ---- Section 1: Personality Traits / Dimension Bars ---- */}
-      {displayDimensions.length > 0 && (
+      {content.descriptionInsight && (
+        <InsightCallout insight={content.descriptionInsight} />
+      )}
+
+      {/* ---- Personality Traits / Dimension Bars ---- */}
+      {hasDimensions && (
         <section id="personality-traits" className="scroll-mt-24 space-y-4">
           <div className="flex items-center gap-3">
             <span
@@ -91,7 +122,7 @@ export function ResultsPageClient({
                   : "bg-primary text-primary-foreground"
               )}
             >
-              1
+              {sn("personality-traits")}
             </span>
             <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               Personality Traits
@@ -107,49 +138,61 @@ export function ResultsPageClient({
         </section>
       )}
 
-      {/* ---- Content Sections (Career, Growth, Relationships, etc.) ---- */}
+      {/* ---- Cognitive Portrait (MBTI-specific) ---- */}
+      {hasCogPortrait && (
+        <ContentSection
+          id="cognitive-portrait"
+          number={sn("cognitive-portrait")}
+          title="Your Cognitive Portrait"
+          frameworkKind={frameworkKind}
+        >
+          <CognitivePortrait
+            cards={content.cognitivePortrait!}
+            typeCode={content.typeCode}
+          />
+        </ContentSection>
+      )}
+
+      {/* ---- Content Sections (Strengths & Edges, How You Connect, etc.) ---- */}
       {content.sections.map((section) => (
         <ContentSection
           key={section.id}
           id={section.id}
-          number={section.number}
+          number={sn(section.id)}
           title={section.title}
+          sectionImage={section.sectionImage}
           frameworkKind={frameworkKind}
         >
-          {/* Section description */}
           <TypeDescription paragraphs={section.description} />
 
-          {/* Strengths */}
+          {section.insight && (
+            <InsightCallout
+              insight={section.insight}
+              variant={section.insightVariant === "warning" ? "warning" : section.insightVariant === "growth" ? "growth" : "default"}
+            />
+          )}
+
           <StrengthsWeaknessesGrid
             title="Where You Excel"
             items={section.strengths}
             variant="strengths"
           />
 
-          {/* Weaknesses */}
           <StrengthsWeaknessesGrid
             title="Watch Out For"
             items={section.weaknesses}
             variant="weaknesses"
           />
 
-          {/* Key Drivers (trait circles) */}
-          <LockedTraitCircles
-            title="Key Drivers"
-            traits={section.influentialTraits}
-            onUnlock={isPremium ? () => {} : handleUnlock}
-            isPremium={isPremium}
-          />
-
-          {/* Locked subsections */}
-          {section.lockedSubsections.map((locked) => (
-            <LockedContentOverlay
-              key={locked.title}
-              section={locked}
-              onUnlock={handleUnlock}
+          {section.compatibility && (
+            <CompatibilitySnapshot
+              naturalAllies={section.compatibility.naturalAllies}
+              growthPartners={section.compatibility.growthPartners}
+              challengingPairs={section.compatibility.challengingPairs}
               isPremium={isPremium}
+              onUnlock={handleUnlock}
             />
-          ))}
+          )}
         </ContentSection>
       ))}
 
@@ -160,6 +203,92 @@ export function ResultsPageClient({
         isPremium={isPremium}
       />
 
+      {/* ---- Cognitive Function Stack (locked) ---- */}
+      {hasCogStack && (
+        <ContentSection
+          id="cognitive-stack"
+          number={sn("cognitive-stack")}
+          title="Cognitive Function Stack"
+          frameworkKind={frameworkKind}
+        >
+          <CognitiveFunctionStack
+            functions={premium!.cognitiveStack}
+            isPremium={isPremium}
+            onUnlock={handleUnlock}
+          />
+        </ContentSection>
+      )}
+
+      {/* ---- Stress & Flow (locked) ---- */}
+      {hasStressFlow && (
+        <ContentSection
+          id="stress-flow"
+          number={sn("stress-flow")}
+          title="Under Stress & In Flow"
+          frameworkKind={frameworkKind}
+        >
+          <StressFlowDiagram
+            stressStages={premium!.stressFlow.stressStages}
+            flowTriggers={premium!.stressFlow.flowTriggers}
+            stressRecovery={premium!.stressFlow.stressRecovery}
+            flowDescription={premium!.stressFlow.flowDescription}
+            isPremium={isPremium}
+            onUnlock={handleUnlock}
+          />
+        </ContentSection>
+      )}
+
+      {/* ---- Career Alignment (locked) ---- */}
+      {hasCareer && (
+        <ContentSection
+          id="career-alignment"
+          number={sn("career-alignment")}
+          title="Career Alignment"
+          frameworkKind={frameworkKind}
+        >
+          {premium!.careerAlignment.careerWarning && (
+            <InsightCallout
+              insight={premium!.careerAlignment.careerWarning}
+              variant="warning"
+            />
+          )}
+          <CareerFitProfile
+            environmentPrefs={premium!.careerAlignment.environmentPrefs ?? []}
+            naturalFits={premium!.careerAlignment.naturalFits}
+            likelyDrains={premium!.careerAlignment.likelyDrains}
+            careerWarning={premium!.careerAlignment.careerWarning}
+            isPremium={isPremium}
+            onUnlock={handleUnlock}
+          />
+        </ContentSection>
+      )}
+
+      {/* ---- Growth Path (locked) ---- */}
+      {hasGrowth && (
+        <ContentSection
+          id="growth-path"
+          number={sn("growth-path")}
+          title="Growth Path"
+          frameworkKind={frameworkKind}
+        >
+          {premium!.growthPath.intro && (
+            <InsightCallout insight={premium!.growthPath.intro} variant="growth" />
+          )}
+          {premium!.growthPath.areas.map((area) => (
+            <LockedContentOverlay
+              key={area.title}
+              section={{
+                title: area.title,
+                unlockTeaser: "Get the full report to unlock your personalized growth path.",
+                items: [{ title: "", description: area.description }],
+              }}
+              onUnlock={handleUnlock}
+              isPremium={isPremium}
+            />
+          ))}
+        </ContentSection>
+      )}
+
       {/* ---- Accuracy Rating ---- */}
       <AccuracyRating onRate={onRate} />
 
@@ -168,12 +297,6 @@ export function ResultsPageClient({
         shareUrl={shareUrl}
         shareTitle={shareTitle}
         shareText={shareText}
-      />
-
-      {/* ---- Famous People Carousel ---- */}
-      <FamousPeopleCarousel
-        typeName={content.typeName}
-        people={content.famousPeople}
       />
     </ResultsPageLayout>
   );

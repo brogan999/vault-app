@@ -7,7 +7,6 @@ import { useUser } from "@clerk/nextjs";
 import { Archive, ChevronDown, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
-import { ThemePaletteSwitcher } from "@/components/landing/ThemePaletteSwitcher";
 import { UserButton } from "@clerk/nextjs";
 import {
   DropdownMenu,
@@ -96,7 +95,6 @@ export function TestHeader() {
 
         {/* Right: theme, language, account, Log In */}
         <div className="flex shrink-0 items-center gap-3">
-          <ThemePaletteSwitcher />
           <LanguageSwitcher className="rounded-xl" />
           {isSignedIn ? (
             <UserButton

@@ -544,13 +544,13 @@ export function getFrameworkVisualIdentity(kind: FrameworkKind) {
 }
 
 export const categories = [
-  { label: "All", value: "all" },
-  { label: "Personality", value: "personality" },
-  { label: "Intelligence", value: "intelligence" },
-  { label: "Strengths", value: "strengths" },
-  { label: "Wellness", value: "wellness" },
-  { label: "Astrology", value: "astrology" },
-  { label: "Career", value: "career" },
+  { labelKey: "all", value: "all" },
+  { labelKey: "personality", value: "personality" },
+  { labelKey: "intelligence", value: "intelligence" },
+  { labelKey: "strengths", value: "strengths" },
+  { labelKey: "wellness", value: "wellness" },
+  { labelKey: "astrology", value: "astrology" },
+  { labelKey: "career", value: "career" },
 ];
 
 /** Number of tests shown as "available" in Anima (may be less than products.length). */

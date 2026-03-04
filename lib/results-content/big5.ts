@@ -11,11 +11,11 @@ import type {
 /* ------------------------------------------------------------------ */
 
 const DIMENSION_BAR_CONFIG: DimensionBarConfig[] = [
-  { dimensionId: "openness", leftLabel: "Conventional", rightLabel: "Open", barColor: "#8b5cf6", dominantSide: "right", dominantLabel: "Openness" },
-  { dimensionId: "conscientiousness", leftLabel: "Flexible", rightLabel: "Disciplined", barColor: "#e4ae3a", dominantSide: "right", dominantLabel: "Conscientiousness" },
-  { dimensionId: "extraversion", leftLabel: "Reserved", rightLabel: "Outgoing", barColor: "#4298b4", dominantSide: "right", dominantLabel: "Extraversion" },
-  { dimensionId: "agreeableness", leftLabel: "Challenging", rightLabel: "Accommodating", barColor: "#33a474", dominantSide: "right", dominantLabel: "Agreeableness" },
-  { dimensionId: "neuroticism", leftLabel: "Resilient", rightLabel: "Sensitive", barColor: "#f25e62", dominantSide: "right", dominantLabel: "Neuroticism" },
+  { dimensionId: "openness", leftLabel: "Conventional", rightLabel: "Open", barColor: "#328181", dominantSide: "right", dominantLabel: "Openness" },
+  { dimensionId: "conscientiousness", leftLabel: "Flexible", rightLabel: "Disciplined", barColor: "#315E36", dominantSide: "right", dominantLabel: "Conscientiousness" },
+  { dimensionId: "extraversion", leftLabel: "Reserved", rightLabel: "Outgoing", barColor: "#C97A30", dominantSide: "right", dominantLabel: "Extraversion" },
+  { dimensionId: "agreeableness", leftLabel: "Challenging", rightLabel: "Accommodating", barColor: "#818D59", dominantSide: "right", dominantLabel: "Agreeableness" },
+  { dimensionId: "neuroticism", leftLabel: "Resilient", rightLabel: "Sensitive", barColor: "#916368", dominantSide: "right", dominantLabel: "Neuroticism" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -105,7 +105,7 @@ const TRAIT_DESCRIPTIONS: Record<string, Record<string, string[]>> = {
 /*  Section builders based on trait levels                             */
 /* ------------------------------------------------------------------ */
 
-function buildCareerSection(highest: string, lowest: string): ResultSection {
+function buildCareerSection(highest: string, lowest: string, typeKey?: string): ResultSection {
   const careerStrengths: Record<string, { title: string; desc: string }[]> = {
     openness: [
       { title: "Creative Problem-Solving", desc: "You approach challenges with originality and innovation." },
@@ -166,6 +166,7 @@ function buildCareerSection(highest: string, lowest: string): ResultSection {
     id: "career-path",
     number: 2,
     title: "Career and Work",
+    sectionImage: typeKey ? `/characters/big5/${typeKey}/${typeKey}-career.svg` : undefined,
     description: [
       `Your strongest trait, ${highest}, shapes your professional strengths and the environments where you naturally excel. Understanding this helps you find roles where you'll perform at your peak.`,
       `Being aware of your lower ${lowest} scores helps you anticipate challenges and develop strategies to address them. The most successful professionals are those who leverage their strengths while actively developing their growth areas.`,
@@ -215,11 +216,12 @@ function buildCareerSection(highest: string, lowest: string): ResultSection {
   };
 }
 
-function buildGrowthSection(highest: string, lowest: string): ResultSection {
+function buildGrowthSection(highest: string, lowest: string, typeKey?: string): ResultSection {
   return {
     id: "personal-growth",
     number: 3,
     title: "Growth and Development",
+    sectionImage: typeKey ? `/characters/big5/${typeKey}/${typeKey}-growth.svg` : undefined,
     description: [
       `Your high ${highest} is a foundation of strength. Building on it while developing your lower ${lowest} will create a more balanced and resilient version of yourself.`,
       "Personal growth isn't about changing who you are — it's about expanding your range. The most fulfilled people are those who can access different modes of being as circumstances require.",
@@ -275,11 +277,12 @@ function buildGrowthSection(highest: string, lowest: string): ResultSection {
   };
 }
 
-function buildRelationshipsSection(highest: string): ResultSection {
+function buildRelationshipsSection(highest: string, typeKey?: string): ResultSection {
   return {
     id: "relationships",
     number: 4,
     title: "Relationships and Connection",
+    sectionImage: typeKey ? `/characters/big5/${typeKey}/${typeKey}-relationships.svg` : undefined,
     description: [
       `Your ${highest} profile significantly influences how you connect with others. Understanding your relationship patterns helps you build deeper, more fulfilling connections.`,
       "The strongest relationships are built between people who understand not just each other's strengths, but each other's needs and vulnerabilities. Your Big Five profile provides this map.",
@@ -367,22 +370,36 @@ export const big5ResultsContent: ResultsPageContent = {
       ? `High ${highest.label}`
       : scores.typeLabel ?? "Big Five Profile";
 
+    const dimToKey: Record<string, string> = {
+      openness: "o",
+      conscientiousness: "c",
+      extraversion: "e",
+      agreeableness: "a",
+      neuroticism: "n",
+    };
+    const dimToColor: Record<string, string> = {
+      openness: "#328181",
+      conscientiousness: "#315E36",
+      extraversion: "#C97A30",
+      agreeableness: "#818D59",
+      neuroticism: "#916368",
+    };
+    const dimKey = dimToKey[highId] ?? "o";
+    const highLevel = highest ? level(highest.score) : "high";
+    const typeKey = `${dimKey}-${highLevel === "low" ? "low" : "high"}`;
+    const heroImage = `/characters/big5/${typeKey}/${typeKey}-reveal.svg`;
+
     return {
       typeName,
       typeCode: `Big Five Profile`,
-      heroColor: "#8b5cf6",
+      heroColor: dimToColor[highId] ?? "#328181",
+      heroImage,
       description,
       dimensionBarConfig: DIMENSION_BAR_CONFIG,
       sections: [
-        buildCareerSection(highId, lowId),
-        buildGrowthSection(highId, lowId),
-        buildRelationshipsSection(highId),
-      ],
-      famousPeople: [
-        { name: "Albert Einstein" },
-        { name: "Oprah Winfrey" },
-        { name: "Leonardo da Vinci" },
-        { name: "Maya Angelou" },
+        buildCareerSection(highId, lowId, typeKey),
+        buildGrowthSection(highId, lowId, typeKey),
+        buildRelationshipsSection(highId, typeKey),
       ],
     };
   },

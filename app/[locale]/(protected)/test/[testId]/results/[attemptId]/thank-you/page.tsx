@@ -5,6 +5,7 @@ import { createAdminClient } from "@/lib/supabase/server";
 import { getProductById } from "@/lib/products";
 import { getTestResult } from "@/app/actions/tests";
 import { getFunnelOwnership } from "@/lib/access";
+import { fulfillStripeSession } from "@/app/actions/payments";
 import { TestShell } from "@/components/features/test/TestShell";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,11 +20,17 @@ import {
 
 interface ThankYouPageProps {
   params: Promise<{ testId: string; attemptId: string }>;
+  searchParams: Promise<{ session_id?: string }>;
 }
 
-export default async function ThankYouPage({ params }: ThankYouPageProps) {
-  const { testId, attemptId } = await params;
+export default async function ThankYouPage({ params, searchParams }: ThankYouPageProps) {
+  const [{ testId, attemptId }, sp] = await Promise.all([params, searchParams]);
   const user = await getSupabaseUser();
+
+  // Fulfil any pending Stripe session (career_suite / pro_bundle OTO)
+  if (sp.session_id) {
+    await fulfillStripeSession(sp.session_id);
+  }
 
   if (!user) notFound();
 

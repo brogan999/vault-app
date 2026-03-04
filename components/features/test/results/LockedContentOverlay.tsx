@@ -1,6 +1,6 @@
 "use client";
 
-import { Lock } from "lucide-react";
+import { Check, Lock } from "lucide-react";
 import type { LockedSubsection, TraitItem } from "@/lib/results-content/types";
 
 interface LockedContentOverlayProps {
@@ -18,13 +18,17 @@ export function LockedContentOverlay({ section, onUnlock, isPremium }: LockedCon
       <div className="relative">
         {/* Blurred content */}
         <div className={isPremium ? "" : "pointer-events-none select-none blur-[6px]"}>
-          <div className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
+          <div className={`grid gap-x-8 gap-y-4${section.items.length > 1 ? " sm:grid-cols-2" : ""}`}>
             {section.items.map((item: TraitItem) => (
               <div key={item.title} className="flex items-start gap-3">
-                <div className="mt-1 h-5 w-5 flex-shrink-0 rounded-full bg-primary/20" />
+                <div className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/10">
+                  <Check className="h-3 w-3 text-primary" />
+                </div>
                 <div>
-                  <p className="font-semibold text-foreground">{item.title}</p>
-                  <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">
+                  {item.title && (
+                    <p className="font-semibold text-foreground">{item.title}</p>
+                  )}
+                  <p className={`text-sm leading-relaxed text-muted-foreground${item.title ? " mt-0.5" : ""}`}>
                     {item.description}
                   </p>
                 </div>

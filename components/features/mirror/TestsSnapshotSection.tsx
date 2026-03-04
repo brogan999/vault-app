@@ -119,6 +119,7 @@ interface TestsSnapshotSectionProps {
 
 export function TestsSnapshotSection({ snapshots }: TestsSnapshotSectionProps) {
   const t = useTranslations("mirror.testSnapshot");
+  const tCat = useTranslations("categories");
   const [activeCategory, setActiveCategory] = useState("all");
 
   const snapshotByTestId = useMemo(() => {
@@ -165,7 +166,7 @@ export function TestsSnapshotSection({ snapshots }: TestsSnapshotSectionProps) {
                   : undefined
               }
             >
-              {cat.label}
+              {tCat(cat.labelKey)}
             </button>
           );
         })}

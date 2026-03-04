@@ -65,8 +65,8 @@ export async function deleteAccount(): Promise<
     // PsychProfileSnapshot if it exists (no FK in Prisma; may exist in DB)
     try {
       await supabase.from("psychProfileSnapshots").delete().eq("userId", userId);
-    } catch {
-      // Table or column might not exist
+    } catch (e) {
+      console.warn("[deleteAccount] psychProfileSnapshots delete skipped:", e);
     }
 
     // 3. Delete the user row; CASCADE will remove purchases, psychProfile, documents,

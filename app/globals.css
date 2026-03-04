@@ -124,77 +124,6 @@
   --palette-mauve: #916368;
 }
 
-.dark {
-  --background: #000000;
-  --foreground: #EEECE8;
-  --card: #000000;
-  --card-foreground: #EEECE8;
-  --popover: #000000;
-  --popover-foreground: #EEECE8;
-  --primary: #EEECE8;
-  --primary-foreground: #000000;
-  --secondary: #181818;
-  --secondary-foreground: #EEECE8;
-  --muted: #181818;
-  --muted-foreground: #8F8E8B;
-  --accent: #181818;
-  --accent-foreground: #EEECE8;
-  --destructive: #A03B0F;
-  --destructive-foreground: #EEECE8;
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: #EEECE8;
-  --chart-1: #328181;
-  --chart-2: #C7A356;
-  --chart-3: #93A2B6;
-  --chart-4: #818D59;
-  --chart-5: #CC8D90;
-  --sidebar: #000000;
-  --sidebar-foreground: #EEECE8;
-  --sidebar-primary: #EEECE8;
-  --sidebar-primary-foreground: #000000;
-  --sidebar-accent: #181818;
-  --sidebar-accent-foreground: #EEECE8;
-  --sidebar-border: rgba(255, 255, 255, 0.1);
-  --sidebar-ring: #8F8E8B;
-  /* Category colors — distinct colors for visual wayfinding */
-  --category-personality: #5ab5b5;
-  --category-personality-bg: rgba(50, 129, 129, 0.12);
-  --category-intelligence: #a8b5c6;
-  --category-intelligence-bg: rgba(147, 162, 182, 0.12);
-  --category-strengths: #5a9a60;
-  --category-strengths-bg: rgba(49, 94, 54, 0.12);
-  --category-wellness: #a3ad7e;
-  --category-wellness-bg: rgba(129, 141, 89, 0.12);
-  --category-astrology: #d4b873;
-  --category-astrology-bg: rgba(199, 163, 86, 0.12);
-  --category-career: #d9944d;
-  --category-career-bg: rgba(201, 122, 48, 0.12);
-  --category-personality-card: rgba(50, 129, 129, 0.08);
-  --category-intelligence-card: rgba(147, 162, 182, 0.08);
-  --category-strengths-card: rgba(49, 94, 54, 0.08);
-  --category-wellness-card: rgba(129, 141, 89, 0.08);
-  --category-astrology-card: rgba(199, 163, 86, 0.08);
-  --category-career-card: rgba(201, 122, 48, 0.08);
-  --test-bubble-border: rgba(255, 255, 255, 0.35);
-  /* Accent palette */
-  --accent-green: #328181;
-  --palette-grey-light: #D9D9D9;
-  --palette-grey-warm: #9B9A91;
-  --palette-blue-grey: #93A2B6;
-  --palette-teal: #328181;
-  --palette-forest: #315E36;
-  --palette-olive: #818D59;
-  --palette-moss: #626350;
-  --palette-gold-dark: #876E00;
-  --palette-gold: #C7A356;
-  --palette-orange: #C97A30;
-  --palette-red: #A03B0F;
-  --palette-brown: #5D2200;
-  --palette-rose: #CC8D90;
-  --palette-mauve: #916368;
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -302,5 +231,84 @@
   text-underline-offset: 2px;
 }
 .chat-response a:hover {
+  opacity: 0.8;
+}
+
+/* Premium report long-form typography */
+.premium-report {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--foreground);
+}
+.premium-report p {
+  margin: 1rem 0;
+}
+.premium-report p:first-child {
+  margin-top: 0;
+}
+.premium-report p:last-child {
+  margin-bottom: 0;
+}
+.premium-report h1,
+.premium-report h2,
+.premium-report h3,
+.premium-report h4 {
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--foreground);
+}
+.premium-report h2 {
+  font-size: 1.25rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.premium-report h3 {
+  font-size: 1.05rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.premium-report h4 {
+  font-size: 0.95rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.premium-report strong {
+  font-weight: 600;
+}
+.premium-report ul,
+.premium-report ol {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+.premium-report ul {
+  list-style-type: disc;
+}
+.premium-report ol {
+  list-style-type: decimal;
+}
+.premium-report li {
+  margin: 0.35rem 0;
+}
+.premium-report li p {
+  margin: 0;
+}
+.premium-report blockquote {
+  border-left: 3px solid var(--primary);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: var(--muted-foreground);
+}
+.premium-report hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1.5rem 0;
+}
+.premium-report a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.premium-report a:hover {
   opacity: 0.8;
 }

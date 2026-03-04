@@ -17,17 +17,14 @@ import {
   MessageSquare,
   Store,
   Settings,
-  Sun,
   Upload,
 } from "lucide-react";
-import { useThemeStore } from "@/store/theme-store";
 
 export function CommandPalette() {
   const t = useTranslations("commands");
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
-  const { theme, setTheme } = useThemeStore();
 
   // Defer rendering until client-side to avoid hydration mismatch from Radix IDs
   useEffect(() => {
@@ -61,17 +58,13 @@ export function CommandPalette() {
       group: t("actions"),
       items: [
         { label: t("uploadFile"), icon: Upload, action: "upload" },
-        { label: t("toggleDarkMode"), icon: Sun, action: "toggle-theme" },
       ],
     },
   ];
 
-  const handleSelect = (item: any) => {
-    if (item.action === "toggle-theme") {
-      setTheme(theme === "light" ? "dark" : "light");
-    } else if (item.action === "upload") {
+  const handleSelect = (item: { href?: string; action?: string }) => {
+    if (item.action === "upload") {
       router.push("/vault");
-      // Trigger upload dialog would go here
     } else if (item.href) {
       router.push(item.href);
     }

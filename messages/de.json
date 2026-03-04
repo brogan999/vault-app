@@ -17,7 +17,8 @@
     "free": "Kostenlos",
     "popular": "Beliebt",
     "purchased": "Gekauft",
-    "comingSoon": "Demnächst verfügbar"
+    "comingSoon": "Demnächst verfügbar",
+    "retry": "Retry"
   },
   "nav": {
     "mirror": "Spiegel",
@@ -40,7 +41,8 @@
       "getStartedFree": "Kostenlos starten",
       "openMenu": "Menü öffnen",
       "closeMenu": "Menü schließen",
-      "language": "Sprache"
+      "language": "Sprache",
+      "themeAndColour": "Theme"
     },
     "hero": {
       "badge": "KI-gestützte Selbsterkenntnis",
@@ -48,7 +50,8 @@
       "description": "Persönlichkeitstests, Sprachtagebücher, IQ-Bewertungen und eine KI, die deine Daten kennt. Alles in einem sicheren, privaten Vault.",
       "cta": "Kostenlosen Test machen",
       "secondaryCta": "So funktioniert es",
-      "disclaimer": "Keine Kreditkarte erforderlich. Dauert weniger als 10 Minuten."
+      "disclaimer": "Keine Kreditkarte erforderlich. Dauert weniger als 10 Minuten.",
+      "jungQuote": "Benannt nach Jungs Entdeckung der inneren Persönlichkeit — die Brücke zwischen dem, was du über dich weißt, und dem, was du noch nicht herausgefunden hast."
     },
     "socialProof": {
       "headline": "Warum Anima",
@@ -163,8 +166,32 @@
       "cookiePolicy": "Cookie-Richtlinie",
       "copyright": "2024-2026 Bald Labs, Inc. Alle Rechte vorbehalten."
     },
+    "methodology": {
+      "headline": "Aufgebaut auf etablierten Methoden",
+      "ipipDesc": "Internationaler Persönlichkeits-Itempool",
+      "bigFiveDesc": "Goldstandard-Merkmalsmodell",
+      "swissEphemerisDesc": "Astronomische Präzision",
+      "enneagramDesc": "Motivationsrahmen",
+      "humanDesignDesc": "Moderne Synthese",
+      "vedicDesc": "Siderische Astrologie"
+    },
     "storeNote": "Ebenfalls verfügbar: Einmalige Tiefenanalysen im Shop",
-    "browseStore": "Shop durchstöbern"
+    "browseStore": "Shop durchstöbern",
+    "journey": {
+      "wheelLabel": "Zehn Rahmenwerke, ein Porträt",
+      "wheelTitle": "Kein einzelner Test erzählt die ganze Geschichte",
+      "wheelDescription": "Wir kartieren Sie über vier psychometrische Instrumente und sechs symbolische Traditionen — und verweben sie zu einem lebendigen Porträt, das kein einzelnes Rahmenwerk hervorbringen könnte.",
+      "wheelCta": "Unser Rahmenwerk erkunden",
+      "chapterMeasure": "Messen",
+      "chapterMeasureTitle": "Psychometrische Präzision",
+      "chapterMeasureBody": "Big Five, Enneagram, Persönlichkeitstyp, Arbeitsstil — validierte Instrumente, die die Dimensionen abbilden, die die Psychologie sehen kann.",
+      "chapterInterpret": "Interpretieren",
+      "chapterInterpretTitle": "Symbolische Tiefe",
+      "chapterInterpretBody": "Westliche und vedische Astrologie, Numerologie, Human Design, Chinesisches Tierkreiszeichen, Maya-Tzolkin — die ältesten Spiegel, die die Menschheit zur Sinnfindung genutzt hat.",
+      "chapterConverse": "Dialogieren",
+      "chapterConverseTitle": "Ein Gespräch mit Ihrem Porträt",
+      "chapterConverseBody": "Unsere KI liest jeden Datenpunkt, den Sie geteilt haben, und antwortet mit der Feinfühligkeit von jemandem, der Sie jahrelang studiert hat. Fragen Sie alles."
+    }
   },
   "mirror": {
     "greeting": "Guten Morgen",
@@ -212,7 +239,8 @@
       "emptyState": "Speichere dein Persönlichkeitsprofil, um Veränderungen zu verfolgen",
       "oneSnapshot": "Speichere dein Profil erneut, um zu sehen, wie sich deine Eigenschaften über die Zeit verändern",
       "needMore": "Mindestens 2 Profilmomentaufnahmen mit Big 5 Werten nötig, um Trends anzuzeigen",
-      "evolution": "Eigenschaftsentwicklung über {count} Momentaufnahmen"
+      "evolution": "Eigenschaftsentwicklung über {count} Momentaufnahmen",
+      "description": "See how your Big 5 traits change over time. Take the Big 5 test every few months to build this chart."
     },
     "journal": {
       "title": "Stimmung & Tagebuch",
@@ -227,12 +255,48 @@
       "voiceNote": "Sprachnotiz",
       "recentEntries": "Letzte Einträge",
       "noEntries": "Noch keine Einträge. Schreibe deinen ersten Tagebucheintrag!",
-      "viewAllEntries": "Alle Einträge anzeigen"
+      "viewAllEntries": "Alle Einträge anzeigen",
+      "save": "Save",
+      "writePlaceholder": "What's on your mind today?",
+      "taggedMood": "Tagged mood"
     },
-    "pulse": {
-      "title": "Puls",
-      "description": "Schema-Aktivierung (letzte 30 Tage)",
-      "activity": "Aktivität"
+    "upgradeCta": "Get all assessments",
+    "upgradeCtaDescription": "Unlock the full suite of premium tests in the Store.",
+    "personalitySnapshotDescription": "Your five core traits from your latest Big 5 test. Take the test in the Store to fill this in.",
+    "testSnapshot": {
+      "sectionLabel": "Test results snapshot",
+      "title": "Your tests",
+      "description": "A snapshot of all your assessments. Complete any test to see your result here.",
+      "completePrompt": "You haven't completed this test yet.",
+      "completeCta": "Complete the test now",
+      "noTestsInCategory": "No tests in this category."
+    },
+    "engagement": {
+      "title": "Engagement",
+      "description": "Your self-discovery activity over the last 90 days",
+      "totalActivities": "total activities",
+      "less": "Less",
+      "more": "More"
+    },
+    "moodTimeline": {
+      "title": "Mood over time",
+      "description": "How you've been feeling across journal entries",
+      "emptyState": "Start logging your mood with journal entries to see your emotional patterns over time.",
+      "avgMood": "avg. mood"
+    },
+    "growth": {
+      "title": "Growth momentum",
+      "description": "How consistently you're showing up for self-discovery",
+      "currentStreak": "Current streak",
+      "best": "Best",
+      "day": "day",
+      "days": "days",
+      "thisWeek": "This week",
+      "thisMonth": "This month",
+      "motivationStart": "Start your journey today — even a single journal entry or chat counts toward your streak!",
+      "motivationKeepGoing": "You're building a habit! Keep showing up each day to grow your streak.",
+      "motivationGreat": "Great consistency! You're making self-discovery a real part of your routine.",
+      "motivationAmazing": "Incredible dedication! Your commitment to self-understanding is truly inspiring."
     }
   },
   "vault": {
@@ -254,23 +318,29 @@
     },
     "fileTree": {
       "all": "Alle",
-      "psyche": "Psyche",
-      "cognitive": "Kognitiv",
-      "esoteric": "Esoterisch",
       "journal": "Tagebuch",
       "noFiles": "Keine Dateien",
       "documentDeleted": "Dokument gelöscht",
-      "deleteFailed": "Dokument konnte nicht gelöscht werden"
+      "deleteFailed": "Dokument konnte nicht gelöscht werden",
+      "personality": "Personality",
+      "intelligence": "Intelligence",
+      "strengths": "Strengths",
+      "wellness": "Wellness",
+      "astrology": "Astrology",
+      "career": "Career"
     },
     "documentDetail": {
       "document": "Dokument",
       "voiceJournal": "Sprachtagebuch",
-      "personalityPsychData": "Persönlichkeits- / Psychologische Daten",
-      "cognitiveAssessment": "Kognitive Bewertung",
-      "esotericAstrology": "Esoterik / Astrologie",
       "notFound": "Dokument nicht gefunden.",
       "noExtractedText": "Kein extrahierter Text für dieses Dokument verfügbar.",
-      "openOriginalFile": "Originaldatei öffnen"
+      "openOriginalFile": "Originaldatei öffnen",
+      "personality": "Personality",
+      "intelligence": "Intelligence",
+      "strengths": "Strengths",
+      "wellness": "Wellness",
+      "astrology": "Astrology",
+      "career": "Career"
     },
     "stats": {
       "totalResults": "Ergebnisse gesamt",
@@ -355,7 +425,10 @@
       "willImprove": "Wir werden daran arbeiten, das zu verbessern",
       "feedbackFailed": "Feedback konnte nicht gespeichert werden",
       "shareLinkCopied": "Freigabelink in die Zwischenablage kopiert",
-      "shareCreateFailed": "Freigabelink konnte nicht erstellt werden"
+      "shareCreateFailed": "Freigabelink konnte nicht erstellt werden",
+      "responseError": "Something went wrong",
+      "tryAgain": "Try again",
+      "dismiss": "Dismiss"
     },
     "activeContext": {
       "title": "Aktiver Kontext",
@@ -456,7 +529,29 @@
       "description": "Abmelden oder Clerk-Kontomenü über den Avatar öffnen. Du kannst auch den Avatar in der linken Seitenleiste nutzen.",
       "management": "Konto",
       "avatarHint": "Klicke auf den Avatar, um das Menü zu öffnen (Abmelden, Profil usw.).",
-      "signOut": "Abmelden"
+      "signOut": "Abmelden",
+      "deleteAccount": "Delete my account",
+      "deleteAccountDescription": "Permanently delete your account and all associated data (assessments, vault, chat history, journals). This cannot be undone. Any active subscription will be cancelled.",
+      "deleteAccountConfirmTitle": "Delete account?",
+      "deleteAccountConfirmDescription": "This will permanently delete your account and all your data. Your subscription will be cancelled. This action cannot be undone.",
+      "deleteAccountUnderstand": "I understand that my data will be permanently deleted and this cannot be undone.",
+      "deleteAccountButton": "Delete my account",
+      "deleteAccountCancel": "Cancel",
+      "deleteAccountSuccess": "Your account has been deleted. Redirecting…",
+      "deleteAccountError": "Could not delete account. Please try again or contact support."
+    },
+    "birthData": {
+      "title": "Birth data",
+      "description": "Used once for astrology, numerology, Human Design, and Chinese Zodiac. Time can be \"unknown\" if you don't know it.",
+      "date": "Date of birth",
+      "time": "Time of birth",
+      "timeUnknown": "I don't know my birth time",
+      "location": "Place of birth (city or town)",
+      "save": "Save birth data",
+      "saved": "Birth data saved",
+      "saveFailed": "Failed to save birth data",
+      "completedTestsPrefix": "We've completed the following using your birth data: {tests}. View them on your ",
+      "viewOnMirrorLink": "Mirror"
     }
   },
   "notifications": {
@@ -507,7 +602,9 @@
     "unexpectedError": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.",
     "unexpectedErrorRefresh": "Ein unerwarteter Fehler ist aufgetreten. Bitte lade die Seite neu.",
     "pageNotFound": "404 — Seite nicht gefunden",
-    "pageNotFoundDescription": "Die gesuchte Seite existiert nicht."
+    "pageNotFoundDescription": "Die gesuchte Seite existiert nicht.",
+    "tryAgain": "Try again",
+    "goHome": "Go home"
   },
   "share": {
     "sharedFrom": "Geteilt von Anima",
@@ -527,6 +624,107 @@
       "termsAndConditions": "AGB",
       "cookiePolicy": "Cookie-Richtlinie",
       "logIn": "Anmelden"
+    },
+    "freePersonalityTest": "Free personality test",
+    "nerisTypeExplorer": "Discover your personality type",
+    "intro": {
+      "step1Title": "Take the assessment",
+      "step1Description": "Answer each question openly and honestly — there are no right or wrong answers.",
+      "step2Title": "Explore your profile",
+      "step2Description": "Get a detailed breakdown of your unique personality traits and preferences.",
+      "step3Title": "Put it into action",
+      "step3Description": "Use your results to make smarter career choices and understand how you work best."
+    },
+    "step1Label": "STEP 1: Complete the test",
+    "step2Label": "STEP 2: View detailed results",
+    "backToStore": "Back to store",
+    "beginAssessment": "Begin assessment",
+    "retakeAssessment": "Retake assessment",
+    "viewLatestResults": "View your latest results",
+    "whatYouWillDiscover": "What you'll discover",
+    "premiumAssessment": "This is a premium assessment.",
+    "comingSoon": "Coming soon",
+    "questionOf": "Question {current} of {total}",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "testNotFound": "Test not found",
+    "testNotFoundDescription": "This assessment does not exist or has been removed.",
+    "assessmentComplete": "Assessment complete!",
+    "failedToSubmit": "Failed to submit assessment",
+    "collect": {
+      "answerAllToContinue": "Answer all questions on this page to continue.",
+      "title": "Almost there",
+      "emailLabel": "Your email",
+      "emailHint": "Optional. Get your results by email and save them to track personality changes.",
+      "emailPlaceholder": "email@email.com",
+      "marketingLabel": "Send me career and personal insights",
+      "genderLabel": "Your gender",
+      "genderHint": "Optional. This will determine your avatar in the results screen.",
+      "male": "Male",
+      "female": "Female",
+      "other": "Other",
+      "seeResults": "See results"
+    },
+    "results": {
+      "title": "Your results",
+      "summary": "Summary",
+      "dimensionScores": "Dimension scores",
+      "keyInsights": "Key insights",
+      "moreInsights": "+ {count} more insights available in the premium report",
+      "growthTip": "Growth tip",
+      "moreRecommendations": "+ {count} more recommendations in the premium report",
+      "retakeTest": "Retake test",
+      "goToMirror": "Go to Mirror",
+      "talkToMirror": "Talk to the Mirror",
+      "talkToMirrorSubcopy": "Ask the AI about your results",
+      "guestBannerTitle": "Save your results and unlock the Mirror",
+      "guestBannerDescription": "Create a free account to keep this result, chat with the AI about it, and access your Mirror dashboard.",
+      "guestSignUpCta": "Sign up free"
+    },
+    "premium": {
+      "unlockFullReport": "Unlock your full report",
+      "getCompleteAnalysis": "Get the complete {testTitle} analysis with actionable insights.",
+      "premiumUnlocked": "Premium report unlocked",
+      "readyToDownload": "Your full {testTitle} report is ready to download.",
+      "downloadPdf": "Download PDF report",
+      "generating": "Generating...",
+      "processing": "Processing...",
+      "upgradeFor": "Upgrade for {price}",
+      "getFullReport": "Get full report",
+      "oneTimePayment": "One-time payment",
+      "features": {
+        "dimensions": "Detailed dimension breakdown with percentile rankings",
+        "interpretation": "Personalised interpretation for every dimension",
+        "recommendations": "Actionable growth recommendations",
+        "pdf": "Downloadable PDF report"
+      }
+    },
+    "bundle": {
+      "title": "The complete portrait",
+      "description": "All 10 premium reports in one bundle. Psychometric + esoteric frameworks.",
+      "price": "$99.99",
+      "savePercent": "Save {percent}%",
+      "purchaseBundle": "Purchase bundle",
+      "allIncluded": "All 10 premium reports included",
+      "readyToUnlock": "Ready to unlock your full potential?",
+      "onePaymentLifetime": "One payment: all 10 premium reports, yours forever."
     }
+  },
+  "consent": {
+    "message": "We use essential cookies to run the app and optional analytics (PostHog) to improve the product. In the EEA and UK we only enable analytics if you accept.",
+    "cookiePolicy": "Cookie Policy",
+    "essentialOnly": "Essential only",
+    "acceptAll": "Accept all"
+  },
+  "categories": {
+    "all": "All",
+    "personality": "Personality",
+    "intelligence": "Intelligence",
+    "strengths": "Strengths",
+    "wellness": "Wellness",
+    "astrology": "Astrology",
+    "career": "Career"
   }
 }

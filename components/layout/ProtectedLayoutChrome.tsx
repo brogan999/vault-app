@@ -28,7 +28,7 @@ export function ProtectedLayoutChrome({
     return (
       <div className="flex min-h-screen flex-col">
         <TestHeader />
-        <main className="flex-1 overflow-y-auto bg-background">
+        <main id="main-content" className="flex-1 overflow-y-auto bg-background">
           <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-[1200px] mx-auto">
             {children}
           </div>
@@ -45,7 +45,7 @@ export function ProtectedLayoutChrome({
       <div className="flex h-screen">
         <NavRail />
         <div className="flex flex-1 flex-col min-w-0 lg:ml-[220px] min-h-0">
-          <main className="flex-1 flex flex-col min-h-0 overflow-hidden bg-background pb-16 lg:pb-0">
+          <main id="main-content" className="flex-1 flex flex-col min-h-0 overflow-hidden bg-background pb-16 lg:pb-0">
             {children}
           </main>
           <AppFooter />
@@ -69,7 +69,7 @@ export function ProtectedLayoutChrome({
 
   return (
     <div className="flex h-screen flex-col">
-      <main className="flex-1 overflow-y-auto bg-background">
+      <main id="main-content" className="flex-1 overflow-y-auto bg-background">
         <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-[1200px] mx-auto">
           {children}
         </div>

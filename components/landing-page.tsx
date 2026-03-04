@@ -72,9 +72,7 @@ function Hero() {
 
         <AnimateOnScroll variant="fade-up" delay={350}>
           <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted-foreground/70 italic">
-            Named for Jung&apos;s discovery of the inner personality &mdash; the
-            bridge between what you know about yourself and what you
-            haven&apos;t figured out yet.
+            {t("jungQuote")}
           </p>
         </AnimateOnScroll>
 
@@ -410,13 +408,15 @@ function FeatureShowcase() {
 /* ── Methodology Trust Bar ────────────────────────────────────── */
 
 function MethodologyTrustBar() {
+  const t = useTranslations("landing.methodology");
+
   const sources = [
-    { name: "IPIP", desc: "International Personality Item Pool" },
-    { name: "Big Five", desc: "Gold-standard trait model" },
-    { name: "Swiss Ephemeris", desc: "Astronomical precision" },
-    { name: "Enneagram", desc: "Motivational framework" },
-    { name: "Human Design", desc: "Modern synthesis" },
-    { name: "Vedic / Jyotish", desc: "Sidereal astrology" },
+    { name: "IPIP", desc: t("ipipDesc") },
+    { name: "Big Five", desc: t("bigFiveDesc") },
+    { name: "Swiss Ephemeris", desc: t("swissEphemerisDesc") },
+    { name: "Enneagram", desc: t("enneagramDesc") },
+    { name: "Human Design", desc: t("humanDesignDesc") },
+    { name: "Vedic / Jyotish", desc: t("vedicDesc") },
   ];
 
   return (
@@ -424,7 +424,7 @@ function MethodologyTrustBar() {
       <div className="mx-auto max-w-6xl px-4 lg:px-8">
         <AnimateOnScroll variant="fade-in">
           <p className="mb-6 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground/70">
-            Built on established methodologies
+            {t("headline")}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
             {sources.map((s) => (

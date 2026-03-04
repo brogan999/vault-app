@@ -7,6 +7,7 @@ import {
   ChevronDown,
   ChevronRight,
   Trash2,
+  RotateCcw,
   MoreVertical,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,7 @@ import { cn } from "@/lib/utils";
 import {
   getDocumentsForVault,
   deleteDocumentFromVault,
+  retryDocumentProcessing,
   type VaultDocument,
   type DocumentCategory,
 } from "@/app/actions/vault";
@@ -94,6 +96,16 @@ export function FileTree({ onDocumentOpen }: FileTreeProps) {
       return;
     }
     toast.success(t("documentDeleted"));
+    loadDocuments();
+  };
+
+  const retryDocument = async (id: string) => {
+    const result = await retryDocumentProcessing(id);
+    if (!result.ok) {
+      toast.error(result.error ?? "Retry failed");
+      return;
+    }
+    toast.success("Document requeued for processing");
     loadDocuments();
   };
 
@@ -234,6 +246,17 @@ export function FileTree({ onDocumentOpen }: FileTreeProps) {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
+                              {doc.status === "error" && (
+                                <DropdownMenuItem
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    retryDocument(doc.id);
+                                  }}
+                                >
+                                  <RotateCcw className="h-4 w-4 mr-2" />
+                                  {tCommon("retry") ?? "Retry"}
+                                </DropdownMenuItem>
+                              )}
                               <DropdownMenuItem
                                 onClick={(e) => {
                                   e.stopPropagation();

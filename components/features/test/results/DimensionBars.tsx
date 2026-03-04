@@ -5,7 +5,7 @@ import type { DimensionScore } from "@/lib/tests/types";
 import type { DimensionBarConfig } from "@/lib/results-content/types";
 
 /** Default colour palette when no config is provided. */
-const DEFAULT_COLORS = ["#6366f1", "#f59e0b", "#10b981", "#8b5cf6", "#ef4444"];
+const DEFAULT_COLORS = ["#328181", "#C7A356", "#315E36", "#916368", "#C97A30"];
 
 interface DimensionBarsProps {
   dimensions: DimensionScore[];

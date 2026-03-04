@@ -1,18 +1,33 @@
 import { createGenericResultsContent, standardSection, t } from "./generic-builder";
 
+const DISC_ICONS = ["d", "i", "s", "c", "dc", "di", "ds", "ic", "is", "sc"] as const;
+
 export const discResultsContent = createGenericResultsContent({
   testId: "disc",
   testName: "Work Style Assessment",
   heroColor: "#6366f1",
   getTypeName: (scores) => scores.typeLabel ?? "Work Style Profile",
   getTypeCode: (scores) => scores.typeCode ?? "DISC Profile",
+  getHeroImage: (scores) => {
+    const code = (scores.typeCode ?? "").toLowerCase();
+    if (DISC_ICONS.includes(code as (typeof DISC_ICONS)[number])) {
+      return `/characters/disc/${code}/${code}-reveal.svg`;
+    }
+    return undefined;
+  },
   getDescription: (scores) => [
     `Your work style assessment reveals how you approach collaboration, communication, and decision-making in professional settings. ${scores.typeLabel ? `As a ${scores.typeLabel} style` : "Your profile"}, you bring a distinctive blend of behavioural tendencies to the workplace.`,
     "Understanding your DISC profile helps you communicate more effectively with colleagues, manage stress more proactively, and find roles where your natural work style is an asset rather than something you need to suppress.",
   ],
-  getSections: () => [
+  getSections: (scores) => {
+    const code = (scores.typeCode ?? "").toLowerCase();
+    const base = DISC_ICONS.includes(code as (typeof DISC_ICONS)[number])
+      ? `/characters/disc/${code}`
+      : undefined;
+    return [
     standardSection({
       id: "career-path", number: 2, title: "Your Work Environment",
+      sectionImage: base ? `${base}/${code}-career.svg` : undefined,
       description: [
         "Your DISC profile directly influences the environments where you thrive and the roles where you'll feel most engaged and productive.",
         "The key is finding positions that leverage your natural behavioural strengths while providing opportunities to develop your less dominant styles.",
@@ -41,6 +56,7 @@ export const discResultsContent = createGenericResultsContent({
     }),
     standardSection({
       id: "personal-growth", number: 3, title: "Growth and Development",
+      sectionImage: base ? `${base}/${code}-growth.svg` : undefined,
       description: ["Your DISC profile isn't fixed — it's a starting point for intentional development. Understanding your natural tendencies empowers you to grow in specific, targeted ways.", "The most effective professionals are those who can flex between DISC styles as the situation demands, while staying rooted in their authentic self."],
       strengths: [
         t("Style Awareness", "You understand your default behavioural patterns."),
@@ -65,6 +81,7 @@ export const discResultsContent = createGenericResultsContent({
     }),
     standardSection({
       id: "relationships", number: 4, title: "Relationships and Connection",
+      sectionImage: base ? `${base}/${code}-relationships.svg` : undefined,
       description: ["Your DISC style shapes how you connect, communicate, and handle conflict in personal relationships. Each style has characteristic patterns in love that create both strengths and challenges.", "Understanding these dynamics helps you build more conscious, effective partnerships."],
       strengths: [
         t("Communication Awareness", "You understand your default relationship communication style."),
@@ -87,6 +104,6 @@ export const discResultsContent = createGenericResultsContent({
         { title: "Relationship Pitfalls", unlockTeaser: "Get the full report to identify 6 habits that may strain your relationships.", items: [t("Default Mode", "When your style becomes rigid in relationships."), t("Blind Spots", "What your style consistently misses."), t("Stress Reactions", "How pressure distorts your relationship behaviour."), t("Communication Failures", "Where your style breaks down in conflict."), t("Unmet Needs", "What you need but struggle to ask for."), t("Growth Blocks", "How your style can prevent relationship growth.")] },
       ],
     }),
-  ],
-  famousPeople: [{ name: "Steve Jobs" }, { name: "Oprah Winfrey" }, { name: "Bill Gates" }, { name: "Richard Branson" }],
+  ];
+  },
 });

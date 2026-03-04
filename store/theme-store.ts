@@ -11,28 +11,20 @@ interface ThemeState {
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
-      theme: "dark",
-      setTheme: (theme) => {
-        set({ theme });
-        applyTheme(theme);
+      theme: "light",
+      setTheme: (_theme) => {
+        set({ theme: "light" });
+        applyTheme("light");
       },
     }),
     {
       name: "theme-storage",
-      version: 2,
-      migrate: (persisted: unknown, version: number) => {
-        const state = persisted as { theme?: string; palette?: string };
-        if (version < 2 && state) {
-          const raw = state.theme ?? "light";
-          const theme = raw === "dark" ? "dark" : "light";
-          return { theme };
-        }
-        return persisted as ThemeState;
+      version: 3,
+      migrate: () => {
+        return { theme: "light" as Theme };
       },
-      onRehydrateStorage: () => (state) => {
-        if (state) {
-          applyTheme(state.theme);
-        }
+      onRehydrateStorage: () => () => {
+        applyTheme("light");
       },
     }
   )

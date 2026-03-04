@@ -63,8 +63,8 @@ export default function ChatPage() {
                 fileUrl?: string | null;
               }[];
               setSources(decoded);
-            } catch {
-              // ignore
+            } catch (e) {
+              console.warn("[Chat] Failed to parse X-Chat-Sources header:", e);
             }
           }
           if (!res.ok) {
@@ -74,8 +74,8 @@ export default function ChatPage() {
               try {
                 const body = await res.json() as { error?: string };
                 if (body?.error) message = body.error;
-              } catch {
-                // use statusText
+              } catch (e) {
+                console.warn("[Chat] Failed to parse error response JSON:", e);
               }
             }
             throw new Error(message);

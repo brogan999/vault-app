@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
+import { z } from "zod";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_REDIRECT_URI = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/api/integrations/google/callback`;
+
+const ProviderSchema = z.enum(["google_drive", "google_calendar", "google_all"]);
 
 export async function GET(req: NextRequest) {
   const { userId } = await auth();
@@ -17,7 +20,13 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const provider = req.nextUrl.searchParams.get("provider") || "google_drive";
+  const providerResult = ProviderSchema.safeParse(
+    req.nextUrl.searchParams.get("provider") || "google_drive",
+  );
+  if (!providerResult.success) {
+    return NextResponse.json({ error: "Invalid provider" }, { status: 400 });
+  }
+  const provider = providerResult.data;
 
   // Define scopes based on provider
   const scopes: string[] = [

@@ -306,3 +306,13 @@ model UserReport {
   @@index([userId])
   @@map("user_reports")
 }
+
+model WebhookEvent {
+  id          String   @id @default(uuid())
+  eventId     String
+  source      String   // clerk | stripe
+  processedAt DateTime @default(now())
+
+  @@unique([source, eventId])
+  @@map("webhook_events")
+}

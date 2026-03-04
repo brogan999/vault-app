@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { InlineSvg } from "@/components/InlineSvg";
 import type { FrameworkKind } from "@/lib/products";
 import { getFrameworkVisualIdentity } from "@/lib/products";
 
@@ -10,12 +11,14 @@ interface ContentSectionProps {
   number: number;
   title: string;
   children: ReactNode;
+  /** Optional illustration rendered between header and content */
+  sectionImage?: string;
   /** Optional framework kind for distinct visual identity */
   frameworkKind?: FrameworkKind;
 }
 
 /** Reusable numbered section wrapper with distinct visual identity per framework kind. */
-export function ContentSection({ id, number, title, children, frameworkKind }: ContentSectionProps) {
+export function ContentSection({ id, number, title, children, sectionImage, frameworkKind }: ContentSectionProps) {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -81,6 +84,17 @@ export function ContentSection({ id, number, title, children, frameworkKind }: C
           {title}
         </h2>
       </div>
+
+      {sectionImage && (
+        <div className="mb-6 overflow-hidden rounded-xl">
+          <InlineSvg
+            src={sectionImage}
+            alt={title}
+            className="w-full text-foreground [&>svg]:h-auto [&>svg]:w-full"
+          />
+        </div>
+      )}
+
       {children}
     </section>
   );

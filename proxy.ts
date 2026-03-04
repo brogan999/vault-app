@@ -2,10 +2,11 @@ import { NextResponse, type NextFetchEvent, type NextRequest } from "next/server
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
+import { applyRateLimit } from "./lib/rate-limit";
 
 const intlMiddleware = createMiddleware(routing);
 
-const LOCALE = "(en|es|fr|de|ja|pt)";
+const LOCALE = `(${routing.locales.join("|")})`;
 
 const isPublicRoute = createRouteMatcher([
   "/",
@@ -24,6 +25,9 @@ const isPublicRoute = createRouteMatcher([
   "/sign-up(.*)",
   "/test(.*)",
   "/(.+)/test(.*)",
+  "/api/webhooks(.*)",
+  "/api/cron(.*)",
+  "/api/og",
   // Locale-prefixed paths (next-intl may redirect / to /en; without these, /en and /en/sign-in would be protected → redirect loop)
   `/${LOCALE}`,
   `/${LOCALE}/pricing`,
@@ -58,11 +62,36 @@ const noopEvent = {
   waitUntil: (_p: Promise<unknown>) => {},
 } as NextFetchEvent;
 
+function secureCookies(response: NextResponse): NextResponse {
+  const setCookieHeader = response.headers.getSetCookie?.();
+  if (!setCookieHeader?.length) return response;
+  for (const cookie of setCookieHeader) {
+    if (cookie.includes("NEXT_LOCALE") && !cookie.toLowerCase().includes("secure")) {
+      response.headers.delete("set-cookie");
+      for (const c of setCookieHeader) {
+        const patched = c.includes("NEXT_LOCALE")
+          ? `${c}; Secure; SameSite=Lax`
+          : c;
+        response.headers.append("set-cookie", patched);
+      }
+      break;
+    }
+  }
+  return response;
+}
+
 export default async function proxy(
   request: NextRequest,
   event?: NextFetchEvent
 ) {
-  return clerkHandler(request, event ?? noopEvent);
+  if (request.nextUrl.pathname.startsWith("/api")) {
+    const rateLimitResponse = await applyRateLimit(request);
+    if (rateLimitResponse) return rateLimitResponse;
+  }
+
+  const response = await clerkHandler(request, event ?? noopEvent);
+  if (response instanceof NextResponse) secureCookies(response);
+  return response;
 }
 
 export const config = {

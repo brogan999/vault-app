@@ -1,7 +1,20 @@
 import { sendMessage } from "@/app/actions/chat";
 import { NextRequest } from "next/server";
+import { z } from "zod";
 
-function getTextFromMessage(msg: { content?: string; text?: string; parts?: Array<{ type: string; text?: string }> }): string {
+const MessageSchema = z.object({
+  content: z.string().optional(),
+  text: z.string().optional(),
+  parts: z.array(z.object({ type: z.string(), text: z.string().optional() })).optional(),
+});
+
+const ChatBodySchema = z.object({
+  messages: z.array(MessageSchema).min(1),
+});
+
+const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function getTextFromMessage(msg: z.infer<typeof MessageSchema>): string {
   if (msg.content) return msg.content;
   if (msg.text) return msg.text;
   if (msg.parts?.length) {
@@ -17,10 +30,26 @@ export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ sessionId: string }> }
 ) {
-  const body = await req.json();
-  const { messages } = body;
-  const lastMessage = messages?.[messages.length - 1];
   const { sessionId } = await params;
+
+  if (!uuidRegex.test(sessionId)) {
+    return new Response(JSON.stringify({ error: "Invalid session ID" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const raw = await req.json();
+  const parsed = ChatBodySchema.safeParse(raw);
+  if (!parsed.success) {
+    return new Response(JSON.stringify({ error: "Invalid request body" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const { messages } = parsed.data;
+  const lastMessage = messages[messages.length - 1];
 
   const text = lastMessage ? getTextFromMessage(lastMessage) : "";
   if (!text.trim()) {

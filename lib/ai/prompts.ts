@@ -23,8 +23,8 @@ const PERSONA_TONE: Record<
 };
 
 export function getSystemPrompt(userContext?: {
-  big5Scores?: any;
-  astrologyMeta?: any;
+  big5Scores?: Record<string, unknown> | null;
+  astrologyMeta?: Record<string, unknown> | null;
   assessmentContext?: MirrorAssessmentContext;
   privacyShieldEnabled?: boolean;
   personaPreference?: string | null;

@@ -121,6 +121,46 @@ export async function deleteDocumentFromVault(documentId: string): Promise<{ ok:
   return { ok: true };
 }
 
+export async function retryDocumentProcessing(documentId: string): Promise<{ ok: boolean; error?: string }> {
+  const user = await getSupabaseUser();
+  if (!user) return { ok: false, error: "Unauthorized" };
+
+  const admin = createAdminClient();
+  const { data: doc, error: fetchError } = await admin
+    .from("documents")
+    .select("id, userId, fileUrl, type, status")
+    .eq("id", documentId)
+    .single();
+
+  if (fetchError || !doc || doc.userId !== user.id) {
+    return { ok: false, error: "Document not found or unauthorized" };
+  }
+
+  if (doc.status !== "error") {
+    return { ok: false, error: "Only failed documents can be retried" };
+  }
+
+  const { error: updateError } = await admin
+    .from("documents")
+    .update({ status: "pending" })
+    .eq("id", documentId);
+
+  if (updateError) {
+    return { ok: false, error: updateError.message };
+  }
+
+  const fileUrl = doc.fileUrl as string;
+  const filePath = fileUrl.split("/documents/")[1] ?? "";
+
+  const { processDocument } = await import("@/lib/ai/processing");
+  processDocument(documentId, filePath, doc.type, user.id).catch((err) => {
+    console.error("retryDocumentProcessing: processing failed:", err);
+  });
+
+  revalidatePath("/vault");
+  return { ok: true };
+}
+
 /** Format a past date as "Xd ago" or "Xw ago" for vault stats */
 function formatRelative(iso: string): string {
   const d = new Date(iso);

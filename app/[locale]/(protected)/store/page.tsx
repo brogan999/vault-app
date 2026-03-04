@@ -54,6 +54,7 @@ export default function StorePage() {
 function StoreContent() {
   const t = useTranslations("store");
   const tc = useTranslations("common");
+  const tCat = useTranslations("categories");
   const [purchases, setPurchases] = useState<PurchaseRecord[]>([]);
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -190,7 +191,7 @@ function StoreContent() {
                       : undefined
                   }
                 >
-                  {cat.label}
+                  {tCat(cat.labelKey)}
                 </button>
               );
             })}

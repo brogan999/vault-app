@@ -1,6 +1,12 @@
 "use server";
 
 import { getSupabaseUser } from "@/lib/clerk/utils";
+import { createAdminClient } from "@/lib/supabase/server";
+import {
+  testIdToFramework,
+  getFrameworksForBundle,
+  type ReportFramework,
+} from "@/lib/reports";
 import Stripe from "stripe";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
@@ -47,7 +53,7 @@ export async function createCheckoutSession(plan: "pro_monthly" | "pro_annual") 
         plan,
       },
     },
-    success_url: `${APP_URL}/settings?success=true`,
+    success_url: `${APP_URL}/settings?success=true&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${APP_URL}/pricing?canceled=true`,
   });
 
@@ -86,13 +92,17 @@ export async function createOneOffPurchase(
   };
   if (options?.attemptId) metadata.attemptId = options.attemptId;
 
+  const rawSuccessUrl = options?.successUrl ?? `${APP_URL}/store?success=true`;
+  const joinChar = rawSuccessUrl.includes("?") ? "&" : "?";
+  const successUrl = `${rawSuccessUrl}${joinChar}session_id={CHECKOUT_SESSION_ID}`;
+
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
     payment_method_types: ["card"],
     line_items: [{ price: priceId, quantity: 1 }],
     customer_email: user.email,
     metadata,
-    success_url: options?.successUrl ?? `${APP_URL}/store?success=true`,
+    success_url: successUrl,
     cancel_url: options?.cancelUrl ?? `${APP_URL}/store?canceled=true`,
   });
 
@@ -214,4 +224,188 @@ export async function createCreditPackCheckout(
     cancelUrl: `${APP_URL}/settings?canceled=topup`,
   });
   return { url: url ?? null };
+}
+
+/**
+ * Verify a Stripe Checkout session and immediately fulfil the purchase.
+ * Called when the user returns from Stripe (via the session_id in the success
+ * URL) so the unlock happens before the page renders — no webhook dependency.
+ * Idempotent: safe to call even if the webhook already ran.
+ */
+export async function fulfillStripeSession(
+  sessionId: string,
+): Promise<{ fulfilled: boolean }> {
+  const stripe = getStripe();
+  if (!stripe) return { fulfilled: false };
+
+  let session: Stripe.Checkout.Session;
+  try {
+    session = await stripe.checkout.sessions.retrieve(sessionId);
+  } catch {
+    console.error("[fulfillStripeSession] Could not retrieve session:", sessionId);
+    return { fulfilled: false };
+  }
+
+  if (session.payment_status !== "paid") return { fulfilled: false };
+
+  const userId = session.metadata?.userId as string | undefined;
+  if (!userId) return { fulfilled: false };
+
+  const purchaseType = session.metadata?.type as string | undefined;
+  const productId = session.metadata?.product_id as string | undefined;
+  const attemptId = session.metadata?.attemptId as string | undefined;
+  const amountTotal = session.amount_total ?? 0;
+  const paymentIntentId = session.payment_intent
+    ? typeof session.payment_intent === "string"
+      ? session.payment_intent
+      : session.payment_intent.id
+    : session.id;
+
+  const supabase = createAdminClient();
+
+  // Skip if this payment was already recorded (idempotency guard)
+  const { data: existing } = await supabase
+    .from("user_purchases")
+    .select("id")
+    .eq("stripe_payment_id", paymentIntentId)
+    .limit(1)
+    .maybeSingle();
+  const alreadyRecorded = !!existing;
+
+  if (purchaseType === "report" && productId) {
+    const framework = testIdToFramework(productId) ?? (productId as ReportFramework);
+    if (!alreadyRecorded) {
+      await supabase.from("user_purchases").insert({
+        user_id: userId,
+        product_type: "report",
+        product_id: productId,
+        price_paid: amountTotal,
+        stripe_payment_id: paymentIntentId,
+      });
+    }
+    await supabase.from("user_reports").upsert(
+      {
+        user_id: userId,
+        framework,
+        unlocked_via: "purchase",
+        unlocked_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id,framework" },
+    );
+    if (attemptId) {
+      await supabase
+        .from("testResults")
+        .update({ isPremium: true })
+        .eq("id", attemptId)
+        .eq("userId", userId);
+    }
+    return { fulfilled: true };
+  }
+
+  if (purchaseType === "bundle" && productId) {
+    const frameworks = getFrameworksForBundle(productId);
+    if (!alreadyRecorded) {
+      await supabase.from("user_purchases").insert({
+        user_id: userId,
+        product_type: "bundle",
+        product_id: productId,
+        price_paid: amountTotal,
+        stripe_payment_id: paymentIntentId,
+      });
+    }
+    for (const framework of frameworks) {
+      await supabase.from("user_reports").upsert(
+        {
+          user_id: userId,
+          framework,
+          unlocked_via: "bundle",
+          unlocked_at: new Date().toISOString(),
+        },
+        { onConflict: "user_id,framework" },
+      );
+    }
+    return { fulfilled: true };
+  }
+
+  if (purchaseType === "career_suite" && productId) {
+    if (!alreadyRecorded) {
+      await supabase.from("user_purchases").insert({
+        user_id: userId,
+        product_type: "career_suite",
+        product_id: productId,
+        price_paid: amountTotal,
+        stripe_payment_id: paymentIntentId,
+      });
+    }
+    await supabase.from("user_reports").upsert(
+      {
+        user_id: userId,
+        framework: "career_suite",
+        unlocked_via: "purchase",
+        unlocked_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id,framework" },
+    );
+    return { fulfilled: true };
+  }
+
+  if (purchaseType === "pro_bundle" && productId) {
+    const allFrameworks = [
+      ...getFrameworksForBundle("complete_10"),
+      "career_suite" as ReportFramework,
+    ];
+    if (!alreadyRecorded) {
+      await supabase.from("user_purchases").insert({
+        user_id: userId,
+        product_type: "pro_bundle",
+        product_id: productId,
+        price_paid: amountTotal,
+        stripe_payment_id: paymentIntentId,
+      });
+    }
+    for (const framework of allFrameworks) {
+      await supabase.from("user_reports").upsert(
+        {
+          user_id: userId,
+          framework,
+          unlocked_via: "pro_bundle",
+          unlocked_at: new Date().toISOString(),
+        },
+        { onConflict: "user_id,framework" },
+      );
+    }
+    await supabase.from("user_reports").upsert(
+      {
+        user_id: userId,
+        framework: "pro_bundle",
+        unlocked_via: "purchase",
+        unlocked_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id,framework" },
+    );
+    return { fulfilled: true };
+  }
+
+  if (purchaseType === "credit_pack" && productId) {
+    if (!alreadyRecorded) {
+      const credits = parseInt(productId, 10) || 50;
+      await supabase.from("user_purchases").insert({
+        user_id: userId,
+        product_type: "credit_pack",
+        product_id: productId,
+        price_paid: amountTotal,
+        stripe_payment_id: paymentIntentId,
+      });
+      await supabase.from("user_message_credits").insert({
+        user_id: userId,
+        credit_type: "top_up",
+        credits_remaining: credits,
+        period_start: null,
+        period_end: null,
+      });
+    }
+    return { fulfilled: true };
+  }
+
+  return { fulfilled: false };
 }

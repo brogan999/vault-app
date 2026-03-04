@@ -7,6 +7,7 @@ import {
   getFrameworksForBundle,
   type ReportFramework,
 } from "@/lib/reports";
+import { isEventAlreadyProcessed } from "@/lib/webhooks/idempotency";
 
 const PRO_CREDITS_PER_MONTH = 300;
 const ROLLOVER_CAP = 100;
@@ -93,6 +94,10 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error("Webhook signature verification failed:", err);
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+  }
+
+  if (await isEventAlreadyProcessed("stripe", event.id)) {
+    return NextResponse.json({ received: true });
   }
 
   const supabase = createAdminClient();

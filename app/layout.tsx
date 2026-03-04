@@ -1,21 +1,24 @@
 import { JetBrains_Mono, Playfair_Display } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { CrispChat } from "@/components/providers/crisp-chat";
+import { cookies } from "next/headers";
 import "./globals.css";
+
+const RTL_LOCALES = new Set(["ar", "he", "fa"]);
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext", "greek", "vietnamese"],
   display: "swap",
 });
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-serif",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext", "cyrillic", "vietnamese"],
   display: "swap",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -48,34 +51,24 @@ export default function RootLayout({
 })();
 `.replace(/\n/g, " ");
 
-  // Blocking script to apply dark mode before first paint (prevents flash of light mode).
-  // Reads from Zustand persisted store in localStorage; falls back to "dark".
-  const themeScript = `
-(function(){
-  try {
-    var stored = localStorage.getItem('theme-storage');
-    var theme = 'dark';
-    if (stored) {
-      var parsed = JSON.parse(stored);
-      if (parsed && parsed.state && parsed.state.theme) theme = parsed.state.theme;
-    }
-    if (theme === 'dark') document.documentElement.classList.add('dark');
-    else document.documentElement.classList.remove('dark');
-  } catch(e) {
-    document.documentElement.classList.add('dark');
-  }
-})();
-`.replace(/\n/g, " ");
+  const cookieStore = await cookies();
+  const locale =
+    cookieStore.get("NEXT_LOCALE")?.value || routing.defaultLocale;
+  const dir = RTL_LOCALES.has(locale) ? "rtl" : "ltr";
 
   return (
-    <html lang={routing.defaultLocale} className="dark" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
+    <html lang={locale} dir={dir} suppressHydrationWarning>
+      <head />
       <body
         className={`${jetbrainsMono.variable} ${playfairDisplay.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground focus:text-sm focus:font-medium focus:outline-none focus:ring-2 focus:ring-ring"
+        >
+          Skip to content
+        </a>
         {children}
         <CrispChat />
         <script dangerouslySetInnerHTML={{ __html: stripCursorRefsScript }} />

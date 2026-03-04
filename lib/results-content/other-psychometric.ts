@@ -44,7 +44,6 @@ export const eqResultsContent = createGenericResultsContent({
       ],
     }),
   ],
-  famousPeople: [{ name: "Brené Brown" }, { name: "Daniel Goleman" }, { name: "Dalai Lama" }, { name: "Fred Rogers" }],
 });
 
 /* ------------------------------------------------------------------ */
@@ -91,7 +90,6 @@ export const iqProResultsContent = createGenericResultsContent({
       ],
     }),
   ],
-  famousPeople: [{ name: "Albert Einstein" }, { name: "Marie Curie" }, { name: "Stephen Hawking" }, { name: "Leonardo da Vinci" }],
 });
 
 /* ------------------------------------------------------------------ */
@@ -138,7 +136,6 @@ export const strengthsResultsContent = createGenericResultsContent({
       ],
     }),
   ],
-  famousPeople: [{ name: "Martin Seligman" }, { name: "Angela Duckworth" }, { name: "Brené Brown" }, { name: "Mihaly Csikszentmihalyi" }],
 });
 
 /* ------------------------------------------------------------------ */
@@ -185,7 +182,6 @@ export const stressProfileResultsContent = createGenericResultsContent({
       ],
     }),
   ],
-  famousPeople: [{ name: "Viktor Frankl" }, { name: "Sheryl Sandberg" }, { name: "David Goggins" }, { name: "Arianna Huffington" }],
 });
 
 /* ------------------------------------------------------------------ */
@@ -233,7 +229,6 @@ export const attachmentResultsContent = createGenericResultsContent({
       ],
     }),
   ],
-  famousPeople: [{ name: "John Bowlby" }, { name: "Amir Levine" }, { name: "Sue Johnson" }, { name: "Thích Nhất Hạnh" }],
 });
 
 /* ------------------------------------------------------------------ */
@@ -280,7 +275,6 @@ export const resilienceResultsContent = createGenericResultsContent({
       ],
     }),
   ],
-  famousPeople: [{ name: "Nelson Mandela" }, { name: "Malala Yousafzai" }, { name: "Maya Angelou" }, { name: "Viktor Frankl" }],
 });
 
 /* ------------------------------------------------------------------ */
@@ -327,5 +321,4 @@ export const focusStyleResultsContent = createGenericResultsContent({
       ],
     }),
   ],
-  famousPeople: [{ name: "Cal Newport" }, { name: "Mihaly Csikszentmihalyi" }, { name: "Tim Ferriss" }, { name: "Marie Kondo" }],
 });

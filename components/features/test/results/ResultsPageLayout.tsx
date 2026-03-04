@@ -10,6 +10,8 @@ interface ResultsPageLayoutProps {
   shareUrl: string;
   shareTitle: string;
   onUnlock: () => void;
+  /** When true, premium locked sections (5-8) appear in the sidebar nav. */
+  hasPremiumSections?: boolean;
   children: ReactNode;
 }
 
@@ -24,17 +26,28 @@ export function ResultsPageLayout({
   shareUrl,
   shareTitle,
   onUnlock,
+  hasPremiumSections,
   children,
 }: ResultsPageLayoutProps) {
-  // Build sidebar section list from the content sections
-  const sidebarSections = [
-    { id: "personality-traits", number: 1, title: "Personality Traits" },
+  const rawSections = [
+    { id: "personality-traits", title: "Personality Traits" },
+    ...(content.cognitivePortrait && content.cognitivePortrait.length > 0
+      ? [{ id: "cognitive-portrait", title: "Cognitive Portrait" }]
+      : []),
     ...content.sections.map((s) => ({
       id: s.id,
-      number: s.number,
       title: s.title,
     })),
+    ...(hasPremiumSections
+      ? [
+          { id: "cognitive-stack", title: "Cognitive Stack", locked: true },
+          { id: "stress-flow", title: "Stress & Flow", locked: true },
+          { id: "career-alignment", title: "Career Alignment", locked: true },
+          { id: "growth-path", title: "Growth Path", locked: true },
+        ]
+      : []),
   ];
+  const sidebarSections = rawSections.map((s, i) => ({ ...s, number: i + 1 }));
 
   return (
     <ResultsSidebarProvider sections={sidebarSections}>
@@ -59,6 +72,7 @@ export function ResultsPageLayout({
             shareUrl={shareUrl}
             shareTitle={shareTitle}
             onUnlock={onUnlock}
+            avatarImage={content.heroImage}
           />
         </div>
       </div>

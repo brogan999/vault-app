@@ -2,6 +2,7 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { createAdminClient } from "@/lib/supabase/server";
+import { isEventAlreadyProcessed } from "@/lib/webhooks/idempotency";
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
@@ -47,7 +48,10 @@ export async function POST(req: Request) {
     });
   }
 
-  // Handle the webhook
+  if (await isEventAlreadyProcessed("clerk", svix_id)) {
+    return new Response("", { status: 200 });
+  }
+
   const eventType = evt.type;
   
   if (eventType === "user.created") {

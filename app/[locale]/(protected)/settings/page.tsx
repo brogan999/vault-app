@@ -14,10 +14,8 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
-import { useThemeStore } from "@/store/theme-store";
 import {
   getCurrentUserPreferences,
-  updateThemePreference,
   updatePersonaPreference,
   updateBirthData,
 } from "@/app/actions/settings";
@@ -38,7 +36,7 @@ import { UserButton, useClerk } from "@clerk/nextjs";
 import { Link } from "@/i18n/navigation";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { cn } from "@/lib/utils";
-import { Bot, Compass, Heart, Sun, Moon, CreditCard, MessageCircle, Package, Trash2 } from "lucide-react";
+import { Bot, Compass, Heart, CreditCard, MessageCircle, Package, Trash2 } from "lucide-react";
 import type { MessageCreditSummary } from "@/lib/credits";
 import { PlaceAutocomplete } from "@/components/features/settings/PlaceAutocomplete";
 import { getProductById } from "@/lib/products";
@@ -67,7 +65,6 @@ function AccountSignOutButton() {
 
 export default function SettingsPage() {
   const t = useTranslations("settings");
-  const { theme, setTheme } = useThemeStore();
   const [personaPreference, setPersonaPreference] = useState<string>("balanced");
   const [checkinEnabled, setCheckinEnabled] = useState(false);
   const [checkinCadence, setCheckinCadence] = useState("weekly");
@@ -142,12 +139,6 @@ export default function SettingsPage() {
     });
   }, []);
 
-  const handleThemeChange = async (newTheme: "light" | "dark") => {
-    setTheme(newTheme);
-    const result = await updateThemePreference(newTheme);
-    if (!result.success) console.error("Error updating theme:", result.error);
-  };
-
   const handlePersonaChange = async (persona: string) => {
     const previous = personaPreference;
     setPersonaPreference(persona);
@@ -217,37 +208,6 @@ export default function SettingsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-6">
-            {/* Theme toggle */}
-            <div>
-              <label className="text-sm font-semibold text-foreground mb-2 block">
-                {t("appearance.theme")}
-              </label>
-              <div className="flex gap-2">
-                {[
-                  { id: "light" as const, label: t("appearance.light"), icon: Sun },
-                  { id: "dark" as const, label: t("appearance.dark"), icon: Moon },
-                ].map((themeOption) => {
-                  const isActive = theme === themeOption.id;
-                  return (
-                    <button
-                      key={themeOption.id}
-                      type="button"
-                      onClick={() => handleThemeChange(themeOption.id)}
-                      className={cn(
-                        "flex items-center gap-2 rounded-xl border-2 px-4 py-2.5 text-sm font-semibold transition-all",
-                        isActive
-                          ? "border-primary bg-primary text-primary-foreground"
-                          : "border-border bg-card text-foreground hover:border-primary/40"
-                      )}
-                    >
-                      <themeOption.icon className="h-4 w-4" />
-                      {themeOption.label}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
             {/* Language */}
             <div>
               <label className="text-sm font-semibold text-foreground mb-2 block">
@@ -298,7 +258,7 @@ export default function SettingsPage() {
                       setBirthTimeUnknown(e.target.checked);
                       if (e.target.checked) setBirthTime("");
                     }}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-border accent-primary"
                   />
                   {t("birthData.timeUnknown")}
                 </label>
@@ -622,7 +582,7 @@ export default function SettingsPage() {
               checked={deleteConfirmChecked}
               onChange={(e) => setDeleteConfirmChecked(e.target.checked)}
               disabled={deleteLoading}
-              className="mt-1 rounded border-border"
+              className="mt-1 h-4 w-4 rounded border-border accent-primary disabled:opacity-50"
             />
             <span className="text-sm text-muted-foreground">
               {t("account.deleteAccountUnderstand")}

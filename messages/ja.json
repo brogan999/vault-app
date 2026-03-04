@@ -17,7 +17,8 @@
     "free": "無料",
     "popular": "人気",
     "purchased": "購入済み",
-    "comingSoon": "近日公開"
+    "comingSoon": "近日公開",
+    "retry": "Retry"
   },
   "nav": {
     "mirror": "ミラー",
@@ -40,7 +41,8 @@
       "getStartedFree": "無料で始める",
       "openMenu": "メニューを開く",
       "closeMenu": "メニューを閉じる",
-      "language": "言語"
+      "language": "言語",
+      "themeAndColour": "Theme"
     },
     "hero": {
       "badge": "AI搭載の自己発見",
@@ -48,7 +50,8 @@
       "description": "性格診断、音声ジャーナル、IQ評価、そしてあなたのデータを理解するAI。すべてが安全でプライベートなVaultに。",
       "cta": "無料テストを受ける",
       "secondaryCta": "仕組みを見る",
-      "disclaimer": "クレジットカード不要。所要時間は10分未満。"
+      "disclaimer": "クレジットカード不要。所要時間は10分未満。",
+      "jungQuote": "ユングが発見した内なる人格にちなんで名付けられました — 自分について知っていることと、まだ解き明かしていないことを結ぶ架け橋。"
     },
     "socialProof": {
       "headline": "なぜAnimaか",
@@ -160,10 +163,35 @@
       "knowledgeBase": "ナレッジベース",
       "privacyPolicy": "プライバシーポリシー",
       "termsAndConditions": "利用規約",
-      "copyright": "2024-2026 Bald Labs, Inc. All rights reserved."
+      "copyright": "2024-2026 Bald Labs, Inc. All rights reserved.",
+      "cookiePolicy": "Cookie policy"
+    },
+    "methodology": {
+      "headline": "確立された方法論に基づいて構築",
+      "ipipDesc": "国際パーソナリティ項目プール",
+      "bigFiveDesc": "ゴールドスタンダードな特性モデル",
+      "swissEphemerisDesc": "天文学的精度",
+      "enneagramDesc": "動機づけフレームワーク",
+      "humanDesignDesc": "現代的な統合",
+      "vedicDesc": "恒星占星術"
     },
     "storeNote": "ストアでは単品の深掘り分析もご利用いただけます",
-    "browseStore": "ストアを見る"
+    "browseStore": "ストアを見る",
+    "journey": {
+      "wheelLabel": "10のフレームワーク、ひとつの肖像",
+      "wheelTitle": "ひとつのテストだけでは全体像はわからない",
+      "wheelDescription": "4つの心理測定ツールと6つの象徴的伝統であなたをマッピングし、ひとつのフレームワークでは生み出せない生きた肖像に織り上げます。",
+      "wheelCta": "フレームワークを探索する",
+      "chapterMeasure": "測定する",
+      "chapterMeasureTitle": "心理測定の精密さ",
+      "chapterMeasureBody": "Big Five、Enneagram、パーソナリティタイプ、ワークスタイル — 心理学が見える次元を描く検証済みのツール。",
+      "chapterInterpret": "解釈する",
+      "chapterInterpretTitle": "象徴的な深み",
+      "chapterInterpretBody": "西洋占星術とヴェーダ占星術、数秘術、Human Design、中国の干支、マヤのツォルキン — 人類が意味を見出すために使ってきた最古の鏡。",
+      "chapterConverse": "対話する",
+      "chapterConverseTitle": "あなたの肖像との対話",
+      "chapterConverseBody": "私たちのAIはあなたが共有したすべてのデータを読み取り、あなたを何年も研究してきた人のような繊細さで応答します。何でも聞いてください。"
+    }
   },
   "mirror": {
     "greeting": "おはようございます",
@@ -211,7 +239,8 @@
       "emptyState": "パーソナリティプロフィールを保存して変化の追跡を始めましょう",
       "oneSnapshot": "プロフィールをもう一度保存すると、特性の変化を確認できます",
       "needMore": "トレンドを表示するには、Big 5スコア付きのプロフィールスナップショットが2つ以上必要です",
-      "evolution": "{count}件のスナップショットにわたる特性の変化"
+      "evolution": "{count}件のスナップショットにわたる特性の変化",
+      "description": "See how your Big 5 traits change over time. Take the Big 5 test every few months to build this chart."
     },
     "journal": {
       "title": "ムード＆ジャーナル",
@@ -226,12 +255,48 @@
       "voiceNote": "ボイスメモ",
       "recentEntries": "最近のエントリー",
       "noEntries": "まだエントリーがありません。最初のジャーナルエントリーを始めましょう！",
-      "viewAllEntries": "すべてのエントリーを見る"
+      "viewAllEntries": "すべてのエントリーを見る",
+      "save": "Save",
+      "writePlaceholder": "What's on your mind today?",
+      "taggedMood": "Tagged mood"
     },
-    "pulse": {
-      "title": "パルス",
-      "description": "スキーマの活性化（過去30日間）",
-      "activity": "アクティビティ"
+    "upgradeCta": "Get all assessments",
+    "upgradeCtaDescription": "Unlock the full suite of premium tests in the Store.",
+    "personalitySnapshotDescription": "Your five core traits from your latest Big 5 test. Take the test in the Store to fill this in.",
+    "testSnapshot": {
+      "sectionLabel": "Test results snapshot",
+      "title": "Your tests",
+      "description": "A snapshot of all your assessments. Complete any test to see your result here.",
+      "completePrompt": "You haven't completed this test yet.",
+      "completeCta": "Complete the test now",
+      "noTestsInCategory": "No tests in this category."
+    },
+    "engagement": {
+      "title": "Engagement",
+      "description": "Your self-discovery activity over the last 90 days",
+      "totalActivities": "total activities",
+      "less": "Less",
+      "more": "More"
+    },
+    "moodTimeline": {
+      "title": "Mood over time",
+      "description": "How you've been feeling across journal entries",
+      "emptyState": "Start logging your mood with journal entries to see your emotional patterns over time.",
+      "avgMood": "avg. mood"
+    },
+    "growth": {
+      "title": "Growth momentum",
+      "description": "How consistently you're showing up for self-discovery",
+      "currentStreak": "Current streak",
+      "best": "Best",
+      "day": "day",
+      "days": "days",
+      "thisWeek": "This week",
+      "thisMonth": "This month",
+      "motivationStart": "Start your journey today — even a single journal entry or chat counts toward your streak!",
+      "motivationKeepGoing": "You're building a habit! Keep showing up each day to grow your streak.",
+      "motivationGreat": "Great consistency! You're making self-discovery a real part of your routine.",
+      "motivationAmazing": "Incredible dedication! Your commitment to self-understanding is truly inspiring."
     }
   },
   "vault": {
@@ -253,23 +318,29 @@
     },
     "fileTree": {
       "all": "すべて",
-      "psyche": "心理",
-      "cognitive": "認知",
-      "esoteric": "スピリチュアル",
       "journal": "ジャーナル",
       "noFiles": "ファイルなし",
       "documentDeleted": "ドキュメントが削除されました",
-      "deleteFailed": "ドキュメントの削除に失敗しました"
+      "deleteFailed": "ドキュメントの削除に失敗しました",
+      "personality": "Personality",
+      "intelligence": "Intelligence",
+      "strengths": "Strengths",
+      "wellness": "Wellness",
+      "astrology": "Astrology",
+      "career": "Career"
     },
     "documentDetail": {
       "document": "ドキュメント",
       "voiceJournal": "音声ジャーナル",
-      "personalityPsychData": "パーソナリティ / 心理データ",
-      "cognitiveAssessment": "認知能力評価",
-      "esotericAstrology": "スピリチュアル / 占星術",
       "notFound": "ドキュメントが見つかりません。",
       "noExtractedText": "このドキュメントの抽出テキストはありません。",
-      "openOriginalFile": "元のファイルを開く"
+      "openOriginalFile": "元のファイルを開く",
+      "personality": "Personality",
+      "intelligence": "Intelligence",
+      "strengths": "Strengths",
+      "wellness": "Wellness",
+      "astrology": "Astrology",
+      "career": "Career"
     },
     "stats": {
       "totalResults": "合計結果",
@@ -354,7 +425,10 @@
       "willImprove": "改善に努めます",
       "feedbackFailed": "フィードバックの保存に失敗しました",
       "shareLinkCopied": "共有リンクがクリップボードにコピーされました",
-      "shareCreateFailed": "共有リンクの作成に失敗しました"
+      "shareCreateFailed": "共有リンクの作成に失敗しました",
+      "responseError": "Something went wrong",
+      "tryAgain": "Try again",
+      "dismiss": "Dismiss"
     },
     "activeContext": {
       "title": "アクティブコンテキスト",
@@ -455,7 +529,29 @@
       "description": "アバターでサインアウトまたはClerkのアカウントメニューを開きます。左サイドバーのアバターからも同じメニューを開けます。",
       "management": "アカウント",
       "avatarHint": "アバターをクリックしてメニュー（サインアウト、プロフィールなど）を開きます。",
-      "signOut": "サインアウト"
+      "signOut": "サインアウト",
+      "deleteAccount": "Delete my account",
+      "deleteAccountDescription": "Permanently delete your account and all associated data (assessments, vault, chat history, journals). This cannot be undone. Any active subscription will be cancelled.",
+      "deleteAccountConfirmTitle": "Delete account?",
+      "deleteAccountConfirmDescription": "This will permanently delete your account and all your data. Your subscription will be cancelled. This action cannot be undone.",
+      "deleteAccountUnderstand": "I understand that my data will be permanently deleted and this cannot be undone.",
+      "deleteAccountButton": "Delete my account",
+      "deleteAccountCancel": "Cancel",
+      "deleteAccountSuccess": "Your account has been deleted. Redirecting…",
+      "deleteAccountError": "Could not delete account. Please try again or contact support."
+    },
+    "birthData": {
+      "title": "Birth data",
+      "description": "Used once for astrology, numerology, Human Design, and Chinese Zodiac. Time can be \"unknown\" if you don't know it.",
+      "date": "Date of birth",
+      "time": "Time of birth",
+      "timeUnknown": "I don't know my birth time",
+      "location": "Place of birth (city or town)",
+      "save": "Save birth data",
+      "saved": "Birth data saved",
+      "saveFailed": "Failed to save birth data",
+      "completedTestsPrefix": "We've completed the following using your birth data: {tests}. View them on your ",
+      "viewOnMirrorLink": "Mirror"
     }
   },
   "notifications": {
@@ -506,7 +602,9 @@
     "unexpectedError": "予期せぬエラーが発生しました。もう一度お試しください。",
     "unexpectedErrorRefresh": "予期せぬエラーが発生しました。ページを更新してください。",
     "pageNotFound": "404 - ページが見つかりません",
-    "pageNotFoundDescription": "お探しのページは存在しません。"
+    "pageNotFoundDescription": "お探しのページは存在しません。",
+    "tryAgain": "Try again",
+    "goHome": "Go home"
   },
   "share": {
     "sharedFrom": "Animaから共有",
@@ -524,7 +622,109 @@
       "knowledgeBase": "ナレッジベース",
       "privacyPolicy": "プライバシーポリシー",
       "termsAndConditions": "利用規約",
-      "logIn": "ログイン"
+      "logIn": "ログイン",
+      "cookiePolicy": "Cookie policy"
+    },
+    "freePersonalityTest": "Free personality test",
+    "nerisTypeExplorer": "Discover your personality type",
+    "intro": {
+      "step1Title": "Take the assessment",
+      "step1Description": "Answer each question openly and honestly — there are no right or wrong answers.",
+      "step2Title": "Explore your profile",
+      "step2Description": "Get a detailed breakdown of your unique personality traits and preferences.",
+      "step3Title": "Put it into action",
+      "step3Description": "Use your results to make smarter career choices and understand how you work best."
+    },
+    "step1Label": "STEP 1: Complete the test",
+    "step2Label": "STEP 2: View detailed results",
+    "backToStore": "Back to store",
+    "beginAssessment": "Begin assessment",
+    "retakeAssessment": "Retake assessment",
+    "viewLatestResults": "View your latest results",
+    "whatYouWillDiscover": "What you'll discover",
+    "premiumAssessment": "This is a premium assessment.",
+    "comingSoon": "Coming soon",
+    "questionOf": "Question {current} of {total}",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "testNotFound": "Test not found",
+    "testNotFoundDescription": "This assessment does not exist or has been removed.",
+    "assessmentComplete": "Assessment complete!",
+    "failedToSubmit": "Failed to submit assessment",
+    "collect": {
+      "answerAllToContinue": "Answer all questions on this page to continue.",
+      "title": "Almost there",
+      "emailLabel": "Your email",
+      "emailHint": "Optional. Get your results by email and save them to track personality changes.",
+      "emailPlaceholder": "email@email.com",
+      "marketingLabel": "Send me career and personal insights",
+      "genderLabel": "Your gender",
+      "genderHint": "Optional. This will determine your avatar in the results screen.",
+      "male": "Male",
+      "female": "Female",
+      "other": "Other",
+      "seeResults": "See results"
+    },
+    "results": {
+      "title": "Your results",
+      "summary": "Summary",
+      "dimensionScores": "Dimension scores",
+      "keyInsights": "Key insights",
+      "moreInsights": "+ {count} more insights available in the premium report",
+      "growthTip": "Growth tip",
+      "moreRecommendations": "+ {count} more recommendations in the premium report",
+      "retakeTest": "Retake test",
+      "goToMirror": "Go to Mirror",
+      "talkToMirror": "Talk to the Mirror",
+      "talkToMirrorSubcopy": "Ask the AI about your results",
+      "guestBannerTitle": "Save your results and unlock the Mirror",
+      "guestBannerDescription": "Create a free account to keep this result, chat with the AI about it, and access your Mirror dashboard.",
+      "guestSignUpCta": "Sign up free"
+    },
+    "premium": {
+      "unlockFullReport": "Unlock your full report",
+      "getCompleteAnalysis": "Get the complete {testTitle} analysis with actionable insights.",
+      "premiumUnlocked": "Premium report unlocked",
+      "readyToDownload": "Your full {testTitle} report is ready to download.",
+      "downloadPdf": "Download PDF report",
+      "generating": "Generating...",
+      "processing": "Processing...",
+      "upgradeFor": "Upgrade for {price}",
+      "getFullReport": "Get full report",
+      "oneTimePayment": "One-time payment",
+      "features": {
+        "dimensions": "Detailed dimension breakdown with percentile rankings",
+        "interpretation": "Personalised interpretation for every dimension",
+        "recommendations": "Actionable growth recommendations",
+        "pdf": "Downloadable PDF report"
+      }
+    },
+    "bundle": {
+      "title": "The complete portrait",
+      "description": "All 10 premium reports in one bundle. Psychometric + esoteric frameworks.",
+      "price": "$99.99",
+      "savePercent": "Save {percent}%",
+      "purchaseBundle": "Purchase bundle",
+      "allIncluded": "All 10 premium reports included",
+      "readyToUnlock": "Ready to unlock your full potential?",
+      "onePaymentLifetime": "One payment: all 10 premium reports, yours forever."
     }
+  },
+  "consent": {
+    "message": "We use essential cookies to run the app and optional analytics (PostHog) to improve the product. In the EEA and UK we only enable analytics if you accept.",
+    "cookiePolicy": "Cookie Policy",
+    "essentialOnly": "Essential only",
+    "acceptAll": "Accept all"
+  },
+  "categories": {
+    "all": "All",
+    "personality": "Personality",
+    "intelligence": "Intelligence",
+    "strengths": "Strengths",
+    "wellness": "Wellness",
+    "astrology": "Astrology",
+    "career": "Career"
   }
 }

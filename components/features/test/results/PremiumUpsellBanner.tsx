@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { trackReportPurchased } from "@/lib/analytics";
 
@@ -49,28 +49,38 @@ export function PremiumUpsellBanner({
 
       {/* Heading */}
       <h2 className="mt-4 text-2xl font-bold text-foreground sm:text-3xl">
-        There&rsquo;s more beneath the surface
+        The surface is free. The mechanics are premium.
       </h2>
 
-      {/* Placeholder illustration */}
-      <div className="mx-auto mt-6 flex h-28 w-28 items-center justify-center rounded-xl bg-primary/10 dark:bg-primary/15">
-        <span className="text-4xl">📊</span>
+      {/* Preview grid of locked sections */}
+      <div className="mx-auto mt-6 grid max-w-sm grid-cols-2 gap-3">
+        {["Cognitive Stack", "Stress & Flow", "Career Fit", "Growth Path"].map(
+          (title) => (
+            <div
+              key={title}
+              className="flex items-center gap-2 rounded-lg bg-primary/10 px-3 py-2.5 dark:bg-primary/15"
+            >
+              <Lock className="h-3.5 w-3.5 flex-shrink-0 text-primary/60" />
+              <span className="text-xs font-medium text-foreground">{title}</span>
+            </div>
+          ),
+        )}
       </div>
 
       {/* Description */}
       <div className="mx-auto mt-6 max-w-xl space-y-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
         <p>
-          This overview describes the surface. Your full report explains the mechanics &ndash; why
-          you react the way you do, what you actually need from work and relationships, and where
-          your energy comes from (or goes).
+          Everything above describes what your type does. The sections below explain{" "}
+          <strong className="text-foreground">why</strong> &mdash; the cognitive function stack
+          that drives your thinking, the stress patterns that hijack it, and the career and
+          growth frameworks calibrated to your specific wiring.
         </p>
         <p>
-          You&rsquo;ll <strong className="text-foreground">unlock every section</strong>, including
-          career ideas, energy drivers, and relationship patterns, plus{" "}
-          <strong className="text-foreground">additional trait scores</strong> like perfectionism,
-          resilience, and emotional intelligence. The package also includes a{" "}
-          <strong className="text-foreground">personal growth guide</strong>, and an{" "}
-          <strong className="text-foreground">AI mentor</strong> for personalized advice.
+          You&rsquo;ll unlock your{" "}
+          <strong className="text-foreground">full cognitive function analysis</strong>, stress
+          response mapping, flow state triggers, career alignment profile, complete compatibility
+          matrix for all 15 types, and a personalized growth path &mdash; plus an{" "}
+          <strong className="text-foreground">AI that&rsquo;s read your entire profile</strong>.
         </p>
       </div>
 
@@ -84,7 +94,7 @@ export function PremiumUpsellBanner({
         disabled={loading}
         className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3 text-base font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90 disabled:opacity-60"
       >
-        {loading ? "Processing..." : "Get the full report"}
+        {loading ? "Processing..." : "Unlock the full report"}
         {!loading && <ArrowRight className="h-4 w-4" />}
       </button>
 
